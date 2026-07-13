@@ -1,0 +1,18 @@
+ida에서 값 가져오는 법 ida에서 내가 찾으려는 영역 선택 후 edit -> export data -> hexstring(unspaced)로 가져올 수 있다
+다른 방법 hex editor로 가져올 수 있다
+아니면 파일을 다 읽어온 다음에 가져와도 됨
+
+목표: 서버에 접속하는 python client 제작 
+
+1. 접속 시 어떤 일이 일어나지?
+   => 소켓 관련된 API 호출 => connect / send API 호출(동적 정적 둘 다 가능)
+      ( IDA Imports 탭 활용 / ProcessMonitor 활용 )
+
+   => 서버에 어떤 데이터를 보내는 지?
+      => GG\x01\0x1<길이><닉네임>
+      python client 작성하면서 파악하기
+
+
+45	client.exe	client.exe + 0x1726	0x7ff6189f1726	D:\Downloads\temp_1783924517660.-487163384\dist\client.exe
+0x7ff6189f1726여기로 가면 된다. 그 부분이 서버에 접속하는 부분이라는 걸 알 수 있다.
+아니면 ida에서 import부분에 가서 connect함수보고 x로 어디로 가는지 참조해서 위치를 파악할 수 있다.
