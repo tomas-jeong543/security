@@ -1,0 +1,3 @@
+v7 = LOBYTE(v46._r0)와 같다는 어셈블리를 보고 파악했다.
+
+aaaaaaaa-bbbbbbbb-cccccccc-dddddddd

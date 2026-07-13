@@ -1,0 +1,7 @@
+보통은 cli창에서 많이 이용하는데
+cd D:\Github\Reverse 와 같이 d드라이브에 있는 내 git에 저장된 프로젝트를 실행할 때 많이 이용하면된다.
+
+github에서 내 데스크톱으로 클론하는 방법은 일단 내 리포지토리로 github web에서 간 뒤에 거기서 code를 누르고 open with github desktop을 누른 다음에 경로를 지정해주면 된다.
+
+공백있는 문자열은 따움표로 감싸기
+.

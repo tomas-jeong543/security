@@ -1,0 +1,106 @@
+ida에서 문자열 테이블을 보는 법 shift + f12단축키 또는 View → Open subviews → Strings
+로 볼 수 있다
+
+내가 해야 하는 것
+
+복호화 함수 찾기 -> s0
+
+encoded data 위치 확인 -> main qmcopy로 확인을 함
+
+암호화 과정
+encode(p2, n, m2);
+for (int i = 0; i < n; i++) {
+    m2[i] = p2[i] ^ 0x5A;
+}
+m2[n] = '\0';
+과 같은 형태로 
+
+
+복호화 반복문 분석
+def decode(p):
+    return bytes([b ^ 0x5A for b in p]).decode(errors="ignore") 이런 형태의 함수
+
+x64dbg에서 복호화 후 메모리 확인  
+
+복호화 알고리즘을 Python으로 재구현
+def dec(data):
+    return bytes(b ^ 0x5A for b in data)
+
+p0 = (1060584212).to_bytes(4, "little") + (31328).to_bytes(2, "little")
+p1 = b"\t?(3;6`z"
+p2 = (673723673).to_bytes(4, "little") + b"?9.{P"
+p3 = b"\r(54=z)?(3;6tP"
+p4 = b"\x1B99?))z>?43?>tP"
+
+for i, p in enumerate([p0, p1, p2, p3, p4]):
+    print(i, dec(p))
+출력 결과
+0 b'Name: '
+1 b'Serial: '
+2 b'Correct!\n' 
+3 b'Wrong serial.\n'
+4 b'Access denied.\n' 
+
+이를 통해서 알 수 있는 점은 if(v4)인 경우에 정답이라는 사실을 알 수가 있다.
+
+그 다음 과제
+Name 입력값이 어디에 저장되는지 확인
+name입력값과 serial입력값은 ida기준으로 각각 name과 input_serial에 저장이 된다
+
+해시 계산 루틴 추적해 보면 간단하게 to함수가 사실상 해시계산을 하는 함수임을
+알 수 있고 이 함수를 분석하는 게 정답을 찾기 위한 가장 핵심 부분이다.
+
+하지만 역시 이전 프로젝트보다 리버싱 난이도가 올라가서 그런지 to내에 다양한 서브루틴
+함수들이 있고 이들은 꽤나 복잡하다. 일단 내부함수로 s1,s3,s4,s5,s6,s9등이 있고 이들을 하나씩 자세히 분석해야 한다. 
+
+우선 s3를 보니 이건 tolower가 있는 걸 보니 그냥 이름을 입력으로 받아 대문자를 소문자로 바꿔주는 함수라는 걸 쉽게 알 수 있다. 따라서 동적분석은 그냥 생략하겠다. 
+
+s4의 경우에는 XOR,Rotate(ROL/ROR),덧셈을 섞어서 내부 상태를 만들고 마지막 상태의 하위 7비트가 49인지 검사하는 검증함수라고 봐야 한다
+.
+s1은 hash = 2166136261
+for each byte in input:
+    hash = (hash ^ byte) * 16777619
+와 같이 입력 문자열을 32비트 해시값으로 바꿔주는 함수라고 할 수 있다.
+
+s2함수는 입력x를 오른쪽으로 25비트 회전(Rotate Right)시키는 함수다
+
+s6함수는 
+BOOL8 s6(const char *a, const char *b)
+{
+    uint32_t x = s2(s1(a) ^ 0x6D2B79F5);
+    uint32_t y = s2(s1(b) ^ 0x31C3A59B);
+
+    return ((x ^ y) & 3) == 1;
+}로 a, b 두 문자열의 해시값을 각각 변형한 뒤, 두 결과의 하위 2비트 관계만 검사하는 함수다.
+
+s9함수는
+void s9(const char *name, char *out)
+{
+    char e0[14];
+    char t[32];
+    char buf[128];
+
+    // e0 = 암호화된 14바이트
+    s0(e0, 14, t);                 // t에 복호화 문자열 저장
+
+    snprintf(buf, 0x80, "%s:%s", name, t);
+
+    uint32_t h = s1(buf);
+
+    uint32_t part1 = h & 0xFFFF;
+    uint32_t part2 = (h ^ 0xA5C3F19B) & 0xFFFF;
+
+    uint32_t y = s2(h) + 0x13579BDF;
+    uint32_t part3 = y & 0xFFFF;
+
+    uint32_t part4 = (y ^ (h ^ 0xA5C3F19B)) & 0xFFFF;
+
+    snprintf(out, 0x14, "%04X-%04X-%04X-%04X",
+             part1, part2, part3, part4);
+}
+대략적으로 이런 느낌이다.
+
+
+Serial 블록 생성 방식 분석
+Python keygen 제작
+
