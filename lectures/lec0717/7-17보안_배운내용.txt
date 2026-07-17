@@ -1,0 +1,12 @@
+그 다음에는 PEB 디버그 필드 분석해 보자. 우선 디버그 필드를 검사하는 부분을 먼저 찾으면
+textSectionHash 계산 직후, environmentFlags를 초기화하는 부분으로 ida기준 1986번째 줄부터 시작한다.
+v329 = (__int64)v431;
+
+environmentFlags = (v431->BeingDebugged != 0) + 2LL;
+
+if ( (v431->NtGlobalFlag & 0x70) == 0 )
+    environmentFlags = v431->BeingDebugged != 0;
+이 부분이고 여기서 PEB 디버그 필드 접근은 v431->BeingDebugged와 v431->NtGlobalFlag 두 곳이다.
+이제 접근 부분을 알았으니 if문 전후 레지스터 값들의 변화를 알기 위해서 동적분석을 해 보면서 안티디버깅을 우회할 수 있다.
+
+또한 패치를 해도 text변화에 따라 해시가 변함으로 그에 따라 달라진 해시값을 이용한 keygan파이썬 코드를 작성해야 한다는 점에도 유의해야 한다
