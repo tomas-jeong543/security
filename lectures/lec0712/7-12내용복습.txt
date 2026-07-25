@@ -1,0 +1,12 @@
+목표: 서버에 접속하는 python client 제작 
+
+
+1. 접속 시 어떤 일이 일어나지?
+   => 소켓 관련된 API 호출 => connect / send API 호출
+      ( IDA Imports 탭 활용 / ProcessMonitor 활용 )
+
+   => 서버에 어떤 데이터를 보내는 지?
+      => GG\x01\0x1<길이><닉네임>
+      python client 작성하면서 파악하기
+
+45	client.exe	client.exe + 0x1726	0x7ff648181726	D:\Downloads\temp_1783924517660.-487163384\dist\client.exe
