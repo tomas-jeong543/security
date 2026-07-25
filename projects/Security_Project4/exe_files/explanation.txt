@@ -1,0 +1,8 @@
+reversing_project4.exe파일은 원본 프로젝트의 실행파일로 정답을 찾을 수 없게 너무 환경변수가 꼬여있어 이것의 output이 정상적으로
+나오도록 한  reversing_project4_output_fixed.exe로 바꿨다.
+
+하지만  reversing_project4_output_fixed.exe의 문제점은 라이선스의 형식만 맞으면 늘 accept하는 문제가 있고 이는 프로젝트 문서에서 여기에 대해 자세히 설명하기 때문에 자세히 읽어보길 바란다
+
+ reversing_project4_output_fixed_v2.exe는 기존  reversing_project4_output_fixed.exe에서 안티디버깅을 우회하는 패치를 진행한 exe파일이다.
+
+ reversing_project4_output_fixed_v3.exe는 마지막 최종 입력을 patch해 늘 정답이 나오게 만든 버전이다. 물론 이게 없어도 정답이 나오기는 한다. 여기에 대해서는 pdf 후반부에 자세히 설명되어 있다.
