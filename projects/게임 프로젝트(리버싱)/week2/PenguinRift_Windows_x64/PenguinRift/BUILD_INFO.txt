@@ -1,0 +1,10 @@
+Penguin Rift build
+Target: Windows x86-64 PE32+ GUI
+Language: C++17
+Graphics/input runtime: SDL2 2.x loaded dynamically
+Compiler used for supplied binaries: clang 17.0.0
+Linker used for supplied binaries: LLD 17.0.0
+CRT: none
+Release optimization: O2
+Training optimization: O0 + CodeView/PDB + MAP
+Build date: 2026-07-19
