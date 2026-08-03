@@ -1,6 +1,10 @@
 import socket
 import math
 
+PACKET_PLAYER_COORD = 5
+PACKET_WALL_INFO    = 2
+PLAYER_ID = 0
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(('localhost', 9999))
 
@@ -10,15 +14,29 @@ payload = b'GG\x01\x01' + len(nickname).to_bytes(2, 'little') + nickname
 sock.send(payload)
 
 data = sock.recv(1024)
-PLAYER_ID = data[6]
 
-# print(data)
+
+WALL_INFO = []
+if data[3] == PACKET_WALL_INFO:
+    PLAYER_ID = data[6]
+    wall_count = data[11]
+
+    offset = 12
+    for i in range(wall_count):
+        x = int.from_bytes(data[offset:offset+2], 'little');  offset += 2
+        y = int.from_bytes(data[offset:offset+2], 'little');  offset += 2
+        w = int.from_bytes(data[offset:offset+2], 'little');  offset += 2
+        h = int.from_bytes(data[offset:offset+2], 'little');  offset += 2
+        WALL_INFO.append((x,y,w,h))
+
+print(WALL_INFO)
 import time
 
 KEY_UP = 1
 KEY_DOWN = 2
 KEY_LEFT = 4
 KEY_RIGHT = 8
+
 
 import pygame
 
@@ -29,27 +47,6 @@ clock = pygame.time.Clock()
 index = 0
 angles = range(0, 360, 5)
 
-PACKET_PLAYER_COORD = 5
-PACKET_WALL_COORD = 2
-
-
-walls = []
-if data[3] == PACKET_WALL_COORD:
-    wall_count = data[11]
-    wall_bytes = data[12:12 + wall_count * 8]
-
-    print("wall info")
-    print("wall count:", wall_count)
-
-    for i in range(wall_count):
-        wall = wall_bytes[i * 8:(i + 1) * 8]
-        x = int.from_bytes(wall[0:2], "little")
-        y = int.from_bytes(wall[2:4], "little")
-        width = int.from_bytes(wall[4:6], "little")
-        height = int.from_bytes(wall[6:8], "little")
-
-        walls.append((x, y, width, height))
-    print(walls)
 
 running = True
 players = {}
@@ -75,9 +72,7 @@ while running:
     sock.send(b'GG\x01\x03\x03\x00' + keyState.to_bytes(1) + b'\xfa\xff')
     data = sock.recv(1024)
 
-    if data[3] == PACKET_WALL_COORD:
-        print("wall info")
-    elif data[3] == PACKET_PLAYER_COORD:
+    if data[3] == PACKET_PLAYER_COORD:
         player_count = data[10]
         data = data[11:]
 
@@ -88,13 +83,13 @@ while running:
             y = int.from_bytes(data[i*10+3:i*10+5], 'little')
             players[player_id] = (x, y)
 
-        print(players)
-    
+        # print(players)
+
     screen.fill((255, 255, 255))
 
     for id, coord in players.items():
         x, y = coord
-        #print(PLAYER_ID, id, x, y)
+        print(PLAYER_ID, id, x, y)
 
         color = (255, 0, 0) if id != PLAYER_ID else (0, 255, 0)
         pygame.draw.circle(screen, color, (x, y), 10)
@@ -111,10 +106,13 @@ while running:
         angle = int(angle) 
         if angle < 0:
             angle = -angle + 180
-        #print(angle)
+        print(angle)
 
         sock.send(b'GG\x01\x04\x02\x00' + angle.to_bytes(2, 'little'))        
     
+
+    for wall_info in WALL_INFO:
+        pygame.draw.rect(screen, (0, 0, 0), wall_info)
 
     pygame.display.flip()
     clock.tick(60)
