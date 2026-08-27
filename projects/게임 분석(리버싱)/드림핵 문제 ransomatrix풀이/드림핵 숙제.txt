@@ -1,0 +1,8 @@
+pw: ghfjdksla
+문제 링크
+https://dreamhack.io/wargame/challenges/512
+드림핵 문제(리버싱)를 푸는 경우에는 동적 분석시에는 xdbg를 우클릭 후 샌드박스에서 실행 이렇게 하면 된다
+
+분석은 마음대로 → 필요한 패치/덤프만 Quick Recovery로 밖으로 빼기 → 마지막에 DefaultBox 내용 삭제해야 한다
+
+특히 ransomatrix에서 복호화된 PNG가 생성된다면 그 PNG도 먼저 Recovery로 꺼낸 다음 샌드박스를 삭제해야 한다.
