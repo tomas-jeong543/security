@@ -1,0 +1,14 @@
+qemu-system-x86_64만 cmd에 입력시 실행이 된다.
+nasm -f bin boot9.asm -o boot9.bin
+copy /b boot9.bin os9.img
+qemu-system-x86_64 -drive format=raw,file=os.img
+ 형식
+
+enter -> input string
+
+1줄 0
+2줄 160
+
+24줄 3680
+25줄 3840 
+26줄 4000
