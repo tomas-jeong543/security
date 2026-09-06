@@ -1,7 +1,7 @@
 qemu-system-x86_64만 cmd에 입력시 실행이 된다.
-nasm -f bin boot9.asm -o boot9.bin
-copy /b boot9.bin os9.img
-qemu-system-x86_64 -drive format=raw,file=os.img
+nasm -f bin boot11.asm -o boot11.bin
+copy /b boot11.bin os11.img
+qemu-system-x86_64 -drive format=raw,file=os11.img
  형식
 
 enter -> input string

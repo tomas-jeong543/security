@@ -86,6 +86,7 @@ dw 0xAA55
 ; =========================================================
 
 start2:
+    jmp enter_protected_mode
     push es
     mov ax, 0xB800
     mov es, ax
@@ -100,7 +101,7 @@ start2:
     xor bx, bx
     mov word [cursor_row], 8
     mov word [cursor_col], 0
-
+   
 ; =========================================================
 ; 메인 Shell Loop
 ; =========================================================
@@ -643,17 +644,21 @@ scroll_screen:
             ret
 
 ; =========================
-; Protected Mode 전환 코드
+; Real mode에서 Protected Mode 전환하는 코드
 ; =========================
 enter_protected_mode:
 
-    ; cli
-    ; lgdt [...]
-    ; CR0.PE = 1
-    ; far jump
+    ;cli는 Clear Interrupt Flag의 약자로 IF = 0으로 만들어서 Maskable Hardware Interrupt를 잠시 막는 명령어다.
+    cli
+    
+    lgdt [gdt_descriptor]
 
+    mov eax, cr0
+    or eax, 1
+    mov cr0, eax
+    
     ; 여기서는 아직 BITS 16
-
+    jmp CODE_SEG:protected_mode_start
 
 ; =========================
 ; GDT 데이터
@@ -665,17 +670,36 @@ gdt_start:
 ;여기서 gdt_code와 gdt_data의 값을 descriptor의 비트 구조에 맞게 8바이트를 다 채워야 한다.
 gdt_code:
     ; code descriptor 8 bytes
-    dq 1
+    dq 0x00CF9A000000FFFF
 gdt_data:
     ; data descriptor 8 bytes
-    dq 2
+    dq 0x00CF92000000FFFF
 gdt_end:
+
+;나중에 protected mode로 전환시 jmp CODE_SEG:protected_mode_start와 같이 쉽게 다른 영역에 접근하기 위해 selector를 미리 정의해놓음  
+CODE_SEG equ gdt_code - gdt_start
+DATA_SEG equ gdt_data - gdt_start
 
 ;CPU의 lgdt 명령어가 읽는 정보가 바로 이 구조로 굉장히 중요하다
 gdt_descriptor:
     ;"GDT 전체 크기가 몇 바이트인가?"에 관한 정보를 2바이트로 저장하는 코드
     dw gdt_end - gdt_start - 1
-    :GDT가 메모리 어디에 있는가?"를 4바이트로 저장하는 코드
+    ;GDT가 메모리 어디에 있는가?"를 4바이트로 저장하는 코드
     dd gdt_start
+
+[BITS 32]
+protected_mode_start:
+
+    mov ax, DATA_SEG
+
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    
+    ;Protected mode 진입 확인용 문자열 출력
+    mov byte [0xB8900], 'K'
+    mov byte [0xB8901], 0x0F
+.hang:
+    jmp .hang
 
 times 2560-($-$$) db 0
