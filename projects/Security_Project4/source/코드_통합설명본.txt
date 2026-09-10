@@ -1,13 +1,13 @@
-﻿RVP4 파이썬 코드 통합 설명본
+RVP4 파이썬 코드 통합 설명본
 ================================
 
 대상 파일
 ---------
-1. hashfunc(2).py
-2. perm1(2).py
-3. rvp4_api_hash_resolver_corrected(1).py
-4. rvp4_module_hash_resolver(1).py
-5. rvp4_permutation(5).py
+1. hashfunc.py
+2. perm1.py
+3. rvp4_api_hash_resolver_corrected.py
+4. rvp4_module_hash_resolver.py
+5. rvp4_permutation.py
 
 이 문서는 위 다섯 파일이 각각 무엇을 계산하고, 서로 어떤 순서로 연결되며,
 명령줄에서 어떻게 사용하는지를 한 파일로 정리한 설명서다.
@@ -21,13 +21,13 @@ RVP4 분석 도구의 전체 흐름은 다음과 같다.
 
 [실행파일]
     |
-    +-- hashfunc(2).py
+    +-- hashfunc.py
     |       -> 메모리상 .text 섹션을 재구성
     |       -> textSectionHash 계산
     |
 [사용자 이름]
     |
-    +-- rvp4_permutation(5).py
+    +-- rvp4_permutation.py
             -> 이름 정규화
             -> v298 계산
             -> v330, v334, v419 계산
@@ -37,18 +37,18 @@ RVP4 분석 도구의 전체 흐름은 다음과 같다.
 
 [이미 알고 있는 v419]
     |
-    +-- perm1(2).py
+    +-- perm1.py
             -> perm1만 빠르게 계산하고 검증
 
 [IDA에서 발견한 API 해시 상수]
     |
-    +-- rvp4_api_hash_resolver_corrected(1).py
+    +-- rvp4_api_hash_resolver_corrected.py
             -> Windows DLL의 모든 named export에 RVP4 API 이름 해시 적용
             -> 목표 해시와 일치하는 실제 API 이름 검색
 
 [PEB 순회에서 사용하는 모듈 해시 또는 forwarder]
     |
-    +-- rvp4_module_hash_resolver(1).py
+    +-- rvp4_module_hash_resolver.py
             -> DLL 모듈 이름 해시 계산
             -> 이름 또는 ordinal로 export 검색
             -> forwarded export를 재귀적으로 따라가 최종 주소 계산
@@ -116,7 +116,7 @@ API 및 module hash는 32비트 rotate-left 5비트를 사용한다.
 각 단계의 64비트 마스킹이 중요하다.
 
 
-3. hashfunc(2).py
+3. hashfunc.py
 ================
 
 3.1 목적
@@ -142,19 +142,19 @@ RVP4 실행파일의 메모리상 .text 섹션을 원본 프로그램과 같은 
 
 기본 사용:
 
-    python "hashfunc(2).py" reversing_project4_output_fixed_v2.exe
+    python "hashfunc.py" reversing_project4_output_fixed_v2.exe
 
 기대값과 비교:
 
-    python "hashfunc(2).py" reversing_project4_output_fixed_v2.exe --expected 19F8806B
+    python "hashfunc.py" reversing_project4_output_fixed_v2.exe --expected 19F8806B
 
 섹션 목록도 출력:
 
-    python "hashfunc(2).py" reversing_project4_output_fixed_v2.exe --list-sections
+    python "hashfunc.py" reversing_project4_output_fixed_v2.exe --list-sections
 
 각 2바이트 처리 단계 출력:
 
-    python "hashfunc(2).py" reversing_project4_output_fixed_v2.exe --trace
+    python "hashfunc.py" reversing_project4_output_fixed_v2.exe --trace
 
 3.3 Section 데이터 구조
 -----------------------
@@ -226,7 +226,7 @@ VirtualSize가 홀수라면 마지막 1바이트를 별도로 처리한다.
 - --trace는 .text 전체를 출력하므로 결과가 매우 길어질 수 있다.
 
 
-4. perm1(2).py
+4. perm1.py
 ==============
 
 4.1 목적
@@ -241,15 +241,15 @@ VirtualSize가 홀수라면 마지막 1바이트를 별도로 처리한다.
 
 예:
 
-    python "perm1(2).py" 0B5860F65C1EC6FC
+    python "perm1.py" 0B5860F65C1EC6FC
 
 세부 셔플 과정:
 
-    python "perm1(2).py" 0B5860F65C1EC6FC --trace
+    python "perm1.py" 0B5860F65C1EC6FC --trace
 
 역매핑까지 출력:
 
-    python "perm1(2).py" 0B5860F65C1EC6FC --inverse
+    python "perm1.py" 0B5860F65C1EC6FC --inverse
 
 4.3 seed 생성
 -------------
@@ -307,16 +307,16 @@ Tomas 기준 결과:
 
 4.8 rvp4_permutation과의 차이
 -----------------------------
-perm1(2).py:
+perm1.py:
     v419를 직접 입력받아 perm1만 계산한다.
 
-rvp4_permutation(5).py:
+rvp4_permutation.py:
     원본 이름부터 v419, perm1, perm2, 최종 handler 매핑까지 계산한다.
 
 따라서 v419 자체를 검증할 때는 두 파일의 결과를 비교할 수 있다.
 
 
-5. rvp4_api_hash_resolver_corrected(1).py
+5. rvp4_api_hash_resolver_corrected.py
 =========================================
 
 5.1 목적
@@ -382,7 +382,7 @@ Windows가 아닌 환경에서는 기본 DLL 경로가 없으므로 --dll로 파
 
 검증 예:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" --name GetStdHandle
+    python "rvp4_api_hash_resolver_corrected.py" --name GetStdHandle
 
 코드 실행 결과:
 
@@ -420,27 +420,27 @@ function RVA가 Export Directory 범위 안에 있으면 코드 주소가 아니
 -------------
 특정 해시 검색:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" 0x7A130126
+    python "rvp4_api_hash_resolver_corrected.py" 0x7A130126
 
 여러 해시 검색:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" 0x7A130126 0xE424789F
+    python "rvp4_api_hash_resolver_corrected.py" 0x7A130126 0xE424789F
 
 알려진 API 이름의 해시 계산:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" --name GetStdHandle
+    python "rvp4_api_hash_resolver_corrected.py" --name GetStdHandle
 
 텍스트 파일에서 해시 목록 읽기:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" --hash-file hashes.txt
+    python "rvp4_api_hash_resolver_corrected.py" --hash-file hashes.txt
 
 특정 DLL만 검사:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" 0x7A130126 --dll C:\Windows\System32\kernel32.dll
+    python "rvp4_api_hash_resolver_corrected.py" 0x7A130126 --dll C:\Windows\System32\kernel32.dll
 
 전체 export와 해시 덤프:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" --dump-common
+    python "rvp4_api_hash_resolver_corrected.py" --dump-common
 
 5.9 결과 해석
 -------------
@@ -463,7 +463,7 @@ function RVA가 Export Directory 범위 안에 있으면 코드 주소가 아니
 - hash collision이 존재할 수 있으므로 모듈과 호출 맥락을 함께 확인해야 한다.
 
 
-6. rvp4_module_hash_resolver(1).py
+6. rvp4_module_hash_resolver.py
 =================================
 
 6.1 목적
@@ -501,7 +501,7 @@ RVP4의 PEB 기반 모듈 순회와 Export resolver 동작을 별도 도구로 �
 
 검증 예:
 
-    python "rvp4_module_hash_resolver(1).py" hash kernel32.dll
+    python "rvp4_module_hash_resolver.py" hash kernel32.dll
 
 코드 실행 결과:
 
@@ -567,27 +567,27 @@ forwarder가 다음과 같은 API-set 이름을 가리킬 수 있다.
 -------------
 모듈 해시 계산:
 
-    python "rvp4_module_hash_resolver(1).py" hash kernel32.dll
+    python "rvp4_module_hash_resolver.py" hash kernel32.dll
 
 특정 PE에서 export 이름 해석:
 
-    python "rvp4_module_hash_resolver(1).py" resolve-path C:\Windows\System32\kernel32.dll GetStdHandle
+    python "rvp4_module_hash_resolver.py" resolve-path C:\Windows\System32\kernel32.dll GetStdHandle
 
 ordinal 해석:
 
-    python "rvp4_module_hash_resolver(1).py" resolve-path C:\Windows\System32\ntdll.dll "#123"
+    python "rvp4_module_hash_resolver.py" resolve-path C:\Windows\System32\ntdll.dll "#123"
 
 모듈 해시로 파일을 찾은 뒤 export 해석:
 
-    python "rvp4_module_hash_resolver(1).py" resolve-hash 0xCFDCAD2E GetStdHandle
+    python "rvp4_module_hash_resolver.py" resolve-hash 0xCFDCAD2E GetStdHandle
 
 검색 폴더 추가:
 
-    python "rvp4_module_hash_resolver(1).py" resolve-hash 0xCFDCAD2E GetStdHandle --search-dir D:\dlls
+    python "rvp4_module_hash_resolver.py" resolve-hash 0xCFDCAD2E GetStdHandle --search-dir D:\dlls
 
 검색 제한 변경:
 
-    python "rvp4_module_hash_resolver(1).py" resolve-hash 0xCFDCAD2E GetStdHandle --scan-limit 256
+    python "rvp4_module_hash_resolver.py" resolve-hash 0xCFDCAD2E GetStdHandle --scan-limit 256
 
 6.8 출력값
 ----------
@@ -617,7 +617,7 @@ module resolver:
 module resolver로 해당 DLL의 최종 RVA와 forwarder 체인을 확인할 수 있다.
 
 
-7. rvp4_permutation(5).py
+7. rvp4_permutation.py
 =========================
 
 7.1 목적
@@ -707,7 +707,7 @@ v419가 이름에 따라 perm1을 바꾸는 핵심 상태다.
     perm1_seed = v419 XOR 0x64C7920094671459
     perm1      = shuffle_opcode_table(perm1_seed)
 
-셔플 알고리즘은 perm1(2).py와 동일한 xorshift64 + Fisher-Yates다.
+셔플 알고리즘은 perm1.py와 동일한 xorshift64 + Fisher-Yates다.
 
 7.7 perm2
 ---------
@@ -724,7 +724,7 @@ perm2에는 textSectionHash가 추가로 필요하다.
 명령줄에서는 --text-hash를 지정하면 자동으로 계산된다.
 활성화하거나 주석 해제할 함수는 없다.
 
-    python "rvp4_permutation(5).py" Tomas --text-hash 19F8806B
+    python "rvp4_permutation.py" Tomas --text-hash 19F8806B
 
 7.8 inverse permutation
 -----------------------
@@ -755,7 +755,7 @@ VM dispatch에서 그 encoded opcode를 perm2의 어느 위치에서 찾는지 �
 
 --final-map 옵션:
 
-    python "rvp4_permutation(5).py" Tomas --text-hash 19F8806B --final-map
+    python "rvp4_permutation.py" Tomas --text-hash 19F8806B --final-map
 
 중요:
     출력되는 handler 0x00~0x12는 handler 인덱스다.
@@ -766,7 +766,7 @@ VM dispatch에서 그 encoded opcode를 perm2의 어느 위치에서 찾는지 �
 -----------------
 다음 명령:
 
-    python "rvp4_permutation(5).py" Tomas --text-hash 19F8806B --final-map
+    python "rvp4_permutation.py" Tomas --text-hash 19F8806B --final-map
 
 주요 결과:
 
@@ -785,7 +785,7 @@ VM dispatch에서 그 encoded opcode를 perm2의 어느 위치에서 찾는지 �
 7.11 자체 검증
 ---------------
 
-    python "rvp4_permutation(5).py" --self-test
+    python "rvp4_permutation.py" --self-test
 
 run_self_test()는 Tomas의 v419가 다음 값과 일치하는지 확인한다.
 
@@ -837,14 +837,14 @@ perm2나 모든 최종 handler 동작까지 검증하는 것은 아니다.
 8.1 1단계: 실제 .text 해시 계산
 ------------------------------
 
-    python "hashfunc(2).py" reversing_project4_output_fixed_v2.exe --expected 19F8806B
+    python "hashfunc.py" reversing_project4_output_fixed_v2.exe --expected 19F8806B
 
 패치할 때마다 다시 계산하는 것이 안전하다.
 
 8.2 2단계: 이름 기반 permutation 계산
 -------------------------------------
 
-    python "rvp4_permutation(5).py" "John Smith" --text-hash 19F8806B --final-map
+    python "rvp4_permutation.py" "John Smith" --text-hash 19F8806B --final-map
 
 이 단계에서 다음을 한 번에 얻는다.
 
@@ -861,7 +861,7 @@ perm2나 모든 최종 handler 동작까지 검증하는 것은 아니다.
 8.3 3단계: v419만 별도 검증
 --------------------------
 
-    python "perm1(2).py" <rvp4_permutation에서 나온 v419> --inverse
+    python "perm1.py" <rvp4_permutation에서 나온 v419> --inverse
 
 두 스크립트의 perm1이 같아야 한다.
 
@@ -869,18 +869,18 @@ perm2나 모든 최종 handler 동작까지 검증하는 것은 아니다.
 ------------------------
 IDA에서 확인한 API 해시 상수를 넣는다.
 
-    python "rvp4_api_hash_resolver_corrected(1).py" 0x7A130126
+    python "rvp4_api_hash_resolver_corrected.py" 0x7A130126
 
 직접 이름 해시를 확인하려면:
 
-    python "rvp4_api_hash_resolver_corrected(1).py" --name GetStdHandle
+    python "rvp4_api_hash_resolver_corrected.py" --name GetStdHandle
 
 8.5 5단계: 모듈/forwarder 검증
 -----------------------------
 
-    python "rvp4_module_hash_resolver(1).py" hash kernel32.dll
+    python "rvp4_module_hash_resolver.py" hash kernel32.dll
 
-    python "rvp4_module_hash_resolver(1).py" resolve-path C:\Windows\System32\kernel32.dll GetStdHandle
+    python "rvp4_module_hash_resolver.py" resolve-path C:\Windows\System32\kernel32.dll GetStdHandle
 
 forwarder가 있다면 최종 대상 DLL과 함수까지 chain을 출력한다.
 
@@ -896,19 +896,19 @@ forwarder가 있다면 최종 대상 DLL과 함수까지 chain을 출력한다.
 ===================
 
 상황: 실행파일의 .text 해시가 필요하다.
-사용: hashfunc(2).py
+사용: hashfunc.py
 
 상황: v419는 이미 알고 있고 perm1만 빠르게 확인하고 싶다.
-사용: perm1(2).py
+사용: perm1.py
 
 상황: IDA에 0x12345678 같은 API 해시 상수가 보인다.
-사용: rvp4_api_hash_resolver_corrected(1).py
+사용: rvp4_api_hash_resolver_corrected.py
 
 상황: kernel32.dll 같은 모듈 해시를 확인하거나 forwarded export 최종 주소가 필요하다.
-사용: rvp4_module_hash_resolver(1).py
+사용: rvp4_module_hash_resolver.py
 
 상황: 이름부터 perm1, perm2, 최종 handler 매핑까지 전부 계산하고 싶다.
-사용: rvp4_permutation(5).py
+사용: rvp4_permutation.py
 
 
 10. 검증 상태와 주의사항
@@ -920,16 +920,16 @@ forwarder가 있다면 최종 대상 DLL과 함수까지 chain을 출력한다.
 
 또한 다음 코드 내부 검증을 실행했다.
 
-    rvp4_permutation(5).py --self-test
+    rvp4_permutation.py --self-test
         -> Tomas의 v419 기준값 일치
 
-    perm1(2).py 0B5860F65C1EC6FC
+    perm1.py 0B5860F65C1EC6FC
         -> Tomas perm1 계산
 
-    rvp4_module_hash_resolver(1).py hash kernel32.dll
+    rvp4_module_hash_resolver.py hash kernel32.dll
         -> 0xCFDCAD2E
 
-    rvp4_api_hash_resolver_corrected(1).py --name GetStdHandle
+    rvp4_api_hash_resolver_corrected.py --name GetStdHandle
         -> 0x7A130126
 
 현재 업로드에는 실제 분석 대상 EXE와 Windows DLL 파일이 포함되지 않았으므로,
