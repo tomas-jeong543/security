@@ -38,11 +38,13 @@
 
 | 구분 | 위치와 설명 |
 | --- | --- |
-| 직접 작성한 분석 도구 | RVP4 `source/*.py`: 기존 프로젝트 문서에서 분석 알고리즘을 Python으로 재구현했다고 명시합니다. 파일별 외부 코드 활용 여부는 확인 필요입니다. |
-| 실습 구현·풀이 코드 | Toy OS `boot*.asm`, War Game의 Python 스크립트: 실습 구현 및 풀이 자료입니다. 직접 작성·제공 코드·수정 코드의 정확한 범위는 확인 필요입니다. |
-| 복원·재구성 코드 | [프로젝트 3 Go 코드](projects/Security_project3/source/reversing_project3_reconstructed.go)는 헤더에서 동작 재구성 코드임을 명시합니다. 분석 대상의 원본 소스와 구분합니다. |
-| 분석 대상 및 패치본 | RVP4 `exe_files/`의 구분은 [파일 설명](projects/Security_Project4/exe_files/explanation.txt)을 참고합니다. War Game의 `chall`, `encrypted` 등은 출처와 역할 확인이 필요합니다. |
-| 생성물 및 분석 작업 파일 | Toy OS의 `.bin`·`.img`, IDA의 `.i64` 등입니다. 원본·생성물의 대응 관계가 미기록된 항목은 확인 필요입니다. |
+| 직접 작성 코드 — 분석 도구 | RVP4 `source/*.py`: 분석한 해시 계산과 Opcode Permutation 등을 Python으로 재구현한 도구입니다. |
+| 실습 구현·풀이 코드 | Toy OS `boot*.asm`은 부팅·시스템 실습 코드이며, War Game의 Python 스크립트는 문제 풀이 코드입니다. 이 자료의 파일별 직접 작성·제공 코드 범위는 확인 필요입니다. |
+| 재구성 코드 | [프로젝트 3 Go 코드](projects/Security_project3/source/reversing_project3_reconstructed.go): 바이너리에서 분석한 동작을 Go로 재구성한 소스입니다. |
+| 분석 대상 | RVP4 `exe_files/`의 원본 실행 파일: 정적·동적 분석의 대상입니다. 원본과 수정본의 이름은 [파일 설명](projects/Security_Project4/exe_files/explanation.txt)에 정리했습니다. |
+| 패치본 | RVP4 `exe_files/`의 출력 수정 및 안티디버깅 우회·최종 입력 패치 버전: 변경된 동작을 분석·검증하기 위한 실행 파일입니다. |
+| 생성물 | Toy OS `.bin`·`.img`: 실습에 사용하는 바이너리와 부팅 이미지입니다. |
+| 분석 작업 파일 | IDA `.i64`: 바이너리 분석 작업을 저장한 데이터베이스입니다. |
 
 ## 저장소 안내
 
