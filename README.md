@@ -14,15 +14,15 @@
 
 [프로젝트 README](projects/Security_Project4/README.md) · [상세 보고서](projects/Security_Project4/리버싱프로젝트4_v2.pdf) · [분석 도구](projects/Security_Project4/source/)
 
-### 2. Toy OS — x86 부팅과 보호 모드 실습
+### 2. Toy OS — x86 부팅과 보호 모드 실습 (진행 중)
 
 - **목표:** 부트로더와 최소 실행 환경을 통해 저수준 시스템 동작 이해.
 - **사용 기술:** x86 Assembly, NASM, QEMU, BIOS, GDT, VGA 텍스트 메모리.
 - **수행한 구현·검토:** `boot11.asm`에 실 모드 부팅, 추가 섹터 로딩, 보호 모드 전환, 화면 출력과 명령 문자열 검사 코드가 있습니다.
-- **결과:** 단계별 Assembly 소스와 부팅 이미지, QEMU 명령 메모를 보관했습니다. 최종본 지정과 실제 실행 검증 결과는 **확인 필요**입니다.
-- **배운 점:** 코드에서 다루는 학습 주제는 세그먼트 설정, 스택 초기화, 모드 전환과 화면 메모리 접근입니다. 개인 회고는 **TODO**입니다.
+- **현재 성과:** QEMU에서 단계별 구현을 실행하고 검증 결과를 `toy_os.docx`에 스크린샷과 함께 기록했습니다. 보호 모드 진입과 전환 후 화면 출력을 검증했으며, IDT 구성과 인터럽트 처리 학습을 이어가는 중입니다.
+- **배운 점:** 실 모드의 세그먼트·오프셋 주소 계산, GDT를 통한 보호 모드 전환, 스택 초기화, BIOS 출력과 VGA 메모리 직접 접근의 차이를 구현 과정과 함께 정리했습니다.
 
-[프로젝트 README](projects/toyos_project/README.md) · [기존 문서 / Word](projects/toyos_project/toy_os.docx) · [실행 메모](projects/toyos_project/QEMU_내용.txt)
+[프로젝트 README](projects/toyos_project/README.md) · [구현 과정·검증 스크린샷 / Word](projects/toyos_project/toy_os.docx) · [실행 메모](projects/toyos_project/QEMU_내용.txt)
 
 ### 3. War Game / Reversing — 문제별 풀이와 동적 분석
 
@@ -39,7 +39,8 @@
 | 구분 | 위치와 설명 |
 | --- | --- |
 | 직접 작성 코드 — 분석 도구 | RVP4 `source/*.py`: 분석한 해시 계산과 Opcode Permutation 등을 Python으로 재구현한 도구입니다. |
-| 실습 구현·풀이 코드 | Toy OS `boot*.asm`은 부팅·시스템 실습 코드이며, War Game의 Python 스크립트는 문제 풀이 코드입니다. 이 자료의 파일별 직접 작성·제공 코드 범위는 확인 필요입니다. |
+| 직접 작성 코드 — 시스템 실습 | Toy OS `boot*.asm`: AI의 설명·힌트와 TODO 형태의 코드 틀을 활용해 단계별 기능을 구현·수정한 Assembly 코드입니다. 구현 과정과 검증 기록은 `toy_os.docx`에 정리했습니다. |
+| 문제 풀이 코드 | War Game의 Python 스크립트입니다. 파일별 직접 작성·제공 코드 범위는 확인 필요입니다. |
 | 재구성 코드 | [프로젝트 3 Go 코드](projects/Security_project3/source/reversing_project3_reconstructed.go): 바이너리에서 분석한 동작을 Go로 재구성한 소스입니다. |
 | 분석 대상 | RVP4 `exe_files/`의 원본 실행 파일: 정적·동적 분석의 대상입니다. 원본과 수정본의 이름은 [파일 설명](projects/Security_Project4/exe_files/explanation.txt)에 정리했습니다. |
 | 패치본 | RVP4 `exe_files/`의 출력 수정 및 안티디버깅 우회·최종 입력 패치 버전: 변경된 동작을 분석·검증하기 위한 실행 파일입니다. |
