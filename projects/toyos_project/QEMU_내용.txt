@@ -1,14 +1,24 @@
 qemu-system-x86_64만 cmd에 입력시 실행이 된다.
-nasm -f bin boot11.asm -o boot11.bin
-copy /b boot11.bin os11.img
-qemu-system-x86_64 -drive format=raw,file=os11.img
+nasm -f bin boot12.asm -o boot12.bin
+copy /b boot12.bin os12.img
+qemu-system-x86_64 -drive format=raw,file=os12.img
  형식
 
-enter -> input string
+커널 빌드하는 방식
+gcc -m32 -ffreestanding -fno-pie -fno-stack-protector -c kernel.c -o kernel.o
 
-1줄 0
-2줄 160
+nasm -f elf32 kernel_entry.asm -o kernel_entry.o
 
-24줄 3680
-25줄 3840 
-26줄 4000
+ld -m elf_i386 -T linker.ld kernel_entry.o kernel.o -o kernel.elf
+
+objcopy -O binary kernel.elf kernel.bin
+패딩을 채워넣는 방식
+cp kernel.bin kernel_padded.bin
+truncate -s 512 kernel_padded.bin
+
+os img다시 채워넣기
+nasm -f bin boot12.asm -o boot12.bin
+cat boot12.bin kernel_padded.bin > os12.img
+
+
+

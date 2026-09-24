@@ -1,0 +1,47 @@
+• game-baseline-1.0의 게임 실행 경로를 통합했습니다. 설계서의 TC G01~G12가 모두 PASS했고, 시작→전투→사망·부활→기지 파괴→Result→Restart를 실제 GameWorld 로직
+  으로 검증했습니다.
+
+  변경 파일
+
+  - 프로젝트·문서: EASILE.sln:1, GameClient/GameClient.vcxproj:1, GameClient/GameTests.vcxproj:1, README.md:1
+  - 게임 상태·전투: src/GameWorld.h:1, src/GameWorld.cpp:1, src/Hero.h:1, src/Hero.cpp:1, src/CombatSystem.h:1, src/CombatSystem.cpp:1, src/MathTypes.h:1
+  - 입력·Bot·시야: src/InputManager.h:1, src/InputManager.cpp:1, src/PlayerController.h:1, src/BotController.h:1, src/VisibilitySystem.h:1
+  - 화면·로그·테스트: src/Application.h:1, src/Application.cpp:1, src/main.cpp:1, src/Renderer.h:1, src/Renderer.cpp:1, src/HUDRenderer.h:1, src/
+    HUDRenderer.cpp:1, src/Snapshot.h:1, src/Logger.h:1, tests/GameTests.cpp:1
+
+  시스템별 구현
+
+  - PlayerController가 이동·마우스 조준·공격 명령을 처리하며, 사망 중 이동과 공격을 차단합니다. BotController의 FSM은 월드 갱신에서 호출됩니다.
+  - CombatSystem이 피해·사망을 판정하고, GameWorld가 투사체 생성 후 이동·충돌·소멸과 소유권을 관리합니다. 미니언은 적 Tower만 공격합니다.
+  - Brush 시야와 공격 후 1.5초 reveal이 스냅샷의 표시 플래그와 실제 렌더 필터에 연결됐습니다. HUD는 HP, XP/Level, 두 쿨다운, 상태와 Result를 표시합니다.
+  - 일시정지는 시뮬레이션 타이머를 멈춥니다. 기지 파괴는 10ms 동시 파괴 판정을 거쳐 Victory/Defeat/Draw로 전환됩니다. 주요 사건은 GameClient.log에 기록됩니
+    다.
+
+   테스트                결과    테스트                     결과
+  ━━━━━━━━━━━━━━━━━━━━  ━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━
+   TC G01 초기화         PASS    TC G07 Pause/Result        PASS
+  ────────────────────  ──────  ─────────────────────────  ──────
+   TC G02 이동·입력      PASS    TC G08 Basic 쿨다운        PASS
+  ────────────────────  ──────  ─────────────────────────  ──────
+   TC G03 Bot FSM        PASS    TC G09 마우스 조준         PASS
+  ────────────────────  ──────  ─────────────────────────  ──────
+   TC G04 미니언 wave    PASS    TC G10 사망·부활           PASS
+  ────────────────────  ──────  ─────────────────────────  ──────
+   TC G05 Brush 시야     PASS    TC G11 10ms Draw           PASS
+  ────────────────────  ──────  ─────────────────────────  ──────
+   TC G06 XP·강화        PASS    TC G12 미니언 대상 제한    PASS
+
+  실행·빌드 결과
+
+  - Debug|x64, Release|x64 빌드 성공. 두 구성의 GameTests.exe에서 TC G01~G12, 전체 경기 흐름, Result→Restart 10회, HUD 표시, 비활성 창 입력 차단이 모두 PASS
+    했습니다.
+
+  - Release GameClient.exe --smoke-gui는 Win32/DX11/HUD 초기화, 5프레임 렌더 후 exit 0으로 종료했습니다.
+  - 실행은 Visual Studio에서 EASILE.sln을 빌드한 뒤 build/Release/GameClient.exe를 실행합니다. Enter로 시작하고 조작법은 README.md:9에 정리했습니다.
+
+  남은 검증·제외 범위
+
+  - 전체 경기를 사람이 직접 조작하며 화면 품질을 확인하는 수동 검수는 수행하지 않았습니다. 자동 테스트는 실제 월드 로직과 HUD 텍스트를 검증하며, 일부 경기 상
+    황은 테스트 fixture로 빠르게 구성합니다.
+
+  - 보안 실험 A1~A4는 요청 범위에 따라 구현하지 않았습니다.

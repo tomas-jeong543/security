@@ -1,0 +1,52 @@
+ida사용법
+스페이스 누르면 그래프뷰와 disassamble view로 바뀐다
+그래프뷰는 어셈블리어를 블록 단위로 나눈다, 블록 단위 내에선 무조건 실행
+분기가 이루어지면 두가지 블록으로 나뉠 수 있고 각각 블록은 각각 다른 곳으로 갈 수 o 흐름도를 보여준다
+edit tab으로 main주소의 base주소를 변경가능(프로세스 주소가 랜덤으로 변경시 호환되게 할 수 0)
+tab누르면 decompile된 내용을 볼 수 0
+
+/로 주석을 달 수 있다/, insert로 위에 주석을 달 수 있다
+
+마우스 커서로 만들고 n하고 이름을 바꿀 수 있다
+우리가 ida에서 하는 작업은 exe파일이 아닌 새롭게 저장된 i64파일이 생긴다
+
+y로도 뭘 할 수 있다. 타입을 바꿀 수 있다 인자와 return타입 모두 다
+
+
+main찾기 shift + f12 ->문자열 tab
+수상해 보이는 거 찾고 x로 참조 확인가능
+
+백슬레시로 타입 확장 가리기 가능
+
+insert + enter로 개행가능
+간단한 reverse문제 풀이
+
+2. check 0아니면 correct를 출력한다 
+ check함수는 data[i]값과 (i xor 입력[i]) + 2* i값이 전부 일치해야 1을 반환하고 아닌 경우에는 0을 반환한다.
+
+미지수 => x.라고 하면 data[i] = ( i ^ x) + 2*i
+i ^ x = data[i] - 2*i
+x = (data[i] -2*i) ^ i
+
+ida에서 값 가져오는 법 ida에서 내가 찾으려는 영역 선택 후 edit -> export data -> hexstring(unspaced)로 가져올 수 있다
+다른 방법 hex editor로 가져올 수 있다
+아니면 파일을 다 읽어온 다음에 가져와도 됨
+
+IDA 이용 시기억해둘 핵심 패턴: 진입점(Entry Point) 확인 -> start에서 main 호출부 찾기 -> 진짜 main으로 진입
+
+추천 리버싱 문제 
+
+.exe 없으면 리눅스 elf라는 걸 알 수 있다.
+stop using stack pointers문제 -> 아키택쳐를 커스텀화해서 디컴파일을 무력화해서 어셈블리 분석을 강제하는 까다로운 문제다
+
+접근 방법 보통 리버싱 문제는 뭔갈 검증한다
+그래서 플래그가 아닐 때 출력되는 지점은 언제 도달이 되는가를 그래프로 파악할 수 있다.
+jmp ->static분석으로는 한계 존재 동적 분석 필요하다
+
+
+mixed box
+
+tomas@LAPTOP-UT2CVUO8:/mnt/c/Users/정명훈/OneDrive/문서/Downloads/동아리0531리버싱과제$ chmod +x main
+tomas@LAPTOP-UT2CVUO8:/mnt/c/Users/정명훈/OneDrive/문서/Downloads/동아리0531리버싱과제$ ./main
+FLAG{532c09e2eef9c648ca678bc08a2440b0}
+Correct!

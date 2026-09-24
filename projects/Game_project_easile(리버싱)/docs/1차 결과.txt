@@ -1,0 +1,23 @@
+• 완료
+
+  - VS2022 솔루션/프로젝트와 DX11 skeleton baseline을 구성했습니다: EASILE.sln, GameClient/GameClient.vcxproj.
+  - 구현 파일: src/Application.*, GameTime.*, GameWorld.*, InputManager.*, Renderer.*, Hero.h, PlayerHero.h, BotHero.h, Projectile.h, Snapshot.h,
+    MathTypes.h, main.cpp; 문서화: README.md:1.
+
+  빌드
+
+  - Visual Studio에서 EASILE.sln을 열고 x64 + Debug/Release로 빌드합니다.
+  - Debug|x64, Release|x64 모두 성공했으며 EXE는 build/Debug/GameClient.exe, build/Release/GameClient.exe에 생성됩니다.
+
+  현재 구현
+
+  - Win32/DX11 초기화, 루프, 시간 관리, WASD/방향키 입력 및 대각선 정규화.
+  - PlayerHero 단색 사각형 렌더링 및 이동.
+  - PlayerHero/BotHero는 각각 Hero를 상속합니다: src/PlayerHero.h:5, src/BotHero.h:5.
+  - GameWorld가 unique_ptr<Projectile> 컨테이너를 소유합니다: src/GameWorld.h:22.
+  - Renderer는 읽기 전용 스냅샷만 받으며 GameWorld를 수정하지 않습니다: src/Renderer.h:14.
+
+  미구현
+
+  - Bot/맵/충돌/전투/투사체 시뮬레이션/시야/HUD/매치 상태/보안 반복 실험 등은 요청 범위 밖으로 남겨 두었습니다.
+  - 설계서 렌더 검토는 시스템에 Python launcher가 없어 수행하지 못했고, OOXML 본문 추출로 요구사항을 대조했습니다.

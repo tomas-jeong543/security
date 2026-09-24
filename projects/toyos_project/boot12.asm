@@ -36,6 +36,16 @@ start:
 
     int 0x13
 
+    ; kernel.bin -> 0x10000 로드
+    ;SI에 disk_address_packet의 주소를 넣는 명령어
+    mov si, disk_address_packet
+    ;LBA기반의 읽기
+    mov ah, 0x42
+    ;어떤 디스크에서 읽어올지를 결정
+    mov dl, [boot_drive]
+    
+    int 0x13
+
     jmp 0x7E00
 
 
@@ -70,6 +80,17 @@ message:
 boot_drive:
     db 0
 
+; kernel.bin을 읽기 위한 Disk Address Packet
+disk_address_packet:
+    db 0x10          ; DAP 크기 = 16 bytes
+    db 0x00          ; reserved
+    dw 0x0001        ; 읽을 sector 수 = 1
+
+    dw 0x0000        ; destination offset
+    dw 0x1000        ; destination segment
+                     ; 0x1000:0x0000 = 물리주소 0x10000
+
+    dq 64            ; kernel.bin이 있는 LBA 64
 
 times 510 - ($ - $$) db 0
 dw 0xAA55
@@ -208,18 +229,18 @@ keyboard_interrupt_handler:
         cmp dword [input_index], 0
         je .send_eoi
 
-        dec [input_index]
+        dec  dword [input_index]
         mov ebx, [input_index]
-        mov [input_char + ebx], 0
+        mov byte [input_char + ebx], 0
 
         call backspace32
         jmp .send_eoi
     
     .enter:
         mov eax, [input_index]
-        mov [input_char + eax], 0
+        mov  byte [input_char + eax], 0
         call newline32
-        mov [command_ready], 1
+        mov byte  [command_ready], 1
         jmp .send_eoi
 
     .send_eoi:
@@ -292,6 +313,8 @@ protected_mode_start:
     ; stack pointer를 명시적으로 설정해야 한다.
     ; -----------------------------------------------------
     mov esp, STACK_TOP
+
+    jmp KERNEL_LOAD_ADDR
 
     call init_idt
 
@@ -508,7 +531,7 @@ newline32:
     inc eax
     mov [cursor_row], eax
 
-    mov [cursor_col], 0
+    mov dword [cursor_col], 0
 
     cmp eax , 25
     je .scroll_screen
@@ -596,8 +619,8 @@ clear_screen32:
         cmp ebx, 4000
         je .done
         
-        mov [0xB8000 + ebx ], ' '
-        mov [0xB8000 + ebx + 1], 0x07
+        mov byte [0xB8000 + ebx ], ' '
+        mov byte [0xB8000 + ebx + 1], 0x07
         
         add ebx , 2
         jmp .loop

@@ -1,0 +1,101 @@
+동적 디버깅 pwndbg이용 1번 c파일인 경우 gcc 이름.c -no-pie(선택) 이름 으로 object파일로 만들고
+gdb ./이름 을 입력해서 디버깅 할 수 있다.
+이떄 b*main으로 중단점을 선택할 수 있고 r로 프로그램을 run시킬 수 있다.
+그리고 이때 만약 잘 실행이 안되면 실행권한이 없을 수 있는 거기 때문에 chmod +x 이름 을 입력하자
+
+그리고 b*main을 한다음에 디버깅을 하는 법에 대해서 설명하면
+ni (Next Instruction): 한 줄씩 어셈블리 명령어를 실행합니다.
+c (Continue): 다음 브레이크포인트까지 계속 실행합니다.
+x/s 0x555555556004: 해당 주소에 무엇이 들어있는지 확인합니다.
+이것과 break문을 잘 보면서 디버깅을 하면 된다
+
+추가 내용
+1. 명령어 구조: x/[개수][형식][크기] [주소]
+[개수] (N): 몇 개나 보여줄 것인가? (예: x/4x는 4개를 보여줌)
+
+[형식] (Op): 데이터를 어떤 형태로 해석해서 보여줄 것인가?
+
+[크기]: 한 단위의 크기 (b=byte, h=halfword, w=word, g=giant/8bytes)
+
+2. 형식(Format) 옵션 상세
+질문하신 Op 부분에 들어갈 옵션들은 데이터를 어떻게 해석할지 결정합니다.
+
+x (Hexadecimal): 16진수(Hex) 형태로 출력합니다. 메모리 값을 있는 그대로 보고 싶을 때 가장 많이 씁니다.
+
+i (Instruction): 어셈블리어(Disassembly) 형태로 해석합니다. CPU가 이 메모리 위치에 있는 데이터를 '명령어'로 이해하도록 출력합니다.
+
+s (String): 문자열(String)로 해석합니다. 해당 주소부터 NULL 문자(0x00)를 만날 때까지를 문자로 간주하여 화면에 출력합니다. (메모리에 저장된 텍스트를 읽을 때 필수!)
+
+정적 분석
+objdump -S -D intel ./파일 이름 을 통해서 DISASSMBLE된 내용을 볼 수 있다
+
+p main -> deburg에서 출력을 한다
+p main 에서  call 부분을 자세히 봐야 한다
+주석으로 주소가 알려지지 않았을 때의 대처 방법으로는 그 부분의 코드에 가서 주소 게산하는 공식을 보고
+pwndbg> p/x 그 명령어 위치 + 그 명령어 길이 + offset으로 계산 가능
+이런 식으로 입력하면 주소를 구할 수 있다.
+scanf을 받고 mem compare에 따라서 분기가 갈린다.
+disas main
+
+
+stripped와 아닌 거의 차이점 -> section이 차이가 난다 정확히는 symtab section이 없다 
+xxd -s 0x3098 -g 1 -l 512./basic3 로 보기
+
+133줄 부터 보기 flag부터 보기
+
+pwndbg> x/38bx &flag
+0x4040 <flag>:  0xe7    0x5e    0xe2    0xd2    0x7e    0x03    0xa2    0x0e
+0x4048 <flag+8>:        0xc7    0x76    0x92    0xf3    0x60    0x00    0xf2    0x0c
+0x4050 <flag+16>:       0x95    0x25    0x96    0xa6    0x32    0x07    0xf7    0x09
+0x4058 <flag+24>:       0x98    0x25    0x93    0xa1    0x64    0x0a    0xf0    0x0e
+0x4060 <flag+32>:       0xc7    0x27    0xc6    0xa5    0x31    0x4f
+
+4000 -> 4000만큼 떨어진 8000에 있음
+
+file offset = 3000, offset기준
+
+scanf ->%s로 입력받은
+27 기준[rbp -0x50]
+
+
+rsp = rbp 다가 rsp 를 값을 빼서 이동시킨다 올라간 높이가 0x60이고, rsp = rbp -0x60 main함수가 그 만큼의 공간을 쓴다는 의미다
+scanf값은 rbp - 0x50 최대 0x50이라는 크기를 입력받은 거다
+
+만약 그 범위를 넘어가 버리면 문제가 생기고 이걸 시스템 해킹에서 다룬다.
+
+1번 반복되는 분기를 어셈블리에서 찾는 게 중요 
+for 문의 반복문 변수 i ->  rbp 0x54에서는 반복되는 변수 느낌이구나 i는  0x26을 넘지 않는다라는 사실을 알 수 있다.
+jmp -> compare
+
+여기서는 0x54부터 i가 0에서 증가가 된다.
+
+102 ->buf[i]를 가져온 꼴이다.
+
+key[?] ? = rax rax를 보면 edx고 edx = index i
+고 그 다음에 78-91의 shift left와 right를 한다 그리고 또 복잡한 연산과정을 거친다. 
+그 부분은 부호를 판단하는 과정인 거 같아서 생략
+
+그냥 and 0x7을 한 거다.
+
+그래서 사실상 ?는
+
+파이썬으로 옮겨 적으면
+flag = b''
+key = b'sadsadsadsad'
+buffer = b''
+
+정연산을 만들고 그거의 역연산을 만들면 된다
+def a()
+for i in range(0x27):
+	buffer = bytearray(input.encode())
+	buffer[i] = buffer[i] ^ key[i & 7]
+if buffer == flag:
+	print('Correct")
+else:
+print('Wrong')
+
+a()
+
+바이너리를 디컴파일된 코드를 보고 그걸로 어떻게든 정연산 코드를 만들어 내고 그게 정확한지를 확인한 후에 그것의 역연산 하는 게 핵심이다.
+
+정연산을 잘못한 경우에는 뭔가 잘못된다 -> 정답이 안나온다.
