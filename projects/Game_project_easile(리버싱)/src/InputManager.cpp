@@ -2,8 +2,25 @@
 
 void InputManager::ResetEdges()
 {
-    previousBasic_ = previousUltimate_ = previousPause_ = previousEnter_ = previousRestart_ = false;
+    previousClick_ = previousK_ = previousUltimate_ = previousTab_ = previousPause_ = previousEnter_ = previousRestart_ = false;
     previous1_ = previous2_ = previous3_ = false;
+}
+
+PlayerCommand InputManager::ReadAttackEdges(bool click, bool keyK, bool keyJ, bool tab)
+{
+    const auto pressed = [](bool current, bool& previous)
+    {
+        const bool result = current && !previous;
+        previous = current;
+        return result;
+    };
+    PlayerCommand command;
+    command.clickBasic = pressed(click, previousClick_);
+    const bool keyBasic = pressed(keyK, previousK_);
+    command.basic = command.clickBasic || keyBasic;
+    command.ultimate = pressed(keyJ, previousUltimate_);
+    command.toggleAim = pressed(tab, previousTab_);
+    return command;
 }
 
 PlayerCommand InputManager::Read(HWND window)
@@ -21,12 +38,12 @@ PlayerCommand InputManager::Read(HWND window)
     ScreenToClient(window, &cursor);
     RECT client{};
     GetClientRect(window, &client);
-    if (client.right > 0 && client.bottom > 0)
-    {
-        command.mouseWorldPosition = {1280.0F * cursor.x / client.right, 720.0F * cursor.y / client.bottom};
-    }
-    command.basic = pressed(BasicCommand(down(VK_LBUTTON), down('K')), previousBasic_);
-    command.ultimate = pressed(down('J'), previousUltimate_);
+    command.mouseWorldPosition = MouseWorldPosition(cursor, client);
+    const PlayerCommand attacks = ReadAttackEdges(down(VK_LBUTTON), down('K'), down('J'), down(VK_TAB));
+    command.clickBasic = attacks.clickBasic;
+    command.basic = attacks.basic;
+    command.ultimate = attacks.ultimate;
+    command.toggleAim = attacks.toggleAim;
     command.togglePause = pressed(down('P'), previousPause_);
     command.start = pressed(down(VK_RETURN), previousEnter_);
     command.restart = pressed(down('R'), previousRestart_);

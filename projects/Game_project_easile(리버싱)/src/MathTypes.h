@@ -2,6 +2,7 @@
 #include <cmath>
 
 struct Vec2 { float x = 0.0F, y = 0.0F; };
+constexpr float worldWidth = 1920.0F, worldHeight = 1440.0F;
 
 inline Vec2 operator+(Vec2 left, Vec2 right) { return {left.x + right.x, left.y + right.y}; }
 inline Vec2 operator-(Vec2 left, Vec2 right) { return {left.x - right.x, left.y - right.y}; }
@@ -16,7 +17,7 @@ inline Vec2 Normalize(Vec2 vector)
 }
 inline Vec2 ClampToMap(Vec2 position)
 {
-    position.x = std::fmax(18.0F, std::fmin(1262.0F, position.x));
-    position.y = std::fmax(18.0F, std::fmin(702.0F, position.y));
+    position.x = std::fmax(18.0F, std::fmin(worldWidth - 18.0F, position.x));
+    position.y = std::fmax(18.0F, std::fmin(worldHeight - 18.0F, position.y));
     return position;
 }

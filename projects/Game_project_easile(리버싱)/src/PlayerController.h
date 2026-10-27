@@ -6,7 +6,7 @@ public:
     PlayerCommand BuildCommand(const PlayerCommand& input, const Hero& player) const
     {
         PlayerCommand command = input;
-        if (!player.Alive()) { command.move = {}; command.basic = false; command.ultimate = false; }
+        if (!player.Alive()) { command.move = {}; command.basic = false; command.clickBasic = false; command.ultimate = false; }
         command.move = Normalize(command.move);
         return command;
     }

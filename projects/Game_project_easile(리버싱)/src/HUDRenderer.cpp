@@ -42,7 +42,7 @@ bool HUDRenderer::Initialize(HWND parent)
     windowClass.lpfnWndProc = WindowProc;
     if (!RegisterClass(&windowClass) && GetLastError() != ERROR_CLASS_ALREADY_EXISTS) { return false; }
     panel_ = CreateWindowEx(0, className, L"", WS_CHILD | WS_VISIBLE,
-                            16, 16, 374, 157, parent, nullptr, windowClass.hInstance, this);
+                            12, 12, 310, 160, parent, nullptr, windowClass.hInstance, this);
     overlay_ = CreateWindowEx(0, className, L"", WS_CHILD,
                               0, 0, 390, 166, parent, nullptr, windowClass.hInstance, this);
     return panel_ != nullptr && overlay_ != nullptr;
@@ -55,8 +55,11 @@ void HUDRenderer::Render(const HUDViewModel& viewModel)
     std::wostringstream text;
     text << L"State: " << viewModel.state << L"    HP: " << viewModel.hp << L"/" << viewModel.maxHp
          << L"    Level: " << viewModel.level << L"    XP: " << viewModel.xp << L"/" << viewModel.requiredXp
-         << L"    Basic (LMB/K): " << Cooldown(viewModel.basicCd)
+         << L"    Basic (LMB/K): PRESS"
          << L"    Ultimate (J): " << Cooldown(viewModel.ultimateCd)
+         << L"    Upgrade: " << viewModel.upgradePreference << L"    Aim: " << viewModel.aimMode
+         << L"    BasicDamage: " << viewModel.basicDamage << L"    UltimateDamage: " << viewModel.ultimateDamage
+         << L"    AutoK: " << viewModel.basicAutoTarget << L"    AutoJ: " << viewModel.ultimateAutoTarget
          << L"    " << viewModel.result;
     const std::wstring description = text.str();
     SetWindowTextW(panel_, description.c_str());
@@ -81,9 +84,9 @@ void HUDRenderer::Paint(HWND window, HDC canvas, bool overlay) const
     GetClientRect(window, &bounds);
     Fill(canvas, bounds, RGB(13, 24, 34));
     Fill(canvas, {0, 0, bounds.right, 3}, overlay ? RGB(221, 191, 97) : RGB(66, 168, 212));
-    HFONT title = CreateFontW(24, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
+    HFONT title = CreateFontW(20, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
                               OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, L"Segoe UI");
-    HFONT normal = CreateFontW(17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
+    HFONT normal = CreateFontW(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
                                OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, L"Segoe UI");
     HGDIOBJ previousFont = GetCurrentObject(canvas, OBJ_FONT);
     SetBkMode(canvas, TRANSPARENT);
@@ -100,18 +103,21 @@ void HUDRenderer::Paint(HWND window, HDC canvas, bool overlay) const
     }
     else
     {
-        Label(canvas, L"PLAYER  /  " + view_.state, {16, 8, 360, 38}, RGB(229, 239, 246), title);
+        Label(canvas, L"PLAYER  /  " + view_.state, {12, 5, 300, 30}, RGB(229, 239, 246), title);
         std::wostringstream health, experience;
         health << L"HP  " << std::max(0, view_.hp) << L" / " << view_.maxHp;
         experience << L"LV " << view_.level << L"  |  XP  " << view_.xp << L" / " << view_.requiredXp;
-        Label(canvas, health.str(), {17, 40, 350, 62}, RGB(221, 231, 234), normal);
-        Bar(canvas, 18, 65, 336, view_.maxHp > 0 ? static_cast<float>(view_.hp) / view_.maxHp : 0.0F, RGB(69, 198, 205));
-        Label(canvas, experience.str(), {17, 80, 350, 102}, RGB(221, 231, 234), normal);
-        Bar(canvas, 18, 105, 336, view_.requiredXp > 0 ? static_cast<float>(view_.xp) / view_.requiredXp : 0.0F, RGB(227, 175, 83));
-        Label(canvas, L"BASIC  " + Cooldown(view_.basicCd), {18, 120, 184, 150},
-              view_.basicCd <= 0.0001F ? RGB(114, 227, 153) : RGB(236, 196, 116), normal);
-        Label(canvas, L"ULT  " + Cooldown(view_.ultimateCd), {191, 120, 355, 150},
+        Label(canvas, health.str(), {12, 30, 300, 49}, RGB(221, 231, 234), normal);
+        Bar(canvas, 12, 51, 286, view_.maxHp > 0 ? static_cast<float>(view_.hp) / view_.maxHp : 0.0F, RGB(69, 198, 205));
+        Label(canvas, experience.str(), {12, 62, 300, 81}, RGB(221, 231, 234), normal);
+        Bar(canvas, 12, 83, 286, view_.requiredXp > 0 ? static_cast<float>(view_.xp) / view_.requiredXp : 0.0F, RGB(227, 175, 83));
+        Label(canvas, L"BASIC " + std::to_wstring(view_.basicDamage) + L"  PRESS", {12, 94, 153, 116},
+              RGB(114, 227, 153), normal);
+        Label(canvas, L"ULT " + std::to_wstring(view_.ultimateDamage) + L"  " + Cooldown(view_.ultimateCd), {158, 94, 303, 116},
               view_.ultimateCd <= 0.0001F ? RGB(114, 227, 153) : RGB(236, 196, 116), normal);
+        Label(canvas, L"UPGRADE  " + view_.upgradePreference, {12, 117, 300, 137}, RGB(201, 223, 232), normal);
+        Label(canvas, L"AIM " + view_.aimMode + L"  |  K " + view_.basicAutoTarget + L"  J " + view_.ultimateAutoTarget,
+              {12, 137, 306, 158}, RGB(201, 223, 232), normal);
     }
     SelectObject(canvas, previousFont);
     DeleteObject(title);

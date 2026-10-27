@@ -84,7 +84,7 @@ boot_drive:
 disk_address_packet:
     db 0x10          ; DAP 크기 = 16 bytes
     db 0x00          ; reserved
-    dw 0x0001        ; 읽을 sector 수 = 1
+    dw 0x0020        ; 읽을 sector 수 = 32
 
     dw 0x0000        ; destination offset
     dw 0x1000        ; destination segment
@@ -883,6 +883,7 @@ remap_pic:
 
     mov al, 0x11
     out 0xA0, al                    
+    
     ;시작 위치 설정(인터럽트 핸들러 기준)
     mov al, 0x20
     out 0x21, al

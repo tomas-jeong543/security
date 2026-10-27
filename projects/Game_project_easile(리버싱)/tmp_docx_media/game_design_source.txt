@@ -1,0 +1,53 @@
+TITLE|EASILE 2D 게임 설계서
+SUBTITLE|v0.14 · Baseline 1.0 · 2026-09-30
+P|Windows x64 / DirectX 11 기반의 2D 탑다운 팀 전투 게임. 이 문서는 현재 구현된 플레이 규칙, 월드, 엔티티, 입력, 전투, AI, 화면 및 검증 기준을 설명한다.
+H1|1. 제품 개요
+P|Player와 Ally Bot이 Blue 팀을 이루고 Enemy Bot 두 명이 Red 팀을 이룬다. 각 팀은 세 Lane의 Tower와 Nexus를 보유한다. 플레이어는 이동과 투사체 공격으로 Lane을 밀고 적 Nexus를 파괴한다. 양쪽 Nexus 파괴 시각이 10ms 이내이면 Draw다.
+P|게임은 시작 메뉴에서 Enter로 시작하고 Playing, Paused, Result 상태를 거친다. Result에서는 R로 경기를 재시작한다. 기준 월드는 1920×1440, 화면의 논리 viewport는 1280×720이다.
+H2|설계 원칙
+L|월드의 이동·시야·투사체 판정은 동일한 지형과 벽 경계를 공유한다.
+L|Player, Ally Bot, Enemy Bot 두 명은 각각 HP·레벨·XP·쿨다운·위치와 Bot 상태를 독립적으로 가진다.
+L|화면은 월드 상태의 읽기 전용 Snapshot 및 HUD ViewModel을 그린다.
+H1|2. 플레이 흐름과 조작
+H2|입력 규칙
+L|Enter: 시작. R: Result에서 재시작. P: Playing과 Paused 전환.
+L|WASD 또는 방향키: 이동. 대각선 입력은 정규화하며 벽과 이동 가능 영역을 통과하지 못한다.
+L|마우스 왼쪽 버튼: 마우스 방향으로 Basic 발사. K: 현재 조준 모드에 따른 Basic 발사.
+L|J: Ultimate 발사. 기본 Auto 사거리는 1000, 쿨다운은 10초다. Tab으로 K/J의 Auto·Mouse 조준 모드를 전환한다.
+L|1/2/3: 다음 레벨업의 HP / Attack / MoveSpeed 선호도를 설정한다. 기본 선호도는 Attack이다.
+P|LMB와 K는 새 누름마다 즉시 한 발을 발사한다. 길게 누른 입력은 자동 반복하지 않으며 동시에 누르면 한 발이다. 포커스를 잃으면 게임 입력을 받지 않는다. Basic에는 별도 시간 쿨다운이 없다.
+H2|전형적인 경기
+P|시작 시 각 팀에 Hero 2명, Lane마다 Tower 1개, Nexus 1개가 배치된다. 각 팀·Lane에는 Minion 2기가 처음 생성되며 이후 12초마다 같은 규모의 wave가 추가된다. Player는 미니언 전선을 따라 이동해 Hero, Minion, Tower, Nexus를 투사체로 공격한다. 처치 XP로 레벨이 올라가고 설정한 선호 능력치가 즉시 강화된다.
+H1|3. 월드·Lane·정글
+P|Top/Mid/Bottom Lane의 중심 y는 360/720/1080이고 중심 간격은 360이다. 도로 외곽 폭은 280이다. Blue/Red Nexus는 (105,720)/(1815,720), Lane Tower는 x=390/1530에 놓인다. Player는 (205,720), Ally는 (205,800), Enemy 두 명은 (1715,720)/(1715,640)에서 생성된다.
+P|중앙 정글은 x=960의 연결 통로와 (960,540), (960,900)의 전투 공간으로 세 Lane을 잇는다. 4개의 벽이 경로를 구분한다. 이동·경로 탐색·공격 가능 여부와 렌더링은 MapPaths의 공유 지형 정의를 사용한다. Hero 반경은 26, Minion 반경은 12다.
+P|Bush는 총 6개다. Lane의 (750,360)/(1170,1080), 정글의 (960,540)/(960,900), Mid 접근부의 (600,720)/(1320,720)에 배치된다. 같은 Bush에 있거나 공격 후 1.5초 동안 reveal된 적 Hero가 보인다. Bush reveal은 벽의 공격 차단을 해제하지 않는다.
+IMAGE|그림 1. 세 Lane, 정글, 벽, Bush와 회복 오브젝트의 v0.14 배치.
+H2|중립 회복 오브젝트
+P|정글 (960,540)의 회복 오브젝트는 시작 20초 후 등장한다. 살아 있고 HP가 부족한 Hero가 중심에서 28 이내로 접근하면 HP 20을 회복하며, 획득 30초 뒤 재생성된다. 최대 HP인 Hero는 소비하지 않는다. 동시 접촉은 작은 Hero ID를 우선한다.
+H1|4. 엔티티와 성장 수치
+H2|Hero
+P|Hero는 초기 HP/최대 HP 100, Basic 피해 5, Ultimate 피해 30, 이동속도 220으로 시작한다. 사망 시 레벨 1은 5초 뒤 부활하고 레벨마다 1초가 추가된다. 생성점에서 최대 HP로 부활한다. 마지막 피격 후 5초가 지나면 자연 회복 2 HP/s가 시작된다.
+P|Hero 처치는 100 XP, Minion 처치는 20 XP를 실제 발사한 Hero에게 한 번 부여한다. 최대 레벨은 7이다. 다음 레벨 필요 XP는 100, 120, 144, 173, 208, 250 순서다. 레벨업은 즉시 처리하고 선호도에 따라 최대 HP +20, Basic/Ultimate 피해 +2/+8, 또는 이동속도 +15를 적용한다.
+H2|Minion · Tower · Nexus
+P|Minion은 HP 40, 이동속도 130, 피해 8/1초다. 같은 Lane의 적 Tower를 먼저 공격하고, 그 외 적 Minion을 상대한다. 적 Tower가 파괴되고 적 Minion이 없으면 Nexus를 공격한다. Minion은 Hero를 공격하지 않으며 정글 경로를 쓰지 않는다.
+P|Tower는 HP 300, 사거리 260, 피해 15/1초다. 같은 Lane의 적 Minion을 우선 공격하고 대상이 없으면 유효한 적 Hero를 공격한다. Nexus HP는 500이다. Hero 투사체는 적 Tower의 생존 여부와 관계없이 Nexus에 피해를 줄 수 있다.
+H1|5. 전투와 판정
+H2|투사체
+P|Basic 투사체는 속도 1000, 최대 이동 거리 700이다. Ultimate는 속도 1250, 최대 이동 거리 1000이다. 발사 시 팀, Hero ID, 원점, 방향, 피해량을 저장한다. 매 10ms simulation 단계에서 이전 위치와 다음 위치 사이 첫 벽 또는 적 엔티티 충돌을 선택한다. 동시 충돌에서는 벽을 우선한다.
+P|Player의 AutoAim은 사거리 안에서 가장 가까운 살아 있고 보이는 적 Hero, Minion, Tower, Nexus를 찾는다. 벽이나 다른 Lane 직접 공격으로 차단된 대상은 제외하며 동거리는 Entity ID로 결정한다. 수동 조준도 실제 피해 단계의 벽·Lane 검사를 통과해야 한다. 유효 대상이나 마우스 방향이 없으면 마지막 조준 방향을 유지한다.
+H2|피해·사망·결과
+P|Hero HP가 0 이하로 내려가면 Dead 상태가 되고 이동과 공격 명령이 차단된다. Minion, Tower, Nexus HP는 0 아래로 내려가지 않는다. 첫 Nexus가 파괴된 뒤 10ms 판정 창에서 상대 Nexus도 파괴되면 Draw, 그렇지 않으면 Victory 또는 Defeat로 종료한다. Paused와 Result에서는 게임 시간 및 전투 갱신이 멈춘다.
+H1|6. Bot 행동 설계
+P|세 Bot은 각자 FSM, 공격 타이머, 회복 누적, Lane, 목표와 경로 상태를 소유한다. 초기 Lane은 Enemy 1=Mid, Ally=Bottom, Enemy 2=Top이다. Bot은 거리, 대상 HP, ID, 아군 Hero와 같은 Lane의 Minion, Tower/Nexus 상태, 정글 경로를 고려해 표적과 이동 경로를 고른다.
+P|행동 상태는 Patrol, Push, Engage, Defend, Retreat, Recover, Dead다. 일반적으로 HP 30% 이하에서 Retreat하며 주변 위협이 지원보다 2 이상 많으면 40% 이하에서 후퇴한다. 자기 Tower 뒤 또는 Tower 파괴 시 Nexus 주변 안전 지점으로 이동한다. Recover 중 안전 구역에서는 4 HP/s를 회복하고 HP 55% 또는 18초 제한에 도달하면 Push로 돌아간다. 제한으로 복귀하면 3초 동안 재후퇴를 억제한다.
+P|Bot Basic은 각 Bot별 1초 주기로 발사한다. Defend에서는 같은 Lane의 적 Minion을 우선 공격하고, 없으면 보이는 적 Hero를 견제한다. 일반 교전에서는 850 이내의 보이는 적 Hero를 감지하며, 유효한 대상이 850 이내이고 Ultimate가 준비되면 사용할 수 있다. Retreat와 Recover에서는 Ultimate를 사용하지 않는다. 직선 이동이 막히면 도로 분기, Tower, 정글 노드로 구성한 그래프를 따라 이동한다.
+H1|7. 화면·카메라·HUD
+P|Player 추적 카메라의 offset은 Player 좌표에서 viewport 절반 (640,360)을 뺀 뒤 월드 경계에 맞춰 제한한다. 렌더링은 World→Screen, 마우스 입력은 Screen→World 변환을 공유한다. 창 크기가 바뀌어도 입력 좌표를 1280×720 논리 화면으로 정규화한다. HUD는 카메라와 관계없이 화면에 고정된다.
+P|HUD는 HP/최대 HP, Level, XP/필요 XP, Basic 및 Ultimate 피해, Ultimate 남은 쿨다운, 조준 모드, 업그레이드 선호도와 경기 결과를 보여준다. 월드 Snapshot에는 Hero/Minion/Tower/Nexus/투사체와 표시 가능한 시야 상태가 담긴다. Renderer는 이를 읽어 게임 상태를 변경하지 않는다.
+H1|8. 구현 구성과 검증 기준
+H2|코드 구성
+P|Application은 Win32 창과 게임 루프를 관리한다. InputManager가 입력 edge와 마우스 좌표를 읽고 PlayerController가 명령을 정규화한다. GameWorld는 매치 상태, 엔티티, AI, 투사체, 점수와 결과를 갱신한다. Hero는 능력치·쿨다운·성장을 소유하고 CombatSystem은 피해와 투사체 기본값을 처리한다. MapPaths는 월드 지형을 공유하며 Renderer/HUDRenderer가 화면을 출력한다.
+H2|Baseline 1.0 검증
+P|현재 게임 구현은 Baseline 1.0으로 확정되었다. Debug|x64와 Release|x64 빌드는 성공했고 각 구성의 GameTests 49개가 통과했다. 사용자도 게임을 직접 실행해 이동, 전투, 스킬 사용과 전체 플레이 흐름을 확인하고 현재 게임 상태를 승인했다. 이전 자동 검증에는 Win32/DX11/HUD smoke, 확대 맵 화면, 자동 GUI 입력과 전체 경기 회귀가 포함된다. 자동 입력 경기 시간은 사람의 평균 경기 시간으로 해석하지 않는다.
+P|회귀 검증은 시작/재시작, 입력·포커스, 지형·시야, 전투·성장·부활, Bot FSM, 공성·Draw, 카메라 및 전체 경기 결과를 포함한다.

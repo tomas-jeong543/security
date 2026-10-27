@@ -10,6 +10,7 @@ public:
         {
             if (brushes[index].Contains(target.Position())) { return brushes[index].Contains(observer.Position()); }
         }
-        return Distance(observer.Position(), target.Position()) <= 520.0F;
+        // Camera bounds affect rendering only; brush controls target visibility.
+        return true;
     }
 };

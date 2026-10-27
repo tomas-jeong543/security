@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "MapPaths.h"
 
 #include <d3dcompiler.h>
 #include <cstring>
@@ -44,7 +45,7 @@ bool Renderer::Initialize(HWND window)
     if (FAILED(device_->CreateInputLayout(layout, ARRAYSIZE(layout), vertexBlob->GetBufferPointer(), vertexBlob->GetBufferSize(), &inputLayout_))) { return false; }
 
     D3D11_BUFFER_DESC bufferDescription{};
-    bufferDescription.ByteWidth = sizeof(Vertex) * 6;
+    bufferDescription.ByteWidth = sizeof(Vertex) * 72;
     bufferDescription.Usage = D3D11_USAGE_DYNAMIC;
     bufferDescription.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     bufferDescription.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -67,8 +68,8 @@ void Renderer::Resize(UINT width, UINT height)
 
 void Renderer::Render(const GameWorldSnapshot& snapshot, const HUDViewModel& hud, bool capture) const
 {
-    (void)hud;
     if (!renderTargetView_) { return; }
+    cameraOffset_=snapshot.cameraOffset;
     const float clearColor[] = {0.08F, 0.10F, 0.14F, 1.0F};
     context_->OMSetRenderTargets(1, renderTargetView_.GetAddressOf(), nullptr);
     context_->ClearRenderTargetView(renderTargetView_.Get(), clearColor);
@@ -80,16 +81,41 @@ void Renderer::Render(const GameWorldSnapshot& snapshot, const HUDViewModel& hud
     context_->IASetVertexBuffers(0, 1, vertexBuffer_.GetAddressOf(), &stride, &offset);
     context_->VSSetShader(vertexShader_.Get(), nullptr, 0);
     context_->PSSetShader(pixelShader_.Get(), nullptr, 0);
-    DrawQuad({320, 360}, {640, 720}, {0.075F, 0.15F, 0.22F});
-    DrawQuad({960, 360}, {640, 720}, {0.22F, 0.10F, 0.15F});
-    DrawQuad({640, 360}, {1280, 190}, {0.22F, 0.25F, 0.28F});
-    DrawQuad({640, 360}, {1280, 152}, {0.16F, 0.19F, 0.23F});
-    DrawQuad({640, 360}, {1280, 4}, {0.37F, 0.40F, 0.42F});
-    for (int index = 0; index < 14; ++index)
+    DrawQuad({480, 720}, {960, 1440}, {0.075F, 0.15F, 0.22F});
+    DrawQuad({1440, 720}, {960, 1440}, {0.22F, 0.10F, 0.15F});
+    for (const MapPaths::Region& region : MapPaths::jungle)
+    { DrawQuad(region.center,region.size,{0.12F,0.24F,0.19F}); }
+    MapPaths::ForEachJungleSegment([&](Vec2 a,Vec2 b)
+    { DrawSegment(a,b,140,{0.12F,0.24F,0.19F}); });
+    const Color roadEdge{0.29F, 0.32F, 0.34F};
+    const Color roadSurface{0.16F, 0.19F, 0.23F};
+    MapPaths::ForEachRoadSegment([&](Vec2 a, Vec2 b) { DrawSegment(a, b, MapPaths::roadWidth, roadEdge); });
+    MapPaths::ForEachRoadSegment([&](Vec2 a, Vec2 b)
     {
-        DrawQuad({55.0F + index * 90.0F, 281}, {42, 3}, {0.37F, 0.40F, 0.42F});
-        DrawQuad({55.0F + index * 90.0F, 439}, {42, 3}, {0.37F, 0.40F, 0.42F});
+        DrawDisc(a, MapPaths::roadWidth * 0.5F, roadEdge);
+        DrawDisc(b, MapPaths::roadWidth * 0.5F, roadEdge);
+    });
+    MapPaths::ForEachRoadSegment([&](Vec2 a, Vec2 b) { DrawSegment(a, b, MapPaths::roadInnerWidth, roadSurface); });
+    MapPaths::ForEachRoadSegment([&](Vec2 a, Vec2 b)
+    {
+        DrawDisc(a, MapPaths::roadInnerWidth * 0.5F, roadSurface);
+        DrawDisc(b, MapPaths::roadInnerWidth * 0.5F, roadSurface);
+    });
+    for (int lane = 0; lane < 3; ++lane)
+    {
+        for (int index = 0; index < 8; ++index)
+        {
+            DrawQuad({465.0F + index * 135.0F, MapPaths::laneY[lane]}, {38, 3}, {0.35F, 0.39F, 0.41F});
+        }
     }
+    for (const MapPaths::Wall& wall : MapPaths::walls)
+    {
+        const Vec2 center{(wall.start.x + wall.end.x) * 0.5F, wall.start.y};
+        DrawQuad(center, {wall.end.x - wall.start.x, wall.halfWidth * 2.0F}, roadEdge);
+        DrawQuad(center, {wall.end.x - wall.start.x - 4.0F, wall.halfWidth * 2.0F - 4.0F}, {0.08F, 0.10F, 0.14F});
+    }
+    DrawDiamond(MapPaths::blueFork, {34, 34}, {0.42F, 0.46F, 0.47F});
+    DrawDiamond(MapPaths::redFork, {34, 34}, {0.42F, 0.46F, 0.47F});
     for (const EntitySnapshot& entity : snapshot.entities)
     {
         if (entity.type == EntityType::Brush && ShouldDraw(entity)) { DrawEntity(entity); }
@@ -97,6 +123,17 @@ void Renderer::Render(const GameWorldSnapshot& snapshot, const HUDViewModel& hud
     for (const EntitySnapshot& entity : snapshot.entities)
     {
         if (entity.type != EntityType::Brush && ShouldDraw(entity)) { DrawEntity(entity); }
+    }
+    if (hud.cursorVisible)
+    {
+        const Vec2 cursor = hud.cursorWorldPosition;
+        const Color edge{0.02F, 0.04F, 0.07F};
+        const Color bright{0.95F, 0.91F, 0.67F};
+        DrawQuad({cursor.x, cursor.y - 10.0F}, {3, 6}, edge);
+        DrawQuad({cursor.x, cursor.y + 10.0F}, {3, 6}, edge);
+        DrawQuad({cursor.x - 10.0F, cursor.y}, {6, 3}, edge);
+        DrawQuad({cursor.x + 10.0F, cursor.y}, {6, 3}, edge);
+        DrawDiamond(cursor, {5, 5}, bright);
     }
     if (capture) { CaptureFrame(); }
     swapChain_->Present(1, 0);
@@ -162,17 +199,66 @@ void Renderer::DrawQuad(Vec2 center, Vec2 size, Color color) const
     const float right = center.x + size.x * 0.5F;
     const float top = center.y - size.y * 0.5F;
     const float bottom = center.y + size.y * 0.5F;
-    const auto x = [](float pixel) { return pixel / 1280.0F * 2.0F - 1.0F; };
-    const auto y = [](float pixel) { return 1.0F - pixel / 720.0F * 2.0F; };
+    const auto x = [this](float pixel) { return (pixel-cameraOffset_.x) / 1280.0F * 2.0F - 1.0F; };
+    const auto y = [this](float pixel) { return 1.0F - (pixel-cameraOffset_.y) / 720.0F * 2.0F; };
     const Vertex vertices[] = {{x(left), y(top), color.r, color.g, color.b, 1}, {x(right), y(top), color.r, color.g, color.b, 1}, {x(right), y(bottom), color.r, color.g, color.b, 1}, {x(left), y(top), color.r, color.g, color.b, 1}, {x(right), y(bottom), color.r, color.g, color.b, 1}, {x(left), y(bottom), color.r, color.g, color.b, 1}};
     D3D11_MAPPED_SUBRESOURCE mapped{};
     if (SUCCEEDED(context_->Map(vertexBuffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped))) { std::memcpy(mapped.pData, vertices, sizeof(vertices)); context_->Unmap(vertexBuffer_.Get(), 0); context_->Draw(6, 0); }
 }
 
+void Renderer::DrawSegment(Vec2 start, Vec2 end, float width, Color color) const
+{
+    const Vec2 normal = Normalize(Vec2{end.y - start.y, -(end.x - start.x)}) * (width * 0.5F);
+    const Vec2 corners[] = {start + normal, end + normal, end - normal, start - normal};
+    const auto x = [this](float pixel) { return (pixel-cameraOffset_.x) / 1280.0F * 2.0F - 1.0F; };
+    const auto y = [this](float pixel) { return 1.0F - (pixel-cameraOffset_.y) / 720.0F * 2.0F; };
+    const Vertex vertices[] = {
+        {x(corners[0].x), y(corners[0].y), color.r, color.g, color.b, 1},
+        {x(corners[1].x), y(corners[1].y), color.r, color.g, color.b, 1},
+        {x(corners[2].x), y(corners[2].y), color.r, color.g, color.b, 1},
+        {x(corners[0].x), y(corners[0].y), color.r, color.g, color.b, 1},
+        {x(corners[2].x), y(corners[2].y), color.r, color.g, color.b, 1},
+        {x(corners[3].x), y(corners[3].y), color.r, color.g, color.b, 1}};
+    D3D11_MAPPED_SUBRESOURCE mapped{};
+    if (SUCCEEDED(context_->Map(vertexBuffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+    {
+        std::memcpy(mapped.pData, vertices, sizeof(vertices));
+        context_->Unmap(vertexBuffer_.Get(), 0);
+        context_->Draw(6, 0);
+    }
+}
+
+void Renderer::DrawDisc(Vec2 center, float radius, Color color) const
+{
+    constexpr int slices = 24;
+    constexpr float twoPi = 6.283185307F;
+    const auto vertex = [&](Vec2 point)
+    {
+        return Vertex{(point.x-cameraOffset_.x) / 1280.0F * 2.0F - 1.0F, 1.0F - (point.y-cameraOffset_.y) / 720.0F * 2.0F,
+                      color.r, color.g, color.b, 1.0F};
+    };
+    Vertex vertices[slices * 3];
+    for (int index = 0; index < slices; ++index)
+    {
+        const float first = twoPi * index / slices;
+        const float second = twoPi * (index + 1) / slices;
+        vertices[index*3] = vertex(center);
+        vertices[index*3+1] = vertex({center.x + std::cos(first) * radius, center.y + std::sin(first) * radius});
+        vertices[index*3+2] = vertex({center.x + std::cos(second) * radius, center.y + std::sin(second) * radius});
+    }
+    D3D11_MAPPED_SUBRESOURCE mapped{};
+    if (SUCCEEDED(context_->Map(vertexBuffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+    {
+        std::memcpy(mapped.pData, vertices, sizeof(vertices));
+        context_->Unmap(vertexBuffer_.Get(), 0);
+        context_->Draw(slices * 3, 0);
+    }
+}
+
 void Renderer::DrawDiamond(Vec2 center, Vec2 size, Color color) const
 {
-    const auto x = [](float pixel) { return pixel / 1280.0F * 2.0F - 1.0F; };
-    const auto y = [](float pixel) { return 1.0F - pixel / 720.0F * 2.0F; };
+    const auto x = [this](float pixel) { return (pixel-cameraOffset_.x) / 1280.0F * 2.0F - 1.0F; };
+    const auto y = [this](float pixel) { return 1.0F - (pixel-cameraOffset_.y) / 720.0F * 2.0F; };
     const float left = center.x - size.x * 0.5F, right = center.x + size.x * 0.5F;
     const float top = center.y - size.y * 0.5F, bottom = center.y + size.y * 0.5F;
     const Vertex vertices[] = {
@@ -274,5 +360,24 @@ void Renderer::DrawEntity(const EntitySnapshot& entity) const
         }
         break;
     }
+    case EntityType::TowerAttack:
+    {
+        const Color beam = entity.team == Team::Blue ? Color{0.59F, 0.92F, 1.0F} : Color{1.0F, 0.62F, 0.47F};
+        const float distance = entity.size.x;
+        DrawSegment(position, position + entity.direction * distance, 3.0F, beam);
+        const int steps = std::max(2, static_cast<int>(distance / 28.0F));
+        for (int index = 0; index <= steps; ++index)
+        {
+            const Vec2 mark = position + entity.direction * (distance * index / steps);
+            DrawDiamond(mark, {index == steps ? 13.0F : 7.0F, index == steps ? 13.0F : 7.0F}, beam);
+        }
+        break;
+    }
+    case EntityType::HealPickup:
+        DrawDiamond(position, {34, 34}, outline);
+        DrawDiamond(position, {28, 28}, {0.14F, 0.79F, 0.50F});
+        DrawQuad(position, {6, 20}, {0.85F, 1.0F, 0.80F});
+        DrawQuad(position, {20, 6}, {0.85F, 1.0F, 0.80F});
+        break;
     }
 }

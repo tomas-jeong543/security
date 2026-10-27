@@ -1,0 +1,10 @@
+﻿Exit code: 0
+msbuild 버전 17.14.40+3e7442088(.NET Framework용)
+
+  GameWorld.cpp
+  GameWorld.cpp
+  GameTests.cpp
+  GameClient.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\build\Debug\GameClient.exe
+  코드를 생성하고 있습니다...
+  GameTests.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\build\Debug\GameTests.exe
+

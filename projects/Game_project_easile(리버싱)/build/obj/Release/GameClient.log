@@ -1,0 +1,13 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : 'd:\github\security\projects\game_project_easile(리버싱)\build\release\gameclient.exe' 경로에 대한 액세스가 거부되었습니다.
+  Application.cpp
+  CombatSystem.cpp
+  GameTime.cpp
+  GameWorld.cpp
+  Hero.cpp
+  HUDRenderer.cpp
+  InputManager.cpp
+  IntegrityGuard.cpp
+  Renderer.cpp
+  main.cpp
+  코드를 생성하고 있습니다...
+  GameClient.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\build\Release\GameClient.exe

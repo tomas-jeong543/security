@@ -18,6 +18,8 @@ private:
     struct Vertex { float x; float y; float r; float g; float b; float a; };
     struct Color { float r, g, b; };
     void DrawQuad(Vec2 center, Vec2 size, Color color) const;
+    void DrawSegment(Vec2 start, Vec2 end, float width, Color color) const;
+    void DrawDisc(Vec2 center, float radius, Color color) const;
     void DrawDiamond(Vec2 center, Vec2 size, Color color) const;
     void DrawEntity(const EntitySnapshot& entity) const;
     void DrawHealth(const EntitySnapshot& entity, float width, float top) const;
@@ -33,4 +35,5 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer_;
     UINT width_ = 1;
     UINT height_ = 1;
+    mutable Vec2 cameraOffset_{};
 };
