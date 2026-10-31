@@ -2,9 +2,10 @@
 #include <string.h>
 #include <windows.h>
 
-// GameClient.exe (uploaded build): Hero initialization speed assignment
-// RVA 0x110A8 / file offset 0x104A8
-#define SPEED_PATCH_RVA 0x110A8
+// GameClient_patch_after_protect_dll_injection.exe (uploaded comparison build)
+// Player speed initialization in GameWorld::Initialize()
+// RVA 0x10DE8 / file offset 0x101E8
+#define SPEED_PATCH_RVA 0x10DE8
 
 static void PatchHeroSpeed(void)
 {

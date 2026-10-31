@@ -1,6 +1,7 @@
 ﻿#include"vga.h"
 #include"keyboard.h"
 #include"interrupts.h"
+#include"shell.h"
 
 void kernel_main(void)
 {
@@ -10,8 +11,9 @@ void kernel_main(void)
     init_interrupts();
 
     print_string("KeyBoard IRQ ready\n");
-    
+    shell_init();
+
     while (1){
-        __asm__ volatile ("hlt");
+        keyboard_poll();
     }
 }

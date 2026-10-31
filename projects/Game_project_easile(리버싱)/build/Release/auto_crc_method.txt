@@ -1,0 +1,1 @@
+powershell에  py -3 easile_crc_auto.py --exe GameClient.exe --pdb GameClient.pdb 치면 나온다

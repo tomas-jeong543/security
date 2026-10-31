@@ -16,14 +16,14 @@ namespace IntegrityGuard
 {
 
     // PATCH-01: GameWorld::Update()
-    constexpr uintptr_t UPDATE_RVA = 0x144C0;
-    constexpr size_t UPDATE_SIZE = 0x13BB;
-    constexpr uint32_t EXPECTED_UPDATE_CRC = 0xB46010D3;
+    constexpr uintptr_t UPDATE_RVA = 0x14820;
+    constexpr size_t UPDATE_SIZE = 0x1444;
+    constexpr uint32_t EXPECTED_UPDATE_CRC = 0x7AD446CE;
 
     // PATCH-02: GameWorld::Initialize()
-    constexpr uintptr_t HERO_RVA = 0x10D70;
+    constexpr uintptr_t HERO_RVA = 0x110D0;
     constexpr size_t HERO_SIZE = 0x685;
-    constexpr uint32_t EXPECTED_HERO_CRC = 0x17743DC9;
+    constexpr uint32_t EXPECTED_HERO_CRC = 0xA8E8248A;
 
 
     uint32_t CalculateCRC32(const uint8_t* data, size_t length)

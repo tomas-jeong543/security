@@ -2,5 +2,5 @@
 #define KEYBOARD_H
 
 void keyboard_handler(void);
-
+void keyboard_poll(void);
 #endif

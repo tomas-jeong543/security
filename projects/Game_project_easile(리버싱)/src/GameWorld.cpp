@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include <algorithm>
 #include <cmath>
+#include<Windows.h>
 
 namespace
 {
@@ -855,6 +856,41 @@ void GameWorld::Update(const PlayerCommand& input, float deltaSeconds)
     const Vec2 playerBeforeMove = player_.Position();
     player_.Move(command.move, deltaSeconds);
     player_.SetPosition(MapPaths::MoveInside(playerBeforeMove, player_.Position() - playerBeforeMove, MapPaths::heroRadius));
+    
+    // PATCH-02: 이동거리 기반 Speed Hack 탐지
+    if (player_.Alive())
+    {
+        constexpr float MAX_SPEED = 220.0F;
+        constexpr float TOLERANCE = 1.15F;
+
+        // 실제 이동한 거리
+        const float movedDistance =
+            Distance(playerBeforeMove, player_.Position());
+
+        // 정상적인 최대 이동거리
+        const float allowedDistance =
+            MAX_SPEED * deltaSeconds * TOLERANCE + 0.001F;
+
+        if (movedDistance > allowedDistance)
+        {
+            OutputDebugStringA(
+                "[SpeedGuard] Abnormal movement detected\n"
+            );
+
+            Log("SECURITY", "SPEED_HACK_DETECTED",
+                "PlayerHero", "Movement speed exceeded");
+
+            MessageBoxW(
+                nullptr,
+                L"비정상적인 이동속도가 감지되었습니다.",
+                L"EASILE 보안 경고",
+                MB_OK | MB_ICONWARNING
+            );
+
+            ExitProcess(1);
+        }
+    }
+
     const Vec2 mouseAim = PlayerController{}.AimDirection(command, player_);
     const auto resolveAim = [&](bool click, float range)
     {
