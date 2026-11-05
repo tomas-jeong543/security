@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Suggestion Box</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Write a New Suggestion</h1>
+    <p class="subtitle">Share a suggestion or feedback with us.</p>
+
+    <div class="form-card">
+      <% if (error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+
+      <form method="post" action="/article/new">
+        <div class="form-row">
+          <label>Title</label>
+          <input type="text" name="title" value="<%= form.title %>" required>
+        </div>
+
+        <div class="form-row">
+          <label>Author</label>
+          <input type="text" name="author" value="<%= form.author %>" required>
+        </div>
+
+        <div class="form-row">
+          <label>Content</label>
+          <textarea name="content"><%= form.content %></textarea>
+        </div>
+
+        <div class="form-row">
+          <label style="display:inline-block;">
+            <input type="checkbox" name="is_private" <%= form.is_private ? 'checked' : '' %> >
+            Private (requires password)
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Password (if private)</label>
+          <input type="text" name="password">
+        </div>
+
+        <div class="form-row" style="text-align:center;">
+          <button class="btn" type="submit">Submit</button>
+          &nbsp;
+          <a class="link-muted" href="/">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+인덱스 페이지 구성 코드 -> 쿠키로 이용자 식별
+@app.route('/') # / 페이지 라우팅 
+def index():
+    username = request.cookies.get('username', None) # 이용자가 전송한 쿠키의 username 입력값을 가져옴
+    if username: # username 입력값이 존재하는 경우
+        return render_template('index.html', text=f'Hello {username}, {"flag is " + FLAG if username == "admin" else "you are not admin"}') # "admin"인 경우 FLAG 출력, 아닌 경우 "you are not admin" 출력
+    return render_template('index.html')
+
+아래 코드는 로그인 페이지를 구성하는 코드다 -> 메소드에 따른 요청마다 다른 기능을 
+수행한다.
+@app.route('/login', methods=['GET', 'POST']) # login 페이지 라우팅, GET/POST 메소드로 접근 가능
+def login():
+    if request.method == 'GET': # GET 메소드로 요청 시
+        return render_template('login.html') # login.html 페이지 출력
+    elif request.method == 'POST': # POST 메소드로 요청 시
+        username = request.form.get('username') # 이용자가 전송한 username 입력값을 가져옴
+        password = request.form.get('password') # 이용자가 전송한 password 입력값을 가져옴
+        try:
+            pw = users[username] # users 변수에서 이용자가 전송한 username이 존재하는지 확인
+        except: 
+            return '<script>alert("not found user");history.go(-1);</script>' # 존재하지 않는 username인 경우 경고 출력
+        if pw == password: # password 체크
+            resp = make_response(redirect(url_for('index')) ) # index 페이지로 이동하는 응답 생성
+            resp.set_cookie('username', username) # username 쿠키 설정
+            return resp 
+        return '<script>alert("wrong password");history.go(-1);</script>' # password가 동일하지 않은 경우
+
+여기서 GET은 username과 password를 입력할 수 있는 로그인 페이지를 제공하고
+POST는 username과 password값을 users변수의 값과 비교한다
+
+try:
+    FLAG = open('./flag.txt', 'r').read() # flag.txt 파일로부터 FLAG 데이터를 가져옴.
+except:
+    FLAG = '[**FLAG**]'
+users = {
+    'guest': 'guest',
+    'admin': FLAG # FLAG 데이터를 패스워드로 선언
+}
+관리자 계정의 비밀번호가 플래그임을 알 수 있다.
+
+문제는 username이 쿠키에 의해 결정되기 때문에 문제가 생긴다.
+
+
+이 문제를 해결하기 위해서는 그냥 username을 admin으로만 바꾸면 매우 쉽게 풀린다.
+이러한 문제점은 세션을 통해서 해결할 수 있다
+
+

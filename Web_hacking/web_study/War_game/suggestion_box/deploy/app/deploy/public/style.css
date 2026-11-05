@@ -1,0 +1,170 @@
+/* public/styles.css
+   깔끔·심플, 배경색 없음, 가운데 정렬, 좌우 여백 적용
+*/
+
+:root{
+    --max-w: 880px;
+    --accent: #0d6efd;
+    --accent-hover: #0b5ed7;
+    --muted: #6c757d;
+    --border: #e6e6e6;
+    --radius: 6px;
+    --gap: 16px;
+    --font-sans: "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  * { box-sizing: border-box; }
+  html,body {
+    height: 100%;
+    margin: 0;
+    font-family: var(--font-sans);
+    color: #111;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  
+  /* 전체 컨테이너: 중앙 정렬, 좌우 여백 확보 */
+  .container {
+    max-width: var(--max-w);
+    margin: 40px auto;
+    padding: 0 18px;
+    display: block;
+  }
+  
+  /* 기본 헤더: 가운데 정렬 */
+  h1 {
+    margin: 0 0 18px 0;
+    font-size: 28px;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  /* 요약(부제) 스타일 */
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+  
+  /* 표(리스트)는 중앙 정렬된 컨테이너 안에서 가로 100% 유지,
+     테이블 자체는 눈에 잘 띄게 정돈. */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  }
+  
+  th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left; /* 가독성 위해 내용은 왼쪽 정렬 */
+    vertical-align: middle;
+    font-size: 14px;
+  }
+  
+  th {
+    background: transparent;
+    color: #333;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  
+  /* 링크 (제목) 스타일 */
+  a.article-link {
+    color: #0b5ed7;
+    text-decoration: none;
+  }
+  a.article-link:hover { text-decoration: underline; }
+  
+  /* 버튼 스타일 (공통) */
+  .btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn:hover { background: var(--accent-hover); }
+  
+  /* 버튼 영역: 가운데 정렬 */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+  
+  /* 폼 스타일 (글쓰기 / 비밀번호 폼 등) */
+  .form-card {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    padding: 18px;
+    border-radius: 8px;
+  }
+  
+  .form-row {
+    margin-bottom: 12px;
+  }
+  
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #222;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: vertical;
+    background: white;
+  }
+  
+  textarea { min-height: 160px; }
+  
+  /* 작은 보조 링크 */
+  .link-muted {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .link-muted:hover { text-decoration: underline; }
+  
+  /* 오류 메시지 */
+  .error {
+    color: #b00020;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  /* 모바일 대응: 패딩 약간 증가 */
+  @media (max-width: 480px) {
+    :root { --gap: 12px; }
+    h1 { font-size: 22px; }
+    th, td { padding: 8px; font-size: 13px; }
+    .container { margin: 20px 12px; padding: 0 12px; }
+  }
+  

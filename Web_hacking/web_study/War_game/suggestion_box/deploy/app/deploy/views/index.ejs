@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Suggestion Box</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Suggestion Box</h1>
+    <p class="subtitle">Share your suggestions or feedback.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Posted by</th>
+            <th>Private</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (articles && articles.length) { %>
+            <% articles.forEach(a => { %>
+              <tr>
+                <td><%= a.id %></td>
+                <td><a class="article-link" href="/article/<%= a.id %>"><%= a.title %></a></td>
+                <td><%= a.author %></td>
+                <td><%= a.is_private ? 'Yes' : 'No' %></td>
+                <td><%= a.created_at %></td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="5">No posts yet.</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    <div class="actions">
+      <a class="btn" href="/article/new">New Suggestion</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -43,3 +43,6 @@
 # Visual Studio temporary files
 .vs/
 *.ipch
+
+xampp/
+xammp/
