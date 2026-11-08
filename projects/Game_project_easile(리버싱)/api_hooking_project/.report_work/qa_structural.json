@@ -1,0 +1,12 @@
+{
+  "output": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\EASILE_HK01_Bot_Aim_Hooking_완성_보고서_플레이검증반영.docx",
+  "original_tables": 24,
+  "final_tables": 25,
+  "numbered_labels_preserved": 24,
+  "changed_zip_members": [
+    "word/document.xml",
+    "word/footer1.xml"
+  ],
+  "original_evidence_unchanged": true,
+  "sha256": "EA1F018BF0C915A49BCA1498F4DAB9E9E58ADB5958D6A6C430612374FE79FA39"
+}

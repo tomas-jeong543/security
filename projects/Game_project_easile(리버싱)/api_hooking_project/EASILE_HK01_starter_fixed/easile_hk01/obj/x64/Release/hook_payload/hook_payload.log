@@ -1,0 +1,7 @@
+﻿  hook_payload.c
+     D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\EASILE_HK01_starter_fixed\easile_hk01\out\x64\Release\hook_payload.lib 라이브러리 및 D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\EASILE_HK01_starter_fixed\easile_hk01\out\x64\Release\hook_payload.exp 개체를 생성하고 있습니다.
+  코드를 생성하고 있습니다.
+  Previous IPDB not found, fall back to full compilation.
+  All 41 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  hook_payload.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\EASILE_HK01_starter_fixed\easile_hk01\out\x64\Release\hook_payload.dll

@@ -11,6 +11,10 @@
 #include <cwctype>
 #include <string>
 #include <unordered_set>
+#include <vector>
+#include <wincrypt.h>
+#include <bcrypt.h>
+#pragma comment(lib, "crypt32.lib")
 
 namespace IntegrityGuard
 {
@@ -18,7 +22,7 @@ namespace IntegrityGuard
     // PATCH-01: GameWorld::Update()
     constexpr uintptr_t UPDATE_RVA = 0x14820;
     constexpr size_t UPDATE_SIZE = 0x1444;
-    constexpr uint32_t EXPECTED_UPDATE_CRC = 0x7AD446CE;
+    constexpr uint32_t EXPECTED_UPDATE_CRC = 0x29148A8C;
 
     // PATCH-02: GameWorld::Initialize()
     constexpr uintptr_t HERO_RVA = 0x110D0;
@@ -120,6 +124,45 @@ namespace IntegrityGuard
             return path;
         }
 
+        // Only individually observed, Microsoft-signed System32 DLLs are
+        // allowed. Each file is pinned to its verified SHA-256; fail closed.
+        bool IsVerifiedSystemDll(const std::wstring& path)
+        {
+            wchar_t systemDirectory[MAX_PATH];
+            const UINT length = GetSystemDirectoryW(systemDirectory, MAX_PATH);
+            if (!length || length >= MAX_PATH) return false;
+            const std::wstring prefix = NormalizePath(systemDirectory) + L"\\";
+            struct AllowedDll { const wchar_t* name; BYTE hash[32]; };
+            static const AllowedDll allowed[] = {
+                { L"oleacc.dll", { 0x3D,0xFB,0x1C,0x9A,0xFB,0x44,0x47,0x82,0x69,0x95,0xD9,0xE9,0x52,0x2B,0xD6,0xD6,0x84,0x8E,0x42,0x4E,0xFF,0xCD,0xE7,0x63,0x78,0x82,0x31,0x67,0x38,0x9F,0x59,0xF8 } },
+                { L"clbcatq.dll", { 0x39,0x44,0x7C,0x97,0x18,0x8F,0x54,0x8D,0xAC,0x42,0xA4,0x73,0xB1,0xB7,0x72,0x5F,0xEE,0x0D,0x04,0x4D,0x07,0x2E,0x5B,0xE6,0x82,0xE8,0x98,0xED,0xFB,0x39,0x9D,0x63 } },
+                { L"threadpoolwinrt.dll", { 0x55,0x6D,0x65,0xBC,0x0E,0x5F,0xD7,0xDF,0xF5,0x50,0xF3,0x7E,0x9A,0x8B,0x1B,0x7B,0xD4,0x5C,0x73,0x59,0xB8,0x05,0x9F,0xD3,0xB4,0x90,0x5E,0x74,0x8A,0xED,0x23,0x0F } },
+                { L"coreuicomponents.dll", { 0xB5,0x88,0x85,0x0E,0xD1,0x31,0x5E,0x68,0x18,0x6D,0x5C,0xDF,0xAA,0x4F,0x5E,0x28,0x0D,0x71,0xAD,0xFD,0x1E,0x1E,0x63,0xD6,0x88,0x88,0x1E,0x0B,0xDF,0xE5,0xCE,0x00 } },
+                { L"coremessaging.dll", { 0xE5,0x5C,0xA6,0xE3,0x3B,0xCA,0x43,0x86,0x28,0x16,0x7F,0x60,0x42,0xB4,0x3F,0x92,0xC1,0x93,0xF5,0x60,0x9A,0x8E,0x56,0x97,0xC6,0x65,0x76,0x3F,0x49,0x42,0x9D,0x28 } },
+            };
+            const BYTE* expectedHash = nullptr;
+            for (const auto& dll : allowed)
+                if (path == prefix + dll.name) { expectedHash = dll.hash; break; }
+            if (!expectedHash) return false;
+            HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ,
+                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+            if (file == INVALID_HANDLE_VALUE) return false;
+            LARGE_INTEGER size{};
+            if (!GetFileSizeEx(file, &size) || size.QuadPart <= 0 ||
+                size.QuadPart > 16 * 1024 * 1024)
+            { CloseHandle(file); return false; }
+            std::vector<BYTE> bytes(static_cast<size_t>(size.QuadPart));
+            DWORD read = 0;
+            const BOOL ok = ReadFile(file, bytes.data(),
+                static_cast<DWORD>(bytes.size()), &read, nullptr);
+            CloseHandle(file);
+            if (!ok || read != bytes.size()) return false;
+            BYTE hash[32];
+            DWORD hashSize = sizeof(hash);
+            return CryptHashCertificate2(BCRYPT_SHA256_ALGORITHM, 0, nullptr,
+                bytes.data(), read, hash, &hashSize) && hashSize == sizeof(hash) &&
+                std::equal(hash, hash + sizeof(hash), expectedHash);
+        }
         // 현재 프로세스에 로드된 .dll 모듈들의 전체 경로를 수집
         bool CaptureLoadedDlls(std::unordered_set<std::wstring>& result)
         {
@@ -210,6 +253,14 @@ namespace IntegrityGuard
             // 이미 경고한 DLL이면 중복 출력 방지
             if (!reportedDlls.insert(dllPath).second)
                 continue;
+
+            if (IsVerifiedSystemDll(dllPath))
+            {
+                OutputDebugStringW((
+                    L"[DLLGuard] Allowed verified system DLL (SHA-256 pinned): " +
+                    dllPath + L"\n").c_str());
+                continue;
+            }
 
             const std::wstring message =
                 L"[DLLGuard] New DLL detected: " + dllPath + L"\n";
