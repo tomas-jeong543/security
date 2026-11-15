@@ -1,0 +1,162 @@
+이용자가 악의적 페이지 접속시 페이지가 js로 이용자의 sns웹 서비스로 요청을 보내면
+브라우저는 요청을 보낼 때 헤더에 해당 웹 서비스 쿠키를 포함시켜서 js로 요청을 보낸
+페이지는 로그인 된 이용자의 sns응답을 받고 마음대로 접속자의 sns에 글을 올리거나 삭제하고 메신저를 읽는 것도 가능할 것이다
+
+-> 해결책 = sop(동일 출처 정책)
+
+오리진 구분하는 방법 오리진은 프로토콜,포트,호스트로 구성이 되고 구성 요소가 모두 일치해
+야 동일한 오리진이라고 한다
+
+예시
+`https://same-origin.com/`라는 오리진과 아래 URL을 비교했을 때 결과는 다음과 같습니다.
+
+| URL                                        | 결과           | 이유         |
+| ------------------------------------------ | ------------ | ---------- |
+| `https://same-origin.com/frame.html`       | Same Origin  | Path만 다름   |
+| `http://same-origin.com/frame.html`        | Cross Origin | Scheme이 다름 |
+| `https://cross.same-origin.com/frame.html` | Cross Origin | Host가 다름   |
+| `https://same-origin.com:1234/`            | Cross Origin | Port가 다름   |
+
+핵심: 동일 출처(Same Origin)가 되려면 Scheme(프로토콜), Host(호스트), Port(포트) 세 가지가 모두 같아야 합니다. 경로(Path)는 달라도 상관없습니다.
+
+sop는 cross origin이 아닌 same origin일 때만 정보를 읽게 해준다
+cross origin일 때는  읽는 것은 안되지만 데이터를 제한적으로 쓰는 건 가능하다
+
+window.open은 새로운 창을 띄우는 함수이고 object.location.href는 객체가 가리키고 
+있는 URL주소를 읽어오는 코드다.
+
+예시
+crossNewWindow = window.open('https://theori.io');
+//애는 정상적으로 창을 뛰운다.
+
+console.log(crossNewWindow.location.href);
+// 결과: Origin 오류 발생
+->Uncaught SecurityError: Failed to read a named property 'href' from 'Location': Blocked a frame with origin "https://dreamhack.io" from accessing a cross-origin frame.
+
+
+sameNewWindow = window.open('https://dreamhack.io/lecture');
+console.log(sameNewWindow.location.href);
+// 결과: https://dreamhack.io/lecture
+둘 다 정상적으로 작동한다
+
+sop는 굉장히 중요한 요소이지만 때로는 이미지나 js,css등 리소스를 불러오는 <img>,<style>,<script>등의 태그는 sop의 영향을 받지 않는다.
+
+이외에도 웹 서비스에서 동일 출처 정책인 SOP를 완화하여 다른 출처의 데이터를 처리 해야 하는 경우도 있다. 예를 들어서 특정 포털 사이트가 카폐,블로그,메일 서비스를 다른 host로 이용하는 경우
+
+-> sol은 CROS 즉 교차 출처 리소스 공유이다. 실제 교차 출처 자원을 공유하는 방법은 CORS관련된 HTTP헤더를 추가하여 전송하는 법을 사용한다 이외에도 JSONP방법을 통해서 CORS를 대체할 수 있다.
+
+CROS는 HTTP 해더에 기반해서 cross origin간에 리소스를 공유하는 방법으로 발신 측에서
+CROS헤더를 설정해 요청하면 수신 측에서 헤더를 구분해 정해진 규칙에 맞게 데이터를 가져갈 수 있도록 설정한다.
+
+아래 코드는 각각 웹 리소스를 요청하는 발신측 코드의 일부와 발신측의 HTTP요청이다.
+
+/*
+    XMLHttpRequest 객체를 생성합니다. 
+    XMLHttpRequest는 웹 브라우저와 웹 서버 간에 데이터 전송을
+    도와주는 객체입니다. 이를 통해 HTTP 요청을 보낼 수 있습니다.
+*/
+xhr = new XMLHttpRequest();
+/* https://theori.io/whoami 페이지에 POST 요청을 보내도록 합니다. */
+xhr.open('POST', 'https://theori.io/whoami');
+/* HTTP 요청을 보낼 때, 쿠키 정보도 함께 사용하도록 해줍니다. */
+xhr.withCredentials = true;
+/* HTTP Body를 JSON 형태로 보낼 것이라고 수신측에 알려줍니다. */
+xhr.setRequestHeader('Content-Type', 'application/json');
+/* xhr 객체를 통해 HTTP 요청을 실행합니다. */
+xhr.send("{'data':'WhoAmI'}");
+
+발신 측의 HTTP 요청
+OPTIONS /whoami HTTP/1.1
+Host: theori.io
+Connection: keep-alive
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+Origin: https://dreamhack.io
+Accept: */*
+Referer: https://dreamhack.io/
+
+발신 측에서 POST방식으로 HTTP요청을 보냈지만 OPTIONS메소드를 가진 HTTP요청이 전달된 것을 확인할 수 있다 이를 CORS preflight라고 하며 수신측에 웹 리소스를 요청해도 되는지 질의하는 과정이다.
+
+
+HTTP요청을 보면 Access-Control-Request로 시작하는 헤더가 존재하는 것을 확인할 수 있고 해당하는 헤더 뒤에 따라오는 Method와 Headers는 각각 메소드와 헤더를 추가적으로 사용할 수 있는지 질의한다.
+
+이렇게 질의하면 서버는 아래와 같이 응답한다
+
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://dreamhack.io
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: Content-Type
+
+| Header                           | 설명                                     |
+| Access-Control-Allow-Origin      | 헤더 값에 해당하는 Origin에서 들어오는 요청만 처리합니다.    
+| Access-Control-Allow-Methods     | 헤더 값에 해당하는 메소드의 요청만 처리합니다.             
+| Access-Control-Allow-Credentials | 쿠키 사용 여부를 판단합니다. 예시의 경우 쿠키의 사용을 허용합니다. 
+| Access-Control-Allow-Headers     | 헤더 값에 해당하는 헤더의 사용 가능 여부를 나타냅니다.        
+
+위 과정을 마치면 수신측의 응답이 발신측의 요청과 상응하는지를 확인하고 그때야 비로서 POST요청을 보내서 수신측의 웹 리소스를 요청하는 HTTP요청을 보낸다.
+
+Q1. 왜 POST를 하려는데 OPTIONS가 먼저 가?
+→ 브라우저가 “이런 조건의 POST를 보내도 되나?” 를 먼저 묻기 때문.
+Q2. 모든 GET도 OPTIONS를 먼저 보내나?
+→ 아니야.
+일반적인 GET은 보통 바로 GET 요청을 보냄.
+Q3. 그럼 GET은 허락 없이 그냥 보내는 거야?
+→ “요청 자체”는 갈 수 있어.
+하지만 응답을 JS가 읽을 수 있는지는 응답 헤더를 보고 브라우저가 판단함.
+Q4. CORS를 실제로 누가 검사해?
+→ 브라우저
+Q5. 서버는 무슨 역할?
+→ 허용 여부를 헤더로 알려줌
+
+(Preflight Request)
+JS 요청
+→ 브라우저가 OPTIONS 먼저 전송
+→ 서버가 허용 조건 응답
+→ 브라우저가 조건 비교
+→ 통과하면 실제 요청 전송
+→ 서버 실제 응답
+→ 브라우저가 다시 CORS 헤더 검사
+→ 허용되면 JS에 전달
+
+(Simple Request)
+JS 요청
+→ 브라우저가 실제 요청 바로 전송
+→ 서버 응답
+→ 브라우저가 CORS 헤더 검사
+→ 허용되면 JS에 전달
+
+JSONP -> script태그로 cross origin의 데이터를 불러오지만 이 script태그 내에서는 데이터를 자바스크립트의 코드로 인식하기 때문에 callback함수를 활용해야 한다. cross origin에
+요청시  callback 파라미터에 어떤 함수로 받아오는 데이터를 행들링할지 넘겨주면 대상 서버는 전달된 callback으로 데이터를 감싸 응답한다.
+
+
+예시
+
+리소스 요청 코드
+<script>
+/* myCallback이라는 콜백 함수를 지정합니다. */
+function myCallback(data){
+    /* 전달받은 인자에서 id를 콘솔에 출력합니다.*/
+	console.log(data.id)
+}
+</script>
+<!--
+https://theori.io의 스크립트를 로드하는 HTML 코드입니다.
+단, callback이라는 이름의 파라미터를 myCallback으로 지정함으로써
+수신측에게 myCallback 함수를 사용해 수신받겠다고 알립니다.
+-->
+<script src='http://theori.io/whoami?callback=myCallback'></script>
+
+응답 코드
+/*
+수신측은 myCallback 이라는 함수를 통해 요청측에 데이터를 전달합니다.
+전달할 데이터는 현재 theori.io에서 클라이언트가 사용 중인 계정 정보인
+{'id': 'dreamhack'} 입니다. 
+*/
+myCallback({'id':'dreamhack'});
+
+13번째 줄에서 cross origin의 데이터를 불러오고 이 때 callback 파라미터로 myCallback을 
+함께 전달한다. cross origin에서는 응답할 데이터를 myCallback 함수의 인자로 전달될 수 있도록  myCallback으로 감싸서 js코드를 반환한다. 반환된 코드는 요청측에서 실행되기 때문에
+3-6번 줄에 정의된 myCallback함수가 전달된 데이터를 읽을 수 있다.
+
+하지만 JSONP는 CORS에 밀려 사장된 추세라 새롭게 코드를 작성할 때에는 CORS를 사용해야 한다.

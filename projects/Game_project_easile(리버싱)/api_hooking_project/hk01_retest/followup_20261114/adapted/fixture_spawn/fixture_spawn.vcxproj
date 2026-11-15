@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations"><ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration></ItemGroup>
+  <PropertyGroup Label="Globals"><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration"><ConfigurationType>DynamicLibrary</ConfigurationType><PlatformToolset>v143</PlatformToolset><UseDebugLibraries>false</UseDebugLibraries></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup><LinkIncremental>false</LinkIncremental></PropertyGroup>
+  <ItemDefinitionGroup><ClCompile>
+    <Optimization>MaxSpeed</Optimization><RuntimeLibrary>MultiThreaded</RuntimeLibrary><WarningLevel>Level4</WarningLevel>
+    <LanguageStandard>stdcpp17</LanguageStandard><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    <PreprocessorDefinitions>NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <AdditionalIncludeDirectories>D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\deps;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\adapted\fixture_spawn;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+  </ClCompile><Link><GenerateDebugInformation>true</GenerateDebugInformation><GenerateMapFile>true</GenerateMapFile><EnableCOMDATFolding>false</EnableCOMDATFolding>
+    <AdditionalLibraryDirectories>D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\deps;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <AdditionalDependencies>libMinHook.x64.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    <SubSystem>Windows</SubSystem>
+  </Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\adapted\fixture_spawn\hook_payload.c" /></ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

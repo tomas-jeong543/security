@@ -1,0 +1,30 @@
+TARGET pid=26404 base=7FF7B5790000 command=--smoke-gui
+ENTRY spawn_before 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY wrapper_before 48 89 5C 24 08 57 48 83 EC 60 0F 29 74 24 50 8B 
+HW_CONTEXT_READBACK event_tid=17420 main_tid=17420 valid=1 rip=7FFE9AC95246 dr0=7FF7B579A050 dr7=1
+HW_EXEC_BREAKPOINT armed wrapper_rva=A050 no_code_byte_patch=1
+HW_REARM_AFTER_USER_ENTRY event_tid=15124 main_tid=17420 success=1
+HW_REARM_AFTER_USER_ENTRY event_tid=20020 main_tid=17420 success=1
+HW_REARM_AFTER_USER_ENTRY event_tid=26188 main_tid=17420 success=1
+CHECKED_CALL tid=17420 caller_rva=13C7F bot_caller=1 sourceId=1 team=1 kind=1 damage=30 position=1053.108032,757.808228 direction=-0.999008,-0.044535
+CHECKED_CALL tid=17420 caller_rva=1396F bot_caller=1 sourceId=1 team=1 kind=0 damage=5 position=999.077087,861.746460 direction=-0.769464,0.638690
+CHECKED_CALL tid=17420 caller_rva=1396F bot_caller=1 sourceId=2 team=0 kind=0 damage=5 position=747.346985,1072.595459 direction=0.766610,-0.642112
+SELECTED_REAL_BOT_CALL main_thread_held_for_install=1
+ENTRY wrapper_at_call 48 89 5C 24 08 57 48 83 EC 60 0F 29 74 24 50 8B 
+INJECTION_LAUNCHED success=1 target_pid=26404
+[*] Relative DLL paths are based on injector.exe's directory.
+
+[1/2] Loading first DLL (hook) ...
+[*] Target PID: 26404
+[*] DLL: D:\GitHub\security\projects\Game_project_easile(???)\api_hooking_project\hk01_retest\final_validation_20261114\bot_run\20261114_145720\attack.dll
+[*] Remote DLL loading started; waiting for completion...
+[+] DLL loaded in target process. Hook installation is a separate step.
+[+] Single-DLL injection complete.
+DEBUG ms=312 [HK-01] Hook installed.
+ENTRY spawn_hook_installed E9 60 19 FE FF 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY wrapper_after_install 48 89 5C 24 08 57 48 83 EC 60 0F 29 74 24 50 8B 
+RESUME_REAL_BOT_CALL previous_suspend_count=1
+DEBUG ms=312 HK01_BENTRY spawn_at_B_detection E9 60 19 FE FF 58 18 55 56 57 41 54 41 55 41 56 
+DEBUG ms=312 : code integrity failure
+INJECTOR_EXIT=0
+FINAL_B_RESULT bot_checked_call=1 actual_E9=1 B_debug=1 game_exit=2 self_exit=1

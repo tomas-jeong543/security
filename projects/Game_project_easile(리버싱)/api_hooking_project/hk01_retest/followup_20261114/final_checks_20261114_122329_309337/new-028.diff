@@ -1,0 +1,41 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_spawn-adaptation.diff b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_spawn-adaptation.diff
+new file mode 100644
+index 0000000..e99d6f8
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_spawn-adaptation.diff
+@@ -0,0 +1,34 @@
++diff --git a/api_hooking_project/EASILE_HK01_starter_fixed/easile_hk01/hook_payload.c b/api_hooking_project/hk01_retest/followup_20261114/adapted/main_spawn/hook_payload.c
++index 869402a..8ccf711 100644
++--- a/api_hooking_project/EASILE_HK01_starter_fixed/easile_hk01/hook_payload.c
+++++ b/api_hooking_project/hk01_retest/followup_20261114/adapted/main_spawn/hook_payload.c
++@@ -1,10 +1,11 @@
++-﻿#define WIN32_LEAN_AND_MEAN
+++#define WIN32_LEAN_AND_MEAN
++ #include <windows.h>
++ #include <MinHook.h>
++ #include <stdint.h>
++ #include <string.h>
+++#include "target_pin.h"
++ 
++-#define SPAWN_PROJECTILE_RVA 0x137E0u
+++#define SPAWN_PROJECTILE_RVA 0xF670u
++ 
++ typedef struct Vec2 {
++     float x;
++@@ -60,6 +61,7 @@ static void detour_spawn(
++ /* 분석한 빌드의 PE 형식, RVA 및 함수 진입 바이트 검사 */
++ static BOOL verify_target_build(HMODULE game_exe)
++ {
+++    if (!verify_pinned_executable()) return FALSE;
++     static const BYTE expected[] = {
++         0x48, 0x8B, 0xC4, 0x48, 0x89, 0x58, 0x18,
++         0x55, 0x56, 0x57, 0x41, 0x54, 0x41, 0x55
++@@ -240,3 +242,6 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
++     /* DLL_PROCESS_DETACH에서는 MinHook 해제 작업을 하지 않음. */
++     return TRUE;
++ }
+++
+++/* Observation only: no attack/filter/guard behavior is changed. */
+++__declspec(dllexport) BOOL WINAPI HK01_Retest_Installed(void) { return g_hook_enabled; }
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/EASILE_HK01_starter_fixed/easile_hk01/hook_payload.c', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_spawn-adaptation.diff', LF will be replaced by CRLF the next time Git touches it

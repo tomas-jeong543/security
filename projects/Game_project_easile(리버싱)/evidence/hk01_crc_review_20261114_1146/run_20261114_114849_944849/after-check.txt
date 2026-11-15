@@ -1,0 +1,6 @@
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Application.cpp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.cpp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.h', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/IntegrityGuard.cpp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Logger.h', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/tests/GameTests.cpp', LF will be replaced by CRLF the next time Git touches it

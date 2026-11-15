@@ -1,0 +1,913 @@
+{
+  "builds": [
+    {
+      "exe": "evidence\\hk01_triple_20261114\\bin\\Debug\\GameClient.exe",
+      "sha256": "58d92f3728bee75d96ace4a4d89c8165b2e9caaa55b6adcc80a997ac973115f1",
+      "functions": {
+        "SpawnProjectile@GameWorld": {
+          "rva": 73712,
+          "size": 1318,
+          "crc32": "A4EB2553",
+          "entry": "4c 89 4c 24 20 4c 89 44 24 18 89 54 24 10 48 89",
+          "relocations": []
+        },
+        "Update@GameWorld": {
+          "rva": 58688,
+          "size": 4712,
+          "crc32": "C196BD1C",
+          "entry": "f3 0f 11 54 24 18 48 89 54 24 10 48 89 4c 24 08",
+          "relocations": []
+        },
+        "Initialize@GameWorld": {
+          "rva": 70016,
+          "size": 2037,
+          "crc32": "26268759",
+          "entry": "48 89 4c 24 08 56 57 48 81 ec b8 03 00 00 48 8d",
+          "relocations": []
+        },
+        "DetectNewModules@IntegrityGuard": {
+          "rva": 224192,
+          "size": 1624,
+          "crc32": "836376CA",
+          "entry": "40 57 48 81 ec 90 03 00 00 48 8d 7c 24 40 b9 d4",
+          "relocations": []
+        }
+      },
+      "old_attack_checks": [
+        {
+          "rva": 79840,
+          "entry_matches": false,
+          "actual": "01 00 48 8b 00 48 89 84 24 50 01 00 00 48"
+        },
+        {
+          "rva": 61328,
+          "entry_matches": false,
+          "actual": "8c 24 e0 02 00 00 e8 d5 c1 00 00 48 89 84 24"
+        }
+      ]
+    },
+    {
+      "exe": "evidence\\hk01_triple_20261114\\bin\\Debug\\GameTests.exe",
+      "sha256": "81e82a29e481197f1c0ca5249fb4077743b7ff230592f916e99535bcc8bcfd3d",
+      "functions": {
+        "SpawnProjectile@GameWorld": {
+          "rva": 246016,
+          "size": 1318,
+          "crc32": "F68E932B",
+          "entry": "4c 89 4c 24 20 4c 89 44 24 18 89 54 24 10 48 89",
+          "relocations": []
+        },
+        "Update@GameWorld": {
+          "rva": 230992,
+          "size": 4712,
+          "crc32": "069E7EC2",
+          "entry": "f3 0f 11 54 24 18 48 89 54 24 10 48 89 4c 24 08",
+          "relocations": []
+        },
+        "Initialize@GameWorld": {
+          "rva": 242320,
+          "size": 2037,
+          "crc32": "DFF04ACF",
+          "entry": "48 89 4c 24 08 56 57 48 81 ec b8 03 00 00 48 8d",
+          "relocations": []
+        },
+        "DetectNewModules@IntegrityGuard": {
+          "rva": 5056,
+          "size": 1624,
+          "crc32": "C6CB5133",
+          "entry": "40 57 48 81 ec 90 03 00 00 48 8d 7c 24 40 b9 d4",
+          "relocations": []
+        }
+      },
+      "old_attack_checks": [
+        {
+          "rva": 79840,
+          "entry_matches": false,
+          "actual": "0f b7 84 24 e0 00 01 00 48 6b c0 28 48 8b"
+        },
+        {
+          "rva": 61328,
+          "entry_matches": false,
+          "actual": "75 25 48 8b 44 24 28 48 39 84 24 b0 00 00 00"
+        }
+      ]
+    },
+    {
+      "exe": "evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07ef08d10cc02914fc3347ffe8674145a23edb963294c7fa3fadcb65f3ca5778",
+      "functions": {
+        "SpawnProjectile@GameWorld": {
+          "rva": 111552,
+          "size": 1318,
+          "crc32": "FABD39AA",
+          "entry": "4c 89 4c 24 20 4c 89 44 24 18 89 54 24 10 48 89",
+          "relocations": []
+        },
+        "Update@GameWorld": {
+          "rva": 96528,
+          "size": 4712,
+          "crc32": "CE03E6F2",
+          "entry": "f3 0f 11 54 24 18 48 89 54 24 10 48 89 4c 24 08",
+          "relocations": []
+        },
+        "Initialize@GameWorld": {
+          "rva": 107856,
+          "size": 2037,
+          "crc32": "8A225406",
+          "entry": "48 89 4c 24 08 56 57 48 81 ec b8 03 00 00 48 8d",
+          "relocations": []
+        },
+        "DetectNewModules@IntegrityGuard": {
+          "rva": 5056,
+          "size": 1624,
+          "crc32": "5842BED5",
+          "entry": "40 57 48 81 ec 90 03 00 00 48 8d 7c 24 40 b9 d4",
+          "relocations": []
+        }
+      },
+      "old_attack_checks": [
+        {
+          "rva": 79840,
+          "entry_matches": false,
+          "actual": "0f b7 84 24 e0 00 01 00 48 6b c0 28 48 8b"
+        },
+        {
+          "rva": 61328,
+          "entry_matches": false,
+          "actual": "75 25 48 8b 44 24 28 48 39 84 24 b0 00 00 00"
+        }
+      ]
+    },
+    {
+      "exe": "evidence\\hk01_triple_20261114\\bin\\Release\\GameClient.exe",
+      "sha256": "3027c3da7e340da1a6ba1d853315becb73ff26290b59156c4f435a17779c8153",
+      "functions": {
+        "SpawnProjectile@GameWorld": {
+          "rva": 63088,
+          "size": 2281,
+          "crc32": "26013CA4",
+          "entry": "48 8b c4 48 89 58 18 55 56 57 41 54 41 55 41 56",
+          "relocations": []
+        },
+        "Update@GameWorld": {
+          "rva": 66464,
+          "size": 5188,
+          "crc32": "E256ED48",
+          "entry": "48 8b c4 48 89 58 10 55 56 57 41 54 41 55 41 56",
+          "relocations": []
+        },
+        "Initialize@GameWorld": {
+          "rva": 54912,
+          "size": 1669,
+          "crc32": "BA2E0CDC",
+          "entry": "48 89 5c 24 10 48 89 74 24 18 48 89 7c 24 20 55",
+          "relocations": []
+        },
+        "DetectNewModules@IntegrityGuard": {
+          "rva": 110672,
+          "size": 2055,
+          "crc32": "E572B6AE",
+          "entry": "48 8b c4 48 89 58 08 48 89 70 10 48 89 78 18 55",
+          "relocations": []
+        }
+      },
+      "old_attack_checks": [
+        {
+          "rva": 79840,
+          "entry_matches": false,
+          "actual": "18 73 1e 4c 8b 4b 18 4c 8b 43 04 49 8b d7"
+        },
+        {
+          "rva": 61328,
+          "entry_matches": false,
+          "actual": "10 35 e6 87 03 00 0f 28 c6 eb 08 f3 0f 10 05"
+        }
+      ]
+    },
+    {
+      "exe": "evidence\\hk01_triple_20261114\\bin\\Release\\GameTests.exe",
+      "sha256": "b0e8b85387d9ce7228120949cee0ffc4d1be86a09bf8715702ff98545478bdf2",
+      "functions": {
+        "SpawnProjectile@GameWorld": {
+          "rva": 167968,
+          "size": 2281,
+          "crc32": "988D7FBC",
+          "entry": "48 8b c4 48 89 58 18 55 56 57 41 54 41 55 41 56",
+          "relocations": []
+        },
+        "Update@GameWorld": {
+          "rva": 171344,
+          "size": 5188,
+          "crc32": "2F62E14A",
+          "entry": "48 8b c4 48 89 58 10 55 56 57 41 54 41 55 41 56",
+          "relocations": []
+        },
+        "Initialize@GameWorld": {
+          "rva": 163024,
+          "size": 1669,
+          "crc32": "101CBC74",
+          "entry": "48 89 5c 24 10 48 89 74 24 18 48 89 7c 24 20 55",
+          "relocations": []
+        },
+        "DetectNewModules@IntegrityGuard": {
+          "rva": 14928,
+          "size": 2055,
+          "crc32": "2D36BF97",
+          "entry": "48 8b c4 48 89 58 08 48 89 70 10 48 89 78 18 55",
+          "relocations": []
+        }
+      },
+      "old_attack_checks": [
+        {
+          "rva": 79840,
+          "entry_matches": false,
+          "actual": "0f 28 c2 ff 15 6f 8f 04 00 0f 28 c8 41 0f"
+        },
+        {
+          "rva": 61328,
+          "entry_matches": false,
+          "actual": "00 48 8d 4c 24 30 e8 75 a0 ff ff 48 8d 15 be"
+        }
+      ]
+    },
+    {
+      "exe": "evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429d937ecb4cbdad02dd2a5b77f8b730d4a8f732a12714aefcc6b3658343",
+      "functions": {
+        "SpawnProjectile@GameWorld": {
+          "rva": 70352,
+          "size": 2281,
+          "crc32": "EE1D9983",
+          "entry": "48 8b c4 48 89 58 18 55 56 57 41 54 41 55 41 56",
+          "relocations": []
+        },
+        "Update@GameWorld": {
+          "rva": 73728,
+          "size": 5188,
+          "crc32": "96B3B620",
+          "entry": "48 8b c4 48 89 58 10 55 56 57 41 54 41 55 41 56",
+          "relocations": []
+        },
+        "Initialize@GameWorld": {
+          "rva": 62176,
+          "size": 1669,
+          "crc32": "04827B69",
+          "entry": "48 89 5c 24 10 48 89 74 24 18 48 89 7c 24 20 55",
+          "relocations": []
+        },
+        "DetectNewModules@IntegrityGuard": {
+          "rva": 14928,
+          "size": 2055,
+          "crc32": "BE5B1ACB",
+          "entry": "48 8b c4 48 89 58 08 48 89 70 10 48 89 78 18 55",
+          "relocations": []
+        }
+      },
+      "old_attack_checks": [
+        {
+          "rva": 79840,
+          "entry_matches": false,
+          "actual": "47 58 00 84 c0 0f 84 c0 00 00 00 41 c6 46"
+        },
+        {
+          "rva": 61328,
+          "entry_matches": false,
+          "actual": "5f 41 83 fa 01 b8 94 03 00 00 41 b9 7c 03 00"
+        }
+      ]
+    }
+  ],
+  "baseline_log_checks": [
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "CRC_Initialize",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B-preinit\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C-preinit\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C-preinit\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C-preinit\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-CRC\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-CRC\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-A-C-blocked\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-A-C-blocked\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-A-C-blocked\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameTests-\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameTests-\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameClient-smoke-gui\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameClient-smoke-gui\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameClient-smoke-gui\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-normal\\GameClient.log",
+      "entity": "CRC_Initialize",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B-preinit\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C-preinit\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C-preinit\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C-preinit\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-CRC\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-CRC\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-A-C-blocked\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-A-C-blocked\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-A-C-blocked\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameTests-\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameTests-\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameClient-smoke-gui\\GameClient.log",
+      "entity": "HK01_B_SpawnProjectile",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameClient-smoke-gui\\GameClient.log",
+      "entity": "CRC_Update",
+      "matches_independent_disk_crc": true
+    },
+    {
+      "log": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameClient-smoke-gui\\GameClient.log",
+      "entity": "HK01_C_DetectNewModules",
+      "matches_independent_disk_crc": true
+    }
+  ],
+  "preservation": {
+    "file_count": 410,
+    "changed_or_missing": []
+  },
+  "git": {
+    "status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "."
+      ],
+      "exit_code": 0
+    },
+    "diff": {
+      "command": [
+        "git",
+        "diff",
+        "--",
+        "."
+      ],
+      "exit_code": 0
+    },
+    "check": {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "."
+      ],
+      "exit_code": 0
+    },
+    "ignored": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--ignored",
+        "--",
+        "src",
+        "GameClient",
+        "tests",
+        "tools",
+        "evidence/hk01_triple_20261114"
+      ],
+      "exit_code": 0
+    },
+    "src/CodeIntegrity.cpp": {
+      "no_index_exit_code": 1
+    },
+    "src/CodeIntegrity.h": {
+      "no_index_exit_code": 1
+    },
+    "tests/Hk01SecurityTests.cpp": {
+      "no_index_exit_code": 1
+    },
+    "tests/Hk01Probe.cpp": {
+      "no_index_exit_code": 1
+    },
+    "tests/Hk01Replay.cpp": {
+      "no_index_exit_code": 1
+    },
+    "GameClient/Hk01SecurityTests.vcxproj": {
+      "no_index_exit_code": 1
+    },
+    "GameClient/Hk01Probe.vcxproj": {
+      "no_index_exit_code": 1
+    },
+    "GameClient/Hk01Replay.vcxproj": {
+      "no_index_exit_code": 1
+    },
+    "tools/Hk01.Isolated.props": {
+      "no_index_exit_code": 1
+    },
+    "tools/Validate-Hk01.ps1": {
+      "no_index_exit_code": 1
+    },
+    "tools/audit_hk01.py": {
+      "no_index_exit_code": 1
+    },
+    "docs/hk01-triple-defense-20261114.md": {
+      "no_index_exit_code": 1
+    }
+  },
+  "validation_dir": "evidence\\hk01_triple_20261114\\validation_20261114_112033",
+  "validation_results": [
+    {
+      "kind": "build",
+      "configuration": "Debug",
+      "project": "EASILE.sln",
+      "exitCode": 0,
+      "log": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\build-EASILE-Debug.log",
+      "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe EASILE.sln /p:Configuration=Debug /p:Platform=x64 /p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\tools\\Hk01.Isolated.props /m /v:minimal"
+    },
+    {
+      "kind": "build",
+      "configuration": "Debug",
+      "project": "GameClient/Hk01SecurityTests.vcxproj",
+      "exitCode": 0,
+      "log": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\build-Hk01SecurityTests-Debug.log",
+      "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe GameClient/Hk01SecurityTests.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\tools\\Hk01.Isolated.props /m /v:minimal"
+    },
+    {
+      "kind": "build",
+      "configuration": "Debug",
+      "project": "GameClient/Hk01Probe.vcxproj",
+      "exitCode": 0,
+      "log": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\build-Hk01Probe-Debug.log",
+      "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe GameClient/Hk01Probe.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\tools\\Hk01.Isolated.props /m /v:minimal"
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-normal",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "normal",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-normal",
+      "pid": 26876,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-B",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "B",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B",
+      "pid": 17012,
+      "exitCode": 2,
+      "expectedExit": 2,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-B-preinit",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "B-preinit",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B-preinit",
+      "pid": 25796,
+      "exitCode": 2,
+      "expectedExit": 2,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-C",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "C",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C",
+      "pid": 21116,
+      "exitCode": 3,
+      "expectedExit": 3,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-C-preinit",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "C-preinit",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C-preinit",
+      "pid": 25160,
+      "exitCode": 3,
+      "expectedExit": 3,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-CRC",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "CRC",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-CRC",
+      "pid": 17988,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-A-C-blocked",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": "A-C-blocked",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-A-C-blocked",
+      "pid": 20612,
+      "exitCode": 3,
+      "expectedExit": 3,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "GameTests-",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\GameTests.exe",
+      "sha256": "81E82A29E481197F1C0CA5249FB4077743B7FF230592F916E99535BCC8BCFD3D",
+      "args": "",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameTests-",
+      "pid": 26220,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true,
+      "pass_count": 49,
+      "fail_count": 0
+    },
+    {
+      "kind": "run",
+      "configuration": "Debug",
+      "name": "GameClient-smoke-gui",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\GameClient.exe",
+      "sha256": "58D92F3728BEE75D96ACE4A4D89C8165B2E9CAAA55B6ADCC80A997AC973115F1",
+      "args": "--smoke-gui",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameClient-smoke-gui",
+      "pid": 21732,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "build",
+      "configuration": "Release",
+      "project": "EASILE.sln",
+      "exitCode": 0,
+      "log": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\build-EASILE-Release.log",
+      "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe EASILE.sln /p:Configuration=Release /p:Platform=x64 /p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\tools\\Hk01.Isolated.props /m /v:minimal"
+    },
+    {
+      "kind": "build",
+      "configuration": "Release",
+      "project": "GameClient/Hk01SecurityTests.vcxproj",
+      "exitCode": 0,
+      "log": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\build-Hk01SecurityTests-Release.log",
+      "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe GameClient/Hk01SecurityTests.vcxproj /p:Configuration=Release /p:Platform=x64 /p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\tools\\Hk01.Isolated.props /m /v:minimal"
+    },
+    {
+      "kind": "build",
+      "configuration": "Release",
+      "project": "GameClient/Hk01Probe.vcxproj",
+      "exitCode": 0,
+      "log": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\build-Hk01Probe-Release.log",
+      "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe GameClient/Hk01Probe.vcxproj /p:Configuration=Release /p:Platform=x64 /p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\tools\\Hk01.Isolated.props /m /v:minimal"
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-normal",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "normal",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-normal",
+      "pid": 16432,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-B",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "B",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B",
+      "pid": 26240,
+      "exitCode": 2,
+      "expectedExit": 2,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-B-preinit",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "B-preinit",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B-preinit",
+      "pid": 18888,
+      "exitCode": 2,
+      "expectedExit": 2,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-C",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "C",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C",
+      "pid": 31660,
+      "exitCode": 3,
+      "expectedExit": 3,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-C-preinit",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "C-preinit",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C-preinit",
+      "pid": 24792,
+      "exitCode": 3,
+      "expectedExit": 3,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-CRC",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "CRC",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-CRC",
+      "pid": 28692,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-A-C-blocked",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": "A-C-blocked",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-A-C-blocked",
+      "pid": 27308,
+      "exitCode": 3,
+      "expectedExit": 3,
+      "timedOut": false,
+      "pass": true
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "GameTests-",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\GameTests.exe",
+      "sha256": "B0E8B85387D9CE7228120949CEE0FFC4D1BE86A09BF8715702FF98545478BDF2",
+      "args": "",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameTests-",
+      "pid": 15476,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true,
+      "pass_count": 49,
+      "fail_count": 0
+    },
+    {
+      "kind": "run",
+      "configuration": "Release",
+      "name": "GameClient-smoke-gui",
+      "exe": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
+      "args": "--smoke-gui",
+      "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameClient-smoke-gui",
+      "pid": 4056,
+      "exitCode": 0,
+      "expectedExit": 0,
+      "timedOut": false,
+      "pass": true
+    }
+  ],
+  "preexisting_test_diff_unchanged": true,
+  "document_links_checked": 15,
+  "final_snapshots": [
+    {
+      "manifest": "evidence\\hk01_triple_20261114\\final_20261114_112516\\manifest.json",
+      "verified_file_count": 78
+    }
+  ]
+}

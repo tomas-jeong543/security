@@ -1,0 +1,49 @@
+﻿diff --git "a/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/layout.ps1" "b/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/layout.ps1"
+new file mode 100644
+index 0000000..25c8ee6
+--- /dev/null
++++ "b/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/layout.ps1"
+@@ -0,0 +1,43 @@
++﻿$ErrorActionPreference='Stop'
++Add-Type -AssemblyName System.IO.Compression
++Add-Type -AssemblyName System.IO.Compression.FileSystem
++$path=Join-Path $PSScriptRoot 'EASILE_HK01_공격방어_최종보고서.docx'
++$zip=[IO.Compression.ZipFile]::Open($path,[IO.Compression.ZipArchiveMode]::Update)
++$r=[IO.StreamReader]::new($zip.GetEntry('word/document.xml').Open()); [xml]$d=$r.ReadToEnd(); $r.Dispose()
++$u='http://schemas.openxmlformats.org/wordprocessingml/2006/main'; $n=[Xml.XmlNamespaceManager]::new($d.NameTable); $n.AddNamespace('w',$u)
++function Text($p){return (($p.SelectNodes('.//w:t',$n)|ForEach-Object InnerText)-join '')}
++$body=$d.SelectSingleNode('//w:body',$n)
++foreach($p in @($body.SelectNodes('w:p',$n))){
++ $text=Text $p
++ if($text -eq '이번에는 자료 조사·보고서만 갱신했다. 소스 변경, CRC32 추가 개선, 서버 확장은 없다.'){$null=$body.RemoveChild($p); continue}
++ if($text -eq 'DEFENSE  /  REATTACK' -or $text -eq 'CONCLUSION  /  EVIDENCE'){$b=$p.SelectSingleNode('w:pPr/w:pageBreakBefore',$n); if($b){$null=$b.ParentNode.RemoveChild($b)}}
++ if($text -eq '06  Hooking 후보 함수 비교'){$pr=$p.SelectSingleNode('w:pPr',$n); if(!$pr){$pr=$d.CreateElement('w','pPr',$u);$null=$p.PrependChild($pr)};$s=$d.CreateElement('w','pStyle',$u);$null=$s.SetAttribute('val',$u,'Subhead');$null=$pr.AppendChild($s);$null=$pr.AppendChild($d.CreateElement('w','keepNext',$u))}
++}
++# Convert the two comparison-like callout tables to ordinary paragraphs.
++foreach($t in @($body.SelectNodes('w:tbl',$n))){if((Text $t).StartsWith('기존 설치·탐지 기록') -or (Text $t).StartsWith('기존 실게임 A/C')){foreach($p in @($t.SelectNodes('.//w:tc/w:p',$n))){$q=$p.CloneNode($true); foreach($color in $q.SelectNodes('.//w:color',$n)){$null=$color.SetAttribute('val',$u,'000000')};$null=$body.InsertBefore($q,$t)};$null=$body.RemoveChild($t)}}
++# Caption every remaining table and prevent complete tables from splitting.
++$idx=0
++foreach($t in @($body.SelectNodes('w:tbl',$n))){
++ $idx++
++ $start=Text $t
++ $label=switch -Wildcard ($start) {
++ '실험 번호*' {'실험 기본 정보'}
++ '공격 단계*' {'공격과 검증의 진행 단계'}
++ '확인한 함수*' {'발사 호출 흐름'}
++ '후보 함수*' {'후킹 후보 함수 비교'}
++ '공격 방식*' {'기존 공격 구현 정보'}
++ '단계수행 내용*' {'공격 수행 절차와 관측'}
++ '방어 기법*' {'방어 구현 정보'}
++ '후보 / 순위*' {'방어 구조와 한계 비교'}
++ '회차*' {'조건별 재공격 시험 결과'}
++ 'ID시험 조건*' {'시험 항목과 판정'}
++ '측정 항목*' {'관측 결과와 미측정 항목'}
++ '반복 횟수*' {'측정 조건과 데이터 위치'}
++ '공격 결과*' {'최종 평가'}
++ '번호증거*' {'증거와 산출물 목록'}
++ default {'검증 기록'}
++ }
++ $cap=$d.CreateElement('w','p',$u);$pr=$d.CreateElement('w','pPr',$u);$null=$pr.AppendChild($d.CreateElement('w','keepNext',$u));$sp=$d.CreateElement('w','spacing',$u);$null=$sp.SetAttribute('before',$u,'60');$null=$sp.SetAttribute('after',$u,'50');$null=$pr.AppendChild($sp);$null=$cap.AppendChild($pr);$run=$d.CreateElement('w','r',$u);$rp=$d.CreateElement('w','rPr',$u);$size=$d.CreateElement('w','sz',$u);$null=$size.SetAttribute('val',$u,'16');$null=$rp.AppendChild($size);$null=$run.AppendChild($rp);$txt=$d.CreateElement('w','t',$u);$txt.InnerText=('표 '+$idx+'  '+$label);$null=$run.AppendChild($txt);$null=$cap.AppendChild($run);$null=$body.InsertBefore($cap,$t)
++ $paras=@($t.SelectNodes('.//w:p',$n));for($i=0;$i -lt ($paras.Count-1);$i++){$pr=$paras[$i].SelectSingleNode('w:pPr',$n);if(!$pr){$pr=$d.CreateElement('w','pPr',$u);$null=$paras[$i].PrependChild($pr)};if(!$pr.SelectSingleNode('w:keepNext',$n)){$null=$pr.AppendChild($d.CreateElement('w','keepNext',$u))}}
++}
++$zip.GetEntry('word/document.xml').Delete();$s=$zip.CreateEntry('word/document.xml').Open();$d.Save($s);$s.Dispose();$zip.Dispose()

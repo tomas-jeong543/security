@@ -1,0 +1,24 @@
+$ErrorActionPreference='Stop'
+$run=(Get-Content -Encoding UTF8 'evidence/hk01-report-latest.txt').Trim()
+Add-Type -AssemblyName System.Runtime.WindowsRuntime
+$null=[Windows.Storage.StorageFile,Windows.Storage,ContentType=WindowsRuntime]
+$null=[Windows.Data.Pdf.PdfDocument,Windows.Data.Pdf,ContentType=WindowsRuntime]
+$null=[Windows.Storage.Streams.InMemoryRandomAccessStream,Windows.Storage.Streams,ContentType=WindowsRuntime]
+function Await-Op($op,[Type]$type){
+ $m=[System.WindowsRuntimeSystemExtensions].GetMethods() | Where-Object {$_.Name -eq 'AsTask' -and $_.IsGenericMethod -and $_.GetParameters().Count -eq 1 -and $_.GetParameters()[0].ParameterType.Name -eq 'IAsyncOperation`1'} | Select-Object -First 1
+ $task=$m.MakeGenericMethod($type).Invoke($null,@($op));$task.GetAwaiter().GetResult()
+}
+function Await-Action($op){
+ $m=[System.WindowsRuntimeSystemExtensions].GetMethods() | Where-Object {$_.Name -eq 'AsTask' -and !$_.IsGenericMethod -and $_.GetParameters().Count -eq 1 -and $_.GetParameters()[0].ParameterType.Name -eq 'IAsyncAction'} | Select-Object -First 1
+ $task=$m.Invoke($null,@($op));$task.GetAwaiter().GetResult()
+}
+$pdfPath=(Get-Item -LiteralPath "$run/report-preview.pdf").FullName
+$file=Await-Op ([Windows.Storage.StorageFile]::GetFileFromPathAsync($pdfPath)) ([Windows.Storage.StorageFile])
+$pdf=Await-Op ([Windows.Data.Pdf.PdfDocument]::LoadFromFileAsync($file)) ([Windows.Data.Pdf.PdfDocument])
+for($i=0;$i -lt $pdf.PageCount;$i++){
+ $page=$pdf.GetPage($i);$mem=[Windows.Storage.Streams.InMemoryRandomAccessStream]::new()
+ Await-Action ($page.RenderToStreamAsync($mem))
+ $stream=[System.IO.WindowsRuntimeStreamExtensions]::AsStreamForRead($mem)
+ $out=[IO.File]::Create((Join-Path (Get-Location) "$run/page-$($i+1).png"));$stream.CopyTo($out);$out.Close();$stream.Close();$mem.Dispose();$page.Dispose()
+}
+Write-Output ('Rendered pages: '+$pdf.PageCount)

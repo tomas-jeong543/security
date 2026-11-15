@@ -1,0 +1,18 @@
+{
+  "source": "api_hooking_project\\EASILE_HK01_starter_fixed\\easile_hk01\\hook_payload.c",
+  "source_sha256": "BABDB597825A744A1A80CFBEB3B9401178F480272EF1A9E2F8B78E463DB07479",
+  "adapted_source": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn_v2\\hook_payload.c",
+  "adapted_sha256": "31919F3FE496D27EBC9B2CEB2D1D81CD9B789572005CE1A90F2A5C7D24640DCC",
+  "target_exe": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\BoundaryFixture.exe",
+  "target_sha256": "A22851AE725B5D304208E2F34269299199BA0CAED45CA4DDD129BCD87CF28D13",
+  "target_rva": 72400,
+  "artifact": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\fixture_spawn_v2.dll",
+  "artifact_sha256": "C9E473C29A35C4749A0A23843E27357179E09032C9AF315CE3F1E5364CB01987",
+  "exact_entry_bytes": "48 8b c4 55 53 56 57 41 54 41 56 41 57 48",
+  "changes": [
+    "target RVA",
+    "exact target EXE SHA256 gate",
+    "observation export (spawn) / corrected log (scanner)",
+    "build/PCH adaptation only"
+  ]
+}

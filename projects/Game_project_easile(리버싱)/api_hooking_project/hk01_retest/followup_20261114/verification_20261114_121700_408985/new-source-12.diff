@@ -1,0 +1,31 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/target_pin.h b/api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/target_pin.h
+new file mode 100644
+index 0000000..25ec8b1
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/target_pin.h
+@@ -0,0 +1,25 @@
++#include <wincrypt.h>
++#include <bcrypt.h>
++#include <stdlib.h>
++/* This experimental DLL accepts only the exact owned executable below. */
++static BOOL verify_pinned_executable(void) {
++    static const BYTE expected[32]={ 0xA2,0x28,0x51,0xAE,0x72,0x5B,0x5D,0x30,0x42,0x08,0xE2,0xF3,0x42,0x69,0x29,0x91,0x99,0xBA,0x0C,0xAE,0xD4,0x5C,0xA4,0xDD,0xD1,0x29,0xBC,0xD8,0x7C,0xF2,0x8D,0x13 };
++    wchar_t path[32768]; DWORD n=GetModuleFileNameW(NULL,path,32768);
++    if (!n || n>=32768) return FALSE;
++    HANDLE file=CreateFileW(path,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
++    if (file==INVALID_HANDLE_VALUE) return FALSE;
++    LARGE_INTEGER length; BOOL valid=FALSE;
++    if (GetFileSizeEx(file,&length) && length.QuadPart>0 && length.QuadPart<=32*1024*1024) {
++        BYTE* bytes=(BYTE*)malloc((size_t)length.QuadPart);
++        if (bytes) {
++            DWORD got=0, hashSize=32; BYTE hash[32];
++            if (ReadFile(file,bytes,(DWORD)length.QuadPart,&got,NULL) && got==(DWORD)length.QuadPart &&
++                CryptHashCertificate2(BCRYPT_SHA256_ALGORITHM,0,NULL,bytes,got,hash,&hashSize) && hashSize==32)
++                valid=memcmp(hash,expected,32)==0;
++            free(bytes);
++        }
++    }
++    CloseHandle(file);
++    if (!valid) OutputDebugStringA("[HK01-RETEST] Wrong EXE SHA256; no hook attempted\n");
++    return valid;
++}

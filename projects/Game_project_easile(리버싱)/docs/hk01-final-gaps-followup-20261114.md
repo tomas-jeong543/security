@@ -1,0 +1,73 @@
+# HK-01 최종 미검증 항목 후속 결과
+
+2026-11-14 / Asia/Seoul. 이번에는 기존 CRC 분석·49개 테스트를 반복하지 않고, CRC의 실행 전 코드 패치 목표에 대한 개선 설계와 새 EXE 호환 MinHook 설치·탐지를 검증했다. 원본 게임·공격·테스트·기존 보고서는 보존했고 새 실험물만 `api_hooking_project/hk01_retest/followup_20261114/`에 생성했다. 게임 방어의 비활성화·예외 확대·임계값 변경·서버 작업은 없다.
+
+**새 결론:** 지정된 Release GameClient와 바이트가 같은 사본에 호환 DLL의 실제 MinHook 설치와 진입부 `E9` 변조를 확인했다. A의 로드 DLL 탐지와 C의 스캐너 코드 변조 탐지·자체 종료 3을 관측했다. B는 실제 MinHook을 사용한 별도 콘솔 경계 시험에서 탐지·종료 2를 확인했다. 지정 GameClient의 전투 중 B 차단과 +30° 최종 효과는 아직 미검증이다. CRC의 실행 전 코드 패치 목표는 현재 방식으로 완전히 유지되지 않으며, 아래 최소 개선안은 제시만 했고 적용하지 않았다.
+
+## CRC32: 보호 대상별 차이와 최소 개선안
+
+기존 [CRC 보충 분석](hk01-crc-static-review-20261114.md)의 알고리즘·호출 경로 확인은 그대로 인용한다. 여기서 “기존 고정 CRC”의 가정은 기대값과 검사 호출이 유지된 상태에서 검사 대상인 Update 코드가 변조되는 경우다. 기존 CRC가 EXE 전체 또는 검사기 자체까지 변조 불가능하게 만들었다는 뜻은 아니다.
+
+| 상황 | 이전 고정 기대 CRC32 | 현재 디스크↔메모리 대조 | 기존 목표 유지 판정 |
+|---|---|---|---|
+| 시작 후 메모리만 변경, 디스크 정상 | 대상 범위 CRC 차이를 호출 시 탐지 | 정상 디스크와 CRC·전체 바이트 차이를 검사 | 해당 범위·호출 조건에서는 유지. 현재 전체 바이트 비교는 CRC 충돌만으로 메모리 변경을 숨기는 조건도 줄임 |
+| 시작 전 대상 함수의 EXE 코드만 변경, 검사 호출·고정 기대값은 유지 | 호출 시 기존 기대값과 달라 탐지 가능 | 변경된 디스크를 기준으로 등록하면 동일한 메모리 코드가 통과할 수 있음 | **이 위협에 대해서는 목표 약화** |
+| 정상 빌드로 코드·RVA 변경 | 새 빌드의 기대값·범위가 필요. 과거 값을 재사용하면 오탐 | 새 EXE에서 자동으로 기준을 산출 | 빌드 호환성은 개선됐지만 정상 변경과 악성 디스크 변경을 자동 구분하지 못함 |
+| 검사 함수·판정 분기·기대값까지 함께 변경 | 자체 검사만으로 완전한 보장 없음 | 역시 보장 없음. B/C와 CRC의 공용 하위 대조 함수도 공격 대상이 될 수 있음 | 두 설계 모두 별도의 신뢰 경계가 필요 |
+
+현재 EXE를 해시로 식별한 것, 디스크와 메모리의 타임스탬프·크기가 같은 것은 위 실행 전 변조에 대한 인증 수단이 아니다. 또한 Update CRC는 궁극기 분기와 생성자의 초기 확인에 연결돼 있으며 게임 전체 코드의 지속적인 전역 검사는 아니다.
+
+최소 개선은 **실행 시 대상 코드에서 기대값을 새로 만들지 않고, 정상 빌드 때 고정한 기준을 빌드별로 배포하는 것**이다.
+
+1. 고정 크기의 읽기 전용 무결성 profile 영역을 새 빌드에 예약한다. profile에는 빌드 식별자와 함수별 RVA·길이·기대 CRC32를 둔다. 기존 PATCH-01 목표를 복원하려면 최소 Update가 필요하고, 같은 방식을 B/C에도 적용할 수 있다.
+2. 최종 링크가 끝난 뒤 MAP/`.pdata`로 해당 EXE의 범위를 확인하고 profile을 채운다. 예약 영역의 크기·위치를 유지해 이 단계가 코드 배치를 다시 바꾸지 않게 한다. 다시 링크하지 않고 최종 파일에서 RVA·길이·CRC를 재대조한다. Debug·Release·GameTests의 기준은 각각 생성한다.
+3. `Region::Region()`에서 디스크 코드의 정규화 전 CRC를 고정 profile의 기대값과 먼저 비교한다. 범위·CRC가 다르거나 profile이 없으면 기준을 만들지 않고 기존 실패 경로로 거부한다. 통과한 디스크 바이트에만 현재 ASLR 재배치 처리를 적용하고 기존 메모리 CRC·전체 바이트 대조를 유지한다. A/B/C 호출·주기·종료 정책과 쿨다운·SpeedGuard는 유지한다.
+4. 정상 재빌드는 빌드 단계에서 profile을 다시 생성하지만, 런타임에서 변경된 EXE를 자동 승인하거나 기대값을 갱신하지 않는다. 최종 산출물과 profile의 대응 검사를 빌드 완료 조건으로 둔다.
+
+이 profile이 같은 EXE에만 있다면 코드와 profile·검사기를 함께 수정하는 공격에는 기존 고정 CRC와 같은 한계가 있다. **실행 전 EXE 전체의 신뢰까지 요구한다면**, profile을 포함한 최종 EXE의 SHA-256을 별도 manifest에 묶어 신뢰된 빌드 단계에서 서명하고, 변경 가능한 게임 EXE 밖의 신뢰된 검증 경계에서 확인해야 한다. 서명 없는 sidecar나 같은 쓰기 가능한 EXE 안의 공키·검증 분기만으로 독립 신뢰가 생긴다고 주장하면 안 된다. 신뢰 앵커와 서명 키 운영은 배포 환경에서 결정할 사람 검토 항목이다. 시스템 정책·키·설치 설정은 이번에 변경하지 않았다.
+
+후속 구현의 완료 조건은 정상 구성별 profile 통과, 대상 코드만 패치한 디스크 사본 거부, 메모리 변조 거부, 재빌드 후 새 profile 통과·과거 profile 거부, 잘못된 범위·누락 profile 거부, 기존 게임 49개 테스트 유지다. 이 개선안 구현과 그 음성 시험은 **미실행**이다.
+
+## 신규 호환 DLL과 실험 대상
+
+게임 대상은 지정된 최종 사본과 SHA-256이 같은 EXE다: `3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153`. 새 DLL에는 이 파일 해시를 확인하는 제한을 추가해 다른 EXE에서는 후킹을 시도하지 않도록 했다. 실험기·대상·DLL·기존 injector도 각각 새 실행 폴더의 사본으로 실행했다.
+
+| 실험물 | 대상·역할 | SHA-256 |
+|---|---|---|
+| [main_spawn.dll](../api_hooking_project/hk01_retest/followup_20261114/build/main_spawn_dll_120914_413001/main_spawn.dll) | 지정 GameClient의 SpawnProjectile, RVA `0xF670` | `CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9` |
+| [main_scanner.dll](../api_hooking_project/hk01_retest/followup_20261114/build/main_scanner_dll_120916_079135/main_scanner.dll) | 지정 GameClient의 DetectNewModules, RVA `0x1B050` | `8E8F14E189970F58BCC11DEBE41203BFAD0CED3E36E7EA93C629DB3448E78306` |
+| [fixture_spawn_v2.dll](../api_hooking_project/hk01_retest/followup_20261114/build/fixture_spawn_v2_dll_121316_196384/fixture_spawn_v2.dll) | 별도 BoundaryFixture의 SpawnProjectile, RVA `0x11AD0` | `C9E473C29A35C4749A0A23843E27357179E09032C9AF315CE3F1E5364CB01987` |
+
+각 원본·수정 소스·대상 EXE·산출물 해시는 [Spawn provenance](../api_hooking_project/hk01_retest/followup_20261114/adapted/main_spawn/provenance.json), [Scanner provenance](../api_hooking_project/hk01_retest/followup_20261114/adapted/main_scanner/provenance.json), [경계 시험 provenance](../api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/provenance.json)에 기록했다.
+
+기존 공격 소스의 사본에서 대상 RVA, 정확한 EXE 해시 확인, 필요한 진입 바이트, 빌드/PCH 설정과 관측용 getter·로그만 바꿨다. +30° 회전·필터를 수행하는 `detour_spawn()`과 원본 스캔을 생략하는 `observed_detect_new_modules()` 본문은 원본과 동일함을 검증했다. Dll2의 원본 스캔이 활성이라는 잘못된 설치 로그는 사본에서 바로잡았다. 기존 DLL·소스·injector는 수정하지 않았다.
+
+## 실제 MinHook 설치·탐지 결과
+
+최종 판정의 기계 증거는 [verified.json](../api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/verified.json)이다. 성공 메시지만 사용하지 않고 대상 프로세스의 실제 진입 바이트가 정상 prolog에서 `E9`로 바뀐 것을 읽어 확인했다. 실험기는 디버그 이벤트와 메모리 읽기로 관측하며 기존 injector를 사용한다. 방어 함수의 패치·예외 확대·주기 변경은 하지 않는다.
+
+| 대상·조건 | 설치 증거 | 탐지·종료 | 완료·미완료 |
+|---|---|---|---|
+| 지정 GameClient 사본 + 호환 Spawn DLL | 설치 로그, 실제 `0xF670`의 `E9` 변조, injector 종료 0 | A가 해당 DLL의 전체 경로를 탐지. B 호출 없음. 수집 후 외부 정리 종료 77 | **설치·A 탐지 완료**. 메뉴 상태여서 실제 게임 B·방향 변화는 미검증 |
+| 지정 GameClient 사본 + 호환 Scanner DLL | 설치 로그, 실제 `0x1B050`의 `E9` 변조, injector 종료 0 | A 탐지 경로가 먼저 동작한 후 C가 변조 탐지. 게임 자체 보안 종료 **3** | **실제 GameClient의 C 탐지·종료 완료**. 설치 로그 후 C 디버그 신호까지 약 94ms였음. 한 실행의 측정이며 상한 보장은 아님 |
+| 별도 BoundaryFixture + 전용 Spawn DLL v2 | MinHook 설치 로그·getter, 실제 `E9` 재읽기, 이후 sourceId 3·Basic 발사 경계 호출 기록 | B 탐지 후 자체 보안 종료 **2**. 투사체 생성 로그 없음 | **독립 경계 시험에서 실제 MinHook 차단 완료**. 지정 GameClient의 전투 관측과는 다름 |
+
+주요 원시 증거는 [GameClient Spawn 실행](../api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/main_spawn/debug-events.txt), [GameClient Scanner 실행](../api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/main_scanner/debug-events.txt), [B 경계 실행](../api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121318_089249/fixture/debug-events.txt)이다. 각 폴더의 `GameClient.log`에는 방어별 이벤트가 분리돼 있다. 실험기의 과거 형식 `natural_exit` 표시는 코드 0의 정상 게임 종료라는 뜻으로 사용하지 않는다. 판정은 `RETEST_RESULT`의 `game_exit`·`self_exit`와 보안 로그를 기준으로 했다.
+
+스캐너 실험에서는 A 탐지 이후 C가 실제 설치된 스캐너 후킹을 검출했다. 다만 UI 화면을 보거나 경고창을 클릭한 것은 아니므로 경고창의 시각 상태나 A의 경고 확인 후 종료 1은 검증하지 않았다. 새 실행의 `SKIPPED` 호출은 0회다. 즉 우회 후킹 설치는 확인했지만, C 종료 전에 detour가 원본 스캔을 생략하는 효과를 실제로 수행했다는 관측은 없다.
+
+B 경계 시험은 `src/GameWorld.cpp`, CombatSystem, Hero, IntegrityGuard, CodeIntegrity를 수정 없이 별도 콘솔 EXE에 컴파일했다. C 감시와 GameWorld의 기존 코드 대조는 동작하지만 Application의 A 주기 루프는 이 fixture에 포함되지 않는다. 이는 제품에서 A를 끈 실험이 아니라 실행 경로를 분리한 독립 시험이다. 이 조건을 제품의 A/B/C 동시 전투 결과로 승계하지 않는다. 기존 `Hk01SecurityTests`의 14바이트 `FF 25` 변조 시험이나 `Hk01Probe`의 무해 DLL 시험과도 구분한다.
+
+지정 GameClient에서 B를 시험하려면 정상 전투·발사 입력이 필요했으나 Computer Use 초기화가 `trusted Node process exited unexpectedly; kernel reset, rerun your request`로 실패했다. [도구 실패 기록](../api_hooking_project/hk01_retest/followup_20261114/ui-unavailable.txt)에 남겼고, 입력 helper·메시지 주입·게임 소스의 자동 시작 변경으로 대체하지 않았다. 따라서 **지정 GameClient의 전투 중 B 탐지, +30° 입력/출력 벡터와 최종 투사체 연결, trampoline의 실제 원본 호출, 두 DLL 연속 결합 공격**은 미검증이다. 독립 시험은 +30° 조건의 발사를 경계에서 요청했으나 B가 진입 전에 차단해 회전 결과가 생성되지 않았다.
+
+## 실패·보존·변경 범위
+
+최초 console fixture는 원본 게임과 다른 prolog였는데 원래의 14바이트 기대값을 사용해 설치를 거부했다. [실패 실행](../api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/fixture/debug-events.txt)은 종료 96·설치 없음으로 남겨 **방어 성공에 포함하지 않았다**. 동일 fixture의 실제 해시·RVA·14바이트에 정확히 맞춘 v2 사본을 새 경로에 빌드했다. 범위를 넓히거나 wildcard로 검사를 완화하지 않았다.
+
+첫 실험은 수집 후 결과를 콘솔에 출력할 때 CP949/UTF-8 인코딩 오류가 났다. 원시 로그는 보존했고, UTF-8 출력과 케이스별 결과 저장을 적용한 새 실행 ID의 완결된 기록을 최종 판정에 사용했다. 이번 빌드는 모두 종료 0이다. DLL 빌드의 `WIN32_LEAN_AND_MEAN` 중복 정의 C4005 경고는 알려진 경고로 남겼고, fixture·실험기 빌드에는 경고가 없었다.
+
+작업 전후 원본 **1,579개 파일의 SHA-256이 모두 일치**했고 Git tracked diff도 작업 전과 동일했다. [작업 전 목록](../api_hooking_project/hk01_retest/followup_20261114/preserved-before.json)과 검증 JSON에 기록했다. 기존 49개 테스트·방어 소스·솔루션·이전 보고서·EXE/DLL/injector·기존 실험 증거는 그대로다. 코드 변화가 없어 기존 [Debug/Release 각각 49 PASS와 정상 스모크](hk01-crc-static-review-20261114.md)를 간단히 인용하며, 이번에 게임 49개 테스트나 게임 자체를 재빌드하지 않았다. DLL/독립 시험·실험기만 별도 경로에 빌드했다.
+
+신규 파일은 본 보고서와 `api_hooking_project/hk01_retest/followup_20261114/` 아래의 `lab.py`, `verify.py`, BoundaryFixture·RetestReplay 소스/프로젝트, 원본을 보존한 adapted 소스·pin header·프로젝트, MinHook 의존성 사본, 산출물·해시·로그·diff다. 스테이징·커밋이나 프로젝트 밖 파일 변경은 없다. 원본 MinHook 헤더·라이브러리는 읽기 및 사본 생성만 수행했다. Git status·diff·diff --check와 신규 소스의 no-index diff를 새 검증 디렉터리에 기록했고, ignore되는 바이너리는 별도 해시로 식별했다.
+
+남은 작업은 CRC 고정 빌드 profile의 구현·검증과 그 배포 신뢰 앵커 결정, 정상 입력 도구가 동작하는 환경에서 지정 GameClient의 실제 전투 중 B 검증이다. C의 polling·검사/호출 경쟁 조건, 공용 검사 루틴 동시 변조, 장시간 성능·오탐 부재는 이번 결과로 해결됐다고 주장하지 않는다.

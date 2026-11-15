@@ -1,0 +1,67 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/isolated-bin/Release/Hk01Probe.map b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/isolated-bin/Release/Hk01Probe.map
+new file mode 100644
+index 0000000..89356e0
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/isolated-bin/Release/Hk01Probe.map
+@@ -0,0 +1,61 @@
++ Hk01Probe
++
++ Timestamp is 6af7c4c5 (Sat Nov 14 11:17:41 2026)
++
++ Preferred load address is 0000000180000000
++
++ Start         Length     Name                   Class
++ 0001:00000000 00000006H .text$mn                CODE
++ 0002:00000000 00000060H .rdata                  DATA
++ 0002:00000060 0000004cH .edata                  DATA
++ 0002:000000ac 00000020H .rdata$voltmd           DATA
++ 0002:000000cc 00000130H .rdata$zzzdbg           DATA
++ 0003:00000000 00000060H .rsrc$01                DATA
++ 0003:00000060 00000180H .rsrc$02                DATA
++
++  Address         Publics by Value              Rva+Base               Lib:Object
++
++ 0000:00000000       __AbsoluteZero             0000000000000000     <absolute>
++ 0000:00000000       ___safe_se_handler_count   0000000000000000     <absolute>
++ 0000:00000000       ___safe_se_handler_table   0000000000000000     <absolute>
++ 0000:00000000       __arm64x_extra_rfe_table   0000000000000000     <absolute>
++ 0000:00000000       __arm64x_extra_rfe_table_size 0000000000000000     <absolute>
++ 0000:00000000       __arm64x_native_entrypoint 0000000000000000     <absolute>
++ 0000:00000000       __arm64x_redirection_metadata 0000000000000000     <absolute>
++ 0000:00000000       __arm64x_redirection_metadata_count 0000000000000000     <absolute>
++ 0000:00000000       __dynamic_value_reloc_table 0000000000000000     <absolute>
++ 0000:00000000       __enclave_config           0000000000000000     <absolute>
++ 0000:00000000       __guard_check_icall_a64n_fptr 0000000000000000     <absolute>
++ 0000:00000000       __guard_eh_cont_count      0000000000000000     <absolute>
++ 0000:00000000       __guard_eh_cont_table      0000000000000000     <absolute>
++ 0000:00000000       __guard_fids_count         0000000000000000     <absolute>
++ 0000:00000000       __guard_fids_table         0000000000000000     <absolute>
++ 0000:00000000       __guard_iat_count          0000000000000000     <absolute>
++ 0000:00000000       __guard_iat_table          0000000000000000     <absolute>
++ 0000:00000000       __guard_longjmp_count      0000000000000000     <absolute>
++ 0000:00000000       __guard_longjmp_table      0000000000000000     <absolute>
++ 0000:00000000       __hybrid_auxiliary_delayload_iat 0000000000000000     <absolute>
++ 0000:00000000       __hybrid_auxiliary_delayload_iat_copy 0000000000000000     <absolute>
++ 0000:00000000       __hybrid_auxiliary_iat     0000000000000000     <absolute>
++ 0000:00000000       __hybrid_auxiliary_iat_copy 0000000000000000     <absolute>
++ 0000:00000000       __hybrid_code_map          0000000000000000     <absolute>
++ 0000:00000000       __hybrid_code_map_count    0000000000000000     <absolute>
++ 0000:00000000       __hybrid_image_info_bitfield 0000000000000000     <absolute>
++ 0000:00000000       __x64_code_ranges_to_entry_points 0000000000000000     <absolute>
++ 0000:00000000       __x64_code_ranges_to_entry_points_count 0000000000000000     <absolute>
++ 0000:00000100       __guard_flags              0000000000000100     <absolute>
++ 0001:00000000       HK01Probe                  0000000180001000 f   Hk01Probe.obj
++ 0002:000000ac       __volatile_metadata        00000001800020ac     <linker-defined>
++
++ entry point at        0000:00000000
++
++ Static symbols
++
++ 0000:ffffc000       .debug$S                   0000000180000000     Hk01Probe.exp
++ 0002:00000060       .edata                     0000000180002060     Hk01Probe.exp
++ 0002:00000088       rgpv                       0000000180002088     Hk01Probe.exp
++ 0002:0000008c       rgszName                   000000018000208c     Hk01Probe.exp
++ 0002:00000090       rgwOrd                     0000000180002090     Hk01Probe.exp
++ 0002:00000092       szName                     0000000180002092     Hk01Probe.exp
++ 0002:000000a0       $N00001                    00000001800020a0     Hk01Probe.exp
++ 0003:00000060       $R000000                   0000000180003060     * linker generated manifest res *

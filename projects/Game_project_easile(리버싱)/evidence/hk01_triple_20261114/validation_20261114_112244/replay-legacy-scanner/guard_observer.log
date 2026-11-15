@@ -1,0 +1,4 @@
+[GUARD-OBS] Hook installed at GameClient + 0xEF90; original DLLGuard scan still enabled.
+[GUARD-BYPASS] SKIPPED #1 pid=29576 tid=9248
+[GUARD-BYPASS] SKIPPED #2 pid=29576 tid=9248
+[GUARD-BYPASS] SKIPPED #3 pid=29576 tid=9248

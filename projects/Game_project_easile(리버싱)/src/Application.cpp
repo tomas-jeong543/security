@@ -2,6 +2,7 @@
 #include "Logger.h"
 #include "Camera.h"
 #include "IntegrityGuard.h" // PATCH-02 추가
+#include "CodeIntegrity.h"
 #include <algorithm>
 
 bool Application::CreateMainWindow(HINSTANCE instance)
@@ -21,6 +22,7 @@ bool Application::CreateMainWindow(HINSTANCE instance)
 
 int Application::Run(HINSTANCE instance, bool smokeGui)
 {
+    CodeIntegrity::DllScanWatchdog dllScanWatchdog;
     if (!CreateMainWindow(instance)) { Logger{}.Write(0.0, "APP", "WINDOW_FAILED", "Application", ""); return 1; }
     Logger{}.Write(0.0, "APP", "WINDOW_CREATED", "Application", "");
     if (!renderer_.Initialize(window_)) { Logger{}.Write(0.0, "APP", "DX11_FAILED", "Renderer", ""); return 1; }

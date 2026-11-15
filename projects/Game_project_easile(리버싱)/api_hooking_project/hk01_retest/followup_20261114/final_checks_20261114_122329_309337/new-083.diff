@@ -1,0 +1,16 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/build/fixture_120854_025461/build.log b/api_hooking_project/hk01_retest/followup_20261114/build/fixture_120854_025461/build.log
+new file mode 100644
+index 0000000..d99b3fb
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/build/fixture_120854_025461/build.log
+@@ -0,0 +1,10 @@
++msbuild 버전 17.14.40+3e7442088(.NET Framework용)
++
++  BoundaryFixture.cpp
++  GameWorld.cpp
++  CombatSystem.cpp
++  Hero.cpp
++  IntegrityGuard.cpp
++  CodeIntegrity.cpp
++  코드를 생성하고 있습니다...
++  BoundaryFixture.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\BoundaryFixture.exe

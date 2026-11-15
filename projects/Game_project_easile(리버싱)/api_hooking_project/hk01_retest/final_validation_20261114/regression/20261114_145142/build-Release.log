@@ -1,0 +1,26 @@
+msbuild 버전 17.14.40+3e7442088(.NET Framework용)
+
+  IntegrityGuard.cpp
+  Application.cpp
+  CodeIntegrity.cpp
+  CodeIntegrity.cpp
+  GameTests.cpp
+  CombatSystem.cpp
+  GameTime.cpp
+  GameWorld.cpp
+  CombatSystem.cpp
+  GameWorld.cpp
+  Hero.cpp
+  HUDRenderer.cpp
+  Hero.cpp
+  HUDRenderer.cpp
+  InputManager.cpp
+  IntegrityGuard.cpp
+  InputManager.cpp
+  Renderer.cpp
+  Renderer.cpp
+  코드를 생성하고 있습니다...
+  main.cpp
+  코드를 생성하고 있습니다...
+  GameTests.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\final_validation_20261114\regression\20261114_145142\bin\Release\GameTests.exe
+  GameClient.vcxproj -> D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\final_validation_20261114\regression\20261114_145142\bin\Release\GameClient.exe

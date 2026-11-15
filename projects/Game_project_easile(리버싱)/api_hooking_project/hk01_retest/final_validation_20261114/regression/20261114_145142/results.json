@@ -1,0 +1,50 @@
+[
+  {
+    "kind": "build",
+    "configuration": "Debug",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe",
+      "EASILE.sln",
+      "/p:Configuration=Debug",
+      "/p:Platform=x64",
+      "/p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\final_validation_20261114\\regression\\20261114_145142\\Isolated.props",
+      "/m",
+      "/v:minimal"
+    ],
+    "exitCode": 0
+  },
+  {
+    "kind": "test",
+    "configuration": "Debug",
+    "exe": "api_hooking_project\\hk01_retest\\final_validation_20261114\\regression\\20261114_145142\\bin\\Debug\\GameTests.exe",
+    "sha256": "A274E26DA2EBEFACF3B39426F32CE3F149A3A5FEE0A95A2DF25EE5B546DBE7B1",
+    "cwd": "api_hooking_project\\hk01_retest\\final_validation_20261114\\regression\\20261114_145142\\Debug-GameTests",
+    "exitCode": 0,
+    "pass_count": 49,
+    "fail_count": 0
+  },
+  {
+    "kind": "build",
+    "configuration": "Release",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe",
+      "EASILE.sln",
+      "/p:Configuration=Release",
+      "/p:Platform=x64",
+      "/p:ForceImportBeforeCppTargets=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\final_validation_20261114\\regression\\20261114_145142\\Isolated.props",
+      "/m",
+      "/v:minimal"
+    ],
+    "exitCode": 0
+  },
+  {
+    "kind": "test",
+    "configuration": "Release",
+    "exe": "api_hooking_project\\hk01_retest\\final_validation_20261114\\regression\\20261114_145142\\bin\\Release\\GameTests.exe",
+    "sha256": "7E4E5F282AAE01B2D72E4534D259D2E1C9042FF82447835CB8E2CDABAFC6B685",
+    "cwd": "api_hooking_project\\hk01_retest\\final_validation_20261114\\regression\\20261114_145142\\Release-GameTests",
+    "exitCode": 0,
+    "pass_count": 49,
+    "fail_count": 0
+  }
+]

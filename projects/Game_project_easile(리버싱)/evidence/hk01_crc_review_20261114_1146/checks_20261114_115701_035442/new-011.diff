@@ -1,0 +1,13 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/after-check.txt b/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/after-check.txt
+new file mode 100644
+index 0000000..6daaed3
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/after-check.txt
+@@ -0,0 +1,6 @@
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Application.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.h', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/IntegrityGuard.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Logger.h', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/tests/GameTests.cpp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/after-check.txt', LF will be replaced by CRLF the next time Git touches it

@@ -1,0 +1,31 @@
+[*] Relative DLL paths are based on injector.exe's directory.
+
+[1/2] Loading first DLL (hook) ...
+[*] Target PID: 7356
+[*] DLL: D:\GitHub\security\projects\Game_project_easile(???)\api_hooking_project\hk01_retest\followup_20261114\runs\20261114_121201_637835\main_scanner\attack.dll
+[*] Remote DLL loading started; waiting for completion...
+[+] DLL loaded in target process. Hook installation is a separate step.
+[+] Single-DLL injection complete.
+ENTRY spawn_before address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_before address=7FF7674EB050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=187 [DLLGuard] Baseline initialized (53 DLLs)
+ENTRY spawn_observed address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF7674EB050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=187 [DLLGuard] Baseline created after first render
+ENTRY spawn_observed address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF7674EB050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+INJECTION_LAUNCHED success=1 target_pid=7356
+DEBUG ms=2187 [DLLGuard] New DLL detected: d:\github\security\projects\game_project_easile(¸®¹ö½Ì)\api_hooking_project\hk01_retest\followup_20261114\runs\20261114_121201_637835\main_scanner\attack.dll
+ENTRY spawn_observed address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF7674EB050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=2234 [GUARD-OBS] Hook installed at GameClient + 0x1B050; original scanner bypass installed (retest).
+ENTRY spawn_observed address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF7674EB050 E9 80 5F FD FF 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=2328 HK01_CENTRY spawn_observed address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF7674EB050 E9 80 5F FD FF 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=2328 : code integrity failure
+ENTRY spawn_observed address=7FF7674DF670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF7674EB050 E9 80 5F FD FF 58 08 48 89 70 10 48 89 78 18 55 
+INJECTOR_EXIT=0
+RESULT baseline=1 injection_launched=1 module_detected=1 natural_exit=1
+RETEST_RESULT fixture=0 spawn_E9_observed=0 scanner_E9_observed=1 game_exit=3 self_exit=1

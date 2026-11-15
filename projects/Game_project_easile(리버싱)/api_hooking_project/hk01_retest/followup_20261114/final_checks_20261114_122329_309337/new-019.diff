@@ -1,0 +1,17 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/deps/manifest.json b/api_hooking_project/hk01_retest/followup_20261114/deps/manifest.json
+new file mode 100644
+index 0000000..88cd518
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/deps/manifest.json
+@@ -0,0 +1,10 @@
++[
++  {
++    "source": "D:\\Downloads\\minhook-1.3.4\\minhook-1.3.4\\include\\MinHook.h",
++    "sha256": "62DFF05E63155C6BF8135C36A0D79DEDBDCAAEDE9DA26FE38DAF0BEA34323E38"
++  },
++  {
++    "source": "D:\\Downloads\\minhook-1.3.4\\minhook-1.3.4\\build\\VC17\\lib\\Release\\libMinHook.x64.lib",
++    "sha256": "4B7AFCF575116CA477F8C69581FE9E30BC71437263EA0ED28B5BC55144D5E8C6"
++  }
++]
+\ No newline at end of file

@@ -1,0 +1,36 @@
+ M GameClient/GameClient.vcxproj
+ M GameClient/GameTests.vcxproj
+ D "docs/1\354\260\250 \352\262\260\352\263\274.txt"
+ D "docs/2\354\260\250 \352\262\260\352\263\274.txt"
+ D docs/BASELINE_1.0.md
+ D "docs/DLL_INJECTION_\355\233\204\353\263\264_\353\266\204\354\204\235.md"
+ D "docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.13.docx"
+ D "docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.14.docx"
+ D "docs/EASILE_2D\352\262\214\354\236\204_\354\240\204\354\262\264\354\204\244\352\263\204\354\204\234_v0.15.docx"
+ D docs/EASILE_Baseline_1.0_Confirm_Request.md
+ D docs/EASILE_DLL_Injection.md
+ D "docs/EASILE_PATCH01_\352\263\265\352\262\251_\353\260\251\354\226\264_\354\213\244\355\227\230\353\263\264\352\263\240\354\204\234_\354\226\221\354\213\235.docx"
+ D "docs/\353\246\254\353\262\204\354\213\261 \353\260\251\354\226\264\352\270\260\353\262\225.docx"
+ M src/Application.cpp
+ M src/GameWorld.cpp
+ M src/GameWorld.h
+ M src/IntegrityGuard.cpp
+ M src/Logger.h
+ M tests/GameTests.cpp
+?? .agents/
+?? AGENTS.md
+?? GameClient/Hk01Probe.vcxproj
+?? GameClient/Hk01Replay.vcxproj
+?? GameClient/Hk01SecurityTests.vcxproj
+?? docs/hk01-crc-static-review-20261114.md
+?? docs/hk01-triple-defense-20261114.md
+?? evidence/hk01_crc_review_20261114_1146/
+?? evidence/hk01_triple_20261114/
+?? src/CodeIntegrity.cpp
+?? src/CodeIntegrity.h
+?? tests/Hk01Probe.cpp
+?? tests/Hk01Replay.cpp
+?? tests/Hk01SecurityTests.cpp
+?? tools/Hk01.Isolated.props
+?? tools/Validate-Hk01.ps1
+?? tools/audit_hk01.py

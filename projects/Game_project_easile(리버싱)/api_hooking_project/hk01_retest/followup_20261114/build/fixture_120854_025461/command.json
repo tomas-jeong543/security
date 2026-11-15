@@ -1,0 +1,14 @@
+{
+  "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114",
+  "args": [
+    "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe",
+    "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\BoundaryFixture.vcxproj",
+    "/p:Configuration=Release",
+    "/p:Platform=x64",
+    "/p:OutDir=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\",
+    "/p:IntDir=D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\",
+    "/m",
+    "/v:minimal"
+  ],
+  "exitCode": 0
+}

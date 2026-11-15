@@ -1,0 +1,3 @@
+[wall=1794622278][simulation=0.000][SECURITY][BASELINE][HK01_B_SpawnProjectile][rva=0x1B3C0;size=0x526;expected_crc32=D7EFE354;source=exe_disk]
+[wall=1794622278][simulation=0.000][SECURITY][BASELINE][CRC_Update][rva=0x17910;size=0x1268;expected_crc32=6D747520;source=exe_disk]
+[wall=1794622278][simulation=0.000][TEST][PATCH_INSTALLED][HK01][entry_ff25_14_bytes;readback_verified=1]

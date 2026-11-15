@@ -1,0 +1,12 @@
+TARGET pid=30532 base=7FF6FEAB0000 command=--smoke-gui
+ENTRY spawn_before 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY wrapper_before 48 89 5C 24 08 57 48 83 EC 60 0F 29 74 24 50 8B 
+HW_CONTEXT_READBACK event_tid=2268 main_tid=2268 valid=1 rip=7FFE9AC95246 dr0=7FF6FEABA050 dr7=1
+HW_EXEC_BREAKPOINT armed wrapper_rva=A050 no_code_byte_patch=1
+DEBUG ms=203 [DLLGuard] Baseline initialized (53 DLLs)
+HW_LATER dr0=0 dr7=0
+DEBUG ms=203 [DLLGuard] Baseline created after first render
+HW_LATER dr0=0 dr7=0
+EXCEPTION code=E06D7363 firstChance=1
+EXCEPTION code=E06D7363 firstChance=1
+FINAL_B_RESULT bot_checked_call=0 actual_E9=0 B_debug=0 game_exit=0 self_exit=1

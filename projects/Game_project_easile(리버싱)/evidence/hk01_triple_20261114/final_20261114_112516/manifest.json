@@ -1,0 +1,314 @@
+﻿[
+    {
+        "file":  "bin\\Debug\\GameClient.exe",
+        "sha256":  "58D92F3728BEE75D96ACE4A4D89C8165B2E9CAAA55B6ADCC80A997AC973115F1"
+    },
+    {
+        "file":  "bin\\Debug\\GameClient.map",
+        "sha256":  "7BC4D4D6B91E10FF2AD54F3924B533CD671747F8A6A12F6BB7E58AC7A93C3E12"
+    },
+    {
+        "file":  "bin\\Debug\\GameClient.pdb",
+        "sha256":  "CDFC06FC1AE38FE7BE7EE1FD12A9C44662A68ADFECB83AAC53FBF1158C57F911"
+    },
+    {
+        "file":  "bin\\Debug\\GameTests.exe",
+        "sha256":  "81E82A29E481197F1C0CA5249FB4077743B7FF230592F916E99535BCC8BCFD3D"
+    },
+    {
+        "file":  "bin\\Debug\\GameTests.map",
+        "sha256":  "75280792E9688B9B2DFE29EC8D0CF205DA235D76E304B8936D4472BB7E655EF9"
+    },
+    {
+        "file":  "bin\\Debug\\GameTests.pdb",
+        "sha256":  "4B2BA6A53CBA6D478F1FE2BD5EC2D3C63FE795518606C0CA6A5F0E4E6E238841"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01Probe.dll",
+        "sha256":  "5A2B0301332E188B4EB2932C9690FE1FF2C150D062A725AED3F9B6B9FE672B99"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01Probe.exp",
+        "sha256":  "7D55F9A4897F95B2A94B38409227EEC4F93F311B65965FC4768DBD71BE46DAC6"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01Probe.lib",
+        "sha256":  "393D51B7AE99E8DECB4C7182C47185751EE73FBAC52DDE8907BE10EEBEDC6095"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01Probe.map",
+        "sha256":  "02FB7E19DDB0E5ED88208302F752691599AAB692748028E76A609B13A6EB70AE"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01Probe.pdb",
+        "sha256":  "701EB2FC74EAD86F9778F84D6F33F2A294081AA85E59E520D0A2410F533567DD"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01SecurityTests.exe",
+        "sha256":  "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01SecurityTests.map",
+        "sha256":  "63BD885DD855CA1869451C72BCC7B9EA2D3B84B69850E23D3DA79E3B9F14E94B"
+    },
+    {
+        "file":  "bin\\Debug\\Hk01SecurityTests.pdb",
+        "sha256":  "20277FCCB83586A2AA1C033E21929135B7BAD438E50FA2D567848A6B3E412FD2"
+    },
+    {
+        "file":  "bin\\Debug\\visual-smoke.bmp",
+        "sha256":  "D3B9DB56CBC3C86B0C306DC10FCD0133C017A16F7153FF3FE99D33A80F2C1F9E"
+    },
+    {
+        "file":  "bin\\Release\\GameClient.exe",
+        "sha256":  "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153"
+    },
+    {
+        "file":  "bin\\Release\\GameClient.map",
+        "sha256":  "89B173308270498EE323514BC0DA5FEF16B49C68A6DCF02A076AF655C466B01A"
+    },
+    {
+        "file":  "bin\\Release\\GameClient.pdb",
+        "sha256":  "FF8DA1DF10FB2B27B0C0445E59E45C912A7D26341517EDEBBF88468E4432C734"
+    },
+    {
+        "file":  "bin\\Release\\GameTests.exe",
+        "sha256":  "B0E8B85387D9CE7228120949CEE0FFC4D1BE86A09BF8715702FF98545478BDF2"
+    },
+    {
+        "file":  "bin\\Release\\GameTests.map",
+        "sha256":  "C32D37BD3C78BB292A07F48CBE0BD1F648FD139B0C10A7FBE06CAB7325DEE3FA"
+    },
+    {
+        "file":  "bin\\Release\\GameTests.pdb",
+        "sha256":  "AEB296654607E5938EA8C457DA14E90C528A31B2521FF1BE5E1B9C14ED9B072F"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Probe.dll",
+        "sha256":  "B7F2FD9E87FDD951A04E94AE8B11FA6F3100E180507EF501E488E5F817CDE5BB"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Probe.exp",
+        "sha256":  "AEE8EC3B105D9A9BC66BB72B160A699B710D71E6648B14BFF2CEA3C65A3F6FB9"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Probe.lib",
+        "sha256":  "393D51B7AE99E8DECB4C7182C47185751EE73FBAC52DDE8907BE10EEBEDC6095"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Probe.map",
+        "sha256":  "D322ECFC0328C74E696D7A3435DA49BD8CC86B2FBF80B716F5A07FFAF1585E60"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Probe.pdb",
+        "sha256":  "4C038D7C9AECCBC9E3B14DE594E89FA2D1D7C19321693FB5C96D5DC53B24A026"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Replay.exe",
+        "sha256":  "53C626E7318536ED9656BC393E7F498321B654C6CE98AE163B2F764918348829"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Replay.map",
+        "sha256":  "3085346949665F08DE3AB27753FAF458D232C4AAEDFD624A2C68D49B028A1C09"
+    },
+    {
+        "file":  "bin\\Release\\Hk01Replay.pdb",
+        "sha256":  "7022E5A67F74AC9A374C39E3AF1F2D2FDD326FCE27D67DE1CDA9DFF12D71A5BF"
+    },
+    {
+        "file":  "bin\\Release\\Hk01SecurityTests.exe",
+        "sha256":  "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343"
+    },
+    {
+        "file":  "bin\\Release\\Hk01SecurityTests.map",
+        "sha256":  "3CAE7F87B92BFDA0FAD7DC45D2C37F3A0B64C289D77A31A42C4FD4F96E679566"
+    },
+    {
+        "file":  "bin\\Release\\Hk01SecurityTests.pdb",
+        "sha256":  "25ECBD6B18B1F6D983EEF053F9EFC4F2300C55EF27A7562953934B43D178B116"
+    },
+    {
+        "file":  "bin\\Release\\visual-smoke.bmp",
+        "sha256":  "F9B627A4FD2344E3C9D5343EF23941F40D01A00E79EE0579E69F8BD36637EC3D"
+    },
+    {
+        "file":  "sources\\EASILE.sln",
+        "sha256":  "09D438AF9ADE2AF9DD723FFFF74D84C3C553B48AE0C4E568593695CC4D115021"
+    },
+    {
+        "file":  "sources\\GameClient\\GameClient.vcxproj",
+        "sha256":  "C013C8C688CCB9BA01219C1E2929CA44EB140DA8E3178449448226B7A7337DF6"
+    },
+    {
+        "file":  "sources\\GameClient\\GameTests.vcxproj",
+        "sha256":  "7285CDBB997F54F2737337EBA0B4C6DA054C3722F7E00ECB16B92073233F7421"
+    },
+    {
+        "file":  "sources\\GameClient\\Hk01Probe.vcxproj",
+        "sha256":  "1A4230DAF7B3A8A6DE59E6FE57F6E8749CD151B7F3941B96211FB3BDA4CD065B"
+    },
+    {
+        "file":  "sources\\GameClient\\Hk01Replay.vcxproj",
+        "sha256":  "093D6BCDA9A8B3494F633615D97BF4AF8E8175BA255CAF81F5F0DFA5459738AF"
+    },
+    {
+        "file":  "sources\\GameClient\\Hk01SecurityTests.vcxproj",
+        "sha256":  "A50A59BC3B1B7EDA3C1E61BEFE6506EEE3FE1A6F70AC74464338650719BF5058"
+    },
+    {
+        "file":  "sources\\src\\Application.cpp",
+        "sha256":  "016D34A6117FCBF21375B2D86A85602C33419EC9D6C8CB610F814C4B405FD85F"
+    },
+    {
+        "file":  "sources\\src\\Application.h",
+        "sha256":  "98223C73654FC6C39C3AF2A102B7EEC05DCC36BDCABEB2EF2F080DB8392D6947"
+    },
+    {
+        "file":  "sources\\src\\BotController.h",
+        "sha256":  "7B868FA89A792DE25943849F1DDA3044A56AE9B0684DC86B5D98B2AF0FC36019"
+    },
+    {
+        "file":  "sources\\src\\BotHero.h",
+        "sha256":  "A9E160C39B6AAEF145BB970673A17616B391BD2795E07087828834F7283AD7DA"
+    },
+    {
+        "file":  "sources\\src\\Camera.h",
+        "sha256":  "70E690C33CFDBFA972210F24EA1A158BE4F4FED424490C5E6A96CF4D68D3ED90"
+    },
+    {
+        "file":  "sources\\src\\CodeIntegrity.cpp",
+        "sha256":  "D685A9735CBA46148E9801EE32578424B78252A889B19C59EAED71A578148F02"
+    },
+    {
+        "file":  "sources\\src\\CodeIntegrity.h",
+        "sha256":  "118EF416B9AFDDBA31C5A6E04F49BFADE80A33DEA8BA2106580FCB94E94C2EBF"
+    },
+    {
+        "file":  "sources\\src\\CombatSystem.cpp",
+        "sha256":  "129319C7AD8F5ABCB1308577F68F7B509F2FF3B742F8566EF26FB774E76934D4"
+    },
+    {
+        "file":  "sources\\src\\CombatSystem.h",
+        "sha256":  "E48C10B38DE7C4333E817892A3C7DB87EF5E56826ACBF827E5EB8354CB5B7A00"
+    },
+    {
+        "file":  "sources\\src\\GameTime.cpp",
+        "sha256":  "EAE16ADA30548DCCA86A8C7E4AFB4FEBE9197CC8344F0CC7C8AD653EE8B94252"
+    },
+    {
+        "file":  "sources\\src\\GameTime.h",
+        "sha256":  "C93377A4239227BD84A74106B1D97A2F29644CD7A16ADC62CAFC6317DE88FD28"
+    },
+    {
+        "file":  "sources\\src\\GameWorld.cpp",
+        "sha256":  "D5D1CC42B48F632300BF1A176890D33F6E087B89BBDE9F856EB0A1EF08F330E5"
+    },
+    {
+        "file":  "sources\\src\\GameWorld.h",
+        "sha256":  "52DA16F36C77DD2FE5E5933AA8B0BDDDF29B1F625A6CA53D650D082342985A91"
+    },
+    {
+        "file":  "sources\\src\\Hero.cpp",
+        "sha256":  "F42302949D85392CB7AEF1009A45D229B20C81350DB6D3115872767175CA7E11"
+    },
+    {
+        "file":  "sources\\src\\Hero.h",
+        "sha256":  "058E1BF6F0BFF7B87963E84B49971308E5E78A05ABA98F2A40E3630012ECF1B2"
+    },
+    {
+        "file":  "sources\\src\\HUDRenderer.cpp",
+        "sha256":  "E37149F3066DD41E73C7853AAC28F15A3F3F45B1D2B786089B9DD2C9FCAC1794"
+    },
+    {
+        "file":  "sources\\src\\HUDRenderer.h",
+        "sha256":  "93C6976BAEF09A0DA1EA3251CB798736EA1E992ADE47BC957B976E8CE60EB08F"
+    },
+    {
+        "file":  "sources\\src\\InputManager.cpp",
+        "sha256":  "9EC80464DF1E6477A6DB5C61ED4091B7FC2B7739F5EC60A2097BF52271849CB4"
+    },
+    {
+        "file":  "sources\\src\\InputManager.h",
+        "sha256":  "1BE960398BD928061B9905C251479C575CD731C347E72D679C424FF2DFCC39D3"
+    },
+    {
+        "file":  "sources\\src\\IntegrityGuard.cpp",
+        "sha256":  "062B6160C2D846CBE403C6FFC056AEEEEAE427B46F2247A80B62B496C0A97ADA"
+    },
+    {
+        "file":  "sources\\src\\IntegrityGuard.h",
+        "sha256":  "171CAB062660CB9169189584699874C3DC741BF3384BB109834DDDFF13788E7F"
+    },
+    {
+        "file":  "sources\\src\\Logger.h",
+        "sha256":  "62F53F950EAF4C9DE9A26929909FFB5514689309796FF96A733BB508E0BD9405"
+    },
+    {
+        "file":  "sources\\src\\main.cpp",
+        "sha256":  "83D816CFAE2FA0BF5D387DDB108E4FAC1A7F8ED9C0D4B429F24AD7C2CEDD429C"
+    },
+    {
+        "file":  "sources\\src\\MapPaths.h",
+        "sha256":  "754DB6E44ACE78E4CA5376021FDB88F23746E0C3BB0D507457E13B0026B233B9"
+    },
+    {
+        "file":  "sources\\src\\MathTypes.h",
+        "sha256":  "9687EAD0709E2290867E4CC4B237DF8E0CD5DC565C54C74BD96305D55D07ECBC"
+    },
+    {
+        "file":  "sources\\src\\PlayerController.h",
+        "sha256":  "2CEB0DE9103078196BFCFE03230666CEE58A76B2CECEFC3B0001E8A7C25A7CCD"
+    },
+    {
+        "file":  "sources\\src\\PlayerHero.h",
+        "sha256":  "EAF4CE058D2CA9B287E248AFE7F0F90E8F9C4E60851BE0B7A12CF039F27BE793"
+    },
+    {
+        "file":  "sources\\src\\Projectile.h",
+        "sha256":  "93878614557EDBC7D06EAE6F511E61CB2E1B77095A4C205AA9CA6ACA6CFB21C8"
+    },
+    {
+        "file":  "sources\\src\\Renderer.cpp",
+        "sha256":  "8688C93D3542392C18C0E6736E485F4FB2A3883F87BCC6039D62DE1CC9B6996A"
+    },
+    {
+        "file":  "sources\\src\\Renderer.h",
+        "sha256":  "532388F565453BA2627126B655BE308064D6E3CC16A0AE4D69F41D9B9B4A10CD"
+    },
+    {
+        "file":  "sources\\src\\Snapshot.h",
+        "sha256":  "32A575F9E28E5F7A68DF6E868EE2A8BDDFA92DF78A3D03A00CDE1A7EC2A9B96A"
+    },
+    {
+        "file":  "sources\\src\\VisibilitySystem.h",
+        "sha256":  "C52405E66564B684D622D4AF627D2BED728BD9629BCA36CFE232104C3C12D720"
+    },
+    {
+        "file":  "sources\\tests\\GameTests.cpp",
+        "sha256":  "0419175BA7AA40E2E229BEC692941E64FEF0944AF1CABB45117ABD962DD639AB"
+    },
+    {
+        "file":  "sources\\tests\\Hk01Probe.cpp",
+        "sha256":  "84A746F311CBF0BBEA376ABEDBAFC9D3FDB9FAC1F91089A4C0436A1718DD387B"
+    },
+    {
+        "file":  "sources\\tests\\Hk01Replay.cpp",
+        "sha256":  "7C7BC5AB3D53CE7F614D6D4E11857DADD56A03E62D1C55090D31D119DB2A56AF"
+    },
+    {
+        "file":  "sources\\tests\\Hk01SecurityTests.cpp",
+        "sha256":  "D5ADAA9E7DCCF13C62C664ADE66BEF044374C001E6B2CCB365364D64D9EAA546"
+    },
+    {
+        "file":  "sources\\tools\\audit_hk01.py",
+        "sha256":  "711E4F83B89B7F857ED22CBB63C5CA3D2CA3A00EFC2114EDF8431A5973EC78B9"
+    },
+    {
+        "file":  "sources\\tools\\Hk01.Isolated.props",
+        "sha256":  "9B7FA6477724FFC7888BEE4DE5B691CA9DA96A712ADD2761871EAC81E179AA91"
+    },
+    {
+        "file":  "sources\\tools\\Validate-Hk01.ps1",
+        "sha256":  "EA4C26BAE29913D64E9A4813880D5871C556D9B736F058930E096229D2FBB187"
+    }
+]

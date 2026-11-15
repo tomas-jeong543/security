@@ -1,0 +1,1111 @@
+{
+  "preservation": {
+    "file_count": 1579,
+    "changed_or_missing": []
+  },
+  "document_links": {
+    "count": 15,
+    "missing": []
+  },
+  "dll_hash_rows": [
+    {
+      "file": "../api_hooking_project/hk01_retest/followup_20261114/build/main_spawn_dll_120914_413001/main_spawn.dll",
+      "sha256": "CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9"
+    },
+    {
+      "file": "../api_hooking_project/hk01_retest/followup_20261114/build/main_scanner_dll_120916_079135/main_scanner.dll",
+      "sha256": "8E8F14E189970F58BCC11DEBE41203BFAD0CED3E36E7EA93C629DB3448E78306"
+    },
+    {
+      "file": "../api_hooking_project/hk01_retest/followup_20261114/build/fixture_spawn_v2_dll_121316_196384/fixture_spawn_v2.dll",
+      "sha256": "C9E473C29A35C4749A0A23843E27357179E09032C9AF315CE3F1E5364CB01987"
+    }
+  ],
+  "git": [
+    {
+      "args": [
+        "status",
+        "--short",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "status",
+        "--short",
+        "--ignored",
+        "--",
+        "api_hooking_project\\hk01_retest\\followup_20261114",
+        "docs\\hk01-final-gaps-followup-20261114.md"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "tracked_diff_unchanged": true,
+  "new_files": [
+    {
+      "path": "docs\\hk01-final-gaps-followup-20261114.md",
+      "sha256": "33406F66FAD6CFDA931AB879BB7FEF625FB3CF2BFE8FEA74E48EFC4EEE43F7F5",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\artifacts-fixture-v2.json",
+      "sha256": "070BABC59CBB9D8E68F755A218A77E6CE8CE6D94A6AD30832198C650D457E94D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\artifacts.json",
+      "sha256": "2BFCC78B524AF36A492F9DFCAD98EE809F243E9A28FBCEC78135DF28A29A24F8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\attempt_1_error.txt",
+      "sha256": "7417523E0948F23CEB289DAA833789E75F280823247D10938130EF1244A588B4",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\before-check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\before-diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\before-status.txt",
+      "sha256": "954F2CDFA7F154778028E3D877B98F28B3DAF5C53C84E8BBA700BCC0B6D514C2",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\BoundaryFixture.cpp",
+      "sha256": "E7E0D991218B4AB674833B06B56FADD09CF07AA0A864B8F4EB8237AEA50DC0D0",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\BoundaryFixture.vcxproj",
+      "sha256": "DDBEBB9B19BEFAE9B433A3FFC6BEFDA9655FA7B5FB91910116886BE46BBC932E",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\finalize.py",
+      "sha256": "D0A6779ECEAB5997D0B0552C49BDD10E3BF91AA68B4528BCB0285121FAA34008",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\lab.py",
+      "sha256": "2E241C5586F5B5BD35FD2D180061BCEC949512FFD3E1B90651E6D3ADB325A699",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\preserved-before.json",
+      "sha256": "BEC83A5F938011B0D81AF57618C0889A46F82F832C245CEAE043EC42462925C8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\RetestReplay.cpp",
+      "sha256": "1650AE4582BAF376C75AFBC4EC9D3D2B9151A025CC6A8B12C0B54FC80D96957D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\RetestReplay.vcxproj",
+      "sha256": "52A378FE1B6CB563070B69D34996AC33BA8AFAB9C0A57B8B84C7C48A31CFEFFA",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\targets.json",
+      "sha256": "0235A7E8ACB887CFFD94049748502CAE1AA5A5414D8F4517A2769FD2F2BCDB37",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\ui-unavailable.txt",
+      "sha256": "C39E548A5277EF815DD0BA1168D407B818DB0A4DA33C153102ECB4D0415BCB3C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verify.py",
+      "sha256": "15B331A466F1D28C081D0BF2329214D43F8008B6FEDB605D4E2D40FAF8D47D28",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\deps\\libMinHook.x64.lib",
+      "sha256": "4B7AFCF575116CA477F8C69581FE9E30BC71437263EA0ED28B5BC55144D5E8C6",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\deps\\LICENSE.txt",
+      "sha256": "D5C2224982B0B95A16B098A561335FA93F3EAF4D0AA964B7843EDB986DF78DC8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\deps\\manifest.json",
+      "sha256": "31081144B3B019CB665219DEE131285B1DF59F088EFA781548A107A2B3C3F1AF",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\deps\\MinHook.h",
+      "sha256": "62DFF05E63155C6BF8135C36A0D79DEDBDCAAEDE9DA26FE38DAF0BEA34323E38",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\fixture_spawn-adaptation.diff",
+      "sha256": "5E046ECF3237B1C43CFE6E890690155FD1298DF979E6225911714E3BD93449CE",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\fixture_spawn_v2-adaptation.diff",
+      "sha256": "CBFC0B21D6CBEA4E2C83285B45DDDC0E487FD7B2B5DD82E4554AB707A76B5FFD",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\ignore-rule.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\ignored.txt",
+      "sha256": "EF0F23B2EFDC755487EA003BB0CD6197EAB1E403B0ECAC4D12E48B5AE281A861",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\main_scanner-adaptation.diff",
+      "sha256": "45755C8534807B9517C469079E3BF63D1918086E1344E363E95D35DE7B76B66C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\main_spawn-adaptation.diff",
+      "sha256": "4E02A091C5FD9C19ADAA44E03FF64E343957D4E7F7F32BED8D283FFAC2D882DB",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-00.diff",
+      "sha256": "07DFB8C475AF37A662D1F9647C04CAD7946F1F8A7DCD6DDAE2E1957A864691E2",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-01.diff",
+      "sha256": "72526989AD22EF002C49813F817A87FC7ABE68C5451532234102AFD05E3E0E68",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-02.diff",
+      "sha256": "E14FF364C74043FDDA2DCFA853AA120B36DC7F5C214EDD04CA23CA2B8AB1AF40",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-03.diff",
+      "sha256": "90B6E91288F46D8CEECC679670D8C5DF36D6D5EF5B45C51617ED3C9D6925BCE0",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-04.diff",
+      "sha256": "9C1C17991CF6FEDA2F80A1448BAD977E6CCD033AC48FB6B73B9AF9D35825F341",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-05.diff",
+      "sha256": "2E2BC4FDF1392B3273A9E9A99036BFF473976E417D88ED5147DA05C41861686E",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-06.diff",
+      "sha256": "051F163C82C288154CA11A3F72EFD839560023E815E754827D218CA1F36A5472",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-07.diff",
+      "sha256": "DCA13B16E2D9C4672B834E549E21C07954F74B0590F0E3AB00FE7A9EE66BE957",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-08.diff",
+      "sha256": "6E8C05B82874678486408CCAD4701629F742B970EE905D57FC63B1A4B4C0C520",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-09.diff",
+      "sha256": "2AC900AEE824B3ACB13D4D14BF255E63762957A00BB68740900139B7C56B470C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-10.diff",
+      "sha256": "23E6944D94DFA9D1E9342A15494546645A73EE2AA16991D2B1E93F5D0E6791DD",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-11.diff",
+      "sha256": "6C6FC6B76D9DE5F7D3F27832CBF5AA1BBEA7F153E52B211BE07CF47873DA7F91",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-12.diff",
+      "sha256": "EFE4B3623B6E916400661AD5B2D1177B78F925ED5C7C35C4EF92CA2461B88D87",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-13.diff",
+      "sha256": "89C42C115A2BB96D86992D658880E118EA848343F52092E137328E7BAE7A1167",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-14.diff",
+      "sha256": "0FE12E03E494410E5CC962A19A6E60201E4A1C55A2ABED0647D7AD55F2EC8AB9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-15.diff",
+      "sha256": "F8BDA5F6851E10D80324F5CC1FAC7F52FFE39BC187300ADFBB5F98DFA15EFC38",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-16.diff",
+      "sha256": "E75ED04AB21A2211E8FD1EE1394A1F8158715FC6136482367B8CB818B4641DA5",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-17.diff",
+      "sha256": "61A43AD51570592A785FB6487B8D42B28E00F0C01E8F6B6F6BAF192AB0BAA2F5",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\new-source-18.diff",
+      "sha256": "73E418D1E55B8ECDC0D0689A515BC9E69DB033FB1137C5C200CE104A4F14BB14",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\status.txt",
+      "sha256": "954F2CDFA7F154778028E3D877B98F28B3DAF5C53C84E8BBA700BCC0B6D514C2",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\verification_20261114_121700_408985\\verified.json",
+      "sha256": "4278D98DF36423684AB03755F1CC290C409779E5ED0D30743FB94DBB8FFADDCD",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\results.json",
+      "sha256": "9657AB35B950FDFCFCB8E176932A85DF74DF1150F8031D5DA5CC0BD5CD20AF24",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121318_089249\\results.json",
+      "sha256": "DDAF5792382637EFD9C336562C80C3615AEB66C2C4E00422638DC3CD7AB3139D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121318_089249\\fixture\\debug-events.txt",
+      "sha256": "011AFC7A710330FBBE1D89AEE3063EAC2C6C4DEA8F17483303B033965749F517",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121318_089249\\fixture\\GameClient.exe",
+      "sha256": "A22851AE725B5D304208E2F34269299199BA0CAED45CA4DDD129BCD87CF28D13",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121318_089249\\fixture\\GameClient.log",
+      "sha256": "1C5C79F9A435BB9562FCF3281F51E4FD68559191715140B5353CAD7EE7A52701",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121318_089249\\fixture\\hook_payload.dll",
+      "sha256": "C9E473C29A35C4749A0A23843E27357179E09032C9AF315CE3F1E5364CB01987",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121318_089249\\fixture\\result.json",
+      "sha256": "ECAD48E7754D7905E930223DA010581D30D08A55B175FCB61A11EA92119AF921",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\debug-events.txt",
+      "sha256": "49B8ADFD5EF20C8F4D0A648B54696AA93C2F071C778722C8511A99ADEC23E4CC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\GameClient.exe",
+      "sha256": "A22851AE725B5D304208E2F34269299199BA0CAED45CA4DDD129BCD87CF28D13",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\GameClient.log",
+      "sha256": "D075A6180ADFA466CC59566010E93375966BD57C17200267F6F551DE7D966C76",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\hook_payload.dll",
+      "sha256": "6EDE5BB7FDB6EDFE361C4BB7B01FE2CAB9AE6A89C8B0876F5A11A26555A02055",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\result.json",
+      "sha256": "E776EB461FBBBDA649BDECDE6450DF9FC3D21B1B52622BA316BDE309A7F87A36",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\attack.dll",
+      "sha256": "8E8F14E189970F58BCC11DEBE41203BFAD0CED3E36E7EA93C629DB3448E78306",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\debug-events.txt",
+      "sha256": "BFB17F1F4E33EFFBC11CF67EF71D68FECD76E17B2517A1E9655B52C5F3DF2FB5",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\GameClient.log",
+      "sha256": "17896DFB9A4A51724278A3136D7724BF9581F923165FE2DB21386E1065D6E790",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\guard_observer.log",
+      "sha256": "C5E8A9234C5D150A13D9E4A160D459BCA5B38C1FBC2B1A3662C3F1BA30642BD2",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\injector.exe",
+      "sha256": "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\result.json",
+      "sha256": "E49887A4977637F6203500CECFECD8841A26F6325DDB00847A3D2844C3103569",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_spawn\\attack.dll",
+      "sha256": "CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_spawn\\debug-events.txt",
+      "sha256": "C4C9D9D33C479E702A2B7B910B2780005248BAE1C4760B62AAABEB41C842E380",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_spawn\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_spawn\\GameClient.log",
+      "sha256": "6F57D1701E4D836BA1FC48BB4C86DCD89C3F8BAE37D10960C8A8DBFFAF4D1C7C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_spawn\\injector.exe",
+      "sha256": "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_spawn\\result.json",
+      "sha256": "6AD216E6FE52F69F220DE15F06D74B0E98A16298714F8A6DA8AEFF644FC5D3FD",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121100_812800\\main_spawn\\attack.dll",
+      "sha256": "CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121100_812800\\main_spawn\\debug-events.txt",
+      "sha256": "0EF035F556C0D40C4E2580EB265FC9EB3647F13FC327D55F6DE64E010A4C8CEB",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121100_812800\\main_spawn\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121100_812800\\main_spawn\\GameClient.log",
+      "sha256": "9498543FD1CEA47ADE12E99C7391CB679C0A5CB5BC5304AD4D747E35429114D4",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121100_812800\\main_spawn\\injector.exe",
+      "sha256": "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\BoundaryFixture.exe",
+      "sha256": "A22851AE725B5D304208E2F34269299199BA0CAED45CA4DDD129BCD87CF28D13",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\BoundaryFixture.map",
+      "sha256": "482298FF4827A3026E745AEF17DC8B25B2C3CBBB503A0D60437FC87B6B3D5CC5",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\BoundaryFixture.pdb",
+      "sha256": "CE8790CE7AE0B793683615547834A23F88E43D05963B1E779138A713D93E7C8E",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\build.log",
+      "sha256": "E3D2C8C7C7D5E0CC785BA91D5E6E2586522C75786DF42BD6962F1C16743D5701",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\command.json",
+      "sha256": "A808EF1E25DA34468E7620A7E2C74CBEADF63F494FF54CED5C5155644B637E09",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\build.log",
+      "sha256": "E0AA48F5817E07DEBDDFBA3E065055559C4CF78229B9D300ACE0B5C40FFF0603",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\command.json",
+      "sha256": "62CC2EED1FA2995FB1C1D44D7DA281D9ECB49E03CBEE24D1285F5D9FAEC1FBC7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\fixture_spawn.dll",
+      "sha256": "6EDE5BB7FDB6EDFE361C4BB7B01FE2CAB9AE6A89C8B0876F5A11A26555A02055",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\fixture_spawn.exp",
+      "sha256": "32A7FB6034151B13FA71D0FDE81EBE28447B30B9809F85F77904AEC83E3014B9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\fixture_spawn.lib",
+      "sha256": "312043F77CD4B29774F42762E305A68E2102E211F708970923BD0E89B3805E07",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\fixture_spawn.map",
+      "sha256": "792C7C1E50DF77D7C1098493E705C4573E35F45A0498F7DE25FF17CD74D1C0A3",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\fixture_spawn.pdb",
+      "sha256": "58649E6C48EC2D5ED4B98EEF64C3187F73F3B56827D4EBA444B982D019AC7468",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\build.log",
+      "sha256": "A4E2766B3EACF987AE4B4116B5EA2A8C6B34B490D5BF3BFFFE425487AB3CC3FC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\command.json",
+      "sha256": "BB1ABCA9EC27DCF39B9C392CDF2127A2D345A30CB3CB99AE7E8F9D19E529F07B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\fixture_spawn_v2.dll",
+      "sha256": "C9E473C29A35C4749A0A23843E27357179E09032C9AF315CE3F1E5364CB01987",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\fixture_spawn_v2.exp",
+      "sha256": "D4B345D66F12878385C3E5B6BB9ADE2DD004765165C4C788AF4B3DD19B77A793",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\fixture_spawn_v2.lib",
+      "sha256": "07FDE6F5065C4756A4F90F48B5749FD4A9AE26271AB4B310DB96646083BEEF61",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\fixture_spawn_v2.map",
+      "sha256": "F606C8B2E71C706D3EF7EDCF8D3E5B68B2E078EB3F26B39A48310B5F5DADE600",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\fixture_spawn_v2.pdb",
+      "sha256": "98AF415CA933DE312FE6C6E1898FD8C8C908D33AFED33E2E9993EE570904804A",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\build.log",
+      "sha256": "82CAA0FBF4E710F2CC8AEE9E5386CBCCEC21A08C457A8BF86D6352AB66C15E9D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\command.json",
+      "sha256": "7ED1342EC649B35AE229E5B669C9C90C3278F60F5A4331914777C87305A9E30F",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\main_scanner.dll",
+      "sha256": "8E8F14E189970F58BCC11DEBE41203BFAD0CED3E36E7EA93C629DB3448E78306",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\main_scanner.map",
+      "sha256": "77CE3358BC03D91958E13EDA63EE2D642B610AF0F3FB13676F999B8F8019FE16",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\main_scanner.pdb",
+      "sha256": "D63082B3D0BB6C7A9C61D493D18AB86BDDDDC74100F5F40A81768DD959B9CD3C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\build.log",
+      "sha256": "E219EA8C3824D7F99C5042A41CCE8C0614468A674D91C27EEA9A7D5A542BEFD8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\command.json",
+      "sha256": "E7E96CB3749187535F09530296602589F34C91F5AA73CB4E64BA536953DB56F0",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\main_spawn.dll",
+      "sha256": "CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\main_spawn.exp",
+      "sha256": "4451B961B8681B28391AEBAF78BBC7B6F49992BBF9B0803AEDB138A576E06305",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\main_spawn.lib",
+      "sha256": "7B5FF71FCFCE33173C6F75DC10846C4314371AC806597A4933AA78A6366B3FE0",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\main_spawn.map",
+      "sha256": "C9797C8A92B76B5B189EDC85EB28B7A4C3D4A7063B321FBFD7DF8345406E8963",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\main_spawn.pdb",
+      "sha256": "A2E7A58E1CB0FD6DBA5752C5A6B125EE8986D885F709F906FC2A7DC697F554B0",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\build.log",
+      "sha256": "EC76CB2FA8DA851A60A584AD3EC0C14035575434C75BC9D87EACE36440AA0863",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\command.json",
+      "sha256": "BFAA7FC7B00CE906F47806243DEEB90B56F2985990231D154F0FAAEF1BC5B40F",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\RetestReplay.exe",
+      "sha256": "4B0901CC65FA120FE286329441A9DCF30AB34814A78CAE4E67B8A42B43984CBC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\RetestReplay.map",
+      "sha256": "FFC4B7F80DDB397879368D43F96EA95B260B2448ADD574BF42DD3C536EAFDFF0",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\RetestReplay.pdb",
+      "sha256": "4B65F66617821094929AA8C1488A0CDD961A1C363617E532D88E44B0324523B6",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.exe.recipe",
+      "sha256": "CE2BD43BAE5FB1E114963B879EA58350A9E22A83ABB2D8CC85711DCB9AEC0D48",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.obj",
+      "sha256": "0C8E56A6E1BA3587AEDC8CA9C3F93FD038E2BC4F53135F7C50337E2857F76786",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\vc143.pdb",
+      "sha256": "479C8F10ED2E2E53B77A9A5D1C4C7913C5B6B4489F303CF73CB4EF2BF22E3B99",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\CL.command.1.tlog",
+      "sha256": "9879CF9E04C3BD9F1BB26876916E4C826F84D8C56F03280E1DB4263ECDE1594B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\Cl.items.tlog",
+      "sha256": "D8F588243C6A8C7167C76F5BA792437F03225F8395BBD804FA75270B38480F55",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\CL.read.1.tlog",
+      "sha256": "052DC75D41B12547DDDC52820CAE0EDFFDD051545AAF64C2F1D4318ED47D0CDF",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\CL.write.1.tlog",
+      "sha256": "4CBAAF9EA9784475E9A6CC4AFF95494DC1F5A7E8F1B8992FE100615F144A5DF1",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\link.command.1.tlog",
+      "sha256": "2A3F8E8139DD434D630A3D5E14BDE93481A6EEEDE73AC85B23315EF131507B4D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\link.read.1.tlog",
+      "sha256": "B3557DE12A2AE61CD0D83EDF167EFCF5D190CD43B33F3004A470203939066B90",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\link.secondary.1.tlog",
+      "sha256": "FC50F7D973F9F23B0FBF51C78477D3B42865CBAD99342D94EC79D708CD8E4273",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\link.write.1.tlog",
+      "sha256": "384B18A3F3BC17493D718998847DA4D2F2DEC56D0C59353D3F4A9B54A59D4838",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\obj\\RetestReplay.tlog\\RetestReplay.lastbuildstate",
+      "sha256": "0BFC551B77A97E9E75BBC457E988CEE6AEF9385674040F0D99846FFBED555EF8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\hook_payload.obj",
+      "sha256": "D9D0F4173D29F00E0AAEA8652684ABD2B48B8EF361E55C68302BD8C851163E2D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.dll.recipe",
+      "sha256": "8936C6B7960A85793D862BBA461C2FFB5E6533768DF5C702AA6A5DE3B6FED43A",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\vc143.pdb",
+      "sha256": "AE8E96B73CFAAB03C9AC05A3342ED0239009ECFE4325C07A2DC65DB0C1504257",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\CL.command.1.tlog",
+      "sha256": "6AEF2EDC57B70F0E13D68862CDB10CDAF9EAC40EF85078D30FE70690D2987CC9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\Cl.items.tlog",
+      "sha256": "A10E1B492FC5CA2443A0A55D69DF1D9502EACFFE7EA63F93A6853B59138CA47F",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\CL.read.1.tlog",
+      "sha256": "FE776E4DAFC698937C0D0B3E1A3421E3D3518CC9B63B0D55A98B5529B8B13D02",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\CL.write.1.tlog",
+      "sha256": "BB7C4446F8C6774AF11CDB7DB1C7A566CDFF573F07D8DE465C8687D89340BC1D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\link.command.1.tlog",
+      "sha256": "CF851CEDF82A2DE6AE31103FE1A2E9F2E6F01D7CB4A1FE6869ABAC6E51ABB8DF",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\link.read.1.tlog",
+      "sha256": "4639DC8226ED30443ABB4410D995BDDD53E00236018523F9380DE3022B3A017B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\link.secondary.1.tlog",
+      "sha256": "815B6EB42FE680C231AAFC0711B27CEFB3EEC542343BCB35926FA57914EF7E2E",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\link.write.1.tlog",
+      "sha256": "ECD7EAD008712DBFDFC62B1443B39E61247F12139FDC191D65B1014098C8FB84",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\obj\\main_spawn.tlog\\main_spawn.lastbuildstate",
+      "sha256": "1DC73A3093655BA58BBF307D2449D69C9632EBB9BF0D4EAD10FF461043E26862",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\dllmain.obj",
+      "sha256": "83D469F053F38ACBE2A2988EB78FC335099D13AF1ABCC775BD3C93D01E92C949",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.dll.recipe",
+      "sha256": "7609FC08B75A0FA0CB36169A55CDC9E333C9AC816E2EA101DABE4FF66A1B3563",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\vc143.pdb",
+      "sha256": "B90C3E47930EE20DE2CB5E97D22E9469354CA9F7DA9979565FCFAAB4BDCBCDE4",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\CL.command.1.tlog",
+      "sha256": "711264C3A6FF78FA75D55F31F91F670583652A1075330269080B5595858DDCC6",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\Cl.items.tlog",
+      "sha256": "0F66DFF1E76004BEBE864575A2A28E0AD1239EED1E41BC088288EC213EF14C52",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\CL.read.1.tlog",
+      "sha256": "9140C6231F7F54945AA7EC2FB8707411177265AC1FFA279DB36A22801031FF0F",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\CL.write.1.tlog",
+      "sha256": "5BD9AE4421EB1C529D5B67868993857CEA688F35EB7B637AE08BE531185C6D10",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\link.command.1.tlog",
+      "sha256": "285CE4D4E0097026873E7BB49BEAB60596F7E52CDF45AFBEE1260884ECA557D4",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\link.read.1.tlog",
+      "sha256": "2EDE5F9F2614A87E5E95B145CE3403DB5DC350EC4CA933165905C5B75F9CE11A",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\link.secondary.1.tlog",
+      "sha256": "4BCF7702040B5ADD4F4417BA0473C2603D7F921D308F230D318D7159FA679BBC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\link.write.1.tlog",
+      "sha256": "B15F82C788EAB03BC7BB12F9099B7B586DA4F54539E56D8C48E2E70796D98763",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\obj\\main_scanner.tlog\\main_scanner.lastbuildstate",
+      "sha256": "08AA8737D9E7FB06C59E4B923F22A60DFE1DC7C1F238CCC6756B4A366288D1FE",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.dll.recipe",
+      "sha256": "48D311BBCF5F31637B5CE3A9DF14A936C768636EDD663B8D8957A69B6F86B3D4",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\hook_payload.obj",
+      "sha256": "E346CBFDA78CB11295215DABFDA84F9525DFB492FAC534DFEC5AAAAF46905C05",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\vc143.pdb",
+      "sha256": "85C75B474CB1592ACB6EB8AB02A2FCA1EEC5E37FCC080048578411E259333C6C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\CL.command.1.tlog",
+      "sha256": "ACA726E0A649F183BABCDFAA5FB4F5FEFC8F71C753299484C449C04E8A04C386",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\Cl.items.tlog",
+      "sha256": "8C37765229A6A7066C1B693DBA3D093B464130CBD763C71513768AF84B97876D",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\CL.read.1.tlog",
+      "sha256": "2692FA0798A025620BE62A522ABDC778BEF3DA384103B9E44FD785663707E446",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\CL.write.1.tlog",
+      "sha256": "6B0E6E2749AD7FB0C3D3707BF7A916B44FA642B94F51055A8C7092B4A54A59D3",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\fixture_spawn_v2.lastbuildstate",
+      "sha256": "888E74ED3F4893ED847A363C654BFF1235B7519DFEE29DD2686C9BBC82550DFB",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\link.command.1.tlog",
+      "sha256": "4A91689F39FEEE5447ACB81BB1E61528D0A5797155BE560235954F1FC2A1829B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\link.read.1.tlog",
+      "sha256": "88F3F1D80D8F6364616469429D86A7A0F7FF926C564EC76E3D589FEFF3195EDC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\link.secondary.1.tlog",
+      "sha256": "09D91122A44FFAEA67BA24C86135A1F3D6BC838F0D0C23BB899568226BE12758",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_v2_dll_121316_196384\\obj\\fixture_spawn_v2.tlog\\link.write.1.tlog",
+      "sha256": "C149C4BB4C992E2CFFCA36634AEED9EA2CCC3D5F71BD507825991BFE96CA884A",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.dll.recipe",
+      "sha256": "945D00EAE0EB1152FA625F6367916B6C8D43DCE7420E91E64C5E38AA4EED88B9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\hook_payload.obj",
+      "sha256": "3619D5569A6703D31E33B77E77752D2A560E85A63B7D5539F3D2511A030329BC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\vc143.pdb",
+      "sha256": "27B22C0B298D2CA3B174D5C89C5AE9E17BE26D6E2087BC0F5F930A2B55755455",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\CL.command.1.tlog",
+      "sha256": "5DB0419B7BEEB1E2DF80285C616111ADF17143A2BC5EC1CEC6892427CBCF7A54",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\Cl.items.tlog",
+      "sha256": "F5101E777895A7A2113761300378EC8355F3BB8B2BD4CABAE8878A4BA42906B8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\CL.read.1.tlog",
+      "sha256": "F52AF4C0D85E6BF3B4A08C2E3E75B6A2191D689F230D3A254C0C16B5329A26D9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\CL.write.1.tlog",
+      "sha256": "090423AEDC00BE67185A92DE653183938C3B606E1C7CEF980E219E1B26A34C75",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\fixture_spawn.lastbuildstate",
+      "sha256": "0080B0680CEE344B3110025457BA5F65DB71F75495AF6A76C5D93418C3E91376",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\link.command.1.tlog",
+      "sha256": "207CC9997C586C203B82233AFE4E7AA3B6D90603641BF48F00D9C0B8DA32B73B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\link.read.1.tlog",
+      "sha256": "BE544D2C2203DC98AE98CE9FAE0CA8EA539A476F432D0C436D426EA43A1DFCB1",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\link.secondary.1.tlog",
+      "sha256": "8660E2E3F64D9D4FF84EC0899FF82E40D9136E43B94772A674E4B5F46B17D763",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\obj\\fixture_spawn.tlog\\link.write.1.tlog",
+      "sha256": "4518315FFF7F2DEBD05E3090341387BA41E0D51CDC6BC4A60C1E4B09C5CDD97C",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.exe.recipe",
+      "sha256": "E20B852DB9A20EA5306AB9FEE7CBBFF62FF83CA57D348A8BFF34101C4581F4A7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.obj",
+      "sha256": "C60911F4AAB7FF863E0136006ACF290E2C93F0D375B04C0A684C08BDB6AF2B23",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\CodeIntegrity.obj",
+      "sha256": "CE1C0FA325876B2298927716EEDC3DC5D71CDE883DC565D847BFAD0C17B2BD12",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\CombatSystem.obj",
+      "sha256": "674394001EBBBD06230E40FD8C82F3213B2D2F1F07067E6D2A83479D5B8C466B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\GameWorld.obj",
+      "sha256": "9009C15420F2E1ADF991704F07579E5D2A91D68843E1BF759617ABD8E2C827B8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\Hero.obj",
+      "sha256": "C29667F2052A70F76AAD90D7C624663E33BC2360B2F05476C7BEB4C3B25E2CE9",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\IntegrityGuard.obj",
+      "sha256": "DE709CFF9586D8895019FDF9D4051B58A8336B394393C29C28C121F41EED8363",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\vc143.pdb",
+      "sha256": "ABE0FAB92C2528841E50C6A863E6A6F2AB8EECA0BE2E6F8D30DDD433E54C19BA",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\BoundaryFixture.lastbuildstate",
+      "sha256": "0BFC551B77A97E9E75BBC457E988CEE6AEF9385674040F0D99846FFBED555EF8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\CL.command.1.tlog",
+      "sha256": "2B8D5E1486A5B3FF6D86EEEEC67F2C02D43171EB07852D11F7168036D9BFEC6B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\Cl.items.tlog",
+      "sha256": "7E24CD4FE4CDC0E44B1EA937420A9EFB81C404199D1E6B3F0344531527001C69",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\CL.read.1.tlog",
+      "sha256": "460A024086F28D1BF8C8E5FAEF1F8AB002DCAC530DF860E0B91F9025F7E25793",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\CL.write.1.tlog",
+      "sha256": "14C846EBAD4E20D5020666D987C5BD8E574A9638556C64A5625F85B91CC66DD7",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\link.command.1.tlog",
+      "sha256": "B6747CE718DD83C685C53E73EE9808314A4C52FC337B56952A1B909F34D9D54B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\link.read.1.tlog",
+      "sha256": "9B40320F7E41C6FA314D1C30B385F94AC05DFD21D2DA1D9BA13B3A2AB001ACAD",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\link.secondary.1.tlog",
+      "sha256": "20AA03862630272B3A5F464A1E9F6BDA77FE6ADD47DE316CA40516138FDBB8D8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\obj\\BoundaryFixture.tlog\\link.write.1.tlog",
+      "sha256": "DC9A1153D3D5B01239170FF6F0542529FACE3A82C7EC10C5CCD12F4DA8EB4A7A",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn\\fixture_spawn.vcxproj",
+      "sha256": "A94A07EA2872DD4130C9FBF9129B57A7653271FE198B468862AA778EA065ED48",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn\\hook_payload.c",
+      "sha256": "4CFF5D70AE87C18038CB6C940862FB8A811BC5F30D60470B43B637CE70DB3119",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn\\provenance.json",
+      "sha256": "66300124C4044AE72E320122E0EB4C527CADA1BC1DA468D95829B265F2B69955",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn\\target_pin.h",
+      "sha256": "D837F0D769E94CC21C76AAD39356E1C1659428A398EE334FD0C73B142C867EF8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn_v2\\fixture_spawn_v2.vcxproj",
+      "sha256": "DE41EF7224BD8784991B9D40C5B2CC9FD58342B807FFEBC73AE63096A3025FE4",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn_v2\\hook_payload.c",
+      "sha256": "31919F3FE496D27EBC9B2CEB2D1D81CD9B789572005CE1A90F2A5C7D24640DCC",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn_v2\\provenance.json",
+      "sha256": "5BAB8EFC763560801DFEC6AD7E4A53221CA1E984F378CDACB2EFD276F9437F66",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\fixture_spawn_v2\\target_pin.h",
+      "sha256": "D837F0D769E94CC21C76AAD39356E1C1659428A398EE334FD0C73B142C867EF8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_scanner\\dllmain.cpp",
+      "sha256": "704C316C66A5F7C61B594CB19577616F0E41098B892A4BF0339118430236344B",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_scanner\\main_scanner.vcxproj",
+      "sha256": "049B4758AC92D93F75A4CDECE476C3775B2AEAFA6807C46DAB2C664A98B23AFE",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_scanner\\provenance.json",
+      "sha256": "0F460DD8162DF8342ECE2E17DB0C79B844075882748645BFEC234A7B71D947D8",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_scanner\\target_pin.h",
+      "sha256": "0B5FE1C607EF8D377F8AE935DFA4BB31902555F82ACCFADDEED9B70508CDF062",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_spawn\\hook_payload.c",
+      "sha256": "17612D9F7B91558663CE62D0BA041DDC69FB6C7B4B0390E0A05656EA771D8A03",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_spawn\\main_spawn.vcxproj",
+      "sha256": "A2441009FFCAFC924B33A536A4341A094E170D7BEA2971A3AF63FB32EBC8E660",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_spawn\\provenance.json",
+      "sha256": "C71D18F8ECF43C6D1F7920C0909F5BA6EF260FB00F4D69818D0F852C8B5045C1",
+      "no_index_exit": 1
+    },
+    {
+      "path": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_spawn\\target_pin.h",
+      "sha256": "0B5FE1C607EF8D377F8AE935DFA4BB31902555F82ACCFADDEED9B70508CDF062",
+      "no_index_exit": 1
+    }
+  ]
+}

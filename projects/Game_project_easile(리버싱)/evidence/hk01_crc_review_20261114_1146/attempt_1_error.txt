@@ -1,0 +1,7 @@
+Initial review command exited 1 before any test process was launched.
+Cause: the replay-* glob also selected replay-manifest.json, which is a file.
+FileNotFoundError while trying to append /debug-events.txt to that file path.
+Correction: require folder.is_dir() when selecting replay directories.
+No existing EXE, DLL, source, or evidence was written by that attempt.
+Its before-status.txt, before-diff.txt, before-check.txt and preserved-before.json remain intact.
+Subsequent attempts use separate run_<timestamp> output directories.

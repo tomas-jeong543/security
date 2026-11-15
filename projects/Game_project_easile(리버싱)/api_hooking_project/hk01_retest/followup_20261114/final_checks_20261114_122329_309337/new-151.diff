@@ -1,0 +1,8 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/build/main_scanner_dll_120916_079135/obj/main_scanner.tlog/main_scanner.lastbuildstate b/api_hooking_project/hk01_retest/followup_20261114/build/main_scanner_dll_120916_079135/obj/main_scanner.tlog/main_scanner.lastbuildstate
+new file mode 100644
+index 0000000..738e186
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/build/main_scanner_dll_120916_079135/obj/main_scanner.tlog/main_scanner.lastbuildstate
+@@ -0,0 +1,2 @@
++PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.44.35207:TargetPlatformVersion=10.0.26100.0:
++Release|x64|D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\adapted\main_scanner\|

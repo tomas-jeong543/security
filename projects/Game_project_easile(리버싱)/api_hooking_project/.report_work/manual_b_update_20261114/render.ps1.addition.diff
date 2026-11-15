@@ -1,0 +1,46 @@
+﻿diff --git "a/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/render.ps1" "b/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/render.ps1"
+new file mode 100644
+index 0000000..a6c6e82
+--- /dev/null
++++ "b/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/render.ps1"
+@@ -0,0 +1,40 @@
++﻿$ErrorActionPreference='Stop'
++Add-Type -AssemblyName System.Drawing
++$word=New-Object -ComObject Word.Application; $word.Visible=$false
++$word.DisplayAlerts=0
++$source=Join-Path $PSScriptRoot 'EASILE_HK01_공격방어_최종보고서.docx'
++$out=Join-Path $PSScriptRoot 'render'
++$null=New-Item -ItemType Directory -Path $out -Force
++$doc=$word.Documents.Open($source,$false,$false)
++try {
++ $doc.Repaginate()
++ foreach($f in $doc.Fields){$null=$f.Update()}
++ $doc.Save()
++ Write-Output 'Saved DOCX; rendering page images'
++ $doc.ActiveWindow.View.Type=3
++ $pages=$doc.ActiveWindow.Panes.Item(1).Pages
++ $count=$pages.Count
++ Write-Output ('Pages: '+$count)
++ $data=@()
++ for($i=1;$i -le $count;$i++) {
++  $emf=Join-Path $out ('page-'+$i+'.emf')
++  [IO.File]::WriteAllBytes($emf,[byte[]]$pages.Item($i).EnhMetaFileBits)
++  $picture=[Drawing.Image]::FromFile($emf)
++  try {
++   $bitmap=[Drawing.Bitmap]::new(1488,2105)
++   try {
++    $graphics=[Drawing.Graphics]::FromImage($bitmap)
++    try {$graphics.Clear([Drawing.Color]::White); $graphics.DrawImage($picture,0,0,1488,2105)}finally{$graphics.Dispose()}
++    $bitmap.Save((Join-Path $out ('page-'+$i+'.png')),[Drawing.Imaging.ImageFormat]::Png)
++   }finally{$bitmap.Dispose()}
++  }finally{$picture.Dispose()}
++  $start=$doc.GoTo(1,1,$i).Start
++  $end=if($i -lt $count){$doc.GoTo(1,1,($i+1)).Start}else{$doc.Content.End}
++  $text=$doc.Range($start,$end).Text
++  $data+=@{page=$i;text=$text}
++  Write-Output ('Rendered '+$i+' chars='+$text.Length)
++ }
++ $data | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $out 'pages.json') -Encoding UTF8
++ $tables=@(); foreach($table in $doc.Tables){$first=$table.Range.Information(3); $last=$table.Range.Duplicate; $last.End=$last.End-1; $last.Start=$last.End; $tables+=@{startPage=$first;endPage=$last.Information(3);rows=$table.Rows.Count}}
++ $tables | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $out 'tables.json') -Encoding UTF8
++}finally{$doc.Close(0)}

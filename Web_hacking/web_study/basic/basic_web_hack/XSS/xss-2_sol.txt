@@ -1,0 +1,7 @@
+이전과 달리 innerHTML과 같은 방식을 이용한다 특히 onerror로 js코드를 innerHTML에 넣어서 실행시킨다
+
+onerror는 오류가 발생했을 때 JavaScript 코드를 실행하는 이벤트 핸들러
+
+innerHTML로 생성한 <script> 요소는 브라우저가 실행하지 않도록 처리하지만, onerror 같은 이벤트 핸들러 속성은 별개의 메커니즘이기 때문에 실행될 수 있다.
+
+<img src="XSS-2" onerror="location.href='/memo?memo='+document.cookie">

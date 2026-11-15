@@ -1,0 +1,52 @@
+"""Final report, diff and byte-preservation checks. No game/DLL execution."""
+import hashlib
+import json
+import re
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
+sys.stdout.reconfigure(encoding='utf-8',errors='backslashreplace')
+
+BASE=Path(__file__).resolve().parent
+ROOT=BASE.parents[2]
+DOC=ROOT/'docs/hk01-final-gaps-followup-20261114.md'
+files=[DOC,*[p for p in BASE.rglob('*') if p.is_file()]]
+OUT=BASE/('final_checks_'+datetime.now().strftime('%Y%m%d_%H%M%S_%f'))
+OUT.mkdir()
+
+def sha(p):
+    with p.open('rb') as s: return hashlib.file_digest(s,'sha256').hexdigest().upper()
+
+before=json.loads((BASE/'preserved-before.json').read_text(encoding='utf-8'))
+changed=[p for p,h in before.items() if not (ROOT/p).exists() or sha(ROOT/p)!=h]
+text=DOC.read_text(encoding='utf-8')
+links=re.findall(r'\]\(([^)]+)\)',text)
+missing=[p for p in links if not p.startswith(('http:','https:','#')) and not (DOC.parent/p.split('#')[0]).exists()]
+report={'preservation':{'file_count':len(before),'changed_or_missing':changed},'document_links':{'count':len(links),'missing':missing},'dll_hash_rows':[],'git':[]}
+for line in text.splitlines():
+    if not line.startswith('| [') or '.dll](' not in line: continue
+    link=re.search(r'\]\(([^)]+)\)',line)[1]
+    expected=re.findall(r'`([0-9A-F]{64})`',line)
+    assert len(expected)==1
+    actual=sha(DOC.parent/link)
+    assert actual==expected[0]
+    report['dll_hash_rows'].append({'file':link,'sha256':actual})
+for label,args in [('status',['status','--short','--','.']),('diff',['diff','--','.']),('check',['diff','--check','--','.']),
+    ('ignored',['status','--short','--ignored','--',str(BASE.relative_to(ROOT)),str(DOC.relative_to(ROOT))])]:
+    p=subprocess.run(['git',*args],cwd=ROOT,capture_output=True)
+    (OUT/(label+'.txt')).write_bytes(p.stdout+p.stderr)
+    report['git'].append({'args':args,'exitCode':p.returncode})
+    if label=='diff': report['tracked_diff_unchanged']=(BASE/'before-diff.txt').read_bytes()==p.stdout+p.stderr
+assert report['tracked_diff_unchanged'] and all(row['exitCode']==0 for row in report['git'])
+report['new_files']=[]
+for i,file in enumerate(files):
+    relative=str(file.relative_to(ROOT))
+    p=subprocess.run(['git','diff','--no-index','--','/dev/null',relative],cwd=ROOT,capture_output=True)
+    (OUT/f'new-{i:03}.diff').write_bytes(p.stdout+p.stderr)
+    assert p.returncode in (0,1),(relative,p.returncode)
+    report['new_files'].append({'path':relative,'sha256':sha(file),'no_index_exit':p.returncode})
+assert not changed and not missing and len(report['dll_hash_rows'])==3
+(OUT/'final-checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps({'output':str(OUT.relative_to(ROOT)),'preservation':report['preservation'],'document_links':report['document_links'],
+    'dll_hash_rows_verified':len(report['dll_hash_rows']),'tracked_diff_unchanged':report['tracked_diff_unchanged'],'new_files_reviewed':len(files)},ensure_ascii=False,indent=2))

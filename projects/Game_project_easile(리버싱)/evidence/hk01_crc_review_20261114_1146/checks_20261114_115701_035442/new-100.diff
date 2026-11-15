@@ -1,0 +1,64 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/Release-GameTests/stdout.txt b/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/Release-GameTests/stdout.txt
+new file mode 100644
+index 0000000..9c8d9fd
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/Release-GameTests/stdout.txt
+@@ -0,0 +1,58 @@
++TC G18 Ally Bot spawn PASS
++TC G19 second Enemy Bot spawn PASS
++TC G20 multi-Hero combat/XP PASS
++MAP playable_terrain_ratio=3.26271 (8px raster)
++TC G21 expanded lane collision PASS
++TC G22 cross-lane attacks PASS
++TC G23 jungle entry PASS
++TC G24 jungle wall collision PASS
++TC G25 jungle brush PASS
++TC G26 expanded minion paths PASS
++TC G27 camera/mouse PASS
++TEMPO run=1 minion_first_damage=3.75 minion_tower_range=8.28 hero_first_damage=2.21 match_seconds=18.31 result=Victory
++TEMPO run=2 minion_first_damage=3.75 minion_tower_range=8.28 hero_first_damage=2.21 match_seconds=18.31 result=Victory
++TEMPO run=3 minion_first_damage=3.75 minion_tower_range=8.28 hero_first_damage=2.21 match_seconds=18.31 result=Victory
++TEMPO mean_match_seconds=18.31
++TEMPO base_to_lane_0_seconds=4.1
++TEMPO base_to_lane_1_seconds=3.43
++TEMPO base_to_lane_2_seconds=4.1
++TEMPO minion_only_first_clash_seconds=5.63
++TC G28 full match/tempo PASS
++Road bounds PASS
++Lane walls: swept Basic/Ultimate x16 PASS
++Wall Auto/HUD/LMB/Mouse PASS
++Wall Tower/Minion rules PASS
++Bot defensive patrol x3 PASS
++Bot wall detour x6 PASS
++Road junction round trip PASS
++Minion target priority PASS
++Bot cover fire PASS
++TC G01 PASS
++TC G02 PASS
++TC G03 PASS
++TC G04 PASS
++TC G05 PASS
++TC G06 PASS
++TC G07 PASS
++TC G08 PASS
++TC G09 PASS
++TC G10 PASS
++TC G11 PASS
++TC G12 PASS
++TC G13 Bot FSM recovery PASS
++TC G14 PASS
++TC G15 PASS
++TC G16 PASS
++TC G17 PASS
++Bot visibility regression PASS
++Basic damage path PASS
++Connected lane sieges x6 PASS
++Tower attack visuals PASS
++Center pickup PASS
++Bot route/pickup limit PASS
++Bot attack cadence PASS
++Bot FSM 3-cycle scenario PASS
++Flow/Restart x10 PASS
++Full match flow PASS
++HUD text PASS
++Focus PASS

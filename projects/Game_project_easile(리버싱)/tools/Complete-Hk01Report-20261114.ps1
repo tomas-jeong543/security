@@ -1,0 +1,146 @@
+﻿$ErrorActionPreference='Stop'
+[Console]::OutputEncoding=[Text.Encoding]::UTF8
+$root=(Get-Location).Path
+$run='evidence/hk01_report_completion_'+(Get-Date -Format 'yyyyMMdd_HHmmss')
+$null=New-Item -ItemType Directory -Path $run
+Set-Content -LiteralPath 'evidence/hk01-report-latest.txt' -Value $run -Encoding UTF8
+$report=(Get-ChildItem -LiteralPath 'api_hooking_project' -Filter '*간결본.docx' -File).FullName
+git rev-parse --show-toplevel | Set-Content "$run/git-root.txt" -Encoding UTF8
+git status --short -- . | Set-Content "$run/before-status.txt" -Encoding UTF8
+git diff -- . | Set-Content "$run/before.diff" -Encoding UTF8
+$ErrorActionPreference='Continue'
+git diff --check -- . 2>&1 | Set-Content "$run/before-check.txt" -Encoding UTF8
+$beforeCheck=$LASTEXITCODE
+$ErrorActionPreference='Stop'
+$targets=@(Get-ChildItem -LiteralPath 'src','GameClient','tests','build','api_hooking_project','api_hooking_v11-7','dll_injection_project','evidence/hk01_triple_20261114' -Recurse -File | Where-Object { $_.FullName -ne $report })
+$hashes=@(foreach($f in $targets){[pscustomobject]@{path=$f.FullName;sha256=(Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash}})
+$hashes | ConvertTo-Json -Depth 4 | Set-Content "$run/preserved-before.json" -Encoding UTF8
+Copy-Item -LiteralPath $report -Destination "$run/original-report.docx"
+$originalHash=(Get-FileHash -LiteralPath $report).Hash
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+$z=[IO.Compression.ZipFile]::OpenRead($report)
+$reader=[IO.StreamReader]::new($z.GetEntry('word/document.xml').Open())
+[xml]$xml=$reader.ReadToEnd(); $reader.Close(); $z.Dispose()
+$ns=[Xml.XmlNamespaceManager]::new($xml.NameTable)
+$w='http://schemas.openxmlformats.org/wordprocessingml/2006/main'
+$ns.AddNamespace('w',$w)
+$tables=$xml.SelectNodes('//w:body/w:tbl',$ns)
+function Set-Cell([int]$t,[int]$r,[int]$c,[string]$text){
+ $cell=$tables[$t].SelectNodes('w:tr',$ns)[$r].SelectNodes('w:tc',$ns)[$c]
+ $para=$cell.SelectSingleNode('w:p',$ns); $pPr=$para.SelectSingleNode('w:pPr',$ns); $rPr=$para.SelectSingleNode('.//w:rPr',$ns)
+ $p=$xml.CreateElement('w','p',$w)
+ if($pPr){$null=$p.AppendChild($pPr.CloneNode($true))}
+ $lines=$text -split "`n"
+ for($i=0;$i -lt $lines.Count;$i++){
+  $rr=$xml.CreateElement('w','r',$w); if($rPr){$null=$rr.AppendChild($rPr.CloneNode($true))}
+  if($i -gt 0){$null=$rr.AppendChild($xml.CreateElement('w','br',$w))}
+  $tt=$xml.CreateElement('w','t',$w); $null=$tt.SetAttribute('space','http://www.w3.org/XML/1998/namespace','preserve'); $tt.InnerText=$lines[$i]; $null=$rr.AppendChild($tt);$null=$p.AppendChild($rr)
+ }
+ foreach($old in @($cell.ChildNodes)){if($old.LocalName -ne 'tcPr'){$null=$cell.RemoveChild($old)}}
+ $null=$cell.AppendChild($p)
+}
+function Set-Para([int]$index,[string]$text){
+ $p=$xml.SelectNodes('//w:body/w:p',$ns)[$index]; $ts=$p.SelectNodes('.//w:t',$ns); $ts[0].InnerText=$text
+ for($j=1;$j -lt $ts.Count;$j++){$ts[$j].InnerText=''}
+}
+Set-Para 2 '공격 구조와 A/B/C 방어 검증 결과  |  2026년 11월 14일'
+Set-Para 27 '3중 방어 구현 및 재검증'
+Set-Para 30 '14  구현한 방어 기법과 한계'
+Set-Para 31 'A는 DLL 경로, B는 발사 직전 코드, C는 스캐너 코드를 각각 검사한다. 최종 실게임 B PASS에는 B 탐지 로그와 게임 자체 종료 2가 모두 필요하다.'
+Set-Cell 0 2 1 '2026-11-01 ~ 2026-11-14'
+Set-Cell 0 7 1 "Release GameClient.exe`n3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153"
+Set-Cell 1 0 0 'HK-01의 +30° 조준 방향 변조와 DLLGuard 우회 구조를 분석하고 A/B/C 방어의 실제 검증 범위를 정리한다. A와 C는 실게임 증거가 있으며 B는 BoundaryFixture에서만 탐지·종료 2를 확인했다. 실제 게임의 B는 미검증이다.'
+Set-Cell 2 0 0 '자체 제작 EASILE의 SpawnProjectile과 DetectNewModules를 분석한다. 기존 공격·방어 소스, EXE/DLL 해시, 디버그 이벤트와 게임 로그를 근거로 삼는다.'
+Set-Cell 2 1 0 '기존 검증 결과와 이번 읽기 전용 조사·보고서 갱신을 구분한다. 이번에는 소스·바이너리·방어 설정을 변경하지 않았고 CRC32 개선과 서버 확장을 수행하지 않았다.'
+Set-Cell 3 1 1 'A 신규 DLL 탐지 / B 발사 경계 코드 검사 / C 독립 스캐너 감시'
+Set-Cell 3 2 1 '호환 MinHook의 설치·E9 변조 및 탐지 로그를 기존 기록에서 확인'
+Set-Cell 3 3 1 '기존 Debug/Release 49/49 PASS. 실게임 B는 UI 도구 오류로 미검증'
+Set-Cell 4 0 1 'Update → UpdateBot → CheckedSpawnProjectile → SpawnProjectile'
+Set-Cell 4 1 1 'Bot이 목표·방향을 계산하고 발사 경계에서 B를 검사한다. 정상일 때만 투사체를 생성하며 본문에서도 재검사한다. HeroId: 플레이어 0 / 기존 적 Bot 1 / 아군 Bot 2 / 추가 적 Bot 3.'
+Set-Cell 6 1 0 '기존 공격 EXE의 RVA는 0x137E0이다. 최종 Release의 SpawnProjectile은 RVA 0xF670이며 과거 주소·진입 바이트를 새 빌드에 승계하지 않는다.'
+Set-Cell 6 2 0 '기존 payload의 진입 14바이트 검사는 과거 EXE용이다. 새 EXE에서는 원본 payload가 설치를 거부했고, 해시가 고정된 별도 호환 DLL의 실제 E9 변조를 확인했다.'
+Set-Cell 11 1 0 '기존 Dll2는 DetectNewModules(RVA 0xEF90)를 후킹하고 원본 스캔을 생략한다. 과거 재현에서 E9 변조와 SKIPPED 3회를 확인했다. 원본 스캔 활성이라는 설치 문구는 소스와 모순된다. 현재 C 시험에서는 설치 후 자체 종료 3이 먼저 발생해 SKIPPED는 0회다.'
+$rows=@(
+ @('방어 기법','A 신규 DLL 탐지 / B 발사 경계 검사 / C 독립 watchdog'),
+ @('탐지 / 검증 위치','A 메인 루프 / B CheckedSpawnProjectile / C 별도 worker'),
+ @('검사 조건 / 임계값','A 기존 약 1초·예외 유지. B/C는 디스크 함수 범위와 메모리의 CRC32·전체 바이트 비교. C 약 100ms.'),
+ @('탐지 시 처리','A 경고 확인 후 종료 1 정책 / B 즉시 종료 2 / C 즉시 종료 3'),
+ @('방어 적용 파일 / Commit','기존 GameWorld.cpp·IntegrityGuard.cpp·Application.cpp·CodeIntegrity.cpp. 이번 변경 없음, commit 없음.'),
+ @('Defense SHA-256','최종 Release EXE: 01절 기재. 해시는 실험 식별용이며 배포 신뢰 인증은 아니다.')
+)
+for($r=0;$r -lt $rows.Count;$r++){Set-Cell 12 $r 0 $rows[$r][0];Set-Cell 12 $r 1 $rows[$r][1]}
+$r13=@(
+ @('A DLLGuard','첫 렌더 후 baseline과 신규 모듈 경로 대조','기존 유지','약 1초','baseline 이전 로드·manual mapping 한계'),
+ @('B 발사 경계','5개 발사 지점에서 대상 밖 선검사, 본문 재검사','구현 완료','발사 시','검사와 호출 사이 경쟁 조건'),
+ @('C 독립 감시','별도 Region·스레드로 스캐너 코드 대조','구현 완료','약 100ms','주기 사이 복원·스레드 정지 한계'),
+ @('코드 기준','디스크 EXE·pdata 범위와 ASLR 재배치 반영','기존 구현','함수 범위','시작 전 EXE 변조를 신뢰 인증하지 못함'),
+ @('미적용 개선','고정 CRC profile·외부 서명 검증 제안','개선 취소','미측정','이번 구현·후속 음성 시험 없음')
+)
+for($r=0;$r -lt 5;$r++){for($c=0;$c -lt 5;$c++){Set-Cell 13 ($r+1) $c $r13[$r][$c]}}
+$r14=@(
+ @('01','기존 EXE + 원본 Dll2','E9 설치·SKIPPED 3회. 원본 스캔 생략 확인'),
+ @('02','최종 GameClient + 호환 Spawn DLL','실제 E9·A DLL 탐지. 메뉴 상태, 외부 정리 77'),
+ @('03','최종 GameClient + 호환 Scanner DLL','실제 E9·A 후 C 탐지, 게임 자체 종료 3'),
+ @('04','BoundaryFixture + 전용 Spawn DLL v2','B 탐지·자체 종료 2. 투사체 생성 로그 없음')
+)
+for($r=0;$r -lt 4;$r++){for($c=0;$c -lt 3;$c++){Set-Cell 14 ($r+1) $c $r14[$r][$c]}}
+Set-Cell 15 0 0 '실제 GameClient B: 미검증. 이번 UI 양쪽 런타임이 초기화에 실패해 정상 전투 입력을 수행하지 못했다. B 탐지 로그·자체 종료 2·투사체 생성 여부는 새로 수집하지 못했다.'
+Set-Cell 15 1 0 'A/C의 우선 종료나 외부 종료 77을 B PASS로 계산하지 않는다. 기존 BoundaryFixture 결과는 실게임 결과와 별도로 유지한다. 방어 비활성화·예외 확대·입력 helper로 대체하지 않았다.'
+Set-Cell 16 0 0 "기존 실게임 A/C`nmain_spawn: HK01_A DETECTED`nmain_scanner: HK01_C DETECTED, game_exit=3"
+Set-Cell 16 0 1 "기존 독립 B 경계`nMINHOOK_ENTRY_VERIFIED → HK01_B DETECTED`ngame_exit=2; 실게임 증거 아님"
+$tests=@(
+ @('TC-H01','원본 HK-01 구조','방향 회전','코드 +30°, 실험자 플레이 확인','기존 확인'),
+ @('TC-H02','기존 Dll2 우회','스캔 생략','E9·SKIPPED 3회','기존 확인'),
+ @('TC-H03','실게임 A','로드 DLL 탐지','전체 경로 탐지 로그','탐지 확인'),
+ @('TC-H04','BoundaryFixture B','경계 차단·종료 2','MinHook·B 로그·자체 종료 2','독립 시험 PASS'),
+ @('TC-H05','실게임 C','변조 탐지·종료 3','MinHook·C 로그·자체 종료 3','기존 PASS'),
+ @('TC-H06','실게임 B','B 로그·자체 종료 2','UI 초기화 실패, 수집 없음','미검증'),
+ @('TC-H07','기존 GameTests','49개 통과','Debug/Release 각 49/49, 종료 0','기존 PASS'),
+ @('TC-H08','정상 게임 smoke','실행·투사체·종료','기존 렌더 5프레임·종료 0','기존 확인')
+)
+$tests[6][2]='49개 통과'
+for($r=0;$r -lt 8;$r++){for($c=0;$c -lt 5;$c++){Set-Cell 17 ($r+1) $c $tests[$r][$c]}}
+$metrics=@(
+ @('발사 방향 오차 (°)','미측정','코드 +30°, 각도 실측 없음','실게임 B 미검증'),
+ @('명중률 (%)','미측정','미측정','미측정'),
+ @('탐지 건수 (회)','반복 집계 없음','A/C 실행별 로그','B는 fixture 1회 확인'),
+ @('효과 차단 건수 (회)','해당 없음','실게임 정량 없음','fixture 경계 차단, 실게임 미검증'),
+ @('오탐 건수 (회)','장시간 미측정','미측정','정량 미검증'),
+ @('평균 FPS','미측정','미측정','미측정'),
+ @('종료 코드','정상 smoke 0','메뉴 외부 정리 77','C 자체 3 / fixture B 자체 2')
+)
+for($r=0;$r -lt 7;$r++){for($c=0;$c -lt 4;$c++){Set-Cell 18 ($r+1) $c $metrics[$r][$c]}}
+Set-Cell 19 0 1 '기존 실행별 결과만 인용. 이번 게임·공격 재실행 및 통계 반복 측정 없음.'
+Set-Cell 19 1 1 'Windows x64 / VS2022 v143 / Release. fixture seed=0xE4511E. EXE 해시로 구분.'
+Set-Cell 19 2 1 '기존: hk01_retest/followup_20261114/runs 및 verification. 이번 조사·보존·문서 QA: 별도 evidence/hk01_report_completion 실행 폴더.'
+$final=@('코드 +30° 변조 구조와 실험자 직접 플레이 결과 확인. 호출별 정확한 각도 실측은 없음.','실게임 A 탐지·C 자체 종료 3 확인. B는 독립 경계 시험만 PASS, 실게임은 미검증.','새 빌드 호환 MinHook 실제 E9 설치 확인. 원본 payload는 새 빌드 검증에서 설치 거부.','이번 소스 변경 없음. CRC·DLLGuard·SpeedGuard·쿨다운 임계값과 예외 목록 유지.','기존 정상 smoke와 49/49 기록 존재. 장시간 수동 플레이·FPS·오탐률은 미검증.')
+for($r=0;$r -lt 5;$r++){Set-Cell 20 $r 1 $final[$r]}
+Set-Cell 21 0 0 'A의 경로 탐지와 C의 스캐너 코드 검사는 실제 GameClient에서 확인했다. B는 대상 함수 진입 전에 검사하므로 진입 detour 자체가 검사를 건너뛰지 못하도록 설계됐다.'
+Set-Cell 21 1 0 'BoundaryFixture는 동일 게임 소스를 사용하지만 Application의 A 주기 루프가 없다. 따라서 fixture 종료 2를 A/B/C가 함께 동작하는 실제 전투 결과로 확대할 수 없다.'
+Set-Cell 21 2 0 'B의 최종 판정은 실제 GameClient의 HK01_B 탐지 로그와 동일 PID의 자체 종료 2를 함께 확보할 때만 PASS다. 현재 종료 코드는 미수집이다.'
+Set-Cell 22 0 0 'CRC32 추가 개선은 취소했으며 미적용이다. 현재는 정상 디스크를 전제로 함수 범위의 CRC32와 전체 바이트를 비교한다. 실행 전 EXE 코드가 바뀌면 변경된 디스크가 기준이 될 수 있다.'
+Set-Cell 22 1 0 '디스크 서명 신뢰, 검사 루틴 자체 변조, C 주기 사이 복원·스레드 중지, B의 검사/호출 경쟁, 함수 범위 밖 패치와 A baseline 누락은 남는다. 서버 확장·고정 profile·서명 도입은 이번 범위에 없다.'
+$ev=@(
+ @('E-01','3중 방어·기존 회귀 결과','docs/hk01-triple-defense-20261114.md'),
+ @('E-02','호환 MinHook·최종 미검증','docs/hk01-final-gaps-followup-20261114.md'),
+ @('E-03','실게임 A/C 원시 로그','hk01_retest/followup_20261114/runs/20261114_121201_637835'),
+ @('E-04','독립 B 경계 원시 로그','hk01_retest/followup_20261114/runs/20261114_121318_089249/fixture'),
+ @('E-05','기계 판정·해시 대응','followup_20261114/verification_20261114_121700_408985/verified.json'),
+ @('E-06','이번 기록·수동 절차·원본 백업','evidence/hk01_report_completion 실행 폴더 / docs/hk01-final-report-completion-20261114.md')
+)
+for($r=0;$r -lt 6;$r++){for($c=0;$c -lt 3;$c++){Set-Cell 23 ($r+1) $c $ev[$r][$c]}}
+Set-Cell 24 0 0 '최종 상태: A 실게임 탐지 확인 / B 독립 시험 PASS·실게임 미검증 / C 실게임 탐지·자체 종료 3 확인.'
+Set-Cell 24 1 0 '수동 후속: 별도 실행 폴더에서 해시 확인된 Release 사본을 정상 실행하고 Enter로 시작한다. WASD로 전투에 접근해 Bot 발사 조건을 만든다. 원본·기존 로그는 덮어쓰지 않는다.'
+Set-Cell 24 2 0 '승인된 기존 관측 수단으로 같은 PID의 설치·B 탐지 로그·자체 종료 코드를 수집한다. 공격 재현이 제한되면 중단하며 A/C를 끄지 않는다. 투사체 로그와 영상의 관측 범위를 구분한다.'
+Set-Cell 24 3 0 '사람 검토: 실게임 B의 로그·종료 2 동시 확보, 각도 실측과 최종 투사체 연결, 장시간 오탐·성능은 남은 항목이다. 이번에는 정상 전투 입력을 수행하지 못해 B PASS를 선언하지 않는다.'
+# Preserve every package member and all original table, paragraph and run styling.
+$zip=[IO.Compression.ZipFile]::Open($report,[IO.Compression.ZipArchiveMode]::Update)
+$zip.GetEntry('word/document.xml').Delete()
+$entry=$zip.CreateEntry('word/document.xml')
+$stream=$entry.Open();$settings=[Xml.XmlWriterSettings]::new();$settings.Encoding=[Text.UTF8Encoding]::new($false);$settings.Indent=$false
+$writer=[Xml.XmlWriter]::Create($stream,$settings);$xml.Save($writer);$writer.Close();$stream.Close();$zip.Dispose()
+$diff=@(foreach($f in $hashes){if((Get-FileHash -LiteralPath $f.path).Hash -ne $f.sha256){$f.path}})
+if($diff.Count){throw ('Preservation mismatch: '+($diff -join ','))}
+[ordered]@{run=$run;report=$report;original_sha256=$originalHash;backup_sha256=(Get-FileHash "$run/original-report.docx").Hash;final_sha256=(Get-FileHash $report).Hash;preserved_files=$hashes.Count;preservation_mismatches=$diff;before_diff_check_exit=$beforeCheck;game_executed=$false;real_game_B='UNVERIFIED';game_exit_code=$null;ui_errors=@('trusted Node process exited unexpectedly; kernel reset, rerun your request','windows sandbox failed: helper_unknown_error: setup refresh had errors');reason='Both provided UI runtimes failed during initialization; no gameplay or attack replay performed';renderer='Managed Node/Python workspace loader unavailable; native Word fallback requested'} | ConvertTo-Json -Depth 6 | Set-Content "$run/result.json" -Encoding UTF8
+Write-Output $run
+Write-Output ('Preserved files: '+$hashes.Count)

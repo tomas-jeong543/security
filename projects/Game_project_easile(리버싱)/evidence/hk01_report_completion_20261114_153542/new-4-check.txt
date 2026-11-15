@@ -1,0 +1,1 @@
+﻿warning: in the working copy of 'projects/Game_project_easile(리버싱)/tools/Polish-Hk01Report-20261114.ps1', LF will be replaced by CRLF the next time Git touches it

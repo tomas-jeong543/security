@@ -1,0 +1,32 @@
+diff --git a/GameClient/Hk01Probe.vcxproj b/GameClient/Hk01Probe.vcxproj
+new file mode 100644
+index 0000000..3b92f6e
+--- /dev/null
++++ b/GameClient/Hk01Probe.vcxproj
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{130658BF-6B6A-4C27-AFD0-94847E919DAD}</ProjectGuid>
++    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Label="Configuration">
++    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <PlatformToolset>v143</PlatformToolset>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <PropertyGroup>
++    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
++    <IntDir>$(ProjectDir)..\build\hk01\obj\$(ProjectName)\$(Configuration)\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <ItemDefinitionGroup><Link><NoEntryPoint>true</NoEntryPoint><IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries></Link></ItemDefinitionGroup>
++  <ItemGroup><ClCompile Include="..\tests\Hk01Probe.cpp" /></ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++</Project>
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/GameClient/Hk01Probe.vcxproj', LF will be replaced by CRLF the next time Git touches it

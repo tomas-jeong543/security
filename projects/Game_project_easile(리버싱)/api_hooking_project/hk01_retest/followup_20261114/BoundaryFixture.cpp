@@ -1,0 +1,51 @@
+// Isolated boundary test, not the shipping GameClient/Application event loop.
+// The game/security translation units are compiled unchanged from src/.
+#include "GameWorld.h"
+#include "CodeIntegrity.h"
+#include "Logger.h"
+#include <cstdio>
+
+struct GameWorldTests
+{
+    static std::uintptr_t SpawnAddress() { return CodeIntegrity::Address(&GameWorld::SpawnProjectile); }
+    static void Fire(GameWorld& world)
+    {
+        world.CheckedSpawnProjectile(Team::Red, {800,720}, {1,0}, ProjectileKind::Basic, 5, 3);
+    }
+};
+
+int main()
+{
+    GameWorld world;
+    CodeIntegrity::DllScanWatchdog watchdog;
+    world.Restart();
+    const auto address = GameWorldTests::SpawnAddress();
+    BYTE original[16]{};
+    SIZE_T read = 0;
+    if (!ReadProcessMemory(GetCurrentProcess(), reinterpret_cast<void*>(address), original, sizeof(original), &read) || read != sizeof(original)) return 91;
+    HMODULE dll = LoadLibraryW(L"hook_payload.dll");
+    if (!dll) return 92;
+    using StateFn = BOOL(WINAPI*)();
+    auto installed = reinterpret_cast<StateFn>(GetProcAddress(dll, "HK01_Retest_Installed"));
+    if (!installed) return 93;
+    const auto start = GetTickCount64();
+    while (GetTickCount64() - start < 5000)
+    {
+        if (installed())
+        {
+            BYTE actual[16]{};
+            if (!ReadProcessMemory(GetCurrentProcess(), reinterpret_cast<void*>(address), actual, sizeof(actual), &read) ||
+                read != sizeof(actual) || actual[0] != 0xe9 || std::memcmp(original, actual, sizeof(actual)) == 0) return 94;
+            Logger{}.Write(0, "TEST", "MINHOOK_ENTRY_VERIFIED", "HK01_B", "entry_E9;sourceId=3;Basic;next=CheckedSpawnProjectile");
+            OutputDebugStringA("[RETEST-B] actual entry E9 verified; firing at guarded boundary\n");
+            std::printf("MINHOOK_ENTRY_VERIFIED ");
+            for (BYTE value : actual) std::printf("%02X ", value);
+            std::printf("\n");
+            std::fflush(stdout);
+            GameWorldTests::Fire(world);
+            return 95; // Expected B termination is exit 2, before detour dispatch.
+        }
+        Sleep(1);
+    }
+    return 96;
+}

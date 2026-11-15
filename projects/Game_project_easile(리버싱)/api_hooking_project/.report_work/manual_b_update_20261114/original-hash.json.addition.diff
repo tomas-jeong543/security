@@ -1,0 +1,11 @@
+﻿diff --git "a/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/original-hash.json" "b/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/original-hash.json"
+new file mode 100644
+index 0000000..6fdb131
+--- /dev/null
++++ "b/D:/GitHub/security/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/api_hooking_project/.report_work/manual_b_update_20261114/original-hash.json"
+@@ -0,0 +1,5 @@
++﻿{
++    "Algorithm":  "SHA256",
++    "Hash":  "9A96DFE6E2AA3F482ADEE7B4ED81F769795C8F0D620E9150C582742B8BA71D8B",
++    "Path":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\original.docx"
++}

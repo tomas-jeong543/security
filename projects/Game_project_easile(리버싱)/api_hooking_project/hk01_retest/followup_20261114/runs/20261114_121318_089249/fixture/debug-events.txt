@@ -1,0 +1,16 @@
+MINHOOK_ENTRY_VERIFIED E9 FE F4 FD FF 56 57 41 54 41 56 41 57 48 8D A8 
+ENTRY spawn_before address=7FF70D7B1AD0 48 8B C4 55 53 56 57 41 54 41 56 41 57 48 8D A8 
+ENTRY scanner_before address=7FF70D7B9870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=109 [HK-01] Hook installed.
+ENTRY spawn_observed address=7FF70D7B1AD0 E9 FE F4 FD FF 56 57 41 54 41 56 41 57 48 8D A8 
+ENTRY scanner_observed address=7FF70D7B9870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=125 [RETEST-B] actual entry E9 verified; firing at guarded boundary
+ENTRY spawn_observed address=7FF70D7B1AD0 E9 FE F4 FD FF 56 57 41 54 41 56 41 57 48 8D A8 
+ENTRY scanner_observed address=7FF70D7B9870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=125 HK01_BENTRY spawn_observed address=7FF70D7B1AD0 E9 FE F4 FD FF 56 57 41 54 41 56 41 57 48 8D A8 
+ENTRY scanner_observed address=7FF70D7B9870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=125 : code integrity failure
+ENTRY spawn_observed address=7FF70D7B1AD0 E9 FE F4 FD FF 56 57 41 54 41 56 41 57 48 8D A8 
+ENTRY scanner_observed address=7FF70D7B9870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+RESULT baseline=0 injection_launched=1 module_detected=0 natural_exit=1
+RETEST_RESULT fixture=1 spawn_E9_observed=1 scanner_E9_observed=0 game_exit=2 self_exit=1

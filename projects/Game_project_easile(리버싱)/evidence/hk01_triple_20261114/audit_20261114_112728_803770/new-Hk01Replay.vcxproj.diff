@@ -1,0 +1,25 @@
+diff --git a/GameClient/Hk01Replay.vcxproj b/GameClient/Hk01Replay.vcxproj
+new file mode 100644
+index 0000000..a8261ab
+--- /dev/null
++++ b/GameClient/Hk01Replay.vcxproj
+@@ -0,0 +1,18 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals"><ProjectGuid>{8E9D5AA6-CA75-41A2-8D65-23EE68493FD4}</ProjectGuid><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion></PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Label="Configuration"><ConfigurationType>Application</ConfigurationType><PlatformToolset>v143</PlatformToolset></PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <PropertyGroup>
++    <OutDir>$(ProjectDir)..\build\hk01\Release\</OutDir>
++    <IntDir>$(ProjectDir)..\build\hk01\obj\$(ProjectName)\Release\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <ItemDefinitionGroup><ClCompile><LanguageStandard>stdcpp17</LanguageStandard><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions></ClCompile></ItemDefinitionGroup>
++  <ItemGroup><ClCompile Include="..\tests\Hk01Replay.cpp" /></ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++</Project>
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/GameClient/Hk01Replay.vcxproj', LF will be replaced by CRLF the next time Git touches it

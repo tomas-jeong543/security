@@ -1,0 +1,83 @@
+﻿1 p: S | ECURITY EXPERIMENT REPORT  /  HK-01
+2 p: Bot 조준 방향 변조 · Function Hooking
+3 p: 1차 공격 결과와 방어 후보 검토  |  2026년 11월 7일
+4 p: 01  실험 기본 정보
+5 tbl: 실험 번호 | HK-01 / Bot 조준 방향 변조 | 작성자 | 정명훈 | 수행 기간 | 2026-11-01 ~ 2026-11-07 | 대상 실행 파일 | GameClient.exe / Windows x64 | 개발 / 실행 환경 | Visual Studio 2022 / MSVC v143 / MinHook | Baseline SHA-256 | 32A1D0D4D8FBF15E2A1E45467475A605 | 7F26EEE54B1AF5746945DE24C768A926 | Attack SHA-256 | hook_payload.dll | 55D8B8429F80503DAED0485635D322A3 | 7FB8826F2772C230DE667067E9433746 | Defense SHA-256 | 
+6 p: 
+7 p: 02  실험 목표
+8 tbl: DLL을 주입해 Bot의 투사체 방향을 바꾸고, 1차 공격 결과를 확인한다. 이후 기존 DLLGuard의 한계를 분석하고 적용할 방어 후보를 비교한다.
+9 p: 
+10 p: 03  실험 범위 및 대상
+11 tbl: 자체 제작 EASILE의 SpawnProjectile()과 DLLGuard를 분석한다. 근거는 hook_payload.c·injector.c, 현재 EXE/DLL, 실행 로그와 기존 검증 문서다. | 작성 범위는 1차 공격과 방어 후보 검토까지다. 방어 구현·재공격·후속 측정은 작성하지 않는다.
+12 p: 
+13 p: 04  실험 진행  | 단계
+14 tbl: 공격 단계 | DLL 주입 → SpawnProjectile 후킹 → 실제 플레이로 방향 변화 확인 | 방어 단계 | 기존 DLLGuard의 동작·한계를 분석하고 보완 후보 비교 | 재공격 단계 |  | 최종 검증 | 
+15 p: ATTACK SURFACE  /  TARGET SELECTION
+16 p: 공격 지점 분석
+17 p: 05  관련 코드 및 호출 흐름
+18 tbl: 확인한 함수 | Update() → UpdateBot() → SpawnProjectile() | 호출 흐름 | UpdateBot()이 목표와 조준 방향을 계산하고 SpawnProjectile()이 투사체를 생성한다. 플레이어도 같은 함수를 쓰므로 발사자를 구분해야 한다. | HeroId: 플레이어 0 / 기존 적 Bot 1 / 아군 Bot 2 / 추가 적 Bot 3. [GameWorld.cpp]
+19 p: 
+20 p: 06  Hooking 후보 함수 비교
+21 tbl: 후보 함수 | 선정 근거 | 주의 사항 | UpdateBot() | Bot 공격 로직에 직접 접근 | 이동·회복·상태 전이에도 영향 | Normalize() | 방향 벡터 변경 가능 | 이동 등 다른 계산과 공유 | SpawnProjectile() | 생성 직전 방향·발사자 확인 | 발사자·공격 종류 필터 필요
+22 p: 
+23 p: 07  최종 Hook 대상 및 선정 이유
+24 tbl: SpawnProjectile()은 direction만 바꿔 원본에 전달할 수 있어 최종 대상으로 선택했다. | 대상 RVA 0x137E0. 실행 주소는 ASLR이 적용된 GameClient base + RVA다. | 진입 14바이트: 48 8B C4 48 89 58 18 55 56 57 41 54 41 55. 현재 EXE와 payload의 검사값이 일치한다. | world는 this, Vec2는 float 2개(8바이트)다. 인자 순서와 크기를 원본 함수에 맞춘다.
+25 p: ATTACK  /  IMPLEMENTATION
+26 p: Hooking 공격 구현 및 실행
+27 p: 0 | 8 |   공격 구현 정보
+28 tbl: 공격 방식 | 원격 DLL Injection + MinHook Inline Hooking | 사용한 도구 / DLL | VS2022 x64 / injector.exe / hook_payload.dll | Hook 대상 함수 | GameWorld::SpawnProjectile(), RVA 0x137E0 | 변조 대상 판별 조건 | 현재 식: sourceId == 3 || (sourceId == 2 && kind == 0) | ID 3의 모든 공격과 ID 2의 기본 공격이 해당한다. “적 Bot 기본 공격만”이라는 주석보다 범위가 넓다. | 조준 방향 변조 방식 | x′ = 0.8660254x − 0.5y / y′ = 0.5x + 0.8660254y | 코드상 +30° 회전이며 벡터 길이를 거의 보존한다. | 설치 / 해제 방법 | worker에서 대상 검증 → MH_CreateHook → MH_EnableHook. detour가 방향을 바꾸고 trampoline으로 원본을 실행한다. | 종료 요청 시 DisableHook → 실행 중 호출 대기 → RemoveHook. detach에서는 MinHook 정리를 하지 않는다. | 공격 버전 / 해시 | 현재 hook_payload.dll은 루트와 out/x64/Release가 동일하다. 해시는 01절에 기재했다. 과거 검증 DLL과는 해시가 다르다.
+29 p: 
+30 p: 9 |   공격 수행 절차 및 관측 결과
+31 tbl: 단계 | 수행 내용 | 실행 결과 / 증거 | 01 | 대상 함수와 인자 분석 | SpawnProjectile, RVA 0x137E0 선정 | 02 | 인젝터로 원격 프로세스 접근 | OpenProcess → VirtualAllocEx → WriteProcessMemory로 절대 DLL 경로 전달 | 03 | 원격 로더 실행 | 원격 모듈 base + LoadLibraryW RVA → CreateRemoteThread → 완료 대기·모듈 재열거 | 04 | Inline Hook 설치 | DllMain의 worker가 MinHook 설치. 로드 성공과 비동기 설치 완료는 별도로 확인 | 05 | 실제 플레이 검증 | 실험자 정명훈이 직접 플레이하여 공격 방향 변조와 플레이 동작을 확인했다. 정확한 각도·명중률·FPS는 별도 수치 없음.
+32 p: 
+33 p: 1 | 0 |   공격 전후 화면 / 로그
+34 tbl: 기존 설치·탐지 기록 | PID 11368: DLL 로드, [HK-01] Hook installed. | DLLGuard가 payload를 탐지하고 경고 확인 후 종료. | [HK01_validation_result.md] | 직접 플레이 확인 | 실험자 정명훈이 실제 플레이 검증을 완료했다고 확인했다. 방향 변조 효과는 플레이로 확인한 결과로 기록한다. | +30°는 코드상 설정값이며 호출별 각도 실측값과 구분한다.
+35 p: 
+36 p: 1 | 1 |   1차 공격 판정 및 특이사항
+37 tbl: 판정: DLL 로드·후킹 설치는 기존 실행 기록으로, 공격 방향 변화와 플레이 동작은 실험자의 직접 플레이로 확인했다. DLLGuard는 별도 기존 실행에서 신규 DLL 탐지·경고 후 종료를 수행했다. | 문제·수정 사항: 양식의 45°를 실제 코드의 +30°로 바로잡았다. 현재 조건은 ID 3 궁극기·ID 2 기본 공격도 포함한다. 인젝터는 절대경로·원격 로더 주소 계산·모듈 재열거를 사용한다. 소스는 수정하지 않았다.
+38 p: DEFENSE  /  REATTACK
+39 p: 방어 목표 및 후보 검토
+40 p: 13  방어 목표 / 위협 모델
+41 tbl: 기존 DLLGuard는 첫 렌더 후 DLL 목록을 baseline으로 저장하고 약 1초마다 새 경로를 비교한다. 허용되지 않은 DLL이면 경고창을 표시하고, 창이 닫히면 ExitProcess(1)로 종료한다. 로드 자체를 선제 차단하는 방식은 아니다. | 핵심 한계는 검사 함수도 같은 프로세스에서 패치할 수 있다는 점이다. Dll2의 실제 소스는 Dll2/Dll2/dllmain.cpp이며 DetectNewModules(RVA 0xEF90)의 원본 호출을 생략한다. 기존 CRC 범위는 이 함수와 SpawnProjectile 진입점을 포함하지 않는다. [IntegrityGuard.cpp·dllmain.cpp]
+42 p: 
+43 p: 14  방어 후보 기법
+44 tbl: 방어 기법 | 우선 추천: DLLGuard 무결성 검사 + 핵심 함수 진입부 검사 | 탐지 / 검증 위치 | DetectNewModules(0xEF90), SpawnProjectile(0x137E0), 검사 호출 경로 | 검사 조건 / 임계값 | 빌드별 신뢰 바이트·해시와 비교. 방향 오차 임계값은 정상 공격 표본으로 별도 설정 | 탐지 시 처리 | 후보: 게임 진행 제한·구조화 로그·독립 재검사. 실제 적용하지 않음 | 방어 적용 파일 / Commit | 후보 검토 단계. 새 구현·commit 없음 | Defense SHA-256 | 
+45 tbl: 후보 / 순위 | 동작 원리·기대 효과 | 구현 난이도 | 성능 영향 | 우회 가능성·한계 | 1 DLLGuard 무결성 | 검사 함수·호출 경로의 해시 비교로 Dll2 패치 탐지 | 중간 | 짧은 영역이면 낮음 | 검사 코드·기준값도 변조 가능 | 1 함수 진입부 검사 | 핵심 진입 바이트·분기 목적지 대조로 Inline Hook 탐지 | 낮음~중간 | 낮음 | 중간 지점 패치·검사 순간 복원 가능 | 2 독립 다중 탐지 | 별도 watchdog·외부 관찰자로 검사 누락 교차 확인 | 중간~높음 | 낮음~중간 | 같은 검사 함수를 공유하면 독립성 부족 | 3 Bot 방향·로직 검증 | 목표 기반 기대 방향과 최종 투사체 방향 비교 | 중간~높음 | 발사당 연산 낮음 | 정상 산개·목표 이동 예외 필요. 검증 데이터 변조 가능 | 4 모듈 신뢰 관리 | 정확한 경로·서명·해시 관리와 검사 실패 기록 | 중간 | 해시·서명 확인 시 증가 | 정상 DLL 메모리 변조·baseline 오염에 한계
+46 p: 추천 순서: 두 핵심 함수의 무결성·진입부 검사 → 독립 감시 → 방향·게임 로직 검증. 정상 Windows DLL 오탐을 줄이는 신뢰 정책도 병행한다. 모든 후보는 추천 단계이며 실제 구현하지 않았다.
+47 p: 
+48 p: 15  방어 적용 후 동일 공격 재시험
+49 tbl: 회차 | 시험 조건 | 실행 결과 / 증거 | 01 |  |  | 02 |  |  | 03 |  |  | 04 |  | 
+50 p: 
+51 p: 16  재공격 방식 및 결과
+52 tbl:  | 
+53 p: 
+54 p: 17  방어 관련 증거
+55 tbl:  | 
+56 p: VALIDATION  /  RESULTS
+57 p: 시험 항목 및 정량 결과
+58 p: 18  테스트 케이스
+59 tbl: ID | 시험 조건 | 기대 결과 | 실측 결과 | 판정 | TC-H01 |  |  |  |  | TC-H02 |  |  |  |  | TC-H03 |  |  |  |  | TC-H04 |  |  |  |  | TC-H05 |  |  |  |  | TC-H06 |  |  |  |  | TC-H07 |  |  |  |  | TC-H08 |  |  |  | 
+60 p: 
+61 p: 19  반복 측정 결과
+62 tbl: 측정 항목 | Baseline | Attack ON | Defense ON | 발사 방향 오차 (°) |  |  |  | 명중률 (%) |  |  |  | 탐지 건수 (회) |  |  |  | 효과 차단 건수 (회) |  |  |  | 오탐 건수 (회) |  |  |  | 평균 FPS |  |  |  | 비정상 종료 (회) |  |  | 
+63 p: 
+64 p: 20  측정 조건 / 데이터 위치
+65 tbl: 반복 횟수 / 기간 |  | 테스트 환경 / Seed |  | 로그 / 원본 데이터 경로 | 
+66 p: CONCLUSION  /  EVIDENCE
+67 p: 종합 평가 및 증거 목록
+68 p: 21  최종 평가
+69 tbl: 공격 결과 |  | 방어 결과 |  | 재공격 결과 |  | 기존 방어와 충돌 여부 |  | 정상 플레이 영향 | 
+70 p: 
+71 p: 22  결과 해석 및 원인 분석
+72 tbl:  |  | 
+73 p: 
+74 p: 23  한계 / 개선 방향
+75 tbl:  | 
+76 p: 
+77 p: 24  증거 및 산출물 목록
+78 tbl: 번호 | 증거 / 산출물 | 파일명 또는 저장 경로 | E-01 |  |  | E-02 |  |  | E-03 |  |  | E-04 |  |  | E-05 |  |  | E-06 |  | 
+79 p: 
+80 p: 25  최종 메모
+81 tbl:  |  |  | 
+82 p: 
+83 sectPr: 

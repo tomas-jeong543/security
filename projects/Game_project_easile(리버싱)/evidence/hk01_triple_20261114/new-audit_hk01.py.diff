@@ -1,0 +1,119 @@
+diff --git a/tools/audit_hk01.py b/tools/audit_hk01.py
+new file mode 100644
+index 0000000..3dfc5d6
+--- /dev/null
++++ b/tools/audit_hk01.py
+@@ -0,0 +1,112 @@
++"""Independent raw-PE/map audit; does not use the runtime guard implementation."""
++import hashlib
++import json
++import re
++import struct
++import subprocess
++import zlib
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++RUN = ROOT / 'evidence/hk01_triple_20261114'
++
++class PE:
++    def __init__(self, file):
++        self.data = Path(file).read_bytes()
++        nt = struct.unpack_from('<I', self.data, 0x3c)[0]
++        assert self.data[nt:nt+4] == b'PE\0\0'
++        sections, optional_size = struct.unpack_from('<H12xH', self.data, nt+6)
++        optional = nt+24
++        assert struct.unpack_from('<H', self.data, optional)[0] == 0x20b
++        self.base = struct.unpack_from('<Q', self.data, optional+24)[0]
++        self.sections = []
++        for i in range(sections):
++            p = optional+optional_size+40*i
++            vs, va, raw_size, raw = struct.unpack_from('<4I', self.data, p+8)
++            self.sections.append((va, max(vs, raw_size), raw, raw_size))
++        self.functions = []
++        rva, size = struct.unpack_from('<II', self.data, optional+112+3*8)
++        for p in range(0, size, 12):
++            self.functions.append(struct.unpack('<III', self.read(rva+p, 12)))
++        self.relocations = []
++        rva, size = struct.unpack_from('<II', self.data, optional+112+5*8)
++        p = 0
++        while p < size:
++            page, length = struct.unpack('<II', self.read(rva+p, 8))
++            assert length >= 8 and length <= size-p
++            for off in range(8, length, 2):
++                entry = struct.unpack('<H', self.read(rva+p+off, 2))[0]
++                if entry >> 12:
++                    self.relocations.append((page+(entry & 0xfff), entry >> 12))
++            p += length
++
++    def read(self, rva, size):
++        for va, length, raw, raw_size in self.sections:
++            if va <= rva and rva+size <= va+raw_size:
++                return self.data[raw+rva-va:raw+rva-va+size]
++        raise ValueError(f'unmapped raw RVA {rva:x}+{size:x}')
++
++def inspect(file):
++    pe = PE(file)
++    mapping = file.with_suffix('.map').read_text(errors='replace')
++    result = {'exe': str(file.relative_to(ROOT)), 'sha256': hashlib.sha256(pe.data).hexdigest(), 'functions': {}}
++    for name in ('SpawnProjectile@GameWorld', 'Update@GameWorld', 'Initialize@GameWorld', 'DetectNewModules@IntegrityGuard'):
++        lines = [line for line in mapping.splitlines() if len(line.split()) > 1 and line.split()[1].startswith('?'+name+'@@') and re.search(r'\s[0-9A-Fa-f]{16}\s+f\s', line)]
++        assert len(lines) == 1, (name, lines)
++        match = re.search(r'\s([0-9A-Fa-f]{16})\s+f\s', lines[0])
++        assert match, lines[0]
++        start = int(match[1], 16)-pe.base
++        functions = [(a,b) for a,b,_ in pe.functions if a == start]
++        assert len(functions) == 1, (name, hex(start))
++        _, end = functions[0]
++        code = pe.read(start, end-start)
++        result['functions'][name] = {'rva': start, 'size': len(code), 'crc32': f'{zlib.crc32(code):08X}', 'entry': code[:16].hex(' '), 'relocations': [r for r in pe.relocations if start <= r[0] < end]}
++    checks = ((0x137e0, bytes.fromhex('48 8b c4 48 89 58 18 55 56 57 41 54 41 55')), (0xef90, bytes.fromhex('48 8b c4 48 89 58 08 48 89 70 10 48 89 78 18')))
++    result['old_attack_checks'] = [{'rva': rva, 'entry_matches': pe.read(rva,len(expected)) == expected, 'actual': pe.read(rva,len(expected)).hex(' ')} for rva, expected in checks]
++    return result
++
++report = {'builds': [], 'baseline_log_checks': [], 'preservation': {}, 'git': {}}
++for configuration in ('Debug','Release'):
++    for target in ('GameClient', 'GameTests', 'Hk01SecurityTests'):
++        report['builds'].append(inspect(RUN/'bin'/configuration/(target+'.exe')))
++latest = sorted(p for p in RUN.glob('validation_*') if (p/'results.json').exists())[-1]
++results = json.loads((latest/'results.json').read_text(encoding='utf-8-sig'))
++for row in results:
++    if row['kind'] != 'run':
++        continue
++    cwd = Path(row['cwd'])
++    if row['name'] == 'GameTests-':
++        stdout = (cwd/'stdout.txt').read_text(errors='replace')
++        row['pass_count'] = len(re.findall(r' PASS$', stdout, re.M))
++        row['fail_count'] = len(re.findall(r' FAIL:', stdout))
++    log_file = cwd/'GameClient.log'
++    if not log_file.exists():
++        continue
++    build = next(b for b in report['builds'] if b['exe'] == str(Path(row['exe']).relative_to(ROOT)))
++    for match in re.finditer(r'\[BASELINE\]\[([^]]+)\]\[rva=0x([0-9A-F]+);size=0x([0-9A-F]+);expected_crc32=([0-9A-F]+)', log_file.read_text(errors='replace')):
++        rva, size = int(match[2],16), int(match[3],16)
++        candidates = [v for v in build['functions'].values() if v['rva'] == rva and v['size'] == size]
++        ok = len(candidates) == 1 and not candidates[0]['relocations'] and candidates[0]['crc32'] == match[4]
++        report['baseline_log_checks'].append({'log': str(log_file.relative_to(ROOT)), 'entity': match[1], 'matches_independent_disk_crc': ok})
++        assert ok, report['baseline_log_checks'][-1]
++report['validation_results'] = results
++before = json.loads((RUN/'preserved-before.json').read_text(encoding='utf-8-sig'))
++changed = []
++for record in before:
++    path = Path(record['path'])
++    if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest().upper() != record['sha256']:
++        changed.append(str(path))
++report['preservation'] = {'file_count': len(before), 'changed_or_missing': changed}
++for name, args in [('status',['status','--short','--','.']), ('diff',['diff','--','.']), ('check',['diff','--check','--','.']), ('ignored',['status','--short','--ignored','--','src','GameClient','tests','tools','evidence/hk01_triple_20261114'])]:
++    command = ['git',*args]
++    p = subprocess.run(command,cwd=ROOT,capture_output=True)
++    (RUN/f'after-{name}.txt').write_bytes(p.stdout+p.stderr)
++    report['git'][name] = {'command': command, 'exit_code': p.returncode}
++new_files = ['src/CodeIntegrity.cpp','src/CodeIntegrity.h','tests/Hk01SecurityTests.cpp','tests/Hk01Probe.cpp','tests/Hk01Replay.cpp','GameClient/Hk01SecurityTests.vcxproj','GameClient/Hk01Probe.vcxproj','GameClient/Hk01Replay.vcxproj','tools/Hk01.Isolated.props','tools/Validate-Hk01.ps1','tools/audit_hk01.py']
++for relative in new_files:
++    p = subprocess.run(['git','diff','--no-index','--','/dev/null',relative],cwd=ROOT,capture_output=True)
++    (RUN/('new-'+Path(relative).name+'.diff')).write_bytes(p.stdout+p.stderr)
++    report['git'][relative] = {'no_index_exit_code':p.returncode}
++assert not changed, changed
++(RUN/'audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
++print(json.dumps({'preservation':report['preservation'], 'baseline_checks':len(report['baseline_log_checks']), 'tests':[{k:r[k] for k in ('configuration','name','exitCode','pass_count','fail_count') if k in r} for r in results if r['kind']=='run'], 'git':report['git']},ensure_ascii=False,indent=2))
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/tools/audit_hk01.py', LF will be replaced by CRLF the next time Git touches it

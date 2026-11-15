@@ -950,7 +950,7 @@ struct GameWorldTests
     static void BotRecoveryThreeCycles()
     {
         GameWorld world; Start(world);
-        world.player_.SetPosition({18, 700});
+        world.player_.SetPosition(MapPaths::Project({18, 700}, MapPaths::heroRadius));
         for (int cycle = 0; cycle < 3; ++cycle)
         {
             world.DamageHero(world.bot_, Team::Blue, world.bot_.Health() - 30, false);

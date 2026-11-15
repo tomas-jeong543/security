@@ -1,0 +1,349 @@
+﻿SECURITY EXPERIMENT REPORT  /  HK-01
+Bot 조준 방향 변조 · Function Hooking
+공격 구조와 A/B/C 방어 검증 결과  |  2026년 11월 14일
+01  실험 기본 정보
+표 1  실험 기본 정보
+실험 번호
+HK-01 / Bot 조준 방향 변조
+작성자
+정명훈
+수행 기간
+2026-11-01 ~ 2026-11-14
+대상 실행 파일
+GameClient.exe / Windows x64
+개발 / 실행 환경
+Visual Studio 2022 / MSVC v143 / MinHook
+Baseline SHA-256
+32A1D0D4D8FBF15E2A1E45467475A6057F26EEE54B1AF5746945DE24C768A926
+Attack SHA-256
+hook_payload.dll55D8B8429F80503DAED0485635D322A37FB8826F2772C230DE667067E9433746
+Defense SHA-256
+Release GameClient.exe3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153
+02  실험 목표
+HK-01의 Bot 조준 방향 +30° 변조 원리와 DLLGuard 우회, A/B/C 방어 결과를 정리한다. 2026-11-14 수동 시험에서 실제 GameClient의 HK01_B 탐지와 종료 코드 2를 확인했다. 기존 A/C 시험 및 독립 B 경계 시험은 조건을 구분해 유지한다.
+03  실험 범위 및 대상
+EASILE의 발사·스캐너 함수, 기존 EXE/DLL 해시와 실행 로그를 분석하고 수동 B 검증 결과를 반영했다. 이번 문서 수정에서는 게임·공격을 재실행하지 않았으며 소스·방어 설정·서버 코드를 변경하지 않았다.
+04  실험 진행 단계
+표 2  공격과 검증의 진행 단계
+공격 단계
+DLL 주입 → SpawnProjectile 후킹 → 실제 플레이로 방향 변화 확인
+방어 단계
+A 신규 DLL 탐지 / B 발사 경계 코드 검사 / C 독립 스캐너 감시
+재공격 단계
+호환 MinHook의 설치·E9 변조 및 탐지 로그를 기존 기록에서 확인
+최종 검증
+기존 Debug/Release 각 49/49 기록 유지. 후속 수동 실게임 B 탐지·종료 2 확인
+ATTACK SURFACE  /  TARGET SELECTION
+공격 지점 분석
+05  관련 코드 및 호출 흐름
+표 3  발사 호출 흐름
+확인한 함수
+Update → UpdateBot → CheckedSpawnProjectile → SpawnProjectile
+호출 흐름
+Bot이 목표·방향을 계산하고 발사 경계에서 B를 검사한다. 정상일 때만 투사체를 생성하며 본문에서도 재검사한다. HeroId: 플레이어 0 / 기존 적 Bot 1 / 아군 Bot 2 / 추가 적 Bot 3.
+06  Hooking 후보 함수 비교
+표 4  후킹 후보 함수 비교
+후보 함수
+선정 근거
+주의 사항
+UpdateBot()
+Bot 공격 로직에 직접 접근
+이동·회복·상태 전이에도 영향
+Normalize()
+방향 벡터 변경 가능
+이동 등 다른 계산과 공유
+SpawnProjectile()
+생성 직전 방향·발사자 확인
+발사자·공격 종류 필터 필요
+07  최종 Hook 대상 및 선정 이유
+SpawnProjectile()은 direction만 바꿔 원본에 전달할 수 있어 최종 대상으로 선택했다.
+기존 공격 EXE의 RVA는 0x137E0이다. 최종 Release의 SpawnProjectile은 RVA 0xF670이며 과거 주소·진입 바이트를 새 빌드에 승계하지 않는다.
+기존 payload의 진입 14바이트 검사는 과거 EXE용이다. 새 EXE에서는 원본 payload가 설치를 거부했다. 별도 호환 DLL의 E9 변조는 기존 자동화 시험에서 확인했으며 이번 수동 시험에서 새로 측정한 값은 아니다.
+world는 this, Vec2는 float 2개(8바이트)다. 인자 순서와 크기를 원본 함수에 맞춘다.
+ATTACK  /  IMPLEMENTATION
+Hooking 공격 구현 및 실행
+08  공격 구현 정보
+표 5  기존 공격 구현 정보
+공격 방식
+원격 DLL Injection + MinHook Inline Hooking
+사용한 도구 / DLL
+VS2022 x64 / injector.exe / hook_payload.dll
+Hook 대상 함수
+GameWorld::SpawnProjectile(), RVA 0x137E0
+변조 대상 판별 조건
+현재 식: sourceId == 3 || (sourceId == 2 && kind == 0)ID 3의 모든 공격과 ID 2의 기본 공격이 해당한다. “적 Bot 기본 공격만”이라는 주석보다 범위가 넓다.
+조준 방향 변조 방식
+x′ = 0.8660254x − 0.5y / y′ = 0.5x + 0.8660254y코드상 +30° 회전이며 벡터 길이를 거의 보존한다.
+설치 / 해제 방법
+worker에서 대상 검증 → MH_CreateHook → MH_EnableHook. detour가 방향을 바꾸고 trampoline으로 원본을 실행한다.종료 요청 시 DisableHook → 실행 중 호출 대기 → RemoveHook. detach에서는 MinHook 정리를 하지 않는다.
+공격 버전 / 해시
+현재 hook_payload.dll은 루트와 out/x64/Release가 동일하다. 해시는 01절에 기재했다. 과거 검증 DLL과는 해시가 다르다.
+09  공격 수행 절차 및 관측 결과
+표 6  공격 수행 절차와 관측
+단계
+수행 내용
+실행 결과 / 증거
+01
+대상 함수와 인자 분석
+SpawnProjectile, RVA 0x137E0 선정
+02
+인젝터로 원격 프로세스 접근
+OpenProcess → VirtualAllocEx → WriteProcessMemory로 절대 DLL 경로 전달
+03
+원격 로더 실행
+원격 모듈 base + LoadLibraryW RVA → CreateRemoteThread → 완료 대기·모듈 재열거
+04
+Inline Hook 설치
+DllMain의 worker가 MinHook 설치. 로드 성공과 비동기 설치 완료는 별도로 확인
+05
+실제 플레이 검증
+실험자 정명훈이 직접 플레이하여 공격 방향 변조와 플레이 동작을 확인했다. 정확한 각도·명중률·FPS는 별도 수치 없음.
+10  공격 전후 화면 / 로그
+기존 설치·탐지 기록PID 11368: DLL 로드, [HK-01] Hook installed.DLLGuard가 payload를 탐지하고 경고 확인 후 종료.[HK01_validation_result.md]
+직접 플레이 확인실험자 정명훈이 실제 플레이 검증을 완료했다고 확인했다. 방향 변조 효과는 플레이로 확인한 결과로 기록한다.+30°는 코드상 설정값이며 호출별 각도 실측값과 구분한다.
+11  1차 공격 판정 및 특이사항
+판정: DLL 로드·후킹 설치는 기존 실행 기록으로, 공격 방향 변화와 플레이 동작은 실험자의 직접 플레이로 확인했다. DLLGuard는 별도 기존 실행에서 신규 DLL 탐지·경고 후 종료를 수행했다.
+문제·수정 사항: 양식의 45°를 실제 코드의 +30°로 바로잡았다. 현재 조건은 ID 3 궁극기·ID 2 기본 공격도 포함한다. 인젝터는 절대경로·원격 로더 주소 계산·모듈 재열거를 사용한다. 소스는 수정하지 않았다.
+DEFENSE  /  REATTACK
+3중 방어 구현 및 재검증
+12  방어 목표 / 위협 모델
+기존 DLLGuard는 첫 렌더 후 DLL 목록을 baseline으로 저장하고 약 1초마다 새 경로를 비교한다. 허용되지 않은 DLL이면 경고창을 표시하고, 창이 닫히면 ExitProcess(1)로 종료한다. 로드 자체를 선제 차단하는 방식은 아니다.
+기존 Dll2는 DetectNewModules(RVA 0xEF90)를 후킹하고 원본 스캔을 생략한다. 과거 재현에서 E9 변조와 SKIPPED 3회를 확인했다. 원본 스캔 활성이라는 설치 문구는 소스와 모순된다. 현재 C 시험에서는 설치 후 자체 종료 3이 먼저 발생해 SKIPPED는 0회다.
+13  구현한 방어 기법과 한계
+표 7  방어 구현 정보
+방어 기법
+A 신규 DLL 탐지 / B 발사 경계 검사 / C 독립 watchdog
+탐지 / 검증 위치
+A 메인 루프 / B CheckedSpawnProjectile / C 별도 worker
+검사 조건 / 임계값
+A 기존 약 1초·예외 유지. B/C는 디스크 함수 범위와 메모리의 CRC32·전체 바이트 비교. C 약 100ms.
+탐지 시 처리
+A 경고 확인 후 종료 1 정책 / B 즉시 종료 2 / C 즉시 종료 3
+방어 적용 파일 / Commit
+기존 GameWorld.cpp·IntegrityGuard.cpp·Application.cpp·CodeIntegrity.cpp. 이번 변경 없음, commit 없음.
+Defense SHA-256
+최종 Release EXE: 01절 기재. 해시는 실험 식별용이며 배포 신뢰 인증은 아니다.
+후보 / 순위
+동작 원리·기대 효과
+구현 난이도
+성능 영향
+우회 가능성·한계
+A DLLGuard
+첫 렌더 후 baseline과 신규 모듈 경로 대조
+기존 유지
+약 1초
+baseline 이전 로드·manual mapping 한계
+B 발사 경계
+5개 발사 지점에서 대상 밖 선검사, 본문 재검사
+구현 완료
+발사 시
+검사와 호출 사이 경쟁 조건
+C 독립 감시
+별도 Region·스레드로 스캐너 코드 대조
+구현 완료
+약 100ms
+주기 사이 복원·스레드 정지 한계
+코드 기준
+디스크 EXE·pdata 범위와 ASLR 재배치 반영
+기존 구현
+함수 범위
+시작 전 EXE 변조를 신뢰 인증하지 못함
+미적용 개선
+고정 CRC profile·외부 서명 검증 제안
+개선 취소
+미측정
+이번 구현·후속 음성 시험 없음
+A는 DLL 경로, B는 발사 직전 코드, C는 스캐너 코드를 각각 검사한다. 수동 시험의 B 탐지 로그와 종료 코드 2는 실제 게임에서의 코드 무결성 탐지·종료를 뒷받침한다.
+14  방어 적용 후 동일 공격 재시험
+표 8  조건별 재공격 시험 결과
+회차
+시험 조건
+실행 결과 / 증거
+01
+기존 EXE + 원본 Dll2
+E9 설치·SKIPPED 3회. 원본 스캔 생략 확인
+02
+최종 GameClient + 호환 Spawn DLL
+실제 E9·A DLL 탐지. 메뉴 상태, 외부 정리 77
+03
+최종 GameClient + 호환 Scanner DLL
+실제 E9·A 후 C 탐지, 게임 자체 종료 3
+04
+BoundaryFixture + 전용 Spawn DLL v2
+B 탐지·자체 종료 2. 투사체 생성 로그 없음
+05
+2026-11-14 실제 게임 수동 시험
+HK01_B 탐지·종료 2. 수동 E9·+30° 실측 없음
+15  재공격 방식 및 결과
+실제 GameClient B는 2026-11-14 수동 시험에서 탐지·종료를 확인했다. 바탕화면 GameClient.log의 HK01_B DETECTED와 실험자가 PID 12960에 대해 확인한 종료 코드 2가 근거다. 앞선 UI 초기화 실패는 과거 시도의 수집 실패로 남긴다.
+기존 A/C 선행 탐지·종료와 외부 정리 77은 B 성공으로 계산하지 않는다. BoundaryFixture의 B 결과도 실제 게임 수동 결과와 별도로 유지한다. 이번 로그에서 확인된 탐지 항목은 B이며, A는 SCAN_COMPLETE를 반복 기록했다.
+16  방어 관련 증거
+기존 실게임 A/Cmain_spawn: HK01_A DETECTEDmain_scanner: HK01_C DETECTED, game_exit=3
+기존 독립 B 경계MINHOOK_ENTRY_VERIFIED → HK01_B DETECTEDgame_exit=2; 실게임 증거 아님
+MANUAL VALIDATION  /  2026-11-14
+실제 GameClient 방어 B 수동 검증
+16.1  실행 조건과 파일 식별
+실험자 정명훈은 2026-11-14 실제 A/B/C 방어 적용 GameClient.exe에 기존 injector.exe로 main_spawn.dll을 주입해 SpawnProjectile 후킹을 시도했다. 대상 PID는 12960이다. 실행 폴더는 아래와 같다.
+C:\Users\정명훈\OneDrive\Desktop\api_hooking_v1114
+다음 SHA-256은 해당 폴더의 실제 파일에서 다시 계산했으며 제공된 값과 모두 일치했다. 동일 해시는 파일 식별 근거이며 클라이언트 신뢰 인증은 아니다.
+GameClient.exe  SHA-256
+3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153
+main_spawn.dll  SHA-256
+CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9
+injector.exe  SHA-256
+6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7
+16.2  주입 출력과 핵심 탐지 증거
+& (Join-Path $testFolder 'injector.exe') $game.Id (Join-Path $testFolder 'main_spawn.dll') '-'
+[*] Target PID: 12960
+[+] DLL loaded in target process. Hook installation is a separate step.
+[+] Single-DLL injection complete.
+위 명령과 출력은 실험자가 제공한 관측이다. DLL 로드 성공을 뜻하며 후킹 설치 완료나 detour 호출을 독립적으로 증명하지 않는다. 실제 GameClient.log에서는 다음 탐지 행을 재확인했다.
+[wall=1794658074][simulation=0.000][SECURITY][DETECTED][HK01_B][SpawnProjectile_modified_or_unreadable]
+$game.Refresh(); $game.ExitCode  →  2
+종료 코드 2는 실험자가 같은 게임 프로세스에서 확인한 PowerShell 결과다. B 탐지 로그와 이 관측을 함께 보면 실제 게임에서 SpawnProjectile 코드 무결성 이상을 탐지하고 종료 코드 2로 종료한 것으로 판단할 수 있다. 이번 편집에서 종료 코드를 새로 측정한 것은 아니다.
+16.3  A B C 상태와 해석 범위
+파일 로그의 B 기준은 RVA 0xF670, CRC32 26013CA4이며 C 기준 RVA는 0x1B050, watchdog 주기는 100ms다. A는 SCAN_COMPLETE를 반복 기록했다. 이번 로그의 실제 탐지 항목은 HK01_B이며 A/C 탐지 성공을 이번 실행의 결과로 추가하지 않는다.
+이번 수동 시험에서는 MinHook 설치 후 진입부 E9 바이트와 +30° 발사 각도를 직접 계측하지 않았다. 기존 자동화의 E9 확인과 과거 직접 플레이의 방향 변화 확인은 별도 근거다. B의 탐지·종료 성공은 실제 게임에서 +30°로 발사된 최종 투사체를 실측했다는 뜻이 아니다.
+VALIDATION  /  RESULTS
+시험 항목 및 정량 결과
+17  테스트 케이스
+표 9  시험 항목과 판정
+ID
+시험 조건
+기대 결과
+실측 결과
+판정
+TC-H01
+원본 HK-01 구조
+방향 회전
+코드 +30°, 실험자 플레이 확인
+기존 확인
+TC-H02
+기존 Dll2 우회
+스캔 생략
+E9·SKIPPED 3회
+기존 확인
+TC-H03
+실게임 A
+로드 DLL 탐지
+전체 경로 탐지 로그
+탐지 확인
+TC-H04
+BoundaryFixture B
+경계 차단·종료 2
+MinHook·B 로그·자체 종료 2
+독립 시험 PASS
+TC-H05
+실게임 C
+변조 탐지·종료 3
+MinHook·C 로그·자체 종료 3
+기존 PASS
+TC-H06
+실게임 B
+B 로그·자체 종료 2
+11-14 수동 HK01_B 탐지·종료 2
+수동 확인
+TC-H07
+기존 GameTests
+49개 통과
+Debug/Release 각 49/49, 종료 0
+기존 PASS
+TC-H08
+정상 게임 smoke
+실행·투사체·종료
+기존 렌더 5프레임·종료 0
+기존 확인
+18  관측 결과와 미측정 항목
+표 10  관측 결과와 미측정 항목
+측정 항목
+Baseline
+Attack ON
+Defense ON
+발사 방향 오차 (°)
+미측정
+코드 +30° / 미실측
+B 탐지·종료 2 / 각도 미측정
+명중률 (%)
+미측정
+미측정
+미측정
+탐지 건수 (회)
+반복 집계 없음
+A/C 실행별 로그
+fixture B 1회 / 수동 B 1회
+효과 차단 건수 (회)
+해당 없음
+실게임 정량 없음
+fixture 차단 / 실게임 효과 정량 없음
+오탐 건수 (회)
+장시간 미측정
+미측정
+정량 미검증
+평균 FPS
+미측정
+미측정
+미측정
+종료 코드
+정상 smoke 0
+메뉴 외부 정리 77
+C: 3 / fixture B: 2 / 수동 B: 2
+19  측정 조건 / 데이터 위치
+표 11  측정 조건과 데이터 위치
+반복 횟수 / 기간
+기존 실행별 결과와 2026-11-14 수동 시험 1회를 구분해 인용했다. 이번 편집 중 게임·공격 재실행 및 반복 통계 측정은 하지 않았다.
+테스트 환경 / Seed
+Windows x64 / VS2022 v143 / Release. fixture seed=0xE4511E. EXE 해시로 구분.
+로그 / 원본 데이터 경로
+기존: hk01_retest/followup_20261114/runs 및 verification. 수동: 바탕화면 api_hooking_v1114/GameClient.log와 실험자 PowerShell 출력. 문서 QA·원본 보존은 별도 작업 경로에 기록했다.
+CONCLUSION  /  EVIDENCE
+종합 평가 및 증거 목록
+20  최종 평가
+표 12  최종 평가
+공격 결과
+코드 +30° 변조 구조와 실험자 직접 플레이 결과 확인. 호출별 정확한 각도 실측은 없음.
+방어 결과
+기존 실게임 A 탐지·C 자체 종료 3 확인. 후속 수동 실게임 B 탐지·종료 2 확인. 독립 B 경계 시험은 별도 결과로 보존.
+재공격 결과
+기존 자동화에서 호환 DLL의 E9 설치 확인. 수동 시험은 DLL 로드 출력·B 탐지·종료 2 확인. 수동 E9 바이트는 미측정.
+기존 방어와 충돌 여부
+이번 소스 변경 없음. CRC·DLLGuard·SpeedGuard·쿨다운 임계값과 예외 목록 유지.
+정상 플레이 영향
+기존 정상 smoke와 49/49 기록 존재. 장시간 수동 플레이·FPS·오탐률은 미검증.
+21  결과 해석 및 원인 분석
+A의 경로 탐지와 C의 스캐너 코드 검사는 기존 실제 GameClient 시험에서 확인했다. B는 대상 함수 진입 전 검사와 본문 재검사를 사용한다. 수동 시험에서는 HK01_B 탐지와 종료 코드 2가 확인돼 실제 게임의 탐지·종료 근거가 추가됐다.
+BoundaryFixture는 동일 게임 소스를 사용하지만 Application의 A 주기 루프가 없다. 따라서 fixture 종료 2를 A/B/C가 함께 동작하는 실제 전투 결과로 확대할 수 없다.
+수동 시험의 로그는 파일에서 재확인했으며 PID 12960과 종료 코드 2는 실험자가 제공한 PowerShell 관측이다. 주입기의 DLL 로드 성공은 MinHook 설치 완료와 다르다. 이번 수동 결과만으로 진입 E9, detour 호출, +30° 발사 효과를 각각 확인했다고 결론 내리지 않는다.
+22  한계 / 개선 방향
+CRC32 추가 개선은 취소했으며 미적용이다. 현재는 정상 디스크를 전제로 함수 범위의 CRC32와 전체 바이트를 비교한다. 실행 전 EXE 코드가 바뀌면 변경된 디스크가 기준이 될 수 있다.
+디스크 서명 신뢰, 검사 루틴 자체 변조, C 주기 사이 복원·스레드 중지, B의 검사/호출 경쟁, 함수 범위 밖 패치와 A baseline 누락은 남는다. 서버 확장·고정 profile·서명 도입은 이번 범위에 없다.
+23  증거 및 산출물 목록
+표 13  증거와 산출물 목록
+번호
+증거 / 산출물
+파일명 또는 저장 경로
+E-01
+3중 방어·기존 회귀 결과
+docs/hk01-triple-defense-20261114.md
+E-02
+호환 MinHook·당시 미검증 기록
+docs/hk01-final-gaps-followup-20261114.md
+E-03
+실게임 A/C 원시 로그
+hk01_retest/followup_20261114/runs/20261114_121201_637835
+E-04
+독립 B 경계 원시 로그
+hk01_retest/followup_20261114/runs/20261114_121318_089249/fixture
+E-05
+기계 판정·해시 대응
+hk01_retest/followup_20261114/verification_20261114_121700_408985/verified.json
+E-06
+이전 문서 완료 기록·원본 백업
+evidence/hk01_report_completion 실행 폴더 / docs/hk01-final-report-completion-20261114.md
+E-07
+11-14 수동 B 로그·바이너리
+C:\Users\정명훈\OneDrive\Desktop\api_hooking_v1114 (16.1~16.3절)
+24  최종 메모
+최종 상태: A 기존 실게임 탐지 확인 / B 실제 게임 수동 탐지·종료 2 확인 및 독립 경계 시험 PASS / C 기존 실게임 탐지·자체 종료 3 확인.
+2026-11-14 수동 시험의 실제 로그와 세 바이너리의 SHA-256을 다시 확인했다. 종료 코드는 실험자의 관측값으로 반영했다. 이번 문서 편집에서는 게임·공격을 다시 실행하지 않았다.
+기존 자동화의 후킹 설치·E9 관측, 과거 직접 플레이의 방향 변화 확인, 이번 수동 시험의 B 탐지·종료는 서로 다른 증거다. 호출별 각도와 최종 투사체의 연결은 아직 계측하지 않았다.
+남은 검토 항목은 호출별 각도 실측과 최종 투사체 연결, 장시간 오탐·성능, 검사 루틴·디스크 기준의 신뢰 한계다. B 탐지 성공을 이 항목들의 검증 성공으로 확대하지 않는다.

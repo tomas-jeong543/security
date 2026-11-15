@@ -1,0 +1,18 @@
+﻿[
+    {
+        "target":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Debug\\visual-smoke.bmp",
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Debug\\visual-smoke.bmp",
+        "preRunSha256":  "D3B9DB56CBC3C86B0C306DC10FCD0133C017A16F7153FF3FE99D33A80F2C1F9E",
+        "unexpectedSha256":  "2AA1C9F809E84B432C9AB77677B83E38F42FB992FE6678193D8996AAD7C7D870",
+        "restoredSha256":  "D3B9DB56CBC3C86B0C306DC10FCD0133C017A16F7153FF3FE99D33A80F2C1F9E",
+        "unexpectedCopy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\unexpected-render-Debug.bmp"
+    },
+    {
+        "target":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\visual-smoke.bmp",
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\visual-smoke.bmp",
+        "preRunSha256":  "F9B627A4FD2344E3C9D5343EF23941F40D01A00E79EE0579E69F8BD36637EC3D",
+        "unexpectedSha256":  "86F48D82D5FD70B8BDA770E3BDF60FAB497BFB809D13CDF7ED11E5EAA300D60B",
+        "restoredSha256":  "F9B627A4FD2344E3C9D5343EF23941F40D01A00E79EE0579E69F8BD36637EC3D",
+        "unexpectedCopy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\unexpected-render-Release.bmp"
+    }
+]

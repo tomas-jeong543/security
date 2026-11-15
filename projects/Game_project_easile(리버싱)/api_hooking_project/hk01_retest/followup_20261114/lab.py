@@ -1,0 +1,261 @@
+"""Owned EASILE-only MinHook retest. All new sources/binaries/evidence live here."""
+import ast
+import hashlib
+import json
+import re
+import shutil
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
+sys.stdout.reconfigure(encoding='utf-8',errors='backslashreplace')
+
+BASE = Path(__file__).resolve().parent
+ROOT = BASE.parents[2]
+FINAL = ROOT/'evidence/hk01_triple_20261114/final_20261114_112516'
+MSBUILD = Path('C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe')
+MINHOOK = Path('D:/Downloads/minhook-1.3.4/minhook-1.3.4')
+TARGET_SHA = '3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153'
+
+def sha(p):
+    with p.open('rb') as s: return hashlib.file_digest(s,'sha256').hexdigest().upper()
+
+def output(path, value):
+    if path.exists(): raise RuntimeError(f'Refusing to replace {path}')
+    path.parent.mkdir(parents=True,exist_ok=True)
+    if isinstance(value,bytes): path.write_bytes(value)
+    else: path.write_text(value,encoding='utf-8')
+
+def save_json(path,value): output(path,json.dumps(value,ensure_ascii=False,indent=2))
+
+def inventory():
+    files = set()
+    for name in ('src','tests','GameClient','api_hooking_project','docs','evidence','build','tools'):
+        for p in (ROOT/name).rglob('*'):
+            if p.is_file() and not p.is_relative_to(BASE): files.add(p)
+    return {str(p.relative_to(ROOT)):sha(p) for p in sorted(files)}
+
+def pe_reader():
+    source = ROOT/'tools/audit_hk01.py'
+    nodes = [n for n in ast.parse(source.read_text(encoding='utf-8-sig')).body if isinstance(n,(ast.Import,ast.ImportFrom)) or
+        isinstance(n,ast.ClassDef) and n.name=='PE' or isinstance(n,ast.FunctionDef) and n.name=='inspect']
+    ns={'ROOT':ROOT}
+    exec(compile(ast.Module(body=nodes,type_ignores=[]),str(source),'exec'),ns)
+    return ns
+
+def xml_project(path, sources, dll=False, includes=(), minhook=False):
+    import xml.sax.saxutils as xml
+    items=''.join('<ClCompile Include="'+xml.escape(str(s),{'"':'&quot;'})+'" />' for s in sources)
+    inc=';'.join(str(p) for p in includes)
+    dependency='libMinHook.x64.lib;crypt32.lib;' if minhook else ''
+    libdir=str(BASE/'deps')
+    output(path,f'''<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations"><ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration></ItemGroup>
+  <PropertyGroup Label="Globals"><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration"><ConfigurationType>{'DynamicLibrary' if dll else 'Application'}</ConfigurationType><PlatformToolset>v143</PlatformToolset><UseDebugLibraries>false</UseDebugLibraries></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\\Microsoft.Cpp.props" />
+  <PropertyGroup><LinkIncremental>false</LinkIncremental></PropertyGroup>
+  <ItemDefinitionGroup><ClCompile>
+    <Optimization>MaxSpeed</Optimization><RuntimeLibrary>MultiThreaded</RuntimeLibrary><WarningLevel>Level4</WarningLevel>
+    <LanguageStandard>stdcpp17</LanguageStandard><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    <PreprocessorDefinitions>NDEBUG;NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    <AdditionalIncludeDirectories>{inc};%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+  </ClCompile><Link><GenerateDebugInformation>true</GenerateDebugInformation><GenerateMapFile>true</GenerateMapFile><EnableCOMDATFolding>false</EnableCOMDATFolding>
+    <AdditionalLibraryDirectories>{libdir};%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    <AdditionalDependencies>{dependency}%(AdditionalDependencies)</AdditionalDependencies>
+    <SubSystem>{'Windows' if dll else 'Console'}</SubSystem>
+  </Link></ItemDefinitionGroup>
+  <ItemGroup>{items}</ItemGroup>
+  <Import Project="$(VCTargetsPath)\\Microsoft.Cpp.targets" />
+</Project>
+''')
+
+def build(project,label):
+    folder=BASE/'build'/(label+'_'+datetime.now().strftime('%H%M%S_%f'))
+    folder.mkdir(parents=True)
+    args=[str(MSBUILD),str(project),'/p:Configuration=Release','/p:Platform=x64',f'/p:OutDir={folder}\\',f'/p:IntDir={folder / "obj"}\\','/m','/v:minimal']
+    p=subprocess.run(args,cwd=BASE,capture_output=True)
+    output(folder/'build.log',p.stdout+p.stderr)
+    save_json(folder/'command.json',{'cwd':str(BASE),'args':args,'exitCode':p.returncode})
+    print(f'BUILD {label} exit={p.returncode} evidence={folder}',flush=True)
+    if p.returncode: raise RuntimeError('Build failed; see '+str(folder/'build.log'))
+    return folder/project.with_suffix('.dll' if label.endswith('_dll') else '.exe').name
+
+def target_header(folder, exe):
+    expected=sha(exe)
+    initializer=','.join('0x'+expected[i:i+2] for i in range(0,64,2))
+    output(folder/'target_pin.h',f'''#include <wincrypt.h>
+#include <bcrypt.h>
+#include <stdlib.h>
+/* This experimental DLL accepts only the exact owned executable below. */
+static BOOL verify_pinned_executable(void) {{
+    static const BYTE expected[32]={{ {initializer} }};
+    wchar_t path[32768]; DWORD n=GetModuleFileNameW(NULL,path,32768);
+    if (!n || n>=32768) return FALSE;
+    HANDLE file=CreateFileW(path,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+    if (file==INVALID_HANDLE_VALUE) return FALSE;
+    LARGE_INTEGER length; BOOL valid=FALSE;
+    if (GetFileSizeEx(file,&length) && length.QuadPart>0 && length.QuadPart<=32*1024*1024) {{
+        BYTE* bytes=(BYTE*)malloc((size_t)length.QuadPart);
+        if (bytes) {{
+            DWORD got=0, hashSize=32; BYTE hash[32];
+            if (ReadFile(file,bytes,(DWORD)length.QuadPart,&got,NULL) && got==(DWORD)length.QuadPart &&
+                CryptHashCertificate2(BCRYPT_SHA256_ALGORITHM,0,NULL,bytes,got,hash,&hashSize) && hashSize==32)
+                valid=memcmp(hash,expected,32)==0;
+            free(bytes);
+        }}
+    }}
+    CloseHandle(file);
+    if (!valid) OutputDebugStringA("[HK01-RETEST] Wrong EXE SHA256; no hook attempted\\n");
+    return valid;
+}}
+''')
+
+def attack(kind,label,exe,rva,entry=None):
+    folder=BASE/'adapted'/label
+    folder.mkdir(parents=True,exist_ok=False)
+    if kind=='spawn':
+        original=ROOT/'api_hooking_project/EASILE_HK01_starter_fixed/easile_hk01/hook_payload.c'
+        code=original.read_text(encoding='utf-8-sig')
+        code=code.replace('#define SPAWN_PROJECTILE_RVA 0x137E0u',f'#define SPAWN_PROJECTILE_RVA 0x{rva:X}u')
+        code=code.replace('static BOOL verify_target_build(HMODULE game_exe)\n{','static BOOL verify_target_build(HMODULE game_exe)\n{\n    if (!verify_pinned_executable()) return FALSE;')
+        code=code.replace('#include <string.h>','#include <string.h>\n#include "target_pin.h"')
+        if entry is not None:
+            expected=', '.join('0x%02X'%value for value in entry)
+            code,count=re.subn(r'static const BYTE expected\[\] = \{.*?\};',
+                'static const BYTE expected[] = { '+expected+' };',code,count=1,flags=re.S)
+            assert count==1
+        code+='\n/* Observation only: no attack/filter/guard behavior is changed. */\n__declspec(dllexport) BOOL WINAPI HK01_Retest_Installed(void) { return g_hook_enabled; }\n'
+        source=folder/'hook_payload.c'
+    else:
+        original=ROOT/'api_hooking_project/Dll2/Dll2/dllmain.cpp'
+        code=original.read_text(encoding='utf-8-sig').replace('#include "pch.h"','')
+        code=code.replace('#define GUARD_SCAN_RVA 0x0000EF90u',f'#define GUARD_SCAN_RVA 0x{rva:X}u')
+        code=code.replace('#include <wchar.h>','#include <wchar.h>\n#include "target_pin.h"')
+        code=code.replace('static BOOL verify_game_build(HMODULE game_module)\n{','static BOOL verify_game_build(HMODULE game_module)\n{\n    if (!verify_pinned_executable()) return FALSE;')
+        code=code.replace('Hook installed at GameClient + 0xEF90; ','Hook installed at GameClient + 0x%X; ' % rva)
+        code=code.replace('original DLLGuard scan still enabled.','original scanner bypass installed (retest).')
+        source=folder/'dllmain.cpp'
+    assert 'if (!verify_pinned_executable())' in code
+    output(source,code)
+    target_header(folder,exe)
+    project=folder/(label+'.vcxproj')
+    xml_project(project,[source],dll=True,includes=[BASE/'deps',folder],minhook=True)
+    artifact=build(project,label+'_dll')
+    save_json(folder/'provenance.json',{'source':str(original.relative_to(ROOT)),'source_sha256':sha(original),'adapted_source':str(source.relative_to(ROOT)),
+        'adapted_sha256':sha(source),'target_exe':str(exe.relative_to(ROOT)),'target_sha256':sha(exe),'target_rva':rva,
+        'artifact':str(artifact.relative_to(ROOT)),'artifact_sha256':sha(artifact),
+        'exact_entry_bytes':entry.hex(' ') if entry is not None else 'unchanged original prefix (matches main target)',
+        'changes':['target RVA','exact target EXE SHA256 gate','observation export (spawn) / corrected log (scanner)','build/PCH adaptation only']})
+    return artifact
+
+def prepare():
+    assert sha(FINAL/'bin/Release/GameClient.exe')==TARGET_SHA
+    if (BASE/'preserved-before.json').exists(): raise RuntimeError('Preparation already completed')
+    for name,args in [('before-status',['status','--short','--','.']),('before-diff',['diff','--','.']),('before-check',['diff','--check','--','.'])]:
+        p=subprocess.run(['git',*args],cwd=ROOT,capture_output=True)
+        output(BASE/(name+'.txt'),p.stdout+p.stderr)
+    before=inventory()
+    save_json(BASE/'preserved-before.json',before)
+    print(f'INVENTORY files={len(before)}',flush=True)
+    deps=BASE/'deps'
+    deps.mkdir()
+    for file in [MINHOOK/'include/MinHook.h',MINHOOK/'build/VC17/lib/Release/libMinHook.x64.lib',*MINHOOK.glob('LICENSE*')]:
+        shutil.copy2(file,deps/file.name)
+    save_json(deps/'manifest.json',[{'source':str(MINHOOK/'include/MinHook.h'),'sha256':sha(deps/'MinHook.h')},
+        {'source':str(MINHOOK/'build/VC17/lib/Release/libMinHook.x64.lib'),'sha256':sha(deps/'libMinHook.x64.lib')}])
+    project=BASE/'BoundaryFixture.vcxproj'
+    xml_project(project,[BASE/'BoundaryFixture.cpp',*[ROOT/'src'/p for p in ('GameWorld.cpp','CombatSystem.cpp','Hero.cpp','IntegrityGuard.cpp','CodeIntegrity.cpp')]],includes=[ROOT/'src'])
+    fixture=build(project,'fixture')
+    reader=pe_reader()
+    main=reader['inspect'](FINAL/'bin/Release/GameClient.exe')
+    isolated=reader['inspect'](fixture)
+    save_json(BASE/'targets.json',{'game':main,'fixture':isolated})
+    artifacts={'fixture':str(fixture.relative_to(ROOT))}
+    artifacts['main_spawn']=str(attack('spawn','main_spawn',FINAL/'bin/Release/GameClient.exe',main['functions']['SpawnProjectile@GameWorld']['rva']).relative_to(ROOT))
+    artifacts['main_scanner']=str(attack('scanner','main_scanner',FINAL/'bin/Release/GameClient.exe',main['functions']['DetectNewModules@IntegrityGuard']['rva']).relative_to(ROOT))
+    artifacts['fixture_spawn']=str(attack('spawn','fixture_spawn',fixture,isolated['functions']['SpawnProjectile@GameWorld']['rva']).relative_to(ROOT))
+    save_json(BASE/'artifacts.json',artifacts)
+    print(json.dumps(artifacts,ensure_ascii=False,indent=2))
+
+def run(only_fixture=False):
+    artifacts=json.loads((BASE/'artifacts.json').read_text(encoding='utf-8'))
+    if only_fixture:
+        artifacts.update(json.loads((BASE/'artifacts-fixture-v2.json').read_text(encoding='utf-8')))
+    targets=json.loads((BASE/'targets.json').read_text(encoding='utf-8'))
+    fixture_spawn=targets['fixture']['functions']['SpawnProjectile@GameWorld']['rva']
+    fixture_scan=targets['fixture']['functions']['DetectNewModules@IntegrityGuard']['rva']
+    source=(ROOT/'tests/Hk01Replay.cpp').read_text(encoding='utf-8-sig')
+    source=source.replace('if (argc != 3) return 99;', 'if (argc != 4) return 99;')
+    source=source.replace('const std::wstring cwd = argv[1];',f'''const std::wstring cwd = argv[1];
+    const bool fixtureMode = wcscmp(argv[3], L"fixture") == 0;
+    const std::uintptr_t spawnRva = fixtureMode ? 0x{fixture_spawn:X} : 0xF670;
+    const std::uintptr_t scanRva = fixtureMode ? 0x{fixture_scan:X} : 0x1B050;
+    bool sawSpawnPatch = false, sawScanPatch = false;''')
+    source=source.replace('bool baseline = false, injected = false, detected = false, finished = false;',
+        'bool baseline = false, injected = fixtureMode, detected = false, finished = false;')
+    source=source.replace('base + 0x137e0','base + spawnRva').replace('base + 0xef90','base + scanRva')
+    source=source.replace('old_spawn_','spawn_').replace('old_scanner_','scanner_')
+    source=source.replace('static void Entry(', 'static bool Entry(')
+    source=source.replace('std::printf("\\n");\n}', 'std::printf("\\n");\n    return count == sizeof(bytes) && bytes[0] == 0xe9;\n}',1)
+    source=source.replace('if (text.find("Baseline initialized")', '''sawSpawnPatch = Entry(game.hProcess, base + spawnRva, "spawn_observed") || sawSpawnPatch;
+                    sawScanPatch = Entry(game.hProcess, base + scanRva, "scanner_observed") || sawScanPatch;
+                    if (text.find("Baseline initialized")''')
+    source=source.replace('if (baseline && !detected && !injected', 'if (!fixtureMode && baseline && !detected && !injected')
+    source=source.replace('if (detected && !injected)', 'if (!fixtureMode && detected && !injected)')
+    source=source.replace('return baseline && injected ? 0 : 2;', '''std::printf("RETEST_RESULT fixture=%d spawn_E9_observed=%d scanner_E9_observed=%d game_exit=%lu self_exit=%d\\n",
+        fixtureMode, sawSpawnPatch, sawScanPatch, gameExit, finished);
+    return fixtureMode ? (finished && gameExit == 2 && sawSpawnPatch ? 0 : 2) :
+        (baseline && injected && (sawSpawnPatch || sawScanPatch) ? 0 : 2);''')
+    runner_source=BASE/'RetestReplay.cpp'
+    if runner_source.exists():
+        assert runner_source.read_text(encoding='utf-8')==source
+    else: output(runner_source,source)
+    project=BASE/'RetestReplay.vcxproj'
+    if not project.exists(): xml_project(project,[runner_source])
+    existing=sorted((BASE/'build').glob('runner_*/RetestReplay.exe'))
+    runner=existing[-1] if existing else build(project,'runner')
+    run_dir=BASE/'runs'/datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+    run_dir.mkdir(parents=True)
+    results=[]
+    for mode in (('fixture',) if only_fixture else ('main_spawn','main_scanner','fixture')):
+        cwd=run_dir/mode
+        cwd.mkdir()
+        exe=ROOT/artifacts['fixture'] if mode=='fixture' else FINAL/'bin/Release/GameClient.exe'
+        dll=ROOT/artifacts['fixture_spawn' if mode=='fixture' else mode]
+        copies=[(exe,'GameClient.exe'),(dll,'hook_payload.dll' if mode=='fixture' else 'attack.dll')]
+        if mode!='fixture': copies.append((ROOT/'api_hooking_project/injector.exe','injector.exe'))
+        copied=[]
+        for original,name in copies:
+            dest=cwd/name
+            shutil.copy2(original,dest)
+            assert sha(dest)==sha(original)
+            copied.append({'source':str(original.relative_to(ROOT)),'copy':str(dest.relative_to(ROOT)),'sha256':sha(dest)})
+        args=[str(runner),str(cwd),'hook_payload.dll' if mode=='fixture' else 'attack.dll','fixture' if mode=='fixture' else 'main']
+        p=subprocess.run(args,cwd=cwd,capture_output=True,timeout=30)
+        output(cwd/'debug-events.txt',p.stdout+p.stderr)
+        results.append({'mode':mode,'cwd':str(cwd.relative_to(ROOT)),'command':args,'runner_exit':p.returncode,'copies':copied})
+        save_json(cwd/'result.json',results[-1])
+        print(f'RUN {mode} runner_exit={p.returncode}',flush=True)
+        text=(p.stdout+p.stderr).decode('utf-8',errors='replace')
+        print('\n'.join(text.splitlines()[-22:]),flush=True)
+    save_json(run_dir/'results.json',results)
+    print('RESULTS '+str(run_dir/'results.json'),flush=True)
+
+def fixture_retry():
+    artifacts=json.loads((BASE/'artifacts.json').read_text(encoding='utf-8'))
+    fixture=ROOT/artifacts['fixture']
+    target=pe_reader()['inspect'](fixture)['functions']['SpawnProjectile@GameWorld']
+    entry=bytes.fromhex(target['entry'])[:14]
+    dll=attack('spawn','fixture_spawn_v2',fixture,target['rva'],entry)
+    save_json(BASE/'artifacts-fixture-v2.json',{'fixture_spawn':str(dll.relative_to(ROOT))})
+    run(only_fixture=True)
+
+if __name__=='__main__':
+    if sys.argv[1:] == ['prepare']: prepare()
+    elif sys.argv[1:] == ['run']: run()
+    elif sys.argv[1:] == ['fixture-retry']: fixture_retry()
+    else: raise SystemExit('Usage: lab.py prepare | run | fixture-retry')

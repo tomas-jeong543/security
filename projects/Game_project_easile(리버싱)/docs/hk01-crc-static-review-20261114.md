@@ -1,0 +1,106 @@
+# HK-01 CRC32·주소 호환성·기존 탐지 증거 재검토
+
+2026-11-14 / Asia/Seoul. 최신 요청의 우선 범위인 읽기 전용 분석과 기존 테스트를 활용한 검증을 수행했다. 게임·공격 소스, 기존 EXE/DLL/injector, 기존 보고서는 수정하지 않았다. 신규 호환 공격 DLL 제작·주입·스캔 우회 재현·서버 작업·재빌드는 이번에 실행하지 않았다. 기존 [구현 보고서](hk01-triple-defense-20261114.md)를 덮어쓰지 않고 이 보충 보고서를 추가했다.
+
+**결론:** PATCH-01의 CRC32 알고리즘과 궁극기 전 검사 경로는 유지됐다. 정상 동작은 보존 바이너리의 해시 일치 사본으로 재확인했다. 다만 고정 기대 CRC를 EXE 디스크 기준으로 바꾼 것은 신뢰 전제의 변경이다. 따라서 “어떤 위협에서도 보안 강도가 동일하고 우회 불가능하다”는 판정은 하지 않는다. B/C의 기존 점프 변조 탐지는 확인됐지만, 새 EXE에 호환된 원본 HK-01 DLL의 설치·+30° 효과·방어 결과는 여전히 미검증이다.
+
+최종 기계 판정 자료는 [verified-findings.json](../evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/verified-findings.json)이다. 첫 분석기의 UTF-16 재현 로그 해석 오류로 생긴 초기 `review.json`의 replay boolean은 이 최종 자료가 대체한다. 원시 증거는 변경하지 않았다.
+
+## PATCH-01 보존 확인
+
+[IntegrityGuard.cpp](../src/IntegrityGuard.cpp)의 `CalculateCRC32()`를 Git HEAD의 이전 구현과 공백을 제외하고 비교해 동일함을 확인했다. 초기값·최종 XOR는 `0xFFFFFFFF`, 다항식은 `0xEDB88320`이다. 예전 `VerifyRegionIntegrity()` 정의도 남아 있으나 현재 PATCH-01 호출은 그 함수를 통하지 않는다.
+
+현재 호출 경로:
+
+```text
+GameWorld::Update()의 command.ultimate 분기
+  → IntegrityGuard::VerifyUpdateIntegrity()
+  → GameWorld::VerifyUpdateCode()
+  → static CodeIntegrity::Region(GameWorld::Update 주소)
+  → Region::Verify()
+  → 메모리 읽기 → CRC32 비교 → 전체 바이트 비교
+```
+
+[GameWorld.cpp](../src/GameWorld.cpp) 951행 부근의 검사 실패 시 `INTEGRITY_FAIL` 기록 후 해당 Update에서 반환하는 동작은 유지됐다. 궁극기 전 실제 10초 쿨다운, 기존 궁극기 쿨다운, SpeedGuard의 220·1.15 기준도 그대로다. 생성자에서 Update 코드의 최초 대조도 추가돼 있다. 그러나 실행 중 Update 전체를 매 프레임 CRC로 검사하는 설계는 아니며, 기존 궁극기 경로의 검사도 모든 공격·이동 전에 실행되는 전역 차단 장치가 아니다.
+
+[CodeIntegrity.cpp](../src/CodeIntegrity.cpp)는 함수 주소와 디스크 `.pdata`로 범위를 선택하고, EXE의 디스크 코드를 정상 기준으로 복사한다. RAM을 정상 기준으로 채택하지 않는다. 이번 Release 검사 영역에는 DIR64 재배치가 없었다. `Region::Verify()`는 기준 생성 실패·읽기 실패·CRC 차이·바이트 차이를 모두 거부하도록 구현돼 있다. 전체 바이트 비교가 추가돼 CRC 충돌만으로 통과하는 조건은 제거됐다. 이는 소스 분석 결과이며 모든 실패 조건을 이번에 실행 시험했다는 뜻은 아니다.
+
+| Update 기준 | 기존 EXE | 지정된 최종 Release EXE |
+|---|---|---|
+| SHA-256 | `32A1D0D4D8FBF15E2A1E45467475A6057F26EEE54B1AF5746945DE24C768A926` | `3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153` |
+| RVA | `0x14820` | `0x103A0` |
+| 길이 | `0x1444` | `0x1444` |
+| 원시 PE에서 재계산한 CRC32 | `29148A8C` | `E256ED48` |
+| 기대값 출처 | 컴파일된 고정 기대 CRC | 해당 실행 EXE의 디스크 코드 |
+
+현재 소스와 최종 사본의 `src` 파일이 모두 일치했고, 최종 manifest의 78개 파일 해시도 일치했다. 이 해시는 조사 파일의 식별값이며 외부 신뢰·서명 증거가 아니다.
+
+**달라진 신뢰 전제:** 실행 중 메모리만 변조되는 경우 정상 디스크와의 차이를 검출하는 경로가 유지된다. 반면 시작 전 디스크의 검사 대상 코드가 바뀌면 그 바뀐 코드에서 기준을 만들 수 있다. 별도 서명 검증이나 신뢰된 배포 manifest 대조는 없다. 타임스탬프·이미지 크기 일치는 인증이 아니다. 이전 고정 기준과 이 위협에 대한 의미가 같다고 단정할 수 없으며 배포 신뢰 기준의 사람 검토가 필요하다. 이번에는 디스크 변조나 우회를 실행하지 않았다.
+
+`VerifyHeroIntegrity()`는 여전히 정의돼 있지만 실제 게임 호출은 발견하지 못했다. 정상 테스트의 `VerifyInitializeCode()` 호출을 게임에서 Hero CRC가 활성이라는 증거로 사용하지 않는다.
+
+## 기존 공격과 새 EXE의 정적 차이
+
+기존 소스와 원시 PE/MAP를 읽어 비교했다. DLL의 주소 설정을 바꾸거나 DLL을 새로 빌드하지 않았다.
+
+| 함수 | 기존 RVA·길이·CRC32 | 새 Release RVA·길이·CRC32 |
+|---|---|---|
+| SpawnProjectile | `0x137E0` / `0x8B5` / `8856502B` | `0xF670` / `0x8E9` / `26013CA4` |
+| DetectNewModules | `0xEF90` / `0x4BF` / `7FCB868D` | `0x1B050` / `0x807` / `E572B6AE` |
+
+SpawnProjectile의 실제 함수 시작 14바이트는 두 빌드 모두 `48 8B C4 48 89 58 18 55 56 57 41 54 41 55`이며, DetectNewModules의 시작 15바이트도 `48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18`로 동일하다. 하지만 기존 DLL이 검사하는 **이전 RVA 위치**의 새 EXE 바이트는 각각 `18 73 1E 4C ...`, `10 35 E6 87 ...`로 다르다. 진입 바이트의 일부가 같다는 것과 같은 주소에 같은 함수가 있다는 것은 다르다. 함수 전체 길이·CRC도 바뀌었다.
+
+소스상 SpawnProjectile은 `this, Team, Vec2 position, Vec2 direction, ProjectileKind, int damage, uint64_t sourceId`에 대응하고, DLL은 명시적 `world` 인자를 받는 x64 함수 포인터를 사용한다. DetectNewModules는 인자·반환값이 없는 함수다. 선언 대응은 확인했으나 새 DLL의 동적 ABI·trampoline 정확성을 검증한 것은 아니다.
+
+payload 소스의 회전 조건은 `sourceId == 3 || (sourceId == 2 && kind == 0)`이다. ID 3의 궁극기를 제외하지 않으므로 “적 Bot 기본 공격만”이라는 주석보다 넓다. Dll2는 원본 스캔을 호출하지 않는 코드이며 설치 로그의 `original DLLGuard scan still enabled` 문구와 모순된다. 코드와 과거 실제 `SKIPPED` 로그를 기준으로 판단했다.
+
+원본 EXE/DLL/injector/소스의 SHA-256은 [이번 작업 전 목록](../evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/preserved-before.json)에 기록했다. 과거 DLL 사본·원본의 식별값은 최종 JSON의 `replay_manifest`에도 보존했다. 다른 과거 보고서에 적힌 DLL 해시를 현재 파일의 해시로 승계하지 않았다.
+
+## 기존 변조 시험의 증거 재검토
+
+이 절의 동적 관측은 **이번에 다시 공격한 결과가 아니라 기존 원시 로그를 재검토한 결과**다. 이전 [results.json](../evidence/hk01_triple_20261114/validation_20261114_112033/results.json)의 18개 실행 기록 모두에서 보존 EXE 해시가 일치했고 타임아웃이 없었다.
+
+| 기존 시험 | 재확인한 증거 | 판정 범위 |
+|---|---|---|
+| B / B-preinit, Debug·Release | 패치 기록·`readback_verified=1`·`HK01_B` 탐지·종료 2 | 발사 경계에서 코드 변조 거부, 초기 변조를 RAM 기준으로 승인하지 않음 |
+| C / C-preinit, Debug·Release | 패치 기록·`HK01_C` 탐지·종료 3 | 주기적 감시와 시작 전 코드 대조를 각각 확인 |
+| CRC, Debug·Release | Update 패치 기록·`modified Update CRC rejected PASS`·테스트 종료 0 | 테스트 EXE에서 `VerifyUpdateIntegrity()`가 false를 반환했음 |
+| A-C-blocked, Debug·Release | 프로브가 기준선에 없다는 기록·프로브 경로 A 탐지·이후 C 탐지·종료 3 | A의 경고 대기 중 C가 독립 실행 경로에서 탐지 |
+
+해당 시험은 14바이트 `FF 25` 절대 점프를 쓰고 메모리 바이트를 다시 읽어 비교하는 별도 테스트다. 원본 공격의 과거 관측 패치는 5바이트 `E9`였다. 따라서 테스트 주석의 “원본 payload와 같은 점프 형태”를 정확한 동일 공격 재현의 근거로 사용하지 않는다. 테스트의 detour는 +30° 회전 대신 예기치 않은 호출 시 종료 90을 수행한다.
+
+CRC 음성 시험도 지정된 GameClient.exe 자체의 Update를 변조한 것이 아니라 별도 Hk01SecurityTests.exe에서 수행됐다. 또한 변조된 Update를 호출해 궁극기 실패 분기를 끝까지 시험한 것이 아니라 검증 함수를 직접 호출했다. 이 제한을 넘어 게임 전체의 모든 변조를 차단했다고 판정하지 않는다.
+
+기존 [재현 폴더](../evidence/hk01_triple_20261114/validation_20261114_112244/replay-manifest.json)의 UTF-16 로그도 다시 해석했다. 기존 EXE에서는 Spawn·Dll2 후킹의 설치 로그와 실제 `E9` 바이트를 확인했고, Dll2는 원본 스캔 생략 로그 3회가 있었다. 새 EXE에서는 두 원본 DLL 모두 설치를 거부했고 A는 로드 DLL을 탐지했다. 따라서 새 EXE의 원본 HK-01에 대한 B/C 성공 판정은 할 수 없다. 이 재현 게임들은 수집 후 외부 종료 77로 정리됐으므로 A 경고 확인 후 자연 종료의 증거도 아니다.
+
+## 이번에 새로 실행한 정상 검증
+
+원본과 SHA-256이 같은 EXE·부속 파일 사본을 새 `isolated-bin` 아래에 만들고 새 CWD에서 실행했다. DLL 주입·코드 변조 모드는 실행하지 않았다.
+
+| 검사 | Debug | Release |
+|---|---|---|
+| 기존 GameTests | 49 PASS / 0 FAIL, 종료 0 | 49 PASS / 0 FAIL, 종료 0 |
+| Hk01SecurityTests normal | CRC·투사체·정상 코드·무효 기준 검사 통과, 종료 0 | 동일, 종료 0 |
+| GameClient --smoke-gui | 궁극기·투사체 생성, 렌더 5프레임, APP EXIT, 종료 0 | 동일, 종료 0 |
+
+정상 실행 6건 모두 타임아웃·`INTEGRITY_FAIL`이 없었다. 생성자의 코드 대조, 궁극기 호출 경로, 실제 궁극기 생성 로그를 함께 정상 CRC 경로의 근거로 삼았다. 화면 시각 검수·수동 입력·장시간 플레이·성능 계측은 수행하지 않았다. 게임 소스와 빌드를 바꾸지 않았으므로 Debug/Release 재빌드는 미실행이다.
+
+## A/B/C 검증 경계와 남은 항목
+
+| 방어 | 확인된 범위 | 남은 미검증 |
+|---|---|---|
+| A | 기존 주기·정책 유지, 과거 새 EXE의 실제 로드 DLL 탐지, 기존 프로브 탐지 | 이번 새 공격 주입, 모든 지연 로드 DLL의 오탐 부재, manual mapping, 경고 후 자연 종료 |
+| B | 게임의 발사 전 wrapper 경로, 해시가 확인된 기존 테스트에서 진입 변조 거부 | 새 EXE 호환 원본 MinHook 설치 후 +30° 시도·실제 차단, 최종 투사체와 detour의 동일 이벤트 연결 |
+| C | 별도 스레드·약 100ms 소스 경로, 기존 시험에서 스캐너 코드 변조 탐지, A 대기 중 동작 | 호환 Dll2가 설치된 새 GameClient에서의 실제 스캔 우회 탐지, 감시 중지·일시 원복·동시 변조 |
+
+B/C와 Update CRC는 하위 `Region::Verify()`를 공유하고 B/C의 실패 처리도 공통 `Fail()`을 사용한다. 실행 경로·기준 상태는 분리됐지만 공통 하위 루틴까지 상호 독립된 보안 경계인 것은 아니다. 검사기 자체·기준 데이터 동시 변조는 미검증이다. C의 polling과 B의 검사→호출 사이 경쟁 조건도 남아 있다. 새 EXE에 맞춘 공격 DLL은 이번 범위에서 제작하지 않았으므로 신규 DLL 생성·설치는 **미실행**으로 기록한다.
+
+## 보존 문제와 최종 변경 기록
+
+첫 정상 실행은 EXE의 CWD만 바꾸면 출력이 격리된다고 판단해 보존 EXE를 직접 실행했다. 그러나 게임이 EXE 옆 `visual-smoke.bmp`를 저장해 기존 Debug/Release 캡처 두 개가 갱신됐다. 이를 보존 실패로 기록하고 추가 실행을 중단했다. 변경된 캡처는 새 증거 폴더에 보관했고, 작업 전 해시와 같은 기존 사본을 찾아 원래 파일을 복원했다. [복원 기록](../evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/capture-restoration.json)에 출처·변경 전·예기치 않은 출력·복원 해시를 남겼다. 이후 실행은 EXE 사본까지 격리했다.
+
+최종 재검사에서 기존 **1,186개 파일 모두 작업 전 해시와 일치**했다. EXE/DLL/injector/게임 소스·기존 보고서는 변경되지 않았고, 갱신됐던 캡처 두 개도 바이트 동일 상태로 복원됐다. 초기 CRLF 출력의 PASS 집계 오류와 UTF-16 재현 로그 해석 오류는 원시 로그를 유지한 채 수정했다. 첫 파일 선택 오류도 새 증거 폴더의 `attempt_1_error.txt`에 기록했다.
+
+이번 신규 파일은 본 보고서와 `evidence/hk01_crc_review_20261114_1146/`의 검토·복원·최종 확인 스크립트, 해시 목록, 정상 실행 사본·로그, 검사 결과다. 기존 구현 보고서나 기존 게임·공격 소스를 수정한 파일은 없다. Git 최상위는 상위 `D:/GitHub/security`이며 프로젝트 범위의 작업 전후 status·diff·diff --check를 새 증거 경로에 기록했다. ignore되는 EXE/PDB/DLL도 없는 파일로 간주하지 않고 별도 해시로 확인했다.
+
+사람 검토가 필요한 항목은 고정 CRC에서 디스크 기준으로 바뀐 배포 신뢰 모델, B/C 공통 검증 루틴의 위협 모델, 호환 공격이 실제 설치된 경우의 검증 공백이다. 서버 관련 작업은 수행하지 않았다.

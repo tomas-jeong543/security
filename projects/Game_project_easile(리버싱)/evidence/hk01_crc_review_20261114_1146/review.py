@@ -1,0 +1,168 @@
+"""Read-only review of existing HK-01 artifacts; new outputs stay beside this file."""
+import ast
+import hashlib
+import json
+import re
+import subprocess
+import sys
+import time
+import shutil
+from datetime import datetime
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+ROOT = BASE.parents[1]
+OUT = BASE/('run_'+datetime.now().strftime('%Y%m%d_%H%M%S_%f'))
+OUT.mkdir()
+FINAL = ROOT/'evidence/hk01_triple_20261114/final_20261114_112516'
+PRIOR = ROOT/'evidence/hk01_triple_20261114/validation_20261114_112033'
+
+def digest(file):
+    with file.open('rb') as stream:
+        return hashlib.file_digest(stream,'sha256').hexdigest().upper()
+
+def git(label, args):
+    p = subprocess.run(['git',*args],cwd=ROOT,capture_output=True)
+    (OUT/(label+'.txt')).write_bytes(p.stdout+p.stderr)
+    return {'args':args,'exitCode':p.returncode}
+
+def inventory():
+    paths = set()
+    for directory in ('src','tests','GameClient','api_hooking_project','evidence/hk01_triple_20261114','build'):
+        folder = ROOT/directory
+        if folder.exists():
+            paths.update(p for p in folder.rglob('*') if p.is_file())
+    paths.add(ROOT/'docs/hk01-triple-defense-20261114.md')
+    paths.update(ROOT/p for p in ('tools/audit_hk01.py','tools/Validate-Hk01.ps1','tools/Hk01.Isolated.props','EASILE.sln'))
+    return {str(p.relative_to(ROOT)):digest(p) for p in sorted(paths)}
+
+if __name__ == '__main__':
+    report = {'scope':'static review + unmodified normal test execution; no DLL builds or attack replay', 'cwd':str(ROOT),'commands':[]}
+    for label,args in [('before-status',['status','--short','--','.']),('before-diff',['diff','--','.']),('before-check',['diff','--check','--','.'])]:
+        report['commands'].append(git(label,args))
+    before = inventory()
+    (OUT/'preserved-before.json').write_text(json.dumps(before,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(f'Evidence: {OUT}\nPreserved inventory: {len(before)} files',flush=True)
+
+    # Extract only pure PE reader definitions. Never run the old auditor's output-writing top level.
+    auditor = ROOT/'tools/audit_hk01.py'
+    parsed = ast.parse(auditor.read_text(encoding='utf-8-sig'))
+    nodes = [n for n in parsed.body if isinstance(n,(ast.Import,ast.ImportFrom)) or
+             isinstance(n,ast.ClassDef) and n.name == 'PE' or
+             isinstance(n,ast.FunctionDef) and n.name == 'inspect']
+    namespace = {'ROOT':ROOT}
+    exec(compile(ast.Module(body=nodes,type_ignores=[]),str(auditor),'exec'),namespace)
+    report['pe_reader_sha256'] = digest(auditor)
+    report['new_game'] = namespace['inspect'](FINAL/'bin/Release/GameClient.exe')
+    legacy = ROOT/'api_hooking_project/GameClient.exe'
+    pe = namespace['PE'](legacy)
+    report['legacy_game'] = {'sha256':digest(legacy),'regions':{}}
+    for name,rva,size in [('Update',0x14820,0x1444),('Initialize',0x110d0,0x685),('SpawnProjectile',0x137e0,0x8b5)]:
+        code = pe.read(rva,size)
+        report['legacy_game']['regions'][name] = {'rva':rva,'size':size,'crc32':f'{namespace["zlib"].crc32(code):08X}','entry':code[:16].hex(' ')}
+    scanner = next((a,b) for a,b,_ in pe.functions if a == 0xef90)
+    code = pe.read(scanner[0],scanner[1]-scanner[0])
+    report['legacy_game']['regions']['DetectNewModules'] = {'rva':scanner[0],'size':len(code),'crc32':f'{namespace["zlib"].crc32(code):08X}','entry':code[:16].hex(' ')}
+
+    manifest = json.loads((FINAL/'manifest.json').read_text(encoding='utf-8-sig'))
+    report['snapshot_manifest'] = {'file_count':len(manifest),'mismatches':[]}
+    for row in manifest:
+        if digest(FINAL/row['file']) != row['sha256'].upper():
+            report['snapshot_manifest']['mismatches'].append(row['file'])
+    report['current_vs_snapshot_src'] = [str(p.relative_to(ROOT)) for p in (ROOT/'src').glob('*')
+        if p.is_file() and (not (FINAL/'sources/src'/p.name).exists() or digest(p) != digest(FINAL/'sources/src'/p.name))]
+    baseline = subprocess.run(['git','show','HEAD:projects/Game_project_easile(리버싱)/src/IntegrityGuard.cpp'],cwd=ROOT,capture_output=True)
+    assert baseline.returncode == 0
+    (OUT/'baseline-IntegrityGuard.txt').write_bytes(baseline.stdout)
+    old = baseline.stdout.decode('utf-8-sig')
+    current = (ROOT/'src/IntegrityGuard.cpp').read_text(encoding='utf-8-sig')
+    def crc_body(text):
+        return re.sub(r'\s+','',text[text.index('uint32_t CalculateCRC32'):text.index('bool VerifyRegionIntegrity')])
+    report['crc32_algorithm_unchanged'] = crc_body(old) == crc_body(current)
+    report['source_locations'] = {}
+    patterns = {'src/IntegrityGuard.cpp':['CalculateCRC32','VerifyUpdateIntegrity','VerifyRegionIntegrity','DetectNewModules'],
+        'src/GameWorld.cpp':['bool GameWorld::VerifyUpdateCode','void GameWorld::CheckedSpawnProjectile','if (!IntegrityGuard::VerifyUpdateIntegrity())'],
+        'src/CodeIntegrity.cpp':['Region::Region','bool Region::Verify','DllScanWatchdog::DllScanWatchdog'],
+        'tests/Hk01SecurityTests.cpp':['void InstallEntryDetour','if (mode == "CRC")','if (mode == "B")','if (mode == "C" ||']}
+    for relative,needles in patterns.items():
+        lines = (ROOT/relative).read_text(encoding='utf-8-sig').splitlines()
+        report['source_locations'][relative] = {needle:[i+1 for i,line in enumerate(lines) if needle in line] for needle in needles}
+
+    prior_results = json.loads((PRIOR/'results.json').read_text(encoding='utf-8-sig'))
+    report['prior_tests_reviewed'] = []
+    for row in prior_results:
+        if row['kind'] != 'run': continue
+        name,config = row['name'],row['configuration']
+        exe = FINAL/'bin'/config/Path(row['exe']).name
+        log = Path(row['cwd'])/'GameClient.log'
+        stdout = Path(row['cwd'])/'stdout.txt'
+        text = log.read_text(encoding='utf-8-sig') if log.exists() else ''
+        output = stdout.read_text(encoding='utf-8-sig') if stdout.exists() else ''
+        details = {'configuration':config,'name':name,'recorded_exit':row['exitCode'],'recorded_timeout':row['timedOut'],
+            'snapshot_exe_matches_recorded_sha256':digest(exe)==row['sha256'].upper(),
+            'patch_readback_log':'[PATCH_INSTALLED]' in text and 'readback_verified=1' in text,
+            'B_detected':'[DETECTED][HK01_B]' in text,'C_detected':'[DETECTED][HK01_C]' in text,
+            'A_detected':'[DETECTED][HK01_A]' in text,'probe_identified':'new_dll=' in text and 'hk01probe.dll' in text.lower(),
+            'crc_rejection_stdout':'modified Update CRC rejected PASS' in output,
+            'pass_lines':len(re.findall(r' PASS$',output,re.M)),'fail_lines':len(re.findall(r' FAIL:',output)),
+            'evidence':str(Path(row['cwd']).relative_to(ROOT))}
+        report['prior_tests_reviewed'].append(details)
+    replays = ROOT/'evidence/hk01_triple_20261114/validation_20261114_112244'
+    report['prior_replays_reviewed'] = []
+    for folder in sorted(replays.glob('replay-*')):
+        if not folder.is_dir(): continue
+        raw = (folder/'debug-events.txt').read_bytes()
+        text = raw.decode('utf-16') if raw.startswith((b'\xff\xfe',b'\xfe\xff')) else raw.decode('utf-8-sig',errors='replace')
+        report['prior_replays_reviewed'].append({'name':folder.name,'hook_installed_log':'Hook installed' in text,
+            'installation_rejected':'Target verification failed' in text or 'no hook installed' in text,
+            'skipped_count':len(re.findall(r'\[GUARD-BYPASS\] SKIPPED',text)),
+            'dll_detected':'New DLL detected' in text,'external_cleanup':'external_termination=1' in text,
+            'before_after_entries':[line for line in text.splitlines() if line.startswith('ENTRY ')]})
+
+    report['new_normal_runs'] = []
+    for config in ('Debug','Release'):
+        # GameClient saves its render capture beside the EXE, not in CWD.
+        # Execute only fresh hash-identical copies, including normal smoke runs.
+        isolated_bin = OUT/'isolated-bin'/config
+        shutil.copytree(FINAL/'bin'/config,isolated_bin)
+        for name,args in [('GameTests',[]),('Hk01SecurityTests',['normal']),('GameClient',['--smoke-gui'])]:
+            source_exe = FINAL/'bin'/config/(name+'.exe')
+            exe = isolated_bin/(name+'.exe')
+            assert digest(exe) == digest(source_exe)
+            cwd = OUT/(config+'-'+name)
+            cwd.mkdir()
+            startup = subprocess.STARTUPINFO()
+            startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            startup.wShowWindow = subprocess.SW_HIDE
+            start = time.monotonic()
+            try:
+                result = subprocess.run([str(exe),*args],cwd=cwd,capture_output=True,timeout=45,startupinfo=startup)
+                code,timeout,stdout,stderr = result.returncode,False,result.stdout,result.stderr
+            except subprocess.TimeoutExpired as error:
+                code,timeout,stdout,stderr = None,True,error.stdout or b'',error.stderr or b''
+            (cwd/'stdout.txt').write_bytes(stdout)
+            (cwd/'stderr.txt').write_bytes(stderr)
+            output = stdout.decode('utf-8',errors='replace').replace('\r\n','\n')
+            row = {'configuration':config,'name':name,'exe':str(exe.relative_to(ROOT)),'sha256':digest(exe),'args':args,
+                'source_exe':str(source_exe.relative_to(ROOT)),'cwd':str(cwd.relative_to(ROOT)),'exitCode':code,'timedOut':timeout,'seconds':round(time.monotonic()-start,3),
+                'pass_lines':len(re.findall(r' PASS$',output,re.M)),'fail_lines':len(re.findall(r' FAIL:',output))}
+            log = cwd/'GameClient.log'
+            text = log.read_text(encoding='utf-8') if log.exists() else ''
+            row.update({'integrity_fail':'INTEGRITY_FAIL' in text,'rendered_five':'[FRAMES_RENDERED][Renderer][count=5]' in text,
+                'ultimate_spawn':'kind=Ultimate' in text,'app_exit':'[APP][EXIT]' in text})
+            report['new_normal_runs'].append(row)
+            (OUT/'review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+            print(f'{config} {name}: exit={code}, timeout={timeout}, PASS lines={row["pass_lines"]}',flush=True)
+
+    after = inventory()
+    report['preservation'] = {'file_count':len(before),'changed_or_missing':[p for p,h in before.items() if after.get(p)!=h],
+        'unexpected_new_files':[p for p in after if p not in before]}
+    for label,args in [('after-status',['status','--short','--','.']),('after-diff',['diff','--','.']),('after-check',['diff','--check','--','.']),
+        ('ignored',['status','--short','--ignored','--',str(OUT.relative_to(ROOT))])]:
+        report['commands'].append(git(label,args))
+    (OUT/'review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(json.dumps({'crc_algorithm_unchanged':report['crc32_algorithm_unchanged'],'snapshot_manifest':report['snapshot_manifest'],
+        'source_mismatches':report['current_vs_snapshot_src'],'preservation':report['preservation'],'new_game':report['new_game']},ensure_ascii=False,indent=2))
+    assert not report['preservation']['changed_or_missing']
+    assert not report['snapshot_manifest']['mismatches'] and not report['current_vs_snapshot_src']
+    assert all(r['exitCode']==0 and not r['timedOut'] for r in report['new_normal_runs'])

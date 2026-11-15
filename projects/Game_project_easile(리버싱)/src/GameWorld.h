@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "PlayerHero.h"
 #include "Projectile.h"
+#include "CodeIntegrity.h"
 #include "Snapshot.h"
 #include <memory>
 #include <array>
@@ -51,19 +52,23 @@ class GameWorld
 {
 public:
     GameWorld();
-    void Update(const PlayerCommand& input, float deltaSeconds);
+    __declspec(noinline) void Update(const PlayerCommand& input, float deltaSeconds);
     void Restart();
     GameState State() const { return state_; }
     BotState CurrentBotState() const { return botAi_.botState_; }
     GameWorldSnapshot CreateSnapshot() const;
     HUDViewModel CreateHud() const;
     int ProjectileCount() const { return static_cast<int>(projectiles_.size()); }
+    static bool VerifyUpdateCode();
+    static bool VerifyInitializeCode();
 
 private:
     friend struct GameWorldTests;
-    void Initialize();
+    __declspec(noinline) void Initialize();
     void SpawnWave();
-    void SpawnProjectile(Team team, Vec2 position, Vec2 direction, ProjectileKind kind, int damage, std::uint64_t sourceId = UINT64_MAX);
+    __declspec(noinline) void SpawnProjectile(Team team, Vec2 position, Vec2 direction, ProjectileKind kind, int damage, std::uint64_t sourceId = UINT64_MAX);
+    void CheckedSpawnProjectile(Team team, Vec2 position, Vec2 direction, ProjectileKind kind, int damage, std::uint64_t sourceId = UINT64_MAX);
+    static const CodeIntegrity::Region& ProjectileCode();
     void UpdateProjectiles(float deltaSeconds);
     void UpdateMinions(float deltaSeconds);
     void UpdateTowers(float deltaSeconds);

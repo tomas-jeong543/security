@@ -1,0 +1,50 @@
+1강
+파일만으로 정보를 효과적으로 입력 저장 출력하는 게 어려워졌다.
+
+데이터베이스 중 관계형 데이터베이스가 절대 강자다
+
+web 개발자 mysql을 돈 때문에 많이 사용해서 꽤나 많이 사용이 된다.
+
+2강
+스프레드 시트와 mysql차이 비교 -> 좀 더 효율적
+
+3강  -> 설치
+
+4강 -> 표 = table = relation이다. relation들을 잘 정리해야 한다 -> 이를 유사한 것 끼리 그룹화해서 데이터베이스(schema)를 만든다 -> 이게 쌓이면 데이터베이스 서버를 사용한다
+
+데이터베이스는 자체적인 보안 체계 + 권한 체계로 다양한 권한을 부여할 수 있다(role)
+
+& "C:\Program Files\MySQL\MySQL Server 8.4\bin\mysql.exe" -u root -p 로 비밀번호
+입력하고 로그인한다
+
+SQL = 관계형 데이터베이스 사용 시 이용하기 때문에 많이 쓰이기 때문에 중요함
+
+MYSQL에서는 SELECT * FROM topic; 과 같이 사용을 한다
+
+SQL에서는 데이터 타입에 대해서 RESTRICT즉 제한이 필요하다.
+
+PRIMARY KEY는 고유하게 구분하는 키 중 가장 작은 CANDIDATE KEY중 1개
+
+CREATE READ UPDATE DELETE = CRUD
+
+UPDATE, DELETE는 없을 수 있다 예를 들면 회계나 역사의 경우
+
+CREATE방법 -> INSERT사용 W3 SCHOOL에 나옴
+
+예시
+INSERT INTO topic (title, description, created, author, profile)VALUES ('PostgresSQL', 'PostgresSQL is ...', NOW(), 'egoing', 'developer');
+
+READ방법
+distinct,all 등의 방법 존재
+
+LIMIT2 -> 10억개 출력되는 상황을 잘 막아야 한다.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,569 @@
+{
+  "approval_scope": "analysis, existing log review and normal test copies only; no new attack DLL or bypass replay",
+  "preserved_file_count": 1186,
+  "changed_or_missing": [],
+  "document_link_count": 9,
+  "missing_links": [],
+  "git": [
+    {
+      "args": [
+        "status",
+        "--short",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "status",
+        "--short",
+        "--ignored",
+        "--",
+        "evidence\\hk01_crc_review_20261114_1146",
+        "docs\\hk01-crc-static-review-20261114.md"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "tracked_diff_unchanged": true,
+  "new_file_diffs": [
+    {
+      "file": "docs\\hk01-crc-static-review-20261114.md",
+      "sha256": "746253C5350D0D972FAA7F888F4F43D898F140C5180FBEF5FF511668E2EE401C",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\attempt_1_error.txt",
+      "sha256": "29EC5E4A32B8DF078F0BFA24CCAEDBBD9A5D8962FAC1448C09B2D2CB3FB1A3A7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\baseline-IntegrityGuard.txt",
+      "sha256": "05B1770A470E0C0C1DC255D1BA11B55F2F610327B65DB187DD9C289596A3E786",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\before-check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\before-diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\before-status.txt",
+      "sha256": "0F7912C2E58C9A34A05F6D097DD6DC2482F45E75A97D6E75838420BD435944F6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\final-checks.py",
+      "sha256": "5B8D9A721EE81D74343113DD7BE2397984115F5AD136FD799FC9486E148F77DF",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\preserved-before.json",
+      "sha256": "08E7D3D57F63B8DFACEEC4F508A2FC5FF82DE2DC8CBEE3EACCDD50EEC2C4D021",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\restore-captures.ps1",
+      "sha256": "B6FD071833CE9693B5056B7835962B558B919F2249D01E36BC0E211D30D79C09",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\review.py",
+      "sha256": "73CC56A7E21FDF43323EA529AFB55567FE5598F01000158F0ADDFA6AC1C863B8",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\verify-findings.py",
+      "sha256": "FF3D1E74559860A8F5F585FF71887A872AA5823F3BD774DD8E0956577051335F",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\after-check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\after-diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\after-status.txt",
+      "sha256": "0F7912C2E58C9A34A05F6D097DD6DC2482F45E75A97D6E75838420BD435944F6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\baseline-IntegrityGuard.txt",
+      "sha256": "05B1770A470E0C0C1DC255D1BA11B55F2F610327B65DB187DD9C289596A3E786",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\before-check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\before-diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\before-status.txt",
+      "sha256": "0F7912C2E58C9A34A05F6D097DD6DC2482F45E75A97D6E75838420BD435944F6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\capture-restoration.json",
+      "sha256": "F1EE519CD5794B0BEC9548B3FA580F69E9701557143E10EBA118C1B699271215",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\ignored.txt",
+      "sha256": "0373BBD92073ED1A645AEEE68BCD26FF550884513516259201A808B1511C6A03",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\preserved-before.json",
+      "sha256": "08E7D3D57F63B8DFACEEC4F508A2FC5FF82DE2DC8CBEE3EACCDD50EEC2C4D021",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\review.json",
+      "sha256": "0E256349262B60BB20CE28450C1196BE0CF9FE48911846537D12E1DED33A7FF1",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\unexpected-render-Debug.bmp",
+      "sha256": "2AA1C9F809E84B432C9AB77677B83E38F42FB992FE6678193D8996AAD7C7D870",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\unexpected-render-Release.bmp",
+      "sha256": "86F48D82D5FD70B8BDA770E3BDF60FAB497BFB809D13CDF7ED11E5EAA300D60B",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\after-check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\after-diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\after-status.txt",
+      "sha256": "0F7912C2E58C9A34A05F6D097DD6DC2482F45E75A97D6E75838420BD435944F6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\baseline-IntegrityGuard.txt",
+      "sha256": "05B1770A470E0C0C1DC255D1BA11B55F2F610327B65DB187DD9C289596A3E786",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\before-check.txt",
+      "sha256": "76DCEFB224C5ACB7014A53B0C190448403A7F28D072B15147E1E02CA55114338",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\before-diff.txt",
+      "sha256": "959A85F72CA123B79EC25D58210EEF6AE3BF67AB3E15844179A1504979E47CB7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\before-status.txt",
+      "sha256": "0F7912C2E58C9A34A05F6D097DD6DC2482F45E75A97D6E75838420BD435944F6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\ignored.txt",
+      "sha256": "16457E0D9C094A20F178B6797D9DFEAE969E155892F06A5D871E56A7120B271B",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\preserved-before.json",
+      "sha256": "08E7D3D57F63B8DFACEEC4F508A2FC5FF82DE2DC8CBEE3EACCDD50EEC2C4D021",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\review.json",
+      "sha256": "DDFE82FB14ECBAEC80E7B8A018F7E130EEB8333050D0127D9C5CB964796C6F9E",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\verified-findings.json",
+      "sha256": "51352C0A5CACB1A09CA04B990326B6D19DF9738214FD914804A008F6430B9851",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameClient\\GameClient.log",
+      "sha256": "FA73A38D1A8B6BCB97C5CAA2D7122CFE456ED0AE4C5E486482DE82C5429B09FF",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameClient\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameClient\\stdout.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameTests\\GameClient.log",
+      "sha256": "3BE88ECCBCC363E35362C1458D223EBDC1106A8F8EB75463D272307E0FE1C040",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameTests\\stdout.txt",
+      "sha256": "BAB9C23F209525EFD22A8B1BE26DA9AA19CC7DB8FCFA9833EA69DBE38AB7FF56",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-Hk01SecurityTests\\GameClient.log",
+      "sha256": "B233FFFD326C39C888AA6BC3D85E9E19B06C9056E6044D64D469A3A5AD212AA5",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-Hk01SecurityTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-Hk01SecurityTests\\stdout.txt",
+      "sha256": "6F5A437703624C12F303AC08831CFA8283E3A4810537462A103250762A0FE5E7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameClient\\GameClient.log",
+      "sha256": "67B3FD3676A5BA4DCF34709DB5D316DF23599DAD768B41608D9F559AAC363822",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameClient\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameClient\\stdout.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameTests\\GameClient.log",
+      "sha256": "D5E48EB439442BC87544E8309106E45207B1D9CF6A0AD748995CDDA467D27D55",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameTests\\stdout.txt",
+      "sha256": "BAB9C23F209525EFD22A8B1BE26DA9AA19CC7DB8FCFA9833EA69DBE38AB7FF56",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-Hk01SecurityTests\\GameClient.log",
+      "sha256": "EB0B24317146BAB739D948BA8046553FE5132685633C681312488036C2D0FFA3",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-Hk01SecurityTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-Hk01SecurityTests\\stdout.txt",
+      "sha256": "6F5A437703624C12F303AC08831CFA8283E3A4810537462A103250762A0FE5E7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameClient.exe",
+      "sha256": "58D92F3728BEE75D96ACE4A4D89C8165B2E9CAAA55B6ADCC80A997AC973115F1",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameClient.map",
+      "sha256": "7BC4D4D6B91E10FF2AD54F3924B533CD671747F8A6A12F6BB7E58AC7A93C3E12",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameClient.pdb",
+      "sha256": "CDFC06FC1AE38FE7BE7EE1FD12A9C44662A68ADFECB83AAC53FBF1158C57F911",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameTests.exe",
+      "sha256": "81E82A29E481197F1C0CA5249FB4077743B7FF230592F916E99535BCC8BCFD3D",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameTests.map",
+      "sha256": "75280792E9688B9B2DFE29EC8D0CF205DA235D76E304B8936D4472BB7E655EF9",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameTests.pdb",
+      "sha256": "4B2BA6A53CBA6D478F1FE2BD5EC2D3C63FE795518606C0CA6A5F0E4E6E238841",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01Probe.dll",
+      "sha256": "5A2B0301332E188B4EB2932C9690FE1FF2C150D062A725AED3F9B6B9FE672B99",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01Probe.exp",
+      "sha256": "7D55F9A4897F95B2A94B38409227EEC4F93F311B65965FC4768DBD71BE46DAC6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01Probe.lib",
+      "sha256": "393D51B7AE99E8DECB4C7182C47185751EE73FBAC52DDE8907BE10EEBEDC6095",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01Probe.map",
+      "sha256": "02FB7E19DDB0E5ED88208302F752691599AAB692748028E76A609B13A6EB70AE",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01Probe.pdb",
+      "sha256": "701EB2FC74EAD86F9778F84D6F33F2A294081AA85E59E520D0A2410F533567DD",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01SecurityTests.map",
+      "sha256": "63BD885DD855CA1869451C72BCC7B9EA2D3B84B69850E23D3DA79E3B9F14E94B",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01SecurityTests.pdb",
+      "sha256": "20277FCCB83586A2AA1C033E21929135B7BAD438E50FA2D567848A6B3E412FD2",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\visual-smoke.bmp",
+      "sha256": "47AAC1FC9D615B35AF897000AC8E9A984AAC176E89CE50E313A714369856E2C2",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameClient.map",
+      "sha256": "89B173308270498EE323514BC0DA5FEF16B49C68A6DCF02A076AF655C466B01A",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameClient.pdb",
+      "sha256": "FF8DA1DF10FB2B27B0C0445E59E45C912A7D26341517EDEBBF88468E4432C734",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameTests.exe",
+      "sha256": "B0E8B85387D9CE7228120949CEE0FFC4D1BE86A09BF8715702FF98545478BDF2",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameTests.map",
+      "sha256": "C32D37BD3C78BB292A07F48CBE0BD1F648FD139B0C10A7FBE06CAB7325DEE3FA",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameTests.pdb",
+      "sha256": "AEB296654607E5938EA8C457DA14E90C528A31B2521FF1BE5E1B9C14ED9B072F",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Probe.dll",
+      "sha256": "B7F2FD9E87FDD951A04E94AE8B11FA6F3100E180507EF501E488E5F817CDE5BB",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Probe.exp",
+      "sha256": "AEE8EC3B105D9A9BC66BB72B160A699B710D71E6648B14BFF2CEA3C65A3F6FB9",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Probe.lib",
+      "sha256": "393D51B7AE99E8DECB4C7182C47185751EE73FBAC52DDE8907BE10EEBEDC6095",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Probe.map",
+      "sha256": "D322ECFC0328C74E696D7A3435DA49BD8CC86B2FBF80B716F5A07FFAF1585E60",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Probe.pdb",
+      "sha256": "4C038D7C9AECCBC9E3B14DE594E89FA2D1D7C19321693FB5C96D5DC53B24A026",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Replay.exe",
+      "sha256": "53C626E7318536ED9656BC393E7F498321B654C6CE98AE163B2F764918348829",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Replay.map",
+      "sha256": "3085346949665F08DE3AB27753FAF458D232C4AAEDFD624A2C68D49B028A1C09",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01Replay.pdb",
+      "sha256": "7022E5A67F74AC9A374C39E3AF1F2D2FDD326FCE27D67DE1CDA9DFF12D71A5BF",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01SecurityTests.map",
+      "sha256": "3CAE7F87B92BFDA0FAD7DC45D2C37F3A0B64C289D77A31A42C4FD4F96E679566",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01SecurityTests.pdb",
+      "sha256": "25ECBD6B18B1F6D983EEF053F9EFC4F2300C55EF27A7562953934B43D178B116",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\visual-smoke.bmp",
+      "sha256": "C4BF10C5B97855658EF6A92AABAD9D719D31CBAE99BB62EA94C75C25FD168A81",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-GameClient\\GameClient.log",
+      "sha256": "B4BAAF1AEA53CBE6E3066DF1879C680244CB1E87378944D15277144B550A309F",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-GameClient\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-GameClient\\stdout.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-GameTests\\GameClient.log",
+      "sha256": "5DC84640D4C722AC5897D53F5400DC21EE6AFF717DC096B72D933F2DA374E294",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-GameTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-GameTests\\stdout.txt",
+      "sha256": "BAB9C23F209525EFD22A8B1BE26DA9AA19CC7DB8FCFA9833EA69DBE38AB7FF56",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-Hk01SecurityTests\\GameClient.log",
+      "sha256": "24A1FCFF5B0A1DBC863155E190CFBBCF4B184537B27665F36476065CFEA6D5DB",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-Hk01SecurityTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Debug-Hk01SecurityTests\\stdout.txt",
+      "sha256": "6F5A437703624C12F303AC08831CFA8283E3A4810537462A103250762A0FE5E7",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-GameClient\\GameClient.log",
+      "sha256": "43F7840922C20E3A0E0C281EFF796914F7A7026E883900D8A700143418170D7F",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-GameClient\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-GameClient\\stdout.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-GameTests\\GameClient.log",
+      "sha256": "2759780A6090426F8BD836DAF568F40EE416B9E85B5BB6E1C3419E8F6413B505",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-GameTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-GameTests\\stdout.txt",
+      "sha256": "BAB9C23F209525EFD22A8B1BE26DA9AA19CC7DB8FCFA9833EA69DBE38AB7FF56",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-Hk01SecurityTests\\GameClient.log",
+      "sha256": "10BC407ECB197F1B4ACAC0C01288DC17CA835E8525761DCC85CA793CDB5EEDB6",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-Hk01SecurityTests\\stderr.txt",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "exitCode": 1
+    },
+    {
+      "file": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_114849_944849\\Release-Hk01SecurityTests\\stdout.txt",
+      "sha256": "6F5A437703624C12F303AC08831CFA8283E3A4810537462A103250762A0FE5E7",
+      "exitCode": 1
+    }
+  ]
+}

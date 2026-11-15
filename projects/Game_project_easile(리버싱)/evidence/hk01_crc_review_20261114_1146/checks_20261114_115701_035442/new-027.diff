@@ -1,0 +1,287 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/baseline-IntegrityGuard.txt b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/baseline-IntegrityGuard.txt
+new file mode 100644
+index 0000000..cc6e7a1
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/baseline-IntegrityGuard.txt
+@@ -0,0 +1,280 @@
++﻿#include "IntegrityGuard.h"
++
++#include <cstdio>
++#include <cstdint>
++#include <cstddef>
++#include <Windows.h>
++
++// PATCH-02에 필요한 표준 라이브러리 / Windows 모듈 열거 API
++#include <TlHelp32.h>
++#include <algorithm>
++#include <cwctype>
++#include <string>
++#include <unordered_set>
++#include <vector>
++#include <wincrypt.h>
++#include <bcrypt.h>
++#pragma comment(lib, "crypt32.lib")
++
++namespace IntegrityGuard
++{
++
++    // PATCH-01: GameWorld::Update()
++    constexpr uintptr_t UPDATE_RVA = 0x14820;
++    constexpr size_t UPDATE_SIZE = 0x1444;
++    constexpr uint32_t EXPECTED_UPDATE_CRC = 0x29148A8C;
++
++    // PATCH-02: GameWorld::Initialize()
++    constexpr uintptr_t HERO_RVA = 0x110D0;
++    constexpr size_t HERO_SIZE = 0x685;
++    constexpr uint32_t EXPECTED_HERO_CRC = 0xA8E8248A;
++
++
++    uint32_t CalculateCRC32(const uint8_t* data, size_t length)
++    {
++        uint32_t crc = 0xFFFFFFFF;
++
++        for (size_t i = 0; i < length; ++i)
++        {
++            crc ^= data[i];
++
++            for (int j = 0; j < 8; ++j)
++            {
++                if (crc & 1)
++                    crc = (crc >> 1) ^ 0xEDB88320;
++                else
++                    crc >>= 1;
++            }
++        }
++
++        return crc ^ 0xFFFFFFFF;
++    }
++
++    bool VerifyRegionIntegrity(
++        uintptr_t rva,
++        size_t size,
++        uint32_t expectedCRC,
++        const char* regionName
++    )
++    {
++        HMODULE module = GetModuleHandleW(nullptr);
++        if (module == nullptr)
++            return false;
++
++        uintptr_t moduleBase = reinterpret_cast<uintptr_t>(module);
++        const uint8_t* address =
++            reinterpret_cast<const uint8_t*>(moduleBase + rva);
++
++        uint32_t currentCRC = CalculateCRC32(address, size);
++
++        char buffer[128];
++        sprintf_s(
++            buffer,
++            "[Integrity] %s CRC32 = %08X\n",
++            regionName,
++            static_cast<unsigned int>(currentCRC)
++        );
++        OutputDebugStringA(buffer);
++
++        return currentCRC == expectedCRC;
++    }
++
++    __declspec(noinline)
++        bool VerifyUpdateIntegrity()
++    {
++        return VerifyRegionIntegrity(
++            UPDATE_RVA,
++            UPDATE_SIZE,
++            EXPECTED_UPDATE_CRC,
++            "Update"
++        );
++    }
++
++
++    __declspec(noinline)
++        bool VerifyHeroIntegrity()
++    {
++        return VerifyRegionIntegrity(
++            HERO_RVA,
++            HERO_SIZE,
++            EXPECTED_HERO_CRC,
++            "Hero"
++        );
++    }
++
++
++    // ===== PATCH-02: DLL Baseline 탐지 =====
++    namespace
++    {
++        // 한 프로세스 안에서 유지되는 최초 정상 목록과 탐지 이력
++        std::unordered_set<std::wstring> baselineDlls;
++        std::unordered_set<std::wstring> reportedDlls;
++        bool baselineInitialized = false;
++
++        // 경로 대소문자 차이로 생기는 비교 오류를 줄이기 위한 간단한 정규화
++        std::wstring NormalizePath(std::wstring path)
++        {
++            std::transform(
++                path.begin(), path.end(), path.begin(),
++                [](wchar_t ch)
++                {
++                    return static_cast<wchar_t>(std::towlower(ch));
++                }
++            );
++            return path;
++        }
++
++        // Only individually observed, Microsoft-signed System32 DLLs are
++        // allowed. Each file is pinned to its verified SHA-256; fail closed.
++        bool IsVerifiedSystemDll(const std::wstring& path)
++        {
++            wchar_t systemDirectory[MAX_PATH];
++            const UINT length = GetSystemDirectoryW(systemDirectory, MAX_PATH);
++            if (!length || length >= MAX_PATH) return false;
++            const std::wstring prefix = NormalizePath(systemDirectory) + L"\\";
++            struct AllowedDll { const wchar_t* name; BYTE hash[32]; };
++            static const AllowedDll allowed[] = {
++                { L"oleacc.dll", { 0x3D,0xFB,0x1C,0x9A,0xFB,0x44,0x47,0x82,0x69,0x95,0xD9,0xE9,0x52,0x2B,0xD6,0xD6,0x84,0x8E,0x42,0x4E,0xFF,0xCD,0xE7,0x63,0x78,0x82,0x31,0x67,0x38,0x9F,0x59,0xF8 } },
++                { L"clbcatq.dll", { 0x39,0x44,0x7C,0x97,0x18,0x8F,0x54,0x8D,0xAC,0x42,0xA4,0x73,0xB1,0xB7,0x72,0x5F,0xEE,0x0D,0x04,0x4D,0x07,0x2E,0x5B,0xE6,0x82,0xE8,0x98,0xED,0xFB,0x39,0x9D,0x63 } },
++                { L"threadpoolwinrt.dll", { 0x55,0x6D,0x65,0xBC,0x0E,0x5F,0xD7,0xDF,0xF5,0x50,0xF3,0x7E,0x9A,0x8B,0x1B,0x7B,0xD4,0x5C,0x73,0x59,0xB8,0x05,0x9F,0xD3,0xB4,0x90,0x5E,0x74,0x8A,0xED,0x23,0x0F } },
++                { L"coreuicomponents.dll", { 0xB5,0x88,0x85,0x0E,0xD1,0x31,0x5E,0x68,0x18,0x6D,0x5C,0xDF,0xAA,0x4F,0x5E,0x28,0x0D,0x71,0xAD,0xFD,0x1E,0x1E,0x63,0xD6,0x88,0x88,0x1E,0x0B,0xDF,0xE5,0xCE,0x00 } },
++                { L"coremessaging.dll", { 0xE5,0x5C,0xA6,0xE3,0x3B,0xCA,0x43,0x86,0x28,0x16,0x7F,0x60,0x42,0xB4,0x3F,0x92,0xC1,0x93,0xF5,0x60,0x9A,0x8E,0x56,0x97,0xC6,0x65,0x76,0x3F,0x49,0x42,0x9D,0x28 } },
++            };
++            const BYTE* expectedHash = nullptr;
++            for (const auto& dll : allowed)
++                if (path == prefix + dll.name) { expectedHash = dll.hash; break; }
++            if (!expectedHash) return false;
++            HANDLE file = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ,
++                nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
++            if (file == INVALID_HANDLE_VALUE) return false;
++            LARGE_INTEGER size{};
++            if (!GetFileSizeEx(file, &size) || size.QuadPart <= 0 ||
++                size.QuadPart > 16 * 1024 * 1024)
++            { CloseHandle(file); return false; }
++            std::vector<BYTE> bytes(static_cast<size_t>(size.QuadPart));
++            DWORD read = 0;
++            const BOOL ok = ReadFile(file, bytes.data(),
++                static_cast<DWORD>(bytes.size()), &read, nullptr);
++            CloseHandle(file);
++            if (!ok || read != bytes.size()) return false;
++            BYTE hash[32];
++            DWORD hashSize = sizeof(hash);
++            return CryptHashCertificate2(BCRYPT_SHA256_ALGORITHM, 0, nullptr,
++                bytes.data(), read, hash, &hashSize) && hashSize == sizeof(hash) &&
++                std::equal(hash, hash + sizeof(hash), expectedHash);
++        }
++        // 현재 프로세스에 로드된 .dll 모듈들의 전체 경로를 수집
++        bool CaptureLoadedDlls(std::unordered_set<std::wstring>& result)
++        {
++            result.clear();
++
++            HANDLE snapshot = CreateToolhelp32Snapshot(
++                TH32CS_SNAPMODULE,
++                GetCurrentProcessId()
++            );
++
++            if (snapshot == INVALID_HANDLE_VALUE)
++                return false;
++
++            MODULEENTRY32W module{};
++            module.dwSize = sizeof(module);
++
++            if (!Module32FirstW(snapshot, &module))
++            {
++                CloseHandle(snapshot);
++                return false;
++            }
++
++            do
++            {
++                std::wstring name = NormalizePath(module.szModule);
++
++                // EXE는 제외하고 DLL 파일만 Baseline에 넣는다.
++                if (name.size() >= 4 &&
++                    name.compare(name.size() - 4, 4, L".dll") == 0)
++                {
++                    result.insert(NormalizePath(module.szExePath));
++                }
++            } while (Module32NextW(snapshot, &module));
++
++            // 마지막 Module32NextW 실패가 정상 종료인지 확인
++            const DWORD error = GetLastError();
++            CloseHandle(snapshot);
++
++            return error == ERROR_NO_MORE_FILES;
++        }
++    } // anonymous namespace
++
++    // 정상 실행 상태를 최초 Baseline으로 고정
++    bool InitializeDllBaseline()
++    {
++        std::unordered_set<std::wstring> currentDlls;
++
++        if (!CaptureLoadedDlls(currentDlls))
++        {
++            OutputDebugStringW(L"[DLLGuard] Baseline capture failed\n");
++            baselineInitialized = false;
++            return false;
++        }
++
++        baselineDlls.swap(currentDlls);
++        reportedDlls.clear();
++        baselineInitialized = true;
++
++        wchar_t message[128];
++        swprintf_s(
++            message,
++            L"[DLLGuard] Baseline initialized (%zu DLLs)\n",
++            baselineDlls.size()
++        );
++        OutputDebugStringW(message);
++        return true;
++    }
++
++    // Baseline에 없던 DLL을 발견하면 해당 경로를 한 번만 출력
++    void DetectNewModules()
++    {
++        if (!baselineInitialized)
++            return;
++
++        std::unordered_set<std::wstring> currentDlls;
++        if (!CaptureLoadedDlls(currentDlls))
++        {
++            OutputDebugStringW(L"[DLLGuard] Module scan failed\n");
++            return;
++        }
++
++        for (const auto& dllPath : currentDlls)
++        {
++            
++            if (baselineDlls.find(dllPath) != baselineDlls.end())
++                continue;
++
++            // 이미 경고한 DLL이면 중복 출력 방지
++            if (!reportedDlls.insert(dllPath).second)
++                continue;
++
++            if (IsVerifiedSystemDll(dllPath))
++            {
++                OutputDebugStringW((
++                    L"[DLLGuard] Allowed verified system DLL (SHA-256 pinned): " +
++                    dllPath + L"\n").c_str());
++                continue;
++            }
++
++            const std::wstring message =
++                L"[DLLGuard] New DLL detected: " + dllPath + L"\n";
++            OutputDebugStringW(message.c_str());
++
++            MessageBoxW(
++                nullptr,
++                L"게임 파일이 이상합니다.",
++                L"EASILE 보안 경고",
++                MB_OK | MB_ICONWARNING
++            );
++
++            // 새로운 DLL 탐지 시 게임 종료
++            ExitProcess(1);
++        }
++    }
++}
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/baseline-IntegrityGuard.txt', LF will be replaced by CRLF the next time Git touches it

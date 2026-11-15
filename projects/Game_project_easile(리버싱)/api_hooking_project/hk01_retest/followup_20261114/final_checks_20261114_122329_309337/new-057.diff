@@ -1,0 +1,13 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/fixture/debug-events.txt b/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/fixture/debug-events.txt
+new file mode 100644
+index 0000000..92ef379
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/fixture/debug-events.txt
+@@ -0,0 +1,7 @@
++ENTRY spawn_before address=7FF732861AD0 48 8B C4 55 53 56 57 41 54 41 56 41 57 48 8D A8 
++ENTRY scanner_before address=7FF732869870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
++DEBUG ms=47 [HK-01] Target verification failed.
++ENTRY spawn_observed address=7FF732861AD0 48 8B C4 55 53 56 57 41 54 41 56 41 57 48 8D A8 
++ENTRY scanner_observed address=7FF732869870 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
++RESULT baseline=0 injection_launched=1 module_detected=0 natural_exit=1
++RETEST_RESULT fixture=1 spawn_E9_observed=0 scanner_E9_observed=0 game_exit=96 self_exit=1

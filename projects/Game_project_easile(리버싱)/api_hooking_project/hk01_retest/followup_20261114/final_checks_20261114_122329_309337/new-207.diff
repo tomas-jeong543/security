@@ -1,0 +1,24 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/adapted/main_spawn/provenance.json b/api_hooking_project/hk01_retest/followup_20261114/adapted/main_spawn/provenance.json
+new file mode 100644
+index 0000000..51cf561
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/adapted/main_spawn/provenance.json
+@@ -0,0 +1,17 @@
++{
++  "source": "api_hooking_project\\EASILE_HK01_starter_fixed\\easile_hk01\\hook_payload.c",
++  "source_sha256": "BABDB597825A744A1A80CFBEB3B9401178F480272EF1A9E2F8B78E463DB07479",
++  "adapted_source": "api_hooking_project\\hk01_retest\\followup_20261114\\adapted\\main_spawn\\hook_payload.c",
++  "adapted_sha256": "17612D9F7B91558663CE62D0BA041DDC69FB6C7B4B0390E0A05656EA771D8A03",
++  "target_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\GameClient.exe",
++  "target_sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
++  "target_rva": 63088,
++  "artifact": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_spawn_dll_120914_413001\\main_spawn.dll",
++  "artifact_sha256": "CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9",
++  "changes": [
++    "target RVA",
++    "exact target EXE SHA256 gate",
++    "observation export (spawn) / corrected log (scanner)",
++    "build/PCH adaptation only"
++  ]
++}
+\ No newline at end of file

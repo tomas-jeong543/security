@@ -1,0 +1,62 @@
+﻿[
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\GameClient.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-legacy-spawn\\GameClient.exe",
+        "sha256":  "32A1D0D4D8FBF15E2A1E45467475A6057F26EEE54B1AF5746945DE24C768A926"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\injector.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-legacy-spawn\\injector.exe",
+        "sha256":  "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hook_payload.dll",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-legacy-spawn\\attack.dll",
+        "sha256":  "55D8B8429F80503DAED0485635D322A37FB8826F2772C230DE667067E9433746"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\GameClient.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-legacy-scanner\\GameClient.exe",
+        "sha256":  "32A1D0D4D8FBF15E2A1E45467475A6057F26EEE54B1AF5746945DE24C768A926"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\injector.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-legacy-scanner\\injector.exe",
+        "sha256":  "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\Dll2\\x64\\Release\\Dll2.dll",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-legacy-scanner\\attack.dll",
+        "sha256":  "1AFF40D93034DCA1D448C2BF26AE551C4ED3B9D56BA1B81BA81C481EE302E6EF"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\GameClient.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-defended-spawn\\GameClient.exe",
+        "sha256":  "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\injector.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-defended-spawn\\injector.exe",
+        "sha256":  "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hook_payload.dll",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-defended-spawn\\attack.dll",
+        "sha256":  "55D8B8429F80503DAED0485635D322A37FB8826F2772C230DE667067E9433746"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\bin\\Release\\GameClient.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-defended-scanner\\GameClient.exe",
+        "sha256":  "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\injector.exe",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-defended-scanner\\injector.exe",
+        "sha256":  "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7"
+    },
+    {
+        "source":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\Dll2\\x64\\Release\\Dll2.dll",
+        "copy":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\evidence\\hk01_triple_20261114\\validation_20261114_112244\\replay-defended-scanner\\attack.dll",
+        "sha256":  "1AFF40D93034DCA1D448C2BF26AE551C4ED3B9D56BA1B81BA81C481EE302E6EF"
+    }
+]

@@ -1,5 +1,7 @@
 ﻿#include "IntegrityGuard.h"
 
+#include "GameWorld.h"
+#include "Logger.h"
 #include <cstdio>
 #include <cstdint>
 #include <cstddef>
@@ -19,15 +21,7 @@
 namespace IntegrityGuard
 {
 
-    // PATCH-01: GameWorld::Update()
-    constexpr uintptr_t UPDATE_RVA = 0x14820;
-    constexpr size_t UPDATE_SIZE = 0x1444;
-    constexpr uint32_t EXPECTED_UPDATE_CRC = 0x29148A8C;
-
-    // PATCH-02: GameWorld::Initialize()
-    constexpr uintptr_t HERO_RVA = 0x110D0;
-    constexpr size_t HERO_SIZE = 0x685;
-    constexpr uint32_t EXPECTED_HERO_CRC = 0xA8E8248A;
+    // Expected code and CRC are read from this exact build's disk image.
 
 
     uint32_t CalculateCRC32(const uint8_t* data, size_t length)
@@ -82,24 +76,14 @@ namespace IntegrityGuard
     __declspec(noinline)
         bool VerifyUpdateIntegrity()
     {
-        return VerifyRegionIntegrity(
-            UPDATE_RVA,
-            UPDATE_SIZE,
-            EXPECTED_UPDATE_CRC,
-            "Update"
-        );
+        return GameWorld::VerifyUpdateCode();
     }
 
 
     __declspec(noinline)
         bool VerifyHeroIntegrity()
     {
-        return VerifyRegionIntegrity(
-            HERO_RVA,
-            HERO_SIZE,
-            EXPECTED_HERO_CRC,
-            "Hero"
-        );
+        return GameWorld::VerifyInitializeCode();
     }
 
 
@@ -228,11 +212,12 @@ namespace IntegrityGuard
             baselineDlls.size()
         );
         OutputDebugStringW(message);
+        Logger{}.Write(0, "SECURITY", "BASELINE", "HK01_A", "dll_count=" + std::to_string(baselineDlls.size()));
         return true;
     }
 
     // Baseline에 없던 DLL을 발견하면 해당 경로를 한 번만 출력
-    void DetectNewModules()
+    __declspec(noinline) void DetectNewModules()
     {
         if (!baselineInitialized)
             return;
@@ -243,6 +228,7 @@ namespace IntegrityGuard
             OutputDebugStringW(L"[DLLGuard] Module scan failed\n");
             return;
         }
+        Logger{}.Write(0, "SECURITY", "SCAN_COMPLETE", "HK01_A", "dll_count=" + std::to_string(currentDlls.size()));
 
         for (const auto& dllPath : currentDlls)
         {
@@ -265,6 +251,10 @@ namespace IntegrityGuard
             const std::wstring message =
                 L"[DLLGuard] New DLL detected: " + dllPath + L"\n";
             OutputDebugStringW(message.c_str());
+            const int length = WideCharToMultiByte(CP_UTF8, 0, dllPath.data(), static_cast<int>(dllPath.size()), nullptr, 0, nullptr, nullptr);
+            std::string utf8Path(length, '\0');
+            WideCharToMultiByte(CP_UTF8, 0, dllPath.data(), static_cast<int>(dllPath.size()), utf8Path.data(), length, nullptr, nullptr);
+            Logger{}.Write(0, "SECURITY", "DETECTED", "HK01_A", "new_dll=" + utf8Path);
 
             MessageBoxW(
                 nullptr,

@@ -1,0 +1,29 @@
+[*] Relative DLL paths are based on injector.exe's directory.
+
+[1/2] Loading first DLL (hook) ...
+[*] Target PID: 24832
+[*] DLL: D:\GitHub\security\projects\Game_project_easile(???)\api_hooking_project\hk01_retest\followup_20261114\runs\20261114_121201_637835\main_spawn\attack.dll
+[*] Remote DLL loading started; waiting for completion...
+[+] DLL loaded in target process. Hook installation is a separate step.
+[+] Single-DLL injection complete.
+ENTRY spawn_before address=7FF64088F670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_before address=7FF64089B050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=156 [DLLGuard] Baseline initialized (53 DLLs)
+ENTRY spawn_observed address=7FF64088F670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF64089B050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=172 [DLLGuard] Baseline created after first render
+ENTRY spawn_observed address=7FF64088F670 48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF64089B050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+INJECTION_LAUNCHED success=1 target_pid=24832
+DEBUG ms=2219 [HK-01] Hook installed.
+ENTRY spawn_observed address=7FF64088F670 E9 60 19 FE FF 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF64089B050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+DEBUG ms=3187 [DLLGuard] New DLL detected: d:\github\security\projects\game_project_easile(¸®¹ö½Ì)\api_hooking_project\hk01_retest\followup_20261114\runs\20261114_121201_637835\main_spawn\attack.dll
+ENTRY spawn_observed address=7FF64088F670 E9 60 19 FE FF 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_observed address=7FF64089B050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+ENTRY spawn_after address=7FF64088F670 E9 60 19 FE FF 58 18 55 56 57 41 54 41 55 41 56 
+ENTRY scanner_after address=7FF64089B050 48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 55 
+CLEANUP external_termination=1 exit=77
+INJECTOR_EXIT=0
+RESULT baseline=1 injection_launched=1 module_detected=1 natural_exit=0
+RETEST_RESULT fixture=0 spawn_E9_observed=1 scanner_E9_observed=0 game_exit=77 self_exit=0

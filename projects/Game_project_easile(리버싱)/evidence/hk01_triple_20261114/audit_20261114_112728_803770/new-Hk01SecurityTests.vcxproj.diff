@@ -1,0 +1,20 @@
+diff --git a/GameClient/Hk01SecurityTests.vcxproj b/GameClient/Hk01SecurityTests.vcxproj
+new file mode 100644
+index 0000000..f359713
+--- /dev/null
++++ b/GameClient/Hk01SecurityTests.vcxproj
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <Import Project="GameTests.vcxproj" />
++  <PropertyGroup>
++    <TargetName>Hk01SecurityTests</TargetName>
++    <TargetPath>$(OutDir)$(TargetName)$(TargetExt)</TargetPath>
++    <ProjectGuid>{7D410C76-A59E-4EB1-A4DA-33D48C1B9B71}</ProjectGuid>
++  </PropertyGroup>
++  <ItemGroup>
++    <ClCompile Remove="..\tests\GameTests.cpp" />
++    <ClCompile Include="..\tests\Hk01SecurityTests.cpp" />
++  </ItemGroup>
++</Project>
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/GameClient/Hk01SecurityTests.vcxproj', LF will be replaced by CRLF the next time Git touches it

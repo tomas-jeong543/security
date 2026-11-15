@@ -1,0 +1,22 @@
+diff --git a/tools/Hk01.Isolated.props b/tools/Hk01.Isolated.props
+new file mode 100644
+index 0000000..6f7dd16
+--- /dev/null
++++ b/tools/Hk01.Isolated.props
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <OutDir>$(MSBuildThisFileDirectory)..\evidence\hk01_triple_20261114\bin\$(Configuration)\</OutDir>
++    <IntDir>$(MSBuildThisFileDirectory)..\evidence\hk01_triple_20261114\obj\$(ProjectName)\$(Configuration)\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <ItemDefinitionGroup>
++    <Link>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <EnableCOMDATFolding>false</EnableCOMDATFolding>
++      <GenerateMapFile>true</GenerateMapFile>
++    </Link>
++  </ItemDefinitionGroup>
++</Project>
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/tools/Hk01.Isolated.props', LF will be replaced by CRLF the next time Git touches it

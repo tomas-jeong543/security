@@ -1,0 +1,8 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/ignored.txt b/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/ignored.txt
+new file mode 100644
+index 0000000..2558d26
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/ignored.txt
+@@ -0,0 +1 @@
++?? evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/evidence/hk01_crc_review_20261114_1146/run_20261114_114849_944849/ignored.txt', LF will be replaced by CRLF the next time Git touches it

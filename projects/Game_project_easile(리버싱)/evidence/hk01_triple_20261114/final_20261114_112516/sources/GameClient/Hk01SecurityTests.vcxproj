@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="GameTests.vcxproj" />
+  <PropertyGroup>
+    <TargetName>Hk01SecurityTests</TargetName>
+    <TargetPath>$(OutDir)$(TargetName)$(TargetExt)</TargetPath>
+    <ProjectGuid>{7D410C76-A59E-4EB1-A4DA-33D48C1B9B71}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Remove="..\tests\GameTests.cpp" />
+    <ClCompile Include="..\tests\Hk01SecurityTests.cpp" />
+  </ItemGroup>
+</Project>

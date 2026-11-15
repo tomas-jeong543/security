@@ -1,0 +1,14 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/attempt_1_error.txt b/evidence/hk01_crc_review_20261114_1146/attempt_1_error.txt
+new file mode 100644
+index 0000000..8b85dee
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/attempt_1_error.txt
+@@ -0,0 +1,7 @@
++Initial review command exited 1 before any test process was launched.
++Cause: the replay-* glob also selected replay-manifest.json, which is a file.
++FileNotFoundError while trying to append /debug-events.txt to that file path.
++Correction: require folder.is_dir() when selecting replay directories.
++No existing EXE, DLL, source, or evidence was written by that attempt.
++Its before-status.txt, before-diff.txt, before-check.txt and preserved-before.json remain intact.
++Subsequent attempts use separate run_<timestamp> output directories.
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/evidence/hk01_crc_review_20261114_1146/attempt_1_error.txt', LF will be replaced by CRLF the next time Git touches it

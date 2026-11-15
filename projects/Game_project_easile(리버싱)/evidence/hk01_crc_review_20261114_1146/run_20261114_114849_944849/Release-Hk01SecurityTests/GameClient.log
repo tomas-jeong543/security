@@ -1,0 +1,8 @@
+[wall=1794624565][simulation=0.000][SECURITY][BASELINE][HK01_B_SpawnProjectile][rva=0x112D0;size=0x8E9;expected_crc32=EE1D9983;source=exe_disk]
+[wall=1794624565][simulation=0.000][SECURITY][BASELINE][CRC_Update][rva=0x12000;size=0x1444;expected_crc32=96B3B620;source=exe_disk]
+[wall=1794624565][simulation=0.000][SECURITY][BASELINE][HK01_C_DetectNewModules][rva=0x3A50;size=0x807;expected_crc32=BE5B1ACB;source=exe_disk]
+[wall=1794624565][simulation=0.000][MATCH][MINION_WAVE][GameWorld][count_per_team=6;count_per_lane=2]
+[wall=1794624565][simulation=0.000][MATCH][START][GameWorld][seed=0xE4511E]
+[wall=1794624565][simulation=0.000][COMBAT][PROJECTILE_SPAWN][Blue][kind=Basic;damage=5;direction=1.000000,0.000000]
+[wall=1794624565][simulation=0.000][SECURITY][WATCHDOG_STARTED][HK01_C][interval_ms=100]
+[wall=1794624565][simulation=0.000][SECURITY][BASELINE][CRC_Initialize][rva=0xF2E0;size=0x685;expected_crc32=04827B69;source=exe_disk]

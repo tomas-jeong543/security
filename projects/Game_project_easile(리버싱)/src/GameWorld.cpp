@@ -1,4 +1,4 @@
-﻿#include"IntegrityGuard.h"
+#include"IntegrityGuard.h"
 #include "GameWorld.h"
 #include "BotController.h"
 #include "CombatSystem.h"
@@ -30,7 +30,37 @@ float SegmentCircleHit(Vec2 start, Vec2 end, Vec2 center, float radius)
 }
 
 GameWorld::GameWorld() : player_({205,720}), bot_({1715,720}),
-    allyBot_({205,800},Team::Blue), enemyBot_({1715,640}) {}
+    allyBot_({205,800},Team::Blue), enemyBot_({1715,640})
+{
+    if (!ProjectileCode().Verify()) CodeIntegrity::Fail("HK01_B", "baseline_or_initial_code_invalid", 2);
+    if (!VerifyUpdateCode()) CodeIntegrity::Fail("CRC_Update", "baseline_or_initial_code_invalid", 4);
+}
+
+const CodeIntegrity::Region& GameWorld::ProjectileCode()
+{
+    static const CodeIntegrity::Region region(CodeIntegrity::Address(&GameWorld::SpawnProjectile), "HK01_B_SpawnProjectile");
+    return region;
+}
+
+bool GameWorld::VerifyUpdateCode()
+{
+    static const CodeIntegrity::Region region(CodeIntegrity::Address(&GameWorld::Update), "CRC_Update");
+    return region.Verify();
+}
+
+bool GameWorld::VerifyInitializeCode()
+{
+    static const CodeIntegrity::Region region(CodeIntegrity::Address(&GameWorld::Initialize), "CRC_Initialize");
+    return region.Verify();
+}
+
+__declspec(noinline) void GameWorld::CheckedSpawnProjectile(Team team, Vec2 position, Vec2 direction,
+    ProjectileKind kind, int damage, std::uint64_t sourceId)
+{
+    // Outside the target: an entry detour cannot skip this pre-dispatch check.
+    if (!ProjectileCode().Verify()) CodeIntegrity::Fail("HK01_B", "SpawnProjectile_modified_or_unreadable", 2);
+    SpawnProjectile(team, position, direction, kind, damage, sourceId);
+}
 std::array<Hero*,4> GameWorld::Heroes() { return {{&player_,&bot_,&allyBot_,&enemyBot_}}; }
 std::array<const Hero*,4> GameWorld::Heroes() const { return {{&player_,&bot_,&allyBot_,&enemyBot_}}; }
 std::uint64_t GameWorld::HeroId(const Hero& hero) const
@@ -133,6 +163,7 @@ int GameWorld::NearestLane(float y) const
 void GameWorld::SpawnProjectile(Team team, Vec2 position, Vec2 direction,
                                 ProjectileKind kind, int damage, std::uint64_t sourceId)
 {
+    if (!ProjectileCode().Verify()) CodeIntegrity::Fail("HK01_B", "SpawnProjectile_modified_or_unreadable", 2);
     if (Length(direction) == 0.0F) { return; }
     projectiles_.push_back(std::make_unique<Projectile>(
         CombatSystem::CreateProjectile(team, position, direction, kind, damage)));
@@ -724,7 +755,7 @@ void GameWorld::UpdateBot(float deltaSeconds, BotHero& bot, BotRuntime& ai)
             (defendTarget || (playerVisible && BotHasClearShot(bot,attackOpponent.Position()))))
         {
             ai.targetId=defendTarget?1+defendTarget->id:HeroId(attackOpponent);
-            SpawnProjectile(ownTeam, bot.Position(), Normalize(basicTarget - bot.Position()),
+            CheckedSpawnProjectile(ownTeam, bot.Position(), Normalize(basicTarget - bot.Position()),
                             ProjectileKind::Basic, bot.BasicDamage(),HeroId(bot));
             bot.StartBasic();
             ai.botAttackTimer_ = 1.0F;
@@ -734,7 +765,7 @@ void GameWorld::UpdateBot(float deltaSeconds, BotHero& bot, BotRuntime& ai)
         if (!defending && playerVisible && Distance(bot.Position(), attackOpponent.Position()) <= 850.0F &&
             !MapPaths::AttackBlocked(bot.Position(), attackOpponent.Position()) && bot.UltimateReady())
         {
-            SpawnProjectile(ownTeam, bot.Position(), Normalize(attackOpponent.Position() - bot.Position()),
+            CheckedSpawnProjectile(ownTeam, bot.Position(), Normalize(attackOpponent.Position() - bot.Position()),
                             ProjectileKind::Ultimate, bot.UltimateDamage(),HeroId(bot));
             bot.StartUltimate();
         }
@@ -742,7 +773,7 @@ void GameWorld::UpdateBot(float deltaSeconds, BotHero& bot, BotRuntime& ai)
     if (ai.botState_ == BotState::Push && Distance(bot.Position(), enemyBase.position) <= 700.0F &&
         !MapPaths::AttackBlocked(bot.Position(), enemyBase.position) && ai.botAttackTimer_ <= 0.0F)
     {
-        SpawnProjectile(ownTeam, bot.Position(), Normalize(enemyBase.position - bot.Position()),
+        CheckedSpawnProjectile(ownTeam, bot.Position(), Normalize(enemyBase.position - bot.Position()),
                         ProjectileKind::Basic, bot.BasicDamage(),HeroId(bot));
         bot.StartBasic();
         ai.botAttackTimer_ = 1.0F;
@@ -908,7 +939,7 @@ void GameWorld::Update(const PlayerCommand& input, float deltaSeconds)
                 ";mode=" + (autoAim_ ? "Auto" : "Mouse") +
                 ";mouse=" + std::to_string(command.mouseWorldPosition.x) + "," +
                 std::to_string(command.mouseWorldPosition.y));
-            SpawnProjectile(Team::Blue, player_.Position(), direction, ProjectileKind::Basic, player_.BasicDamage());
+            CheckedSpawnProjectile(Team::Blue, player_.Position(), direction, ProjectileKind::Basic, player_.BasicDamage());
             player_.StartBasic();
         }
         //checkpoint for intergrity
@@ -939,7 +970,7 @@ void GameWorld::Update(const PlayerCommand& input, float deltaSeconds)
             // 3. 기존 쿨다운도 정상인지 확인
             if (player_.UltimateReady())
             {
-                SpawnProjectile(
+                CheckedSpawnProjectile(
                     Team::Blue,
                     player_.Position(),
                     resolveAim(false, 1000.0F),

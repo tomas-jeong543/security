@@ -1,0 +1,12 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/attempt_1_error.txt b/api_hooking_project/hk01_retest/followup_20261114/attempt_1_error.txt
+new file mode 100644
+index 0000000..c2de774
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/attempt_1_error.txt
+@@ -0,0 +1,5 @@
++The first main_spawn experiment completed (runner exit 0) and its raw debug-events.txt was saved.
++The orchestration then failed while printing the UTF-8/legacy-console mixed output through CP949 stdout.
++No game process remained running from that experiment (the runner had already completed its cleanup).
++Correction: explicit UTF-8 stdout with replacement handling; save a per-case result before printing.
++The original partial run is retained. A new complete run directory is used for the final result set.
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/attempt_1_error.txt', LF will be replaced by CRLF the next time Git touches it

@@ -1,0 +1,5 @@
+The first main_spawn experiment completed (runner exit 0) and its raw debug-events.txt was saved.
+The orchestration then failed while printing the UTF-8/legacy-console mixed output through CP949 stdout.
+No game process remained running from that experiment (the runner had already completed its cleanup).
+Correction: explicit UTF-8 stdout with replacement handling; save a per-case result before printing.
+The original partial run is retained. A new complete run directory is used for the final result set.

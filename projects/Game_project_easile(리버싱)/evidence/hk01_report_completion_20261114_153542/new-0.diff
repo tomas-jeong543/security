@@ -1,0 +1,69 @@
+﻿warning: in the working copy of 'projects/Game_project_easile(리버싱)/docs/hk01-final-report-completion-20261114.md', LF will be replaced by CRLF the next time Git touches it
+diff --git a/docs/hk01-final-report-completion-20261114.md b/docs/hk01-final-report-completion-20261114.md
+new file mode 100644
+index 0000000..d437941
+--- /dev/null
++++ b/docs/hk01-final-report-completion-20261114.md
+@@ -0,0 +1,62 @@
++# HK-01 실게임 B 잔여 검증 및 최종 보고서 기록
++
++2026-11-14 / Asia/Seoul. 승인 범위는 기존 자료 분석, 정상 게임·기존 수단에 의한 B 검증, 원본 백업 후 기존 Word 보고서 완성이다. 기존 소스·솔루션·테스트·DLL·EXE·injector·방어 설정은 변경하지 않았다. CRC32 추가 개선은 취소·미적용이며 서버 확장은 수행하지 않았다.
++
++이번 실행 기록은 `evidence/hk01_report_completion_20261114_153542/`에 저장했다. 앞선 `153437`, `153457` 실행 폴더는 Git 경고·문서 편집 준비 단계 오류의 중간 기록이며 최종 판정에 사용하지 않는다. 게임·공격을 실행한 실패 기록이 아니다. 보고서 편집 스크립트의 최초 UTF-8 해석 오류는 실행 전에 발생했다. 후속 행 인덱스 오류도 메모리 내 편집 중 발생해 원본 보고서를 쓰지 않았다.
++
++## 최종 검증 상태
++
++| 항목 | 근거 | 판정 |
++|---|---|---|
++| 실제 GameClient A | 기존 main_spawn 로그의 DLL 전체 경로 탐지 | 기존 탐지 확인. 외부 정리 77은 자체 종료 1 증거가 아님 |
++| BoundaryFixture B | 기존 MinHook E9 확인 → HK01_B 탐지 → 자체 종료 2 | 독립 경계 시험 PASS. 실게임으로 승계하지 않음 |
++| 실제 GameClient B | 이번 정상 전투 조작 미실행, 새 B 로그·투사체 관측·자체 종료 코드 없음 | **미검증, 종료 코드 미수집** |
++| 실제 GameClient C | 기존 main_scanner의 E9·HK01_C 탐지·자체 종료 3 | 기존 PASS |
++| Debug/Release GameTests | 기존 각 49/49 PASS, 종료 0 | 과거 기록. 이번 재실행 없음 |
++
++기존 근거는 [3중 방어 기록](hk01-triple-defense-20261114.md), [후속 검증 기록](hk01-final-gaps-followup-20261114.md), [기계 판정](../api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/verified.json)이다. 기존 실행 폴더 `runs/20261114_121201_637835/main_spawn`, `main_scanner`와 `runs/20261114_121318_089249/fixture`의 로그·result.json을 대조했다.
++
++## 이번 도구 실패와 미실행 범위
++
++기본 `exec_command`는 `Failed to create unified exec process: helper_unknown_error: setup refresh had errors`로 초기화에 실패했다. 필수 승인 절차를 거친 PowerShell 실행은 성공해 분석·보존·문서 작업을 계속했다.
++
++Computer Use `node_repl`은 `trusted Node process exited unexpectedly; kernel reset, rerun your request`로 종료했다. 다른 제공 UI 경로 `cua.getState()`도 `kernel_status=exited(code=1)`, `windows sandbox failed: helper_unknown_error: setup refresh had errors`로 초기화에 실패했다. 게임 UI 상태를 관측하거나 입력하지 못했다. 따라서 이번 작업에서는 게임·공격 재현을 시작하지 않았으며 제품 결함이나 B 실패로 판정하지 않는다. 메시지 주입·입력 helper·방어 비활성화로 대체하지 않았다.
++
++빌드·GameTests·A/C 재현은 기존 결과가 있고 이번 소스 변경이 없어 반복하지 않았다. 새 +30° 각도 실측, 최종 투사체와 입력 벡터의 동일 이벤트 연결, trampoline 호출, 두 DLL 연속 결합, 장시간 플레이·오탐률·FPS도 미검증이다.
++
++## 파일 식별과 발사 경로
++
++이번 파일에서 직접 계산한 SHA-256은 기존 기록과 일치했다. 해시는 실험 식별용이며 배포 신뢰나 실행 효과의 증거가 아니다.
++
++| 파일 | SHA-256 |
++|---|---|
++| 최종 Release GameClient.exe | `3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153` |
++| 호환 main_spawn.dll | `CCD4020669ECF5381355162284CD4AE30660B0E42817DAD4781A3F3E6A9CCDB9` |
++| 호환 main_scanner.dll | `8E8F14E189970F58BCC11DEBE41203BFAD0CED3E36E7EA93C629DB3448E78306` |
++
++`GameWorld::Update → UpdateBot → CheckedSpawnProjectile → SpawnProjectile`를 소스로 확인했다. 모든 5개 발사 지점은 경계 검사를 거친다. 경계 검사가 실패하면 `HK01_B / SpawnProjectile_modified_or_unreadable` 로그 후 `CodeIntegrity::Fail`의 `ExitProcess(2)`가 호출된다. 정상 검사 이후에만 SpawnProjectile이 호출되고 본문에서 재검사한다. 이는 코드 연결 확인이며 이번 런타임 효과 관측은 아니다.
++
++HeroId는 플레이어 0, 기존 적 Bot 1, 아군 Bot 2, 추가 적 Bot 3이다. 기본 공격은 타이머가 0 이하이며 유효 목표·시야·경로 조건을 만족할 때 발생한다. 목표 영웅 선택 범위는 1000이고 `BotHasClearShot`도 필요하다. 방어 상태에서는 같은 라인의 적 미니언을 650 범위에서 검토한다. 궁극기는 방어 상태가 아니고 목표가 보이며 거리 850 이하·경로 비차단·준비 완료일 때 발생한다. Push의 기지 공격은 거리 700 이하·경로 비차단·기본 공격 타이머 조건을 사용한다.
++
++기존 payload의 실제 필터는 `sourceId == 3 || (sourceId == 2 && kind == 0)`이며 ID 3의 궁극기도 포함한다. 방향 회전식은 x′=0.8660254x−0.5y, y′=0.5x+0.8660254y다. +30°는 코드상 설정값이고 호출별 실측값은 아니다.
++
++## 정상 수동 조작 및 필요한 증거
++
++1. 기존 파일을 덮어쓰지 않는 새 실행 폴더에 위 해시의 Release EXE와 필요한 기존 실행 자원을 복사한다. 사본·원본 해시, CWD, 시각, PID와 로그의 초기 크기를 기록한다. 기존 관측 도구가 게임을 자동 종료하는 조건과 정리 코드를 먼저 확인한다.
++2. 게임을 정상 실행하고 화면에 포커스를 둔 뒤 Enter로 시작한다. WASD 또는 방향키로 전투에 접근해 살아 있는 Bot의 시야·발사 경로가 열린 상태를 만든다. K/마우스 왼쪽은 플레이어 기본 공격, J는 궁극기, P는 일시정지다. Bot 발사 판정은 별도로 관측한다.
++3. 허용된 기존 실험·관측 수단만 사용한다. 설치 로그만으로 변조를 단정하지 말고 동일 EXE/PID의 실제 설치 및 이후 발사 경계를 구분한다. 보안 정책이 제한하면 공격 재현을 중단하고 미검증으로 남긴다. A/C를 끄거나 예외를 추가해 B까지 도달시키지 않는다.
++4. 같은 PID에서 `HK01_B DETECTED`와 **자체 종료 2**를 함께 확보한다. 실행 도구·injector의 종료 코드와 게임의 종료 코드를 분리한다. 정상 실행한 PowerShell의 `Start-Process -PassThru` 반환 객체는 시작 직후 핸들을 확보하고 종료 후 그 객체의 ExitCode를 기록할 수 있다. 외부 정리·강제 종료 코드는 자체 보안 종료로 인정하지 않는다.
++5. MATCH START, 전투 화면/영상, Bot 발사 전후 로그, B 탐지 시각, 투사체 생성 로그를 수집한다. 로그가 없다는 사실만으로 화면상 생성이 없었다고 단정하지 않는다. 현재 계측으로 동일 이벤트 연결이 불가능하면 투사체 효과는 미검증으로 남긴다.
++6. A/C가 먼저 탐지·종료하거나 도구가 실패하면 실제 코드와 원인을 기록하고 실게임 B는 미검증으로 유지한다. B 로그와 자체 종료 2가 모두 확인될 때만 최종 PASS다.
++
++## 보고서와 보존
++
++정확한 대상은 `api_hooking_project/EASILE_HK01_Bot_Aim_Hooking_완성_보고서_간결본.docx`다. 원본은 실행 폴더의 `original-report.docx`로 백업했다. 기존 표·문단·글꼴과 패키지 구성을 유지하며 `word/document.xml`을 갱신했다. 배치 검수 후 첫 쪽의 설명을 줄이고 비교표의 줄바꿈을 허용했으며 편집 중간본도 `report-before-layout.docx`로 남겼다. 원본 보고서의 과거 기준 해시와 새 방어 EXE 해시는 별도 항목으로 유지했다.
++
++변경·생성 파일은 해당 Word 보고서, 본 기록, `tools/Complete-Hk01Report-20261114.ps1`, `tools/Render-Hk01Report-20261114.ps1`, `tools/Render-Hk01WordPages-20261114.ps1`, `tools/Polish-Hk01Report-20261114.ps1`, `tools/Audit-Hk01Report-20261114.ps1`, 새 실행 폴더와 `evidence/hk01-report-latest.txt`다. 보존 검사 대상 기존 파일 1,819개는 편집 직후 모두 SHA-256이 일치했다. Git 최상위는 `D:/GitHub/security`이며 모든 Git 명령은 현재 프로젝트 경로로 제한했다. 기존 수정·삭제·미추적 상태를 되돌리거나 stage·commit하지 않았다.
++
++문서 렌더, OOXML 구조·기존 패키지 항목 보존, 문서 링크·Git diff·diff --check·신규 파일 별도 diff·ignore 상태 및 최종 해시는 실행 폴더의 `final-qa.json` 등 QA 기록을 참조한다. 문서 검사는 게임 기능 PASS가 아니다. 관리형 Node/Python 의존성 로더가 제공되지 않고 Node 도구도 초기화에 실패해 문서 스킬의 표준 마커·render_docx.py 실행은 미실행이다. 설치된 시스템 Node/Python으로 우회하지 않았다.
++
++Word의 PDF 내보내기와 SaveAs2 PDF는 완료되지 않아 해당 명령을 중단했다. 이번에 생성한 Word 프로세스만 식별·정리했으며 기존 Word에서는 이번에 연 읽기 전용 보고서만 저장 없이 닫았다. 이후 Word의 페이지 메타파일을 PNG로 직접 렌더하는 대체 경로로 성공했다. 초기 11쪽의 시각 검수에서 한 행 넘침과 긴 비교 문구를 확인해 다듬었다. 최종 `qa-final/page-1.png`부터 `page-10.png`까지 10쪽 전체를 열어 글자 누락·겹침·잘림 없이 읽을 수 있음을 확인했다. 최종 네이티브 렌더 명령은 종료 0이다. 처음 메타파일 렌더는 11쪽 출력에 성공했지만 COM 정리 인자 오류로 종료 1이었으며 최종 실행에서 수정했다. PDF는 제공 산출물이 아니며 생성 완료를 주장하지 않는다.
++
++사람 검토 항목은 실게임 B 로그·자체 종료 2의 동시 확보, 장시간 정상 플레이의 오탐·성능, 디스크 EXE 신뢰 모델과 B/C의 경쟁·주기 한계다. 후속 구현 승인을 뜻하지 않는다.

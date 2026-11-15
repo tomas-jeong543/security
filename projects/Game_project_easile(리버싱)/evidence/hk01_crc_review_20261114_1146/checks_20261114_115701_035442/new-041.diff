@@ -1,0 +1,14 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/Debug-Hk01SecurityTests/GameClient.log b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/Debug-Hk01SecurityTests/GameClient.log
+new file mode 100644
+index 0000000..813f2f4
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/Debug-Hk01SecurityTests/GameClient.log
+@@ -0,0 +1,8 @@
++[wall=1794624707][simulation=0.000][SECURITY][BASELINE][HK01_B_SpawnProjectile][rva=0x1B3C0;size=0x526;expected_crc32=FABD39AA;source=exe_disk]
++[wall=1794624707][simulation=0.000][SECURITY][BASELINE][CRC_Update][rva=0x17910;size=0x1268;expected_crc32=CE03E6F2;source=exe_disk]
++[wall=1794624707][simulation=0.000][SECURITY][BASELINE][HK01_C_DetectNewModules][rva=0x13C0;size=0x658;expected_crc32=5842BED5;source=exe_disk]
++[wall=1794624707][simulation=0.000][MATCH][MINION_WAVE][GameWorld][count_per_team=6;count_per_lane=2]
++[wall=1794624707][simulation=0.000][MATCH][START][GameWorld][seed=0xE4511E]
++[wall=1794624707][simulation=0.000][COMBAT][PROJECTILE_SPAWN][Blue][kind=Basic;damage=5;direction=1.000000,0.000000]
++[wall=1794624707][simulation=0.000][SECURITY][WATCHDOG_STARTED][HK01_C][interval_ms=100]
++[wall=1794624707][simulation=0.000][SECURITY][BASELINE][CRC_Initialize][rva=0x1A550;size=0x7F5;expected_crc32=8A225406;source=exe_disk]

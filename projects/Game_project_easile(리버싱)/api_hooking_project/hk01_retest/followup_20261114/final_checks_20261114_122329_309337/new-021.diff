@@ -1,0 +1,13 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/check.txt b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/check.txt
+new file mode 100644
+index 0000000..6daaed3
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/check.txt
+@@ -0,0 +1,6 @@
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Application.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.h', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/IntegrityGuard.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Logger.h', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/tests/GameTests.cpp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/check.txt', LF will be replaced by CRLF the next time Git touches it

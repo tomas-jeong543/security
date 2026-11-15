@@ -1,0 +1,654 @@
+{
+  "scope": "static review + unmodified normal test execution; no DLL builds or attack replay",
+  "cwd": "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)",
+  "commands": [
+    {
+      "args": [
+        "status",
+        "--short",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "status",
+        "--short",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "--",
+        "."
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "status",
+        "--short",
+        "--ignored",
+        "--",
+        "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "pe_reader_sha256": "D66C2FD40099B1BD9C0FE397E3E4DADC894B1CAB579E1DAD232FF3F7C75DEE54",
+  "new_game": {
+    "exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\GameClient.exe",
+    "sha256": "3027c3da7e340da1a6ba1d853315becb73ff26290b59156c4f435a17779c8153",
+    "functions": {
+      "SpawnProjectile@GameWorld": {
+        "rva": 63088,
+        "size": 2281,
+        "crc32": "26013CA4",
+        "entry": "48 8b c4 48 89 58 18 55 56 57 41 54 41 55 41 56",
+        "relocations": []
+      },
+      "Update@GameWorld": {
+        "rva": 66464,
+        "size": 5188,
+        "crc32": "E256ED48",
+        "entry": "48 8b c4 48 89 58 10 55 56 57 41 54 41 55 41 56",
+        "relocations": []
+      },
+      "Initialize@GameWorld": {
+        "rva": 54912,
+        "size": 1669,
+        "crc32": "BA2E0CDC",
+        "entry": "48 89 5c 24 10 48 89 74 24 18 48 89 7c 24 20 55",
+        "relocations": []
+      },
+      "DetectNewModules@IntegrityGuard": {
+        "rva": 110672,
+        "size": 2055,
+        "crc32": "E572B6AE",
+        "entry": "48 8b c4 48 89 58 08 48 89 70 10 48 89 78 18 55",
+        "relocations": []
+      }
+    },
+    "old_attack_checks": [
+      {
+        "rva": 79840,
+        "entry_matches": false,
+        "actual": "18 73 1e 4c 8b 4b 18 4c 8b 43 04 49 8b d7"
+      },
+      {
+        "rva": 61328,
+        "entry_matches": false,
+        "actual": "10 35 e6 87 03 00 0f 28 c6 eb 08 f3 0f 10 05"
+      }
+    ]
+  },
+  "legacy_game": {
+    "sha256": "32A1D0D4D8FBF15E2A1E45467475A6057F26EEE54B1AF5746945DE24C768A926",
+    "regions": {
+      "Update": {
+        "rva": 84000,
+        "size": 5188,
+        "crc32": "29148A8C",
+        "entry": "48 8b c4 48 89 58 10 55 56 57 41 54 41 55 41 56"
+      },
+      "Initialize": {
+        "rva": 69840,
+        "size": 1669,
+        "crc32": "A8E8248A",
+        "entry": "48 89 5c 24 10 48 89 74 24 18 48 89 7c 24 20 55"
+      },
+      "SpawnProjectile": {
+        "rva": 79840,
+        "size": 2229,
+        "crc32": "8856502B",
+        "entry": "48 8b c4 48 89 58 18 55 56 57 41 54 41 55 41 56"
+      },
+      "DetectNewModules": {
+        "rva": 61328,
+        "size": 1215,
+        "crc32": "7FCB868D",
+        "entry": "48 8b c4 48 89 58 08 48 89 70 10 48 89 78 18 55"
+      }
+    }
+  },
+  "snapshot_manifest": {
+    "file_count": 78,
+    "mismatches": []
+  },
+  "current_vs_snapshot_src": [],
+  "crc32_algorithm_unchanged": true,
+  "source_locations": {
+    "src/IntegrityGuard.cpp": {
+      "CalculateCRC32": [
+        27,
+        62
+      ],
+      "VerifyUpdateIntegrity": [
+        77
+      ],
+      "VerifyRegionIntegrity": [
+        47
+      ],
+      "DetectNewModules": [
+        220
+      ]
+    },
+    "src/GameWorld.cpp": {
+      "bool GameWorld::VerifyUpdateCode": [
+        45
+      ],
+      "void GameWorld::CheckedSpawnProjectile": [
+        57
+      ],
+      "if (!IntegrityGuard::VerifyUpdateIntegrity())": [
+        951
+      ]
+    },
+    "src/CodeIntegrity.cpp": {
+      "Region::Region": [
+        20
+      ],
+      "bool Region::Verify": [
+        96
+      ],
+      "DllScanWatchdog::DllScanWatchdog": [
+        117
+      ]
+    },
+    "tests/Hk01SecurityTests.cpp": {
+      "void InstallEntryDetour": [
+        12
+      ],
+      "if (mode == \"CRC\")": [
+        108
+      ],
+      "if (mode == \"B\")": [
+        57
+      ],
+      "if (mode == \"C\" ||": [
+        64
+      ]
+    }
+  },
+  "prior_tests_reviewed": [
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-normal",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": false,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 1,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-normal"
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-B",
+      "recorded_exit": 2,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": true,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B"
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-B-preinit",
+      "recorded_exit": 2,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": true,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-B-preinit"
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-C",
+      "recorded_exit": 3,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": true,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C"
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-C-preinit",
+      "recorded_exit": 3,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": true,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-C-preinit"
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-CRC",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": true,
+      "pass_lines": 1,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-CRC"
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests-A-C-blocked",
+      "recorded_exit": 3,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": true,
+      "A_detected": true,
+      "probe_identified": true,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-Hk01SecurityTests-A-C-blocked"
+    },
+    {
+      "configuration": "Debug",
+      "name": "GameTests-",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": false,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 49,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameTests-"
+    },
+    {
+      "configuration": "Debug",
+      "name": "GameClient-smoke-gui",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": false,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Debug-GameClient-smoke-gui"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-normal",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": false,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 1,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-normal"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-B",
+      "recorded_exit": 2,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": true,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-B-preinit",
+      "recorded_exit": 2,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": true,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-B-preinit"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-C",
+      "recorded_exit": 3,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": true,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-C-preinit",
+      "recorded_exit": 3,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": true,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-C-preinit"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-CRC",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": true,
+      "pass_lines": 1,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-CRC"
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests-A-C-blocked",
+      "recorded_exit": 3,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": true,
+      "B_detected": false,
+      "C_detected": true,
+      "A_detected": true,
+      "probe_identified": true,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-Hk01SecurityTests-A-C-blocked"
+    },
+    {
+      "configuration": "Release",
+      "name": "GameTests-",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": false,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 49,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameTests-"
+    },
+    {
+      "configuration": "Release",
+      "name": "GameClient-smoke-gui",
+      "recorded_exit": 0,
+      "recorded_timeout": false,
+      "snapshot_exe_matches_recorded_sha256": true,
+      "patch_readback_log": false,
+      "B_detected": false,
+      "C_detected": false,
+      "A_detected": false,
+      "probe_identified": false,
+      "crc_rejection_stdout": false,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "evidence": "evidence\\hk01_triple_20261114\\validation_20261114_112033\\Release-GameClient-smoke-gui"
+    }
+  ],
+  "prior_replays_reviewed": [
+    {
+      "name": "replay-defended-scanner",
+      "hook_installed_log": false,
+      "installation_rejected": false,
+      "skipped_count": 0,
+      "dll_detected": false,
+      "external_cleanup": false,
+      "before_after_entries": []
+    },
+    {
+      "name": "replay-defended-spawn",
+      "hook_installed_log": false,
+      "installation_rejected": false,
+      "skipped_count": 0,
+      "dll_detected": false,
+      "external_cleanup": false,
+      "before_after_entries": []
+    },
+    {
+      "name": "replay-legacy-scanner",
+      "hook_installed_log": false,
+      "installation_rejected": false,
+      "skipped_count": 0,
+      "dll_detected": false,
+      "external_cleanup": false,
+      "before_after_entries": []
+    },
+    {
+      "name": "replay-legacy-spawn",
+      "hook_installed_log": false,
+      "installation_rejected": false,
+      "skipped_count": 0,
+      "dll_detected": false,
+      "external_cleanup": false,
+      "before_after_entries": []
+    }
+  ],
+  "new_normal_runs": [
+    {
+      "configuration": "Debug",
+      "name": "GameTests",
+      "exe": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameTests.exe",
+      "sha256": "81E82A29E481197F1C0CA5249FB4077743B7FF230592F916E99535BCC8BCFD3D",
+      "args": [],
+      "source_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Debug\\GameTests.exe",
+      "cwd": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameTests",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 29.625,
+      "pass_lines": 49,
+      "fail_lines": 0,
+      "integrity_fail": false,
+      "rendered_five": false,
+      "ultimate_spawn": true,
+      "app_exit": false
+    },
+    {
+      "configuration": "Debug",
+      "name": "Hk01SecurityTests",
+      "exe": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\Hk01SecurityTests.exe",
+      "sha256": "07EF08D10CC02914FC3347FFE8674145A23EDB963294C7FA3FADCB65F3CA5778",
+      "args": [
+        "normal"
+      ],
+      "source_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Debug\\Hk01SecurityTests.exe",
+      "cwd": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-Hk01SecurityTests",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.263,
+      "pass_lines": 1,
+      "fail_lines": 0,
+      "integrity_fail": false,
+      "rendered_five": false,
+      "ultimate_spawn": false,
+      "app_exit": false
+    },
+    {
+      "configuration": "Debug",
+      "name": "GameClient",
+      "exe": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Debug\\GameClient.exe",
+      "sha256": "58D92F3728BEE75D96ACE4A4D89C8165B2E9CAAA55B6ADCC80A997AC973115F1",
+      "args": [
+        "--smoke-gui"
+      ],
+      "source_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Debug\\GameClient.exe",
+      "cwd": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Debug-GameClient",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 1.64,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "integrity_fail": false,
+      "rendered_five": true,
+      "ultimate_spawn": true,
+      "app_exit": true
+    },
+    {
+      "configuration": "Release",
+      "name": "GameTests",
+      "exe": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameTests.exe",
+      "sha256": "B0E8B85387D9CE7228120949CEE0FFC4D1BE86A09BF8715702FF98545478BDF2",
+      "args": [],
+      "source_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\GameTests.exe",
+      "cwd": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameTests",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 1.856,
+      "pass_lines": 49,
+      "fail_lines": 0,
+      "integrity_fail": false,
+      "rendered_five": false,
+      "ultimate_spawn": true,
+      "app_exit": false
+    },
+    {
+      "configuration": "Release",
+      "name": "Hk01SecurityTests",
+      "exe": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\Hk01SecurityTests.exe",
+      "sha256": "1457429D937ECB4CBDAD02DD2A5B77F8B730D4A8F732A12714AEFCC6B3658343",
+      "args": [
+        "normal"
+      ],
+      "source_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\Hk01SecurityTests.exe",
+      "cwd": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-Hk01SecurityTests",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.148,
+      "pass_lines": 1,
+      "fail_lines": 0,
+      "integrity_fail": false,
+      "rendered_five": false,
+      "ultimate_spawn": false,
+      "app_exit": false
+    },
+    {
+      "configuration": "Release",
+      "name": "GameClient",
+      "exe": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\isolated-bin\\Release\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153",
+      "args": [
+        "--smoke-gui"
+      ],
+      "source_exe": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\GameClient.exe",
+      "cwd": "evidence\\hk01_crc_review_20261114_1146\\run_20261114_115113_007585\\Release-GameClient",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.561,
+      "pass_lines": 0,
+      "fail_lines": 0,
+      "integrity_fail": false,
+      "rendered_five": true,
+      "ultimate_spawn": true,
+      "app_exit": true
+    }
+  ],
+  "preservation": {
+    "file_count": 1186,
+    "changed_or_missing": [],
+    "unexpected_new_files": []
+  }
+}

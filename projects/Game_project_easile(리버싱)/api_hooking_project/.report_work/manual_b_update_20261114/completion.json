@@ -1,0 +1,12 @@
+﻿{
+    "git_diff_check_exit":  0,
+    "preexisting_tracked_diff_unchanged":  true,
+    "addition_diff_exit_expected":  1,
+    "addition_reviews":  11,
+    "delivery_copy_hash_match":  true,
+    "desktop_only_added_final_docx":  true,
+    "final_page_count":  10,
+    "game_build_tests":  "미실행: 문서만 수정",
+    "known_failures":  "Managed document runtime absent; Word PDF export stalled; native Word page rendering succeeded",
+    "human_review":  "각도와 최종 투사체 연결, 장시간 오탐과 성능은 미검증"
+}

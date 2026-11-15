@@ -1,0 +1,5 @@
+[wall=1794622662][simulation=0.000][SECURITY][BASELINE][HK01_B_SpawnProjectile][rva=0x112D0;size=0x8E9;expected_crc32=6ADE7BB9;source=exe_disk]
+[wall=1794622662][simulation=0.000][SECURITY][BASELINE][CRC_Update][rva=0x12000;size=0x1444;expected_crc32=CDC9D92A;source=exe_disk]
+[wall=1794622662][simulation=0.000][TEST][PATCH_INSTALLED][HK01][entry_ff25_14_bytes;readback_verified=1]
+[wall=1794622662][simulation=0.000][SECURITY][BASELINE][HK01_C_DetectNewModules][rva=0x3A50;size=0x807;expected_crc32=7E0EB54D;source=exe_disk]
+[wall=1794622662][simulation=0.000][SECURITY][DETECTED][HK01_C][baseline_or_initial_code_invalid]

@@ -1,0 +1,10 @@
+diff --git a/tests/Hk01Probe.cpp b/tests/Hk01Probe.cpp
+new file mode 100644
+index 0000000..13805a5
+--- /dev/null
++++ b/tests/Hk01Probe.cpp
+@@ -0,0 +1,3 @@
++// Benign, uniquely named module used only to verify the unchanged DLL scanner.
++// No entry point or CRT dependencies: loading it adds only this module.
++extern "C" __declspec(dllexport) int HK01Probe() { return 1; }
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/tests/Hk01Probe.cpp', LF will be replaced by CRLF the next time Git touches it

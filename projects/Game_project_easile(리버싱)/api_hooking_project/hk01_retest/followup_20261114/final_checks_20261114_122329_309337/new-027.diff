@@ -1,0 +1,56 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_scanner-adaptation.diff b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_scanner-adaptation.diff
+new file mode 100644
+index 0000000..2ec01f6
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_scanner-adaptation.diff
+@@ -0,0 +1,49 @@
++diff --git a/api_hooking_project/Dll2/Dll2/dllmain.cpp b/api_hooking_project/hk01_retest/followup_20261114/adapted/main_scanner/dllmain.cpp
++index 0e2188a..0e3dff5 100644
++--- a/api_hooking_project/Dll2/Dll2/dllmain.cpp
+++++ b/api_hooking_project/hk01_retest/followup_20261114/adapted/main_scanner/dllmain.cpp
++@@ -1,4 +1,4 @@
++-﻿/*
+++/*
++  * EASILE HK-01: external, observation-only DLLGuard function hook (Windows x64).
++  * Target: user's GameClient.exe SHA-256
++  * 32a1d0d4d8fbf15e2a1e45467475a6057f26eee54b1af5746945de24c768a926
++@@ -11,7 +11,7 @@
++  * Build with Visual Studio x64 and MinHook's x64 static library.
++  */
++ 
++-#include "pch.h"
+++
++ 
++ #define WIN32_LEAN_AND_MEAN
++ #include <windows.h>
++@@ -20,8 +20,9 @@
++ #include <stdio.h>
++ #include <string.h>
++ #include <wchar.h>
+++#include "target_pin.h"
++ 
++-#define GUARD_SCAN_RVA 0x0000EF90u
+++#define GUARD_SCAN_RVA 0x1B050u
++ 
++  /* MSVC x64 uses a uniform calling convention for this no-argument function. */
++ typedef void(__cdecl* DetectNewModulesFn)(void);
++@@ -96,6 +97,7 @@ static void __cdecl observed_detect_new_modules(void)
++    other function when the build does not match the analyzed EXE. */
++ static BOOL verify_game_build(HMODULE game_module)
++ {
+++    if (!verify_pinned_executable()) return FALSE;
++     static const BYTE entry_bytes[] = {
++         0x48, 0x8B, 0xC4, 0x48, 0x89, 0x58, 0x08,
++         0x48, 0x89, 0x70, 0x10, 0x48, 0x89, 0x78, 0x18
++@@ -176,8 +178,8 @@ static DWORD WINAPI observer_worker(LPVOID ignored)
++         return 4;
++     }
++ 
++-    log_event("[GUARD-OBS] Hook installed at GameClient + 0xEF90; "
++-        "original DLLGuard scan still enabled.\n");
+++    log_event("[GUARD-OBS] Hook installed at GameClient + 0x1B050; "
+++        "original scanner bypass installed (retest).\n");
++     /* Keep the DLL loaded for the lifetime of this test process. Do not
++        FreeLibrary it while the detour may be executing. */
++     return 0;
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/main_scanner-adaptation.diff', LF will be replaced by CRLF the next time Git touches it

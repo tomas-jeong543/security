@@ -1,0 +1,28 @@
+{
+  "mode": "main_scanner",
+  "cwd": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner",
+  "command": [
+    "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\RetestReplay.exe",
+    "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner",
+    "attack.dll",
+    "main"
+  ],
+  "runner_exit": 0,
+  "copies": [
+    {
+      "source": "evidence\\hk01_triple_20261114\\final_20261114_112516\\bin\\Release\\GameClient.exe",
+      "copy": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\GameClient.exe",
+      "sha256": "3027C3DA7E340DA1A6BA1D853315BECB73FF26290B59156C4F435A17779C8153"
+    },
+    {
+      "source": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\main_scanner_dll_120916_079135\\main_scanner.dll",
+      "copy": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\attack.dll",
+      "sha256": "8E8F14E189970F58BCC11DEBE41203BFAD0CED3E36E7EA93C629DB3448E78306"
+    },
+    {
+      "source": "api_hooking_project\\injector.exe",
+      "copy": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\main_scanner\\injector.exe",
+      "sha256": "6B6B69517A1834A039B41FB52B726B68A723C573011B3470322B4FE123B490A7"
+    }
+  ]
+}

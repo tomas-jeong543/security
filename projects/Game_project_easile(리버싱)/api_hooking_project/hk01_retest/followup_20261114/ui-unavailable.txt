@@ -1,0 +1,8 @@
+Computer Use initialization attempted through the documented @oai/sky entry point.
+Tool: mcp__node_repl__js
+Code: if (!globalThis.sky) { const { sky } = await import('@oai/sky'); globalThis.sky = sky; }
+Observed result: trusted Node process exited unexpectedly; kernel reset, rerun your request
+No app/window input action was performed.
+No alternate SendInput/PostMessage/helper protocol or modified game auto-start was used.
+Consequently the exact shipping GameClient combat firing path was not driven for the B experiment.
+The separate console MinHook boundary fixture is explicitly a different target and test condition.

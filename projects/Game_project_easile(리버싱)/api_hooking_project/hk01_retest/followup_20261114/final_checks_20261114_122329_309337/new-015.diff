@@ -1,0 +1,15 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/ui-unavailable.txt b/api_hooking_project/hk01_retest/followup_20261114/ui-unavailable.txt
+new file mode 100644
+index 0000000..7ebabe5
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/ui-unavailable.txt
+@@ -0,0 +1,8 @@
++Computer Use initialization attempted through the documented @oai/sky entry point.
++Tool: mcp__node_repl__js
++Code: if (!globalThis.sky) { const { sky } = await import('@oai/sky'); globalThis.sky = sky; }
++Observed result: trusted Node process exited unexpectedly; kernel reset, rerun your request
++No app/window input action was performed.
++No alternate SendInput/PostMessage/helper protocol or modified game auto-start was used.
++Consequently the exact shipping GameClient combat firing path was not driven for the B experiment.
++The separate console MinHook boundary fixture is explicitly a different target and test condition.
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/ui-unavailable.txt', LF will be replaced by CRLF the next time Git touches it

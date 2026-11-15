@@ -1,0 +1,7 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/Debug-Hk01SecurityTests/stdout.txt b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/Debug-Hk01SecurityTests/stdout.txt
+new file mode 100644
+index 0000000..ef19117
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/Debug-Hk01SecurityTests/stdout.txt
+@@ -0,0 +1 @@
++normal baseline, CRC, projectile, watchdog and invalid-address PASS

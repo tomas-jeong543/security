@@ -1,0 +1,3581 @@
+diff --git a/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/after-diff.txt b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/after-diff.txt
+new file mode 100644
+index 0000000..a0559ca
+--- /dev/null
++++ b/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/after-diff.txt
+@@ -0,0 +1,3574 @@
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameClient.vcxproj" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameClient.vcxproj"
++index 1665bde..ce3f272 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameClient.vcxproj"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameClient.vcxproj"
++@@ -43,12 +43,12 @@
++   </ImportGroup>
++   <PropertyGroup Label="UserMacros" />
++   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++-    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
++-    <IntDir>$(SolutionDir)build\obj\$(Configuration)\</IntDir>
+++    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
+++    <IntDir>$(ProjectDir)..\build\hk01\obj\GameClient\$(Configuration)\</IntDir>
++   </PropertyGroup>
++   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++-    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
++-    <IntDir>$(SolutionDir)build\obj\$(Configuration)\</IntDir>
+++    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
+++    <IntDir>$(ProjectDir)..\build\hk01\obj\GameClient\$(Configuration)\</IntDir>
++   </PropertyGroup>
++   <ItemDefinitionGroup>
++     <ClCompile>
++@@ -57,8 +57,11 @@
++       <ConformanceMode>true</ConformanceMode>
++       <LanguageStandard>stdcpp17</LanguageStandard>
++       <AdditionalIncludeDirectories>$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+++      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++     </ClCompile>
++     <Link>
+++      <EnableCOMDATFolding>false</EnableCOMDATFolding>
++       <SubSystem>Windows</SubSystem>
++       <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
++     </Link>
++@@ -77,6 +80,7 @@
++   </ItemDefinitionGroup>
++   <ItemGroup>
++     <ClCompile Include="..\src\Application.cpp" />
+++    <ClCompile Include="..\src\CodeIntegrity.cpp" />
++     <ClCompile Include="..\src\CombatSystem.cpp" />
++     <ClCompile Include="..\src\GameTime.cpp" />
++     <ClCompile Include="..\src\GameWorld.cpp" />
++@@ -89,6 +93,7 @@
++   </ItemGroup>
++   <ItemGroup>
++     <ClInclude Include="..\src\Application.h" />
+++    <ClInclude Include="..\src\CodeIntegrity.h" />
++     <ClInclude Include="..\src\BotController.h" />
++     <ClInclude Include="..\src\BotHero.h" />
++     <ClInclude Include="..\src\CombatSystem.h" />
++@@ -107,5 +112,6 @@
++     <ClInclude Include="..\src\Snapshot.h" />
++     <ClInclude Include="..\src\VisibilitySystem.h" />
++   </ItemGroup>
+++  <PropertyGroup><LinkIncremental>false</LinkIncremental></PropertyGroup>
++   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++-</Project>
++\ No newline at end of file
+++</Project>
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameTests.vcxproj" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameTests.vcxproj"
++index f11b8fd..fbc5995 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameTests.vcxproj"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/GameClient/GameTests.vcxproj"
++@@ -34,13 +34,13 @@
++   </PropertyGroup>
++   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++-    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
++-    <IntDir>$(SolutionDir)build\obj\Tests\$(Configuration)\</IntDir>
+++    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
+++    <IntDir>$(ProjectDir)..\build\hk01\obj\$(ProjectName)\$(Configuration)\</IntDir>
++     <TargetName>GameTests</TargetName>
++   </PropertyGroup>
++   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++-    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
++-    <IntDir>$(SolutionDir)build\obj\Tests\$(Configuration)\</IntDir>
+++    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
+++    <IntDir>$(ProjectDir)..\build\hk01\obj\$(ProjectName)\$(Configuration)\</IntDir>
++     <TargetName>GameTests</TargetName>
++   </PropertyGroup>
++   <ItemDefinitionGroup>
++@@ -50,8 +50,11 @@
++       <ConformanceMode>true</ConformanceMode>
++       <LanguageStandard>stdcpp17</LanguageStandard>
++       <AdditionalIncludeDirectories>$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+++      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++     </ClCompile>
++     <Link>
+++      <EnableCOMDATFolding>false</EnableCOMDATFolding>
++       <SubSystem>Console</SubSystem>
++       <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
++     </Link>
++@@ -70,6 +73,7 @@
++   </ItemDefinitionGroup>
++   <ItemGroup>
++     <ClCompile Include="..\src\IntegrityGuard.cpp" />
+++    <ClCompile Include="..\src\CodeIntegrity.cpp" />
++     <ClCompile Include="..\tests\GameTests.cpp" />
++     <ClCompile Include="..\src\CombatSystem.cpp" />
++     <ClCompile Include="..\src\GameWorld.cpp" />
++@@ -81,5 +85,6 @@
++   <ItemGroup>
++     <ClInclude Include="..\src\IntegrityGuard.h" />
++   </ItemGroup>
+++  <PropertyGroup><LinkIncremental>false</LinkIncremental></PropertyGroup>
++   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++-</Project>
++\ No newline at end of file
+++</Project>
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/1\354\260\250 \352\262\260\352\263\274.txt" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/1\354\260\250 \352\262\260\352\263\274.txt"
++deleted file mode 100644
++index 9a5394b..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/1\354\260\250 \352\262\260\352\263\274.txt"	
+++++ /dev/null
++@@ -1,23 +0,0 @@
++-• 완료
++-
++-  - VS2022 솔루션/프로젝트와 DX11 skeleton baseline을 구성했습니다: EASILE.sln, GameClient/GameClient.vcxproj.
++-  - 구현 파일: src/Application.*, GameTime.*, GameWorld.*, InputManager.*, Renderer.*, Hero.h, PlayerHero.h, BotHero.h, Projectile.h, Snapshot.h,
++-    MathTypes.h, main.cpp; 문서화: README.md:1.
++-
++-  빌드
++-
++-  - Visual Studio에서 EASILE.sln을 열고 x64 + Debug/Release로 빌드합니다.
++-  - Debug|x64, Release|x64 모두 성공했으며 EXE는 build/Debug/GameClient.exe, build/Release/GameClient.exe에 생성됩니다.
++-
++-  현재 구현
++-
++-  - Win32/DX11 초기화, 루프, 시간 관리, WASD/방향키 입력 및 대각선 정규화.
++-  - PlayerHero 단색 사각형 렌더링 및 이동.
++-  - PlayerHero/BotHero는 각각 Hero를 상속합니다: src/PlayerHero.h:5, src/BotHero.h:5.
++-  - GameWorld가 unique_ptr<Projectile> 컨테이너를 소유합니다: src/GameWorld.h:22.
++-  - Renderer는 읽기 전용 스냅샷만 받으며 GameWorld를 수정하지 않습니다: src/Renderer.h:14.
++-
++-  미구현
++-
++-  - Bot/맵/충돌/전투/투사체 시뮬레이션/시야/HUD/매치 상태/보안 반복 실험 등은 요청 범위 밖으로 남겨 두었습니다.
++-  - 설계서 렌더 검토는 시스템에 Python launcher가 없어 수행하지 못했고, OOXML 본문 추출로 요구사항을 대조했습니다.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/2\354\260\250 \352\262\260\352\263\274.txt" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/2\354\260\250 \352\262\260\352\263\274.txt"
++deleted file mode 100644
++index f592d76..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/2\354\260\250 \352\262\260\352\263\274.txt"	
+++++ /dev/null
++@@ -1,47 +0,0 @@
++-• game-baseline-1.0의 게임 실행 경로를 통합했습니다. 설계서의 TC G01~G12가 모두 PASS했고, 시작→전투→사망·부활→기지 파괴→Result→Restart를 실제 GameWorld 로직
++-  으로 검증했습니다.
++-
++-  변경 파일
++-
++-  - 프로젝트·문서: EASILE.sln:1, GameClient/GameClient.vcxproj:1, GameClient/GameTests.vcxproj:1, README.md:1
++-  - 게임 상태·전투: src/GameWorld.h:1, src/GameWorld.cpp:1, src/Hero.h:1, src/Hero.cpp:1, src/CombatSystem.h:1, src/CombatSystem.cpp:1, src/MathTypes.h:1
++-  - 입력·Bot·시야: src/InputManager.h:1, src/InputManager.cpp:1, src/PlayerController.h:1, src/BotController.h:1, src/VisibilitySystem.h:1
++-  - 화면·로그·테스트: src/Application.h:1, src/Application.cpp:1, src/main.cpp:1, src/Renderer.h:1, src/Renderer.cpp:1, src/HUDRenderer.h:1, src/
++-    HUDRenderer.cpp:1, src/Snapshot.h:1, src/Logger.h:1, tests/GameTests.cpp:1
++-
++-  시스템별 구현
++-
++-  - PlayerController가 이동·마우스 조준·공격 명령을 처리하며, 사망 중 이동과 공격을 차단합니다. BotController의 FSM은 월드 갱신에서 호출됩니다.
++-  - CombatSystem이 피해·사망을 판정하고, GameWorld가 투사체 생성 후 이동·충돌·소멸과 소유권을 관리합니다. 미니언은 적 Tower만 공격합니다.
++-  - Brush 시야와 공격 후 1.5초 reveal이 스냅샷의 표시 플래그와 실제 렌더 필터에 연결됐습니다. HUD는 HP, XP/Level, 두 쿨다운, 상태와 Result를 표시합니다.
++-  - 일시정지는 시뮬레이션 타이머를 멈춥니다. 기지 파괴는 10ms 동시 파괴 판정을 거쳐 Victory/Defeat/Draw로 전환됩니다. 주요 사건은 GameClient.log에 기록됩니
++-    다.
++-
++-   테스트                결과    테스트                     결과
++-  ━━━━━━━━━━━━━━━━━━━━  ━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━
++-   TC G01 초기화         PASS    TC G07 Pause/Result        PASS
++-  ────────────────────  ──────  ─────────────────────────  ──────
++-   TC G02 이동·입력      PASS    TC G08 Basic 쿨다운        PASS
++-  ────────────────────  ──────  ─────────────────────────  ──────
++-   TC G03 Bot FSM        PASS    TC G09 마우스 조준         PASS
++-  ────────────────────  ──────  ─────────────────────────  ──────
++-   TC G04 미니언 wave    PASS    TC G10 사망·부활           PASS
++-  ────────────────────  ──────  ─────────────────────────  ──────
++-   TC G05 Brush 시야     PASS    TC G11 10ms Draw           PASS
++-  ────────────────────  ──────  ─────────────────────────  ──────
++-   TC G06 XP·강화        PASS    TC G12 미니언 대상 제한    PASS
++-
++-  실행·빌드 결과
++-
++-  - Debug|x64, Release|x64 빌드 성공. 두 구성의 GameTests.exe에서 TC G01~G12, 전체 경기 흐름, Result→Restart 10회, HUD 표시, 비활성 창 입력 차단이 모두 PASS
++-    했습니다.
++-
++-  - Release GameClient.exe --smoke-gui는 Win32/DX11/HUD 초기화, 5프레임 렌더 후 exit 0으로 종료했습니다.
++-  - 실행은 Visual Studio에서 EASILE.sln을 빌드한 뒤 build/Release/GameClient.exe를 실행합니다. Enter로 시작하고 조작법은 README.md:9에 정리했습니다.
++-
++-  남은 검증·제외 범위
++-
++-  - 전체 경기를 사람이 직접 조작하며 화면 품질을 확인하는 수동 검수는 수행하지 않았습니다. 자동 테스트는 실제 월드 로직과 HUD 텍스트를 검증하며, 일부 경기 상
++-    황은 테스트 fixture로 빠르게 구성합니다.
++-
++-  - 보안 실험 A1~A4는 요청 범위에 따라 구현하지 않았습니다.
++\ No newline at end of file
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/BASELINE_1.0.md" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/BASELINE_1.0.md"
++deleted file mode 100644
++index cde964f..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/BASELINE_1.0.md"
+++++ /dev/null
++@@ -1,27 +0,0 @@
++-# EASILE Baseline 1.0 확정 기록
++-
++-- **Baseline Status: CONFIRMED**
++-- **Baseline Version: 1.0** (현재 v0.14 게임 구현)
++-- **확정일: 2026-09-30**
++-- **범위: 현재 작업 트리의 게임 구현을 후속 Patch / DLL Injection / Hooking 실험의 기준으로 지정**
++-
++-## 승인과 검증
++-
++-사용자는 게임을 직접 실행하여 캐릭터 이동, 전투, 스킬 사용 및 전체적인 플레이 흐름을 확인했고, 현재 구현 상태를 이후 보안 실험의 기준으로 사용하기에 충분하다고 승인했다. 이는 사용자 직접 플레이 확인이다. 특정 빌드 구성별 수동 플레이 결과나 세부 조작·밸런스 수치를 추가로 추정하지 않는다.
++-
++-| 항목 | Baseline 확정 시 상태 | 근거 |
++-|---|---|---|
++-| Debug x64 빌드 | PASS | 2026-09-30 `EASILE.sln` MSBuild 실행 |
++-| Release x64 빌드 | PASS | 2026-09-30 `EASILE.sln` MSBuild 실행 |
++-| Debug 자동 테스트 | 49 PASS, 0 FAIL, 종료 코드 0 | 2026-09-30 `build/Debug/GameTests.exe` 실행 |
++-| Release 자동 테스트 | 49 PASS, 0 FAIL, 종료 코드 0 | 2026-09-30 `build/Release/GameTests.exe` 실행 |
++-| DX11/HUD 및 자동 GUI 검증 | 이전 검증에서 PASS/실행 완료 | [v0.14 검증 기록](../evidence/v014-validation.md). 이번 확정 작업에서는 재실행하지 않음 |
++-| 사용자 직접 플레이 | 확인 및 승인 | 사용자의 [확정 지시](EASILE_Baseline_1.0_Confirm_Request.md). 자동 GUI 검증과 별도 |
++-
++-현재 빌드의 GameClient SHA-256은 Debug `B853C0CBE546F0FAAED2064DC4E0D648F0050167F7F550B3B587689FF26C0808`, Release `4AC67F48BE58140159375027C69BCF65A22696E1C62CDD04CDEE38BD5AEC5DC9`이다. 기존 [해시 기록](../evidence/v014-validation.md#빌드-식별과-재현)과 일치한다.
++-
++-이 확정은 **게임 상태에 대한 사용자 승인과 문서상의 공식 지정**이다. 현재 작업 트리에는 기존의 커밋되지 않은 변경이 있으며, 이 작업에서 커밋·태그·스냅샷을 만들지 않았다. 후속 실험의 정확한 재현을 위해 이 상태의 소스와 위 실행 파일을 별도로 보존하고, 실험 결과에 빌드 구성과 해시를 함께 기록한다.
++-
++-## 다음 보안 실험
++-
++-첫 실험 대상은 **Ultimate Cooldown Patch: 10 seconds → 1 second**다. 현재 Baseline의 Ultimate 쿨다운은 10초이며, 이번 확정 작업에서 쿨다운 변경이나 실제 EXE 패치는 수행하지 않았다.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/DLL_INJECTION_\355\233\204\353\263\264_\353\266\204\354\204\235.md" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/DLL_INJECTION_\355\233\204\353\263\264_\353\266\204\354\204\235.md"
++deleted file mode 100644
++index a711dba..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/DLL_INJECTION_\355\233\204\353\263\264_\353\266\204\354\204\235.md"
+++++ /dev/null
++@@ -1,62 +0,0 @@
++-# EASILE DLL Injection 실험 후보 분석
++-
++-분석 범위: 현재 저장소의 `src/`, `GameClient/GameClient.vcxproj`, `tests/GameTests.cpp`. 이번 문서는 후보 선정만 다루며 실행 파일과 게임 소스는 변경하지 않았다. 아래의 점수는 초심자의 첫 실험 적합도이며, 난이도 점수는 쉬울수록 높다.
++-
++-## A. 현재 코드 구조 요약
++-
++-- `src/main.cpp:4-7`의 `wWinMain`이 `Application::Run`을 호출한다.
++-- `src/Application.cpp:43-103`은 메시지를 처리하고, 입력을 읽은 뒤 0.01초 고정 간격으로 `GameWorld::Update`를 호출하며 스냅샷과 HUD를 그린다. `--smoke-gui`는 `Application.cpp:31-40`에서 별도 시뮬레이션을 먼저 진행한다.
++-- `src/InputManager.cpp:26-53`은 이동, LMB/K 기본 공격, J 궁극기 등의 입력을 `PlayerCommand`로 만든다. `src/PlayerController.h:6-15`는 사망 시 액션을 막고 이동·조준 방향을 정규화한다.
++-- `src/GameWorld.cpp:829-934`의 `GameWorld::Update`는 플레이어 이동·공격, 봇 AI, 투사체, 미니언, 타워, 회복 아이템 등을 순서대로 갱신한다. `src/GameWorld.h:92-116`이 영웅과 동적 게임 상태를 보유한다.
++-- `src/Hero.h:20-49,55-62`와 `src/Hero.cpp:4-38,51-70`은 HP, 피해량, 속도, 쿨타임, 재생과 업그레이드를 관리한다. `src/GameWorld.cpp:473-749`에는 봇 이동·공격·회복 판단이 있다.
++-- `src/CombatSystem.h:9-13`은 기본/궁극기 투사체의 속도와 최대 거리를 정하고, `src/GameWorld.cpp:198-262`가 이동·충돌·소멸을 처리한다.
++-- `src/GameWorld.cpp:936-1017`은 실제 상태를 렌더용 스냅샷과 `HUDViewModel`로 복사한다. `src/Renderer.cpp:69-130,271-342`는 게임 장면과 체력 막대를, `src/HUDRenderer.cpp:51-67,106-119`는 HP·피해량·쿨타임 텍스트를 표시한다.
++-- `src/Logger.h:10-17`은 `GameClient.log`에 시뮬레이션 시각과 이벤트를 추가 기록한다. 기본 공격의 `PROJECTILE_SPAWN` 로그에는 피해량이 들어간다(`src/GameWorld.cpp:132-143`).
++-
++-**기존 방어와의 관계.** `GameWorld::Update`의 플레이어 궁극기 입력 분기에서만 `IntegrityGuard::VerifyUpdateIntegrity()`를 호출한다(`src/GameWorld.cpp:880-888`). 검사는 EXE의 고정 RVA·길이 바이트에 대해 CRC32를 계산하고 기대값과 비교한다(`src/IntegrityGuard.cpp:9-13,41-71`). 따라서 현재 코드가 모든 함수·DLL·데이터 변경을 검사한다고 볼 수 없으며, 실제 보호 바이트 범위는 현재 빌드에서 별도 확인이 필요하다. 같은 궁극기 분기에는 `simulationTime_ - lastUltimateUseTime_ >= 10`과 `UltimateReady()` 검사도 있다(`src/GameWorld.cpp:890-915`). HP나 이동 데이터 변경을 감지하는 별도 검사는 확인되지 않았다. CRC 실패 시 `Update`가 즉시 반환해 그 프레임의 나머지 갱신도 건너뛴다.
++-
++-**실험 조건.** 프로젝트는 Debug/Release 모두 x64이고 Debug는 최적화가 꺼져 있으며 Release는 `MaxSpeed`다(`GameClient/GameClient.vcxproj:3-10,66-76`). 고정 RVA와 CRC는 빌드별 재검증 없이 공통으로 맞다고 가정할 수 없다. 재시작은 영웅과 투사체 등의 상태를 초기화한다(`src/GameWorld.cpp:48-88`). 화면 테스트는 포커스가 있어야 입력이 전달되고(`src/InputManager.cpp:26-29`), 실제 루프에는 고정 스텝과 프레임 시간 누적이 있으므로(`src/Application.cpp:55-95`) 같은 빌드·시작 상태·입력 순서·시뮬레이션 시간을 기준으로 비교해야 한다. 테스트는 내부 상태를 직접 검증할 수 있지만(`tests/GameTests.cpp:654-673,751-760`), 이 문서에서는 빌드와 실행을 하지 않았다.
++-
++-DLL 로드만으로 게임 동작이 바뀌지는 않는다. 아래의 **데이터 변경**은 로드된 모듈이 게임 프로세스 안에서 실제 런타임 상태에 접근해야 한다는 개념이고, **함수 호출 개입**은 호출 지점의 동작을 바꾸는 별도 방식이다. **코드 패치**는 실행 바이트 변경 방식으로 이번 첫 실험에서는 우선하지 않는다. 현재 게임에는 실험용 공개 API가 없고 관련 멤버도 비공개이므로, 소스 수정 없는 데이터 후보도 실행 중 객체를 안전하게 식별하는 방법은 아직 검증되지 않았다. 숫자 주소·오프셋·호출 규약은 이 문서에서 지정하지 않는다.
++-
++-## B. 후보 비교표
++-
++-| 순위 | 후보 기능 | 실제 파일/함수(행 번호) | 관찰할 변화 | 예상 개입 유형 | 난이도 | 관찰성 | 재현성 | 안전성 | 학습 효과 | 차별성 | 방어 확장성 | 합계 |
++-|---:|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
++-| 1 | 플레이어 현재 HP | `src/Hero.h:20-21,41-43,55`; `src/GameWorld.cpp:999`; `src/HUDRenderer.cpp:106-111` | HP 숫자·막대, 피격 후 생존 상태 | 런타임 데이터 변경; 객체 식별은 미검증 | 3 | 5 | 4 | 5 | 5 | 5 | 5 | **32** |
++-| 2 | 플레이어 이동 속도 | `src/Hero.h:25,36-39,57`; `src/GameWorld.cpp:855-857` | 같은 입력 시간의 이동 거리 | 런타임 데이터 변경; 계측 없이 화면 좌표 비교 | 3 | 4 | 5 | 5 | 5 | 5 | 4 | **31** |
++-| 3 | 기본 공격 피해량 | `src/Hero.h:26,56`; `src/GameWorld.cpp:867-876,140-143,160-168`; `src/HUDRenderer.cpp:114-115` | 발사 로그의 damage, 피격 HP 감소 | 런타임 데이터 변경; 발사 전에 반영 필요 | 3 | 5 | 4 | 4 | 4 | 5 | 5 | **30** |
++-| 4 | HUD 값 표시 | `src/GameWorld.cpp:996-1017`; `src/HUDRenderer.cpp:51-67,106-119` | 표시 숫자와 실제 게임 상태의 불일치 | 함수 호출 개입 또는 렌더 직전 복사값 변경; 안정적 관찰에는 계측 권장 | 2 | 5 | 4 | 5 | 3 | 5 | 4 | **28** |
++-| 5 | 투사체 속도·사거리 | `src/CombatSystem.h:9-13`; `src/Projectile.h:3`; `src/GameWorld.cpp:198-205,243-259` | 비행 시간·소멸 위치·명중 시점 | 생성 후 개별 투사체 데이터 변경 또는 생성 호출 개입 | 2 | 4 | 3 | 4 | 5 | 5 | 4 | **27** |
++-| 6 | 봇 안전구역 회복 | `src/GameWorld.cpp:539-606`; `src/Hero.h:42-43` | 회복 중 HP 증가 속도와 AI 복귀 시점 | 회복 관련 데이터 변경 또는 함수 호출 개입; 사전 계측 권장 | 2 | 4 | 3 | 4 | 4 | 5 | 5 | **27** |
++-| 7 | 플레이어 궁극기 쿨타임 | `src/Hero.h:28,33,49,58`; `src/GameWorld.cpp:880-915` | J 재사용 간격·궁극기 발사 수 | 데이터 변경만으로는 시간 검사를 통과하지 못함; 코드 개입은 PATCH01과 중복 | 2 | 5 | 4 | 3 | 3 | 1 | 5 | **23** |
++-
++-**점수 근거.** HP는 HUD에 즉시 드러나고 재시작으로 초기화되지만, 비공개 객체 식별이 필요해 난이도를 3점으로 두었다. 이동은 0.01초 고정 스텝 덕분에 반복 비교가 쉽지만 벽·경로 제한이 거리 측정을 흐릴 수 있다. 기본 공격은 로그와 HP라는 두 관찰 수단이 있으나 조준·벽·다른 공격의 영향을 통제해야 한다. HUD만 바꾸면 표시와 실제 상태를 구별하는 학습 효과가 있으나 원래 게임 동작은 그대로라 1순위가 아니다. 투사체는 동적으로 생성·삭제되고, 봇 회복은 AI 상태와 안전구역에 의존해 첫 실험 재현성이 낮다. 궁극기는 PATCH01과 겹치고 두 검사에 막히므로 순위가 낮다. 동점인 투사체와 봇 회복은 DLL 내부 상태를 직접 관찰하는 학습 목적에 따라 투사체를 먼저 두었다.
++-
++-## C. 최종 추천 TOP 3
++-
++-### 1. 플레이어 현재 HP
++-
++-- **이유·새 학습:** PATCH01의 실행 코드 변경 대신 프로세스 안의 런타임 데이터가 게임 로직과 HUD에 전달되는 과정을 확인할 수 있다. 근거는 `Hero::Health/Damage/Heal` 및 `hp_`(`src/Hero.h:20-21,41-43,55`), `GameWorld::CreateHud`(`src/GameWorld.cpp:996-1002`), `HUDRenderer::Paint`(`src/HUDRenderer.cpp:106-111`)다.
++-- **정상/변경 관찰:** 기본값은 100/100 HP(`src/Hero.h:55`)이고 피해를 받으면 HP가 줄어든다. 변경된 현재 HP가 유효 범위 안에서 반영되면 다음 HUD 갱신에 숫자와 막대가 함께 달라져야 한다. 성공 기준은 같은 피해·같은 시점에서 기준 실행과 다른 HP를 관찰하고, 표시값과 게임 내부 `Health()`가 일치하는 것이다.
++-- **실패·제약·복구:** 사망 중이거나 재시작 직후에는 상태가 덮일 수 있고, 회복은 최대 HP에서 상한 처리된다(`src/Hero.cpp:19-25`, `src/Hero.h:42`). 원본 객체 식별은 아직 확인되지 않았으며 임의 메모리 접근은 충돌 위험이 있다. 프로세스를 종료하고 새 게임을 시작해 초기 상태로 복구한다. 후속 방어 실험으로 HP 범위와 허용된 피해·회복 이벤트의 일관성을 검증할 수 있다.
++-
++-### 2. 플레이어 이동 속도
++-
++-- **이유·새 학습:** `Hero::Move`가 `speed_ * deltaSeconds`를 사용한다(`src/Hero.h:25,36-39,57`). `GameWorld::Update`는 이후 맵 충돌을 적용한다(`src/GameWorld.cpp:855-857`). PATCH01과 달리 매 프레임 사용되는 데이터가 위치 변화에 미치는 영향을 볼 수 있다.
++-- **정상/변경 관찰:** 기본 속도는 220 단위/초다. 직선의 장애물 없는 구간에서 1초 동안 일정 방향으로 움직일 때 기준 이동 거리는 이론상 약 220 단위이고, 속도 변경 시 그에 비례해 달라져야 한다. 성공 기준은 같은 100회의 0.01초 업데이트에서 위치 차이가 반복 실행 간 안정적으로 나타나는 것이다.
++-- **실패·제약·복구:** 맵 경계·벽·대각선 정규화·프레임 입력 차이가 측정을 흐린다. 화면의 카메라도 플레이어를 따라가므로 절대 위치 비교에는 내부 좌표 계측이 유리하다. 게임을 재시작하면 기본 영웅 객체로 복구된다(`src/GameWorld.cpp:48-53`). 후속 방어로 허용 이동량과 충돌 후 위치의 일관성을 확인할 수 있다.
++-
++-### 3. 기본 공격 피해량
++-
++-- **이유·새 학습:** 기본 공격은 `BasicDamage()`를 투사체 생성 인자로 전달한다(`src/GameWorld.cpp:867-876`); 생성 로그가 damage를 기록하고(`src/GameWorld.cpp:132-143`) 명중 시 대상 HP에 반영된다(`src/GameWorld.cpp:248-253`). PATCH01의 궁극기 검사를 건드리지 않고 발사 시점의 상태 복사를 관찰할 수 있다.
++-- **정상/변경 관찰:** 기본 피해량은 5이며(`src/Hero.h:56`), 대상에게 한 발이 명중하면 방어가 없는 영웅의 HP는 그만큼 감소한다(`src/CombatSystem.cpp:5-11`). 성공 기준은 `PROJECTILE_SPAWN`의 damage 값, HUD의 BasicDamage, 명중 대상 HP 차이가 같은 설정에서 일치하는 것이다.
++-- **실패·제약·복구:** 발사 뒤 영웅 피해량을 바꿔도 이미 생성된 투사체의 `damage`는 바뀌지 않는다(`src/Projectile.h:3`). 장애물·조준·타 공격의 명중을 통제해야 하며, 과도한 값은 경기 흐름을 크게 바꿀 수 있다. 재시작으로 기본 피해량이 복구된다(`src/GameWorld.cpp:48-53`). 후속 방어로 발사 로그·투사체 피해량·업그레이드 이력을 대조할 수 있다.
++-
++-## D. 최종 1순위 결론
++-
++-첫 DLL Injection 실험 후보는 **플레이어 현재 HP의 제한된 런타임 데이터 변화**다. 현재 HP는 게임 로직에 존재하고, `CreateHud`를 통해 숫자와 체력 막대로 즉시 확인할 수 있다. 기본 공격과 달리 명중 위치나 벽 조건을 맞출 필요가 없어 화면 관찰이 단순하다. 이동 속도보다 짧은 시간 안에 변화를 판정할 수 있으며, 재시작 시 객체가 초기화되어 복구 경로도 명확하다. 궁극기 코드 패치와 겹치지 않으면서 프로세스 내 상태 변경과 HUD 전달 과정을 배울 수 있다. 단, 현 코드에는 외부에 공개된 상태 변경 인터페이스가 없으므로 실제 실험 전에는 소스 변경 없는 객체 식별 가능성과 읽기·쓰기 시점의 안전성을 확인해야 한다. 그 확인이 어렵다면 별도 계측용 개발 빌드를 준비하는 방안이 필요하며, 이 문서 단계에서는 주소나 구현 방법을 단정하지 않는다.
++-
++-**1순위 후보:** 플레이어 현재 HP의 제한된 런타임 데이터 변화.
++-**근거:** `Hero::hp_` → `GameWorld::CreateHud` → `HUDRenderer::Paint`가 연결되고, PATCH01 궁극기 경로와 구별된다.
++-**다음 실험 확인 사항:** 대상 객체 식별·안전한 관찰 시점·HUD와 실제 HP 일치 여부 및 빌드별 CRC 검사 영향.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.13.docx" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.13.docx"
++deleted file mode 100644
++index 8b4bf20..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.13.docx"
+++++ /dev/null
++@@ -1,1132 +0,0 @@
++-EASILE 2D 게임 및 보안 반복 실험 설계서
++-v0.13
++-
++-항목
++-내용
++-문서 버전
++-0.13
++-작성일
++-2026년 9월 24일
++-프로젝트 기간
++-총 6~8주: 게임 제작 1~2주 + 보안 반복 실험 5~6주
++-개발 대상
++-Windows x64 자체 제작 교육용 2D 탑다운 게임 및 보안 실험 환경
++-핵심 원칙
++-제3자 게임/서비스가 아닌 본인이 소유한 GameClient.exe에서만 실험
++-공식 실험 빌드
++-MSVC v143 / C++17 / Release / x64 / /O2 / LTCG OFF / ASLR·DEP·GS ON
++-
++-이 문서는 1~2주 안에 시작부터 승패 판정까지 가능한 2D 탑다운 게임을 개발하고, 이후 자체 제작한 게임을 대상으로 보안 반복 실험을 수행하기 위한 설계서다. 게임 시스템의 외부 행위자는 Player 한 명이며, 사용자는 게임 밖에서 보안 실험을 수행하는 프로젝트 담당자다. 실험 수행자는 게임 Use Case Actor로 모델링하지 않는다.
++-
++-문서 구성
++-1. 프로젝트 개요와 성공 기준
++-2. 제품 범위와 게임 규칙
++-3. 게임 사용자와 Use Case
++-4. 기능 및 비기능 요구사항
++-5. 논리 구조와 상태 모델
++-6. 보안 실험 설계
++-7. 게임 제작과 보안 반복 실험 계획
++-8. 시험·정량 평가·추적성
++-9. 위험과 설계 결정
++-10. 게임 Use Case 상세 흐름과 클래스 설계
++-11. Game Parameter Table
++-12. Bot FSM 회복 및 재출전 규칙
++-13. 플레이 경험 보완 규칙
++-1 프로젝트 개요
++-1.1 목적
++-본 프로젝트의 목적은 작은 게임을 오래 개발하는 데 있지 않다. 먼저 1~2주 안에 시작부터 승패 판정까지 가능한 2D 탑다운 미니 MOBA 기준 빌드를 완성하고, 이를 고정된 보안 실험 대상으로 사용한다. 이후 남은 기간에는 같은 프로그램을 대상으로 공격 구현 --> 방어 설계/구현 --> 동일 공격 재시험 --> 다른 경로/시점 재공격 --> 방어 개선을 반복한다.
++-1.2 프로젝트 목표
++-Windows x64 단일 프로세스 GameClient.exe 기준 빌드를 2주 안에 완성한다.
++-3주차부터 게임 기능 추가를 금지하고 A1 Patch, A2 DLL Injection/Memory Modification, A3 Function Hooking, A4 DirectX 11 VTable Hooking의 4개 실험을 모두 수행한다.
++-각 실험에서 공격 성공 여부, 탐지 여부·지연, 오탐, 기능 손상, 성능 오버헤드, 재공격 성공 여부를 기록한다.
++-동일 Windows VM/Sandbox snapshot, 동일 빌드 조건, 동일 RNG Seed, 동일 입력 Replay 또는 절차로 비교 가능성을 확보한다.
++-실험 전후 Git commit, EXE SHA-256, 설정, 로그, 결과를 남긴다.
++-1.3 성공 기준
++-구분
++-완료 조건
++-검증 방법
++-게임
++-2주 안에 한 판을 시작하고 Victory/Defeat/Draw까지 도달
++-10회 연속 경기, crash·진행 불가 없음
++-공격
++-A1~A4 네 공격 실험 수행
++-각 실험 10회 반복과 성공 횟수 기록
++-방어
++-각 공격에 탐지 또는 영향 제한 방어 적용
++-공격 ON/Defense ON 재시험
++-재공격
++-검사 시점·경로를 바꾼 재공격 수행
++-Reattack Success 및 원인 기록
++-재현성
++-동일 조건 재시험 가능
++-commit/hash/seed/replay/procedure ID 검토
++-추적성
++-모든 필수 FR이 Test Case와 연결
++-Traceability Matrix 검토
++-
++-2 제품 범위와 게임 규칙
++-2.1 기준 게임 개념
++-플레이어는 2D 탑다운 화면에서 PlayerHero를 조작하고, BotController가 BotHero를 제어한다. PlayerHero와 BotHero는 공통 Hero 기반 구조를 사용하며 서로를 상속하지 않는다. 각 진영에는 라인별 Tower 3개와 Base/Nexus 1개가 있고, 상단·중앙·하단 3개 라인에서 Minion wave가 전진한다. Minion은 자기 경로의 살아 있는 적 Tower를 먼저 공격하고 파괴 후 적 Nexus를 공격한다. 영웅은 투사체 기본 공격과 궁극기, 덤불 은폐, XP 기반 최대 7레벨 성장을 사용한다.
++-항목
++-기준
++-플레이 형태
++-1인 플레이어 대 봇
++-맵
++-상단·중앙·하단 3개 라인, 각 진영 라인별 Tower 1개(총 6개), 진영별 Base/Nexus 1개, Brush 2개 이상
++-영웅 구조
++-Hero 공통 기반 + PlayerHero/BotHero 분리, PlayerController/BotController로 제어
++-전투
++-LMB 또는 K = 동일 BasicAttackCommand, J = UltimateCommand
++-성장
++-CurrentXP 방식, 최대 Level 7, 임계 XP 도달 즉시 레벨업, 미리 선택한 HP/공격력/이동속도 강화 자동 적용
++-시야
++-VisibilitySystem이 visibleToPlayer 계산, Snapshot은 객체 존재를 숨기지 않음
++-그래픽
++-DirectX 11, 2D 도형 또는 단색 스프라이트
++-한 판 길이
++-약 5~10분(밸런스보다 보안 관찰 용이성 우선)
++-
++-2.2 포함 범위
++-메인 메뉴, 게임 시작, Pause/Resume, 재시작, 종료
++-WASD/방향키 이동, 대각선 Normalize, 기본 자동 조준과 선택 가능한 마우스 조준
++-Basic/Ultimate 투사체, 충돌, 피해, 사망, 부활
++-Bot, Minion, Tower, Base/Nexus, HUD, XP, Brush visibility
++-Victory/Defeat/Draw 판정
++-개발·실험 로그, hash/commit/seed/replay 기록
++-2.3 제외 범위
++-인터넷 멀티플레이, 계정, 매치메이킹, 채팅
++-정글/아이템/룬/고급 길찾기
++-상용 안티치트 커널 드라이버
++-제3자 프로그램/온라인 게임 대상 공격
++-초기 기준 빌드의 멀티프로세스/IPC. 단, 4개 필수 실험 후 시간이 남으면 선택 확장
++-2.4 핵심 게임 흐름
++-메인 메뉴에서 새 경기를 시작한다.
++-GameWorld가 Map/Brush, 양 Hero, Tower/Base, 최초 Minion wave를 생성하고 Playing으로 전환한다.
++-Player/Bot이 이동·기본 공격·궁극기를 사용한다. 쿨다운과 timer는 공통 GameTime 기준으로 갱신한다.
++-Minion 또는 Enemy Hero 처치로 XP를 얻는다. XP가 임계값에 도달하면 즉시 레벨업하고 미리 선택한 강화 유형을 자동 적용한다.
++-Hero 사망 시 레벨에 따른 대기 후 자기 Base/Nexus Spawn Point에서 full HP로 부활한다.
++-Base 파괴 simulation timestamp를 기록하고 10ms 이내 양쪽 파괴면 Draw, 아니면 먼저 파괴된 Base 진영이 패배한다.
++-2.5 입력·조준·시야 규칙
++-WASD와 방향키는 동일 move vector로 변환하며 대각선은 Normalize한다.
++-LMB와 K는 같은 Basic 공격이며 새 누름마다 즉시 한 발을 발사한다. LMB는 클릭 지점으로, K는 현재 Auto/Mouse 모드에 따라 조준한다.
++-J는 UltimateCommand이며 5.0s cooldown을 사용한다.
++-기본값은 자동 조준이다. K/J는 사거리 안에서 보이는 적을 우선 지정하고, LMB는 클릭 지점을 조준한다. Tab으로 마우스 조준 모드와 자동 조준 모드를 전환한다. 상세 우선순위는 13.4절을 따른다.
++-유효 표적이 없거나 마우스가 Hero 중심과 겹치면 마지막 유효 방향, 없으면 적 Base 방향을 사용한다.
++-한 화면 맵의 Brush 밖 생존 Hero는 거리와 관계없이 visible이다. Brush 안 Hero만 상대에게 invisible이며, 같은 Brush 상대 Hero가 있거나 공격 후 1.5s reveal 중이면 visible이다. 사망 Hero는 렌더링과 Auto 조준에서 제외하고 부활 시 시야를 다시 계산한다.
++-Minion/Tower에는 Brush 은폐 판정을 적용하지 않는다.
++-3 게임 사용자와 Use Case
++-3.1 게임 행위자
++-행위자
++-역할
++-Player
++-게임 시작, 이동/공격/궁극기, Pause/Resume, 능력치 강화, 결과 화면 조작
++-
++-게임 시스템과 상호작용하는 외부 행위자는 Player다. 보안 실험 수행자는 사용자 본인(프로젝트 담당자)이며, 게임 밖에서 빌드·패치·방어·재공격 실험을 수행하므로 게임 기능의 행위자가 아니다. 실험 절차는 3.4절 및 6장의 프로젝트 활동으로 기술하고 게임 Use Case 목록과 다이어그램에는 포함하지 않는다. UC G01-1 게임 초기화는 UC G01에 포함되는 내부 동작이다.
++-3.2 주요 Use Case
++-ID
++-Use Case
++-주 행위자
++-완료 결과
++-UC G01
++-게임 시작
++-Player
++-맵과 모든 경기 객체가 초기화되어 Playing 상태가 된다.
++-UC G01-1
++-게임 초기화
++-없음(내부 include)
++-GameWorld가 Map/Hero/Minion/Tower/Base/Brush를 생성한다.
++-UC G02-1
++-이동
++-Player
++-이동 벡터와 충돌 결과가 적용되고 Brush 진입/이탈 시 visibility가 재계산된다.
++-UC G02-2
++-기본 공격
++-Player
++-LMB/K 새 누름마다 동일 Basic projectile 한 발이 생성된다. 누른 상태에서는 반복 발사하지 않는다.
++-UC G02-3
++-궁극기
++-Player
++-J 입력으로 Ultimate projectile이 생성되고 5s cooldown이 시작된다.
++-UC G02-P
++-Pause/Resume Match
++-Player
++-GameTime 기반 simulation update가 정지/재개된다.
++-UC G03
++-능력치 강화
++-Player
++-CurrentXP가 임계값에 도달하면 즉시 Level과 사전 선택 강화가 갱신된다.
++-UC G04
++-경기 종료
++-Player
++-Victory/Defeat/Draw 결과 화면 후 재시작 또는 종료한다.
++-
++-3.3 Use Case Diagram
++-
++-그림 1. 게임 Use Case Diagram. 시스템 경계 안에는 Player가 이용하는 게임 기능만 표시한다.
++-3.4 보안 실험 반복 절차 (프로젝트 수행 흐름)
++-그림 2. 보안 실험의 프로젝트 작업 흐름 (게임 Use Case 아님)
++-
++-아래 흐름은 프로젝트 담당자가 게임 빌드를 대상으로 수행하는 시간 순서상의 실험 활동이다. 게임 안에서 제공하는 기능이나 게임 시스템의 Use Case가 아니며, 실험자는 별도 외부 역할로 표기하지 않는다.
++-4 요구사항
++-4.1 기능 요구사항
++-ID
++-요구사항
++-우선순위
++-FR G01
++-새 경기 시작 시 3개 라인의 Map, Player/Bot Hero, 라인별 Minion과 Tower, Base, Brush를 초기화한다.
++-필수
++-FR G02
++-WASD/방향키 이동과 LMB/K 동일 BasicAttackCommand, 기본 자동 조준, LMB 클릭 지점 수동 조준 및 Tab 마우스 조준 모드을 제공한다.
++-필수
++-FR G03
++-J 직선 Ultimate와 5.0s cooldown을 제공한다. Player Basic은 새 누름마다 즉시 발사하고 Bot Basic은 1.0s AI 공격 주기를 사용한다.
++-필수
++-FR G04
++-12s마다 각 라인 wave 2기(총 6기, 최초 wave 즉시), Minion은 자기 경로의 살아 있는 적 Tower를 먼저 공격하고 파괴 후 적 Nexus를 공격한다.
++-필수
++-FR G05
++-Tower/Base 피격·파괴 및 Base 10ms 동시 파괴 Draw 판정을 제공한다.
++-필수
++-FR G06
++-BotState Patrol/Push/Engage/Retreat/Recover/Defend/Dead 규칙으로 BotHero를 제어한다.
++-필수
++-FR G07
++-VisibilitySystem이 모든 객체의 visibleToPlayer를 계산하고 Renderer는 flag를 준수한다.
++-필수
++-FR G08
++-CurrentXP 방식으로 Minion 20XP, Enemy Hero 100XP를 지급한다.
++-필수
++-FR G09
++-RequiredXP를 100-->120-->144-->173-->208-->250으로 적용하고 최대 Level 7로 제한하고 임계 XP 도달 즉시 순차 레벨업한다.
++-필수
++-FR G10
++-Level up 시 HP +20, Basic +2 & Ultimate +8, MoveSpeed +15 중 미리 선택한 유형을 자동 적용한다(기본 공격력).
++-필수
++-FR G11
++-Pause 중 cooldown/respawn/reveal 등 GameTime 기반 timer를 정지한다.
++-필수
++-FR G12
++-Hero 사망 시 level 기반 5~11s 후 자기 Base Spawn Point에서 full HP로 부활한다.
++-필수
++-FR S01
++-개발/실험 로그에 SimulationTime, category/event/entity/detail 및 experiment metadata를 기록한다.
++-필수
++-FR S02
++-A1~A4 각 방어는 공격을 탐지 또는 영향 제한하고 동일 조건 재시험을 지원한다.
++-필수
++-FR S03
++-공격-->방어-->동일 공격 재시험-->재공격-->방어 개선을 반복한다.
++-필수
++-FR G13
++-영웅은 마지막 피해 후 5s 동안 생존·Playing 상태일 때만 2 HP/s 자연 회복한다. Bot Recover의 안전 구역 4 HP/s와 중첩하지 않는다.
++-필수
++-FR G14
++-XP 조건 충족 시 선택 UI 대기 없이 즉시 레벨업하고 사전 지정 강화(기본 Attack)를 적용한다. 초과 XP와 연쇄 레벨업을 처리한다.
++-필수
++-FR G15
++-상단·중앙·하단 3개 라인에 양 진영 Tower와 Minion 경로를 배치하고 Hero가 전체 맵을 이동할 수 있게 한다.
++-필수
++-FR G16
++-K/J는 기본 자동 조준, LMB는 클릭 좌표 조준, Tab은 K/J의 자동·마우스 조준 모드를 전환한다. 유효 표적 없음/은폐/사망을 안전하게 처리한다.
++-필수
++-
++-4.2 비기능 요구사항
++-ID
++-품질 속성
++-측정 기준
++-NFR 01
++-성능
++-일반 개발 PC 평균 60 FPS 목표. 1초 이상 연속 30 FPS 미만 구간 없음. 방어 ON의 평균 frame time 증가율 기록.
++-NFR 02
++-안정성
++-10회 연속 경기 crash 없음, 진행 불가 없음, Result 도달, 재시작 가능.
++-NFR 03
++-재현성
++-Git commit, EXE SHA-256, build config, RNG seed, Attack/Defense version, 실행 시각, replay/procedure ID, result log 보존.
++-NFR 04
++-변경 용이성
++-Renderer mutable API 금지, HUDRenderer ViewModel only, InputManager 직접 HP/Attack/XP 변경 금지, VisibilitySystem 전투 변경 금지, CombatSystem rendering API 호출 금지.
++-NFR 05
++-안전 경계
++-격리된 VM/Sandbox와 본인 소유 실행 파일에서만 공격 실험 수행.
++-
++-5 논리 구조와 상태 모델
++-5.1 권장 기술 기준 및 Official Experiment Build
++-항목
++-값
++-Platform
++-Windows x64
++-Compiler
++-MSVC v143 (Visual Studio 2022)
++-Language
++-C++17
++-Configuration
++-Release
++-Runtime
++-/MD
++-Optimization
++-/O2
++-LTCG
++-OFF
++-ASLR
++-ON (/DYNAMICBASE)
++-DEP/NX
++-ON (/NXCOMPAT)
++-Stack Security
++-ON (/GS)
++-Debug Symbols
++-PDB 생성, 실험자 로컬 보관 / 배포 금지
++-DirectX
++-DirectX 11
++-
++-Debug 빌드는 개발·오류 분석에만 사용한다. 공식 공격/방어 비교 결과는 위 Official Experiment Build에서만 측정한다.
++-5.2 주요 구성요소와 책임
++-구성요소
++-책임
++-주요 데이터
++-Application
++-초기화, 메인 루프, 종료
++-GameTime, GameState
++-InputManager
++-키보드/마우스 입력을 command로 변환
++-move, BasicAttackCommand, UltimateCommand, aim mode, upgrade preference, Pause
++-GameWorld
++-모든 객체 생성·소유·제거, update 순서, match result
++-Hero/Minion/라인별 Tower/Base/Brush/Projectile, lastDamageTime
++-Hero
++-공통 전투·성장 데이터
++-HP, Attack, MoveSpeed, Level, CurrentXP, HeroState, cooldown
++-PlayerHero
++-플레이어 Hero specialization
++-Hero 공통 규칙
++-BotHero
++-봇 Hero specialization
++-Hero 공통 규칙
++-PlayerController
++-Player input을 Hero command로 전달
++-move/attack/cast
++-BotController
++-거리·체력·위협 기반 의사결정
++-BotState, target, 100ms tick
++-Minion
++-독립 전투 객체
++-HP, position, waypoint/attackCd
++-GameWorld::UpdateMinions
++-웨이포인트 전진과 적 Tower 우선·이후 Nexus 대상 선택
++-Advance/Attack
++-Tower
++-고정 방어 객체
++-HP, damage, range, target
++-Base
++-고정 기지/Spawn Point
++-HP, team, spawn
++-Brush
++-AABB 영역만 제공
++-Rectangle
++-Projectile
++-투사체 상태
++-type, team, pos, dir, damage, range
++-CombatSystem
++-공격 가능 여부, spawn 요청 계산, collision 결과 해석, damage/death/kill
++-attack request/result
++-VisibilitySystem
++-visibility flag 및 reveal 계산
++-visibleToPlayer, revealUntil
++-Renderer
++-Snapshot read-only 월드 표시
++-Device/Context/Snapshot
++-HUDRenderer
++-HUD ViewModel read-only 표시
++-HP/XP/Ultimate cooldown/공격 피해량/조준 대상/result
++-ProgressionRules
++-XP, RequiredXP, 능력치 강화
++-level/currentXP/requiredXP/선호 강화, 즉시 다중 레벨업
++-GameWorldSnapshot/EntitySnapshot
++-렌더링 대상 모든 객체 정보 + visibility
++-id/type/pos/size/team/visible/alive
++-HUDViewModel
++-HUD용 읽기 전용 상태
++-HP/Level/CurrentXP/RequiredXP/선호 강화/aim mode/K·J 자동 표적/Ultimate cooldown/result
++-Enumerations
++-상태 enum 정의
++-GameState/HeroState/BotState/waypoint/attackCd
++-
++-5.3 Hero 계층 구조
++-BotHero가 PlayerHero를 상속하는 구조는 사용하지 않는다. 공통 Hero를 기반으로 PlayerHero와 BotHero를 분리하며, 입력·AI 제어는 Controller에서 담당한다.
++-  Hero ├─ HP / MaxHP / Attack / MoveSpeed ├─ Level / CurrentXP / HeroState └─ Ultimate cooldownPlayerController --> PlayerHero --> HeroBotController    --> BotHero    --> Hero                           
++-5.4 Snapshot / Visibility 구조
++-  GameWorld  ↓GameWorldSnapshot  ├─ 모든 렌더링 대상 객체의 위치/종류/팀 정보  └─ visibleToPlayer       ↓Renderer  └─ 정상 빌드에서는 visibleToPlayer == true만 Draw       ↓DirectX 11
++-VisibilitySystem은 객체를 Snapshot에서 제거하지 않고 visibleToPlayer flag만 계산한다. 따라서 기준 빌드는 은폐를 정상 반영하면서도, A4 VTable Hooking/렌더 경로 변조 실험에서 존재하는 비가시 객체를 별도 오버레이로 표시하는 관찰 실험이 가능하다.
++-  struct EntitySnapshot {    EntityId id;    EntityType type;    Vec2 position;    Vec2 size;    Team team;    bool visibleToPlayer;    bool alive;};
++-5.5 CombatSystem / GameWorld 소유권
++-  Player/Bot Attack Request        ↓CombatSystem - 공격 가능 여부 - 피해량 / 방향 - Projectile 생성 파라미터 계산        ↓GameWorld::SpawnProjectile(...)        ↓GameWorld가 Projectile 생성·소유·제거
++-CombatSystem은 Projectile의 장기 소유자가 아니다. GameWorld가 생명주기를 소유하고, CombatSystem은 공격 가능 여부·spawn 요청·collision 결과 해석·damage·death/kill 판정을 담당한다.
++-5.6 핵심 상태
++-대상
++-상태
++-주요 전이
++-경기
++-Menu, Initializing, Playing, Paused, Result
++-시작, 초기화, Pause/Resume, Base 파괴, 재시작
++-Hero
++-Idle, Moving, Attacking, Casting, Dead
++-입력/AI, 공격 요청, HP<=0, respawn
++-Bot
++-Patrol, Push, Engage, Retreat, Recover, Defend, Dead
++-거리/체력/Base threat/사망
++-Minion
++-Spawn, Advance, Attack, Dead
++-wave, Tower range, target loss, HP<=0
++-Projectile
++-Flying, Hit, Expired
++-생성, 충돌, max range/map boundary
++-
++-5.7 시간·업데이트 규칙
++-권장 simulation fixed timestep은 10ms 또는 accumulator 방식이다. variable timestep을 쓰더라도 모든 gameplay timer는 하나의 GameTime 기준을 사용한다.
++-Paused에서는 cooldown, respawn timer, reveal timer 등 GameTime 기반 timer가 모두 감소하지 않는다.
++-Result 상태에서는 전투/AI/Minion update를 중지한다.
++-로그에는 simulation timestamp와 wall-clock timestamp를 구분하여 기록한다.
++-Base 동시 파괴 판정은 monotonic simulation time을 사용한다.
++-5.8 클래스 다이어그램
++-
++-그림 3. v0.11 클래스 구조  --  Hero 공통 기반, Controller 분리, GameWorld 소유권, Snapshot/ViewModel read-only 경계를 반영한다.
++-6 보안 실험 설계
++-6.1 실험 경계
++-모든 공격 실험은 프로젝트에서 직접 작성한 GameClient.exe와 실험용 DLL을 대상으로 하며, 격리된 Windows VM 또는 Sandbox에서 수행한다. 제3자 프로그램/게임/서비스는 대상이 아니다. 멀티프로세스/IPC 전환은 필수 4개 실험을 마친 뒤 선택 확장으로만 다룬다.
++-6.2 필수 공격·방어 실험 4회
++-ID
++-공격 유형
++-대상
++-예상 관찰
++-방어 방향
++-A1
++-Patch
++-Ultimate cooldown 분기, HP/승패 조건, 상수/분기
++-Ultimate 5s cooldown 무시, 조건 변경, 게임 규칙 무시
++-중요 코드 구간 hash, 중요 판정 중복 검증, 기준값 검증
++-A2
++-DLL Injection / Memory Modification
++-Hero HP/Attack/MoveSpeed/CurrentXP/Cooldown/렌더 상태
++-능력치·XP·cooldown 변경, overlay
++-모듈/스레드 관찰, 값 범위 및 상태 일관성 검사
++-A3
++-Function Hooking
++-CombatSystem, Update, cooldown update, damage processing
++-damage/시간 흐름/입력 처리 변조
++-함수 시작부 무결성, 호출 대상 주소 확인, 결과 교차 검증
++-A4
++-DirectX 11 VTable Hooking
++-Renderer의 Draw/DrawIndexed 또는 실제 호출
++-비가시 적/Brush 안 적 강조, ESP 형태 overlay
++-VTable pointer 범위, 기대 원본 주소, module boundary, render path 검증
++-
++-6.3 동일 조건 실험 규칙
++-동일 Windows VM/Sandbox snapshot, CPU/GPU, 화면 해상도, 실행 권한, GameClient 설정 파일을 사용한다.
++-동일 소스 commit에서 파생된 비교 대상, 동일 compiler/toolset/build config를 사용하고 각 EXE SHA-256을 기록한다.
++-동일 Map/Hero 기본 능력치/Tower·Base HP/Minion 설정/Bot 정책/시작 위치/CurrentXP·Level/초기 cooldown=0을 사용한다.
++-RNG Seed는 0xE4511E로 고정한다.
++-가능하면 Input Replay를 사용하고, 늦어질 경우 동일 수동 절차를 procedure ID로 문서화한다.
++-각 핵심 공격/방어 조합은 조건별 최소 10회 반복한다.
++-  0.000 W Down0.800 W Up1.000 K2.500 J...
++-조건
++-목적
++-Attack OFF / Defense OFF
++-정상 기준
++-Attack ON / Defense OFF
++-취약성 확인
++-Attack ON / Defense ON
++-방어 효과 확인
++-Reattack ON / Defense ON
++-방어 가정 우회 확인
++-
++-6.4 정량 평가 지표
++-지표
++-정의
++-Attack Success
++-목표한 변조가 실제로 성공했는가
++-Detection
++-방어가 공격을 탐지했는가
++-Detection Latency
++-공격 발생 simulation timestamp부터 탐지 로그까지 시간
++-False Positive
++-정상 실행을 공격으로 잘못 탐지한 횟수
++-Crash / Functional Failure
++-방어 또는 공격으로 정상 기능이 깨졌는가
++-Performance Overhead
++-방어 OFF 대비 방어 ON 평균 FPS/frame time 변화
++-Reattack Success
++-다른 경로/시점의 재공격 성공 여부
++-
++-  Attack Success Rate = 공격 성공 횟수 / 10Detection Rate      = 공격 탐지 횟수 / 공격 실행 횟수False Positive Rate = 정상 실행 오탐 횟수 / 정상 실행 횟수
++-6.5 로그 규칙
++-  [SimulationTime][Category][Event][Entity][Detail][12.540][COMBAT][DAMAGE][PlayerHero][target=BotHero amount=5][15.000][SECURITY][INTEGRITY_FAIL][CombatSystem][expected=... actual=...][20.010][MATCH][BASE_DESTROYED][TeamB][hp=0]
++-Experiment ID
++-Build hash
++-Git commit
++-Seed
++-Attack version
++-Defense version
++-Detection timestamp
++-Attack result
++-Final match result
++-6.6 형상 관리 태그 규칙
++-  game-baseline-1.0exp-a1-vulnerableexp-a1-defense-v1exp-a1-bypass-v1exp-a2-vulnerableexp-a2-defense-v1exp-a2-bypass-v1...
++-main은 항상 실행 가능한 안정 상태를 유지한다. 각 실험은 vulnerable --> defense --> bypass 비교 지점을 태그로 고정한다.
++-7 게임 제작과 보안 반복 실험 계획
++-주차
++-게임 개발
++-보안 실험
++-주요 산출물
++-1주
++-Game loop, Input, Hero 이동, Basic, Ultimate, 충돌
++-자산/공격 표면 정의
++-이동·전투가 되는 뼈대
++-2주
++-Bot, Minion, Tower, Base, HUD, XP, Brush, Win/Lose/Draw
++-Baseline 1.0 동결
++-game-baseline-1.0
++-3주
++-기능 추가 금지
++-A1 Patch --> Defense --> Reattack
++-A1 공격·방어 기록
++-4주
++-동일
++-A2 DLL Injection --> Defense --> Reattack
++-A2 공격·방어 기록
++-5주
++-동일
++-A3 Function Hook --> Defense --> Reattack
++-A3 공격·방어 기록
++-6주
++-동일
++-A4 VTable Hook --> Defense --> Reattack
++-A4 공격·방어 기록
++-7주
++-동일
++-네 방어의 우회 조건 분석·보완, 회귀 시험
++-비교표/보완 방어
++-8주 선택
++-동일
++-최종 재현 시험, 시연, 여유 시 IPC 확장
++-최종 보고서/시연
++-
++-이 문서의 v0.7 게임 규칙과 회귀 시험을 만족한 빌드를 기준선으로 동결하고 이후 보안 비교 실험 중에는 게임 기능을 추가하지 않는다.
++-진도가 늦으면 그래픽 품질/맵 장식을 먼저 축소한다.
++-체력, cooldown, 능력치, visibility, renderer 경로는 보안 실험 대상이므로 삭제하지 않는다.
++-6~7주에 끝내야 하는 경우 7~8주 활동을 압축하되 A1~A4 네 실험은 삭제하지 않는다.
++-8 시험·정량 평가·추적성
++-8.1 대표 시험
++-시험 ID
++-연결 요구사항
++-시험 내용
++-통과 기준
++-TC G01
++-FR G01
++-게임 시작 후 생성 객체/초기 상태 확인
++-필수 객체 1회 생성, Playing 전환
++-TC G02
++-FR G02/G03
++-WASD/방향키, LMB/K, J 입력
++-동일 이동, LMB 클릭 방향과 K/J 자동 조준, projectile 생성
++-TC G03
++-FR G06
++-Engage/Retreat/Defend 상황 구성
++-거리/HP/Base threat 조건에 맞는 BotState
++-TC G04
++-FR G04
++-Minion wave와 target 선택
++-Tower 앞 정지·반복 공격, 파괴 후 Nexus 앞 정지·반복 공격
++-TC G05
++-FR G07
++-Brush 진입/동일 Brush/공격 reveal
++-visibleToPlayer와 화면 표시 일치
++-TC G06
++-FR G08~G10
++-XP/Level/Stat upgrade 반복
++-100/120/144/173/208/250 및 즉시 레벨업·사전 선택 강화·초과 XP 유지·Bot 자동 강화
++-TC G07
++-FR G05/G11
++-Pause/Resume, Base 파괴
++-Pause 중 timer 정지, Result 정상
++-TC G08
++-FR G02
++-Basic input edge and immediate repeat
++-새 누름 2회는 즉시 2발, 길게 누름은 1발, 동시 LMB/K는 1발
++-TC G09
++-FR G02/G03
++-자동 조준 대상/Tab 수동 모드/유효 표적 없음에서 K/J 발사
++-설정한 조준 방식의 방향과 projectile 방향 일치
++-TC G10
++-FR G12
++-Hero 사망 및 level별 respawn
++-5~11s 후 자기 Nexus Spawn에서 full HP
++-TC G11
++-FR G05
++-Base 파괴 시간 차이 <=10ms / >10ms
++-<=10ms Draw, >10ms 먼저 파괴된 Base 진영 패배
++-TC G12
++-FR G04
++-Enemy Minion/Hero/Tower 동시 배치
++-Minion은 Tower 우선, 이후 Nexus 공격
++-TC S01
++-FR S01~S03
++-공격-->방어-->재공격 동일 초기 조건
++-단계별 build/log/success 구분
++-TC S02
++-NFR03
++-같은 seed/build/replay 10회 실행
++-정상 기준 결과가 동일 범위로 반복
++-TC G14
++-FR G13
++-피격 직후/5s 경과/재피격/최대 HP/Bot Recover/일시정지·사망
++-5s 이후 2 HP/s; Recover 4 HP/s만; 상태별 차단
++-TC G15
++-FR G08~G10/G14
++-임계값 정확히 도달, 초과 XP, 한 번에 여러 단계, 레벨 7, Bot, 재시작
++-즉시 레벨 상승·강화, 잔여 XP 보존, UI/HUD 동기화
++-TC G16
++-FR G01/G04/G15
++-3개 라인 wave·Tower·경로·경계·Brush/투사체, 3라인 수동 플레이
++-3개 라인 각 2기/12s, 충돌·시야·승패 유지
++-TC G17
++-FR G02/G03/G16
++-가시 적·은폐 적·동거리·대상 사망·표적 없음·Tab·LMB·K/J
++-모드 및 우선순위대로 조준, LMB/K 새 누름마다 1발
++-
++-8.2 Traceability Matrix
++-Use Case
++-FR/NFR
++-구현 구성요소
++-Test Case
++-보안 실험 연계
++-G01 Start
++-FR G01
++-Application, GameWorld
++-TC G01
++--
++-G02-1 Move
++-FR G02
++-InputManager, PlayerController, Hero, GameWorld
++-TC G02/G09
++-A2
++-G02-2 Basic
++-FR G02
++-CombatSystem, Projectile, GameWorld
++-TC G02/G08/G09
++-A1/A2/A3
++-G02-3 Ultimate
++-FR G03
++-CombatSystem, Projectile, HUD
++-TC G02/G09
++-A1/A2/A3
++-Pause/Resume
++-FR G11
++-Application, GameWorld
++-TC G07
++-A3
++-Stat Upgrade
++-FR G08~G10
++-ProgressionRules, Hero, HUD
++-TC G06
++-A2
++-Brush Visibility
++-FR G07
++-VisibilitySystem, Snapshot, Renderer
++-TC G05
++-A4
++-Respawn
++-FR G12
++-GameWorld, Hero
++-TC G10
++-A2/A3
++-Minion
++-FR G04
++-Minion, GameWorld::UpdateMinions, Tower
++-TC G04/G12
++-A2/A3
++-End Match
++-FR G05
++-CombatSystem, GameWorld
++-TC G07/G11
++-A1
++-HP regen
++-FR G13
++-Hero, GameWorld, HUD
++-TC G14
++-A2
++-Level up
++-FR G08~G10/G14
++-ProgressionRules, Hero, GameWorld, HUD
++-TC G06/G15
++-A2
++-Three lanes
++-FR G01/G04/G15
++-GameWorld, Map, Minion, Tower, BotController
++-TC G16
++-A2/A3
++-Auto aim
++-FR G02/G03/G16
++-InputManager, PlayerController, CombatSystem, HUD
++-TC G09/G17
++-A1/A3
++-
++-9 위험과 설계 결정
++-9.1 주요 위험
++-위험
++-영향
++-대응
++-게임 기능 과다
++-2주 기준 빌드 지연
++-양 Base에서 분기·합류하는 3개 연결 라인, Hero 1종, Ultimate 1개로 범위 제한
++-렌더링 구현 지연
++-A4 실험 시간 감소
++-도형/단색 스프라이트 우선
++-무결성 검사 오탐
++-정상 실행 차단
++-개발/방어 빌드 분리, log-first, regression test
++-공격·방어 코드 결합
++-원인 분석 어려움
++-Game logic와 experiment boundary 분리
++-로컬 방어 한계
++-완전 차단 불가능
++-탐지/지연/영향 제한/재공격을 각각 평가
++-실험 조건 불일치
++-결과 비교 불가능
++-Official Build + seed + replay/procedure + hash 고정
++-
++-9.2 설계 결정
++-결정 ID
++-항목
++-결정 내용
++-상태
++-DEC 01
++-실행 구조
++-초기 단일 프로세스 GameClient.exe, 여유 시 IPC 확장
++-확정
++-DEC 02
++-그래픽
++-2D 탑다운 도형 또는 단색 스프라이트
++-확정
++-DEC 03
++-입력
++-WASD/방향키, LMB/K Basic alias, J Ultimate
++-확정
++-DEC 04
++-전투
++-Basic 새 누름마다 즉시 1발, Ultimate 5s cooldown
++-확정
++-DEC 05
++-성장
++-CurrentXP 방식, max 7, 세 능력치 강화
++-확정
++-DEC 06
++-Hero 구조
++-Hero 공통 기반 + PlayerHero/BotHero 형제 구조, Controller 분리
++-확정
++-DEC 07
++-Minion
++-적 Tower 우선·이후 Nexus 공격
++-확정
++-DEC 08
++-시야
++-VisibilitySystem flag 계산, Snapshot은 모든 객체 보유
++-확정
++-DEC 09
++-전투 소유권
++-CombatSystem 판정, GameWorld projectile 생명주기 소유
++-확정
++-DEC 10
++-렌더링
++-Renderer/HUDRenderer read-only Snapshot/ViewModel
++-확정
++-DEC 11
++-보안 구조
++-고정 SecurityMonitor 없이 주기별 검사 코드 추가
++-확정
++-DEC 12
++-부활
++-5+(level-1)s, 자기 Base/Nexus Spawn에서 full HP
++-확정
++-DEC 13
++-동시 파괴
++-simulation time 차이 <=10ms이면 Draw
++-확정
++-DEC 14
++-필수 실험
++-A1 Patch, A2 DLL, A3 Function Hook, A4 VTable Hook
++-확정
++-
++-10 게임 Use Case 상세 흐름과 클래스 설계
++-10.1 모델링 원칙
++-게임 시스템의 외부 행위자는 Player 한 명이다. 프로젝트 담당자의 공격·방어·재공격 작업은 게임 Use Case가 아니다.
++-UC G01-1은 Actor가 없는 내부 <<include>> Use Case다.
++-능력치 강화는 UC G02를 extend하지 않고 Player와 직접 연결된 독립 Use Case다.
++-Brush 진입은 독립 Use Case가 아니라 이동의 대안/후속 흐름으로 처리한다.
++-Pause/Resume Match는 Hero 행동의 하위 타입이 아니라 별도 Use Case다.
++-공격·방어·재공격의 시간 순서는 게임 Use Case Diagram이 아니라 3.4절의 프로젝트 활동 흐름과 6장의 실험 절차로 표현한다.
++-UC G01 게임 시작
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-GameClient가 실행되어 Menu 상태다.
++-기본 흐름
++-1) Player가 새 게임을 선택한다. 2) 시스템이 UC G01-1 게임 초기화를 실행한다. 3) 성공 시 Playing으로 전환하고 HUD를 표시한다.
++-대안 및 예외
++-초기화 실패 시 부분 생성 객체를 정리하고 Menu로 복귀하며 오류 로그를 남긴다.
++-종료 조건
++-플레이 가능한 경기가 생성되어 입력을 받을 수 있다.
++-관계
++-UC G01-1을 <<include>>한다.
++-
++-UC G01-1 게임 초기화
++-항목
++-내용
++-주 행위자
++-없음(내부 동작)
++-시작 조건
++-UC G01에서 초기화를 요청했고 Initializing 상태다.
++-기본 흐름
++-1) Map/Brush 생성. 2) PlayerHero/BotHero 생성. 3) 세 라인 양측 Tower와 Base 및 Spawn Point 생성. 4) 최초 라인별 Minion wave 각 2기 생성. 5) Combat/Visibility/Snapshot/HUD 초기 데이터 연결.
++-대안 및 예외
++-필수 객체 생성 실패 시 전체 초기화를 취소하고 부분 생성 객체를 제거한다.
++-종료 조건
++-필수 객체가 GameWorld에 등록되고 초기 cooldown=0, seed가 설정된다.
++-관계
++-UC G01에 의해 항상 포함된다.
++-
++-UC G02-1 이동
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-Playing이고 PlayerHero가 Dead가 아니다.
++-기본 흐름
++-1) WASD/방향키를 읽는다. 2) 같은 move vector로 변환하고 대각선은 Normalize한다. 3) GameWorld가 충돌과 MoveSpeed를 적용한다. 4) Brush 진입/이탈 시 VisibilitySystem이 은폐 여부를 재계산한다.
++-대안 및 예외
++-Paused/Dead/Result면 무시한다. Map boundary/collision에서는 이동량을 제한한다.
++-종료 조건
++-유효 범위에서 Hero 위치 및 visibility가 갱신된다.
++-관계
++-Player와 직접 연결된 이동 Use Case.
++-
++-UC G02-2 기본 공격
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-Playing이고 생존 상태다.
++-기본 흐름
++-1) LMB 또는 K 입력을 BasicAttackCommand로 변환한다. 2) LMB는 클릭 좌표 방향, K는 Auto/Mouse 모드의 aimDirection을 읽는다. 3) CombatSystem이 spawn parameter를 계산하고 GameWorld에 Projectile 생성을 요청한다. 4) 새 누름당 한 발을 생성하며 누른 상태에서 반복하지 않는다. 5) 적 1개 충돌 시 damage 5 적용 후 소멸한다.
++-대안 및 예외
++-Paused/Dead/Result면 요청을 무시한다. Brush에서 사용하면 1.5s reveal을 등록한다.
++-종료 조건
++-Basic projectile 또는 명확한 거부 결과가 기록된다.
++-관계
++-LMB/K는 같은 Basic 공격을 새 누름당 한 번 생성하며 조준 방향은 입력 방식에 따른다.
++-
++-UC G02-3 궁극기
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-Playing, 생존, Ultimate cooldown==0.
++-기본 흐름
++-1) J 입력을 받는다. 2) Auto/Mouse 모드의 aimDirection으로 Ultimate projectile을 생성 요청한다. 3) 5.0s cooldown을 시작한다. 4) 충돌 시 damage 30을 적용하고 projectile을 소멸한다.
++-대안 및 예외
++-cooldown>0 또는 Paused/Dead/Result면 거부한다. Brush에서 사용하면 1.5s reveal을 등록한다.
++-종료 조건
++-Ultimate projectile 및 다음 사용 가능 시각이 기록된다.
++-관계
++-Player Basic의 새 누름 규칙과 독립이다.
++-
++-UC G02-P Pause/Resume Match
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-Playing 또는 Paused다.
++-기본 흐름
++-1) Pause 명령을 입력한다. 2) Playing-->Paused면 simulation GameTime update를 멈춘다. 3) 다시 입력하면 Playing으로 복귀한다.
++-대안 및 예외
++-Initializing/Result에서는 명령을 무시한다.
++-종료 조건
++-cooldown, respawn, reveal, AI/Minion update가 정지 또는 재개된다.
++-관계
++-독립 Use Case.
++-
++-UC G03 능력치 강화
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-Playing, level<7, CurrentXP>=RequiredXP.
++-기본 흐름
++-1) RequiredXP를 CurrentXP에서 차감하고 level+1. 2) 초과 XP 유지. 3) 저장된 강화 선호(기본 Attack)를 즉시 적용. 4) 1/2/3 키는 이후 레벨업 선호를 변경. 5) HP는 MaxHP+20, CurrentHP+20(상한 MaxHP); Attack은 Basic+2, Ultimate+8; MoveSpeed는 +15. 6) nextRequiredXP=ceil(currentRequiredXP*1.2). 7) 여러 레벨 조건이면 Level 7까지 순차 처리.
++-대안 및 예외
++-능력치 선택 대기로 레벨업을 막지 않는다. Level 7에서는 추가 레벨업 없음. Bot은 동일 ProgressionRules를 쓰되 BotController 정책으로 자동 선택한다.
++-종료 조건
++-Level/CurrentXP/RequiredXP/능력치/HUD가 갱신된다.
++-관계
++-독립 Use Case, UC G02 extend 관계 없음.
++-
++-UC G04 경기 종료
++-항목
++-내용
++-주 행위자
++-Player
++-시작 조건
++-한쪽 또는 양쪽 Base HP<=0 이벤트가 발생했다.
++-기본 흐름
++-1) 각 Base 최초 파괴 simulation timestamp를 기록한다. 2) 양쪽 파괴 시 |tA-tB|<=0.010s면 Draw. 3) 차이가 크면 먼저 파괴된 Base 진영 패배. 4) GameWorld를 Result로 전환하고 update를 중지한다. 5) 결과 화면에서 재시작/종료를 선택한다.
++-대안 및 예외
++-한쪽만 파괴되면 즉시 Victory/Defeat를 결정한다. wall-clock이 아니라 simulation time을 사용한다.
++-종료 조건
++-Victory/Defeat/Draw 결과가 고정되고 재시작 또는 종료한다.
++-관계
++-Base 파괴부터 Result 처리까지 하나의 Use Case.
++-
++-
++-
++-
++-11 Game Parameter Table
++-Category
++-Parameter
++-Baseline
++-Hero
++-Max HP
++-100
++-Hero
++-Start HP
++-100
++-Hero
++-MoveSpeed
++-220 px/s
++-Hero
++-Collision Radius
++-18 px
++-Hero
++-Vision Radius
++-Brush 밖: 화면 전체 / Brush 안: 같은 Brush 또는 reveal 1.5 s
++-Hero
++-Respawn Base
++-5 s + (level-1)x1 s
++-Basic
++-Damage
++-5
++-Basic
++-Cooldown
++-Player: 새 누름마다 즉시 발사; Bot: AI 주기 1.0 s
++-Basic
++-Projectile Speed
++-1000 px/s
++-Basic
++-Range
++-700 px
++-Ultimate
++-Damage
++-30
++-Ultimate
++-Cooldown
++-5.0 s
++-Ultimate
++-Speed
++-1250 px/s
++-Ultimate
++-Range
++-1000 px
++-Brush
++-Count
++-2
++-Brush
++-Size
++-약 240x90 px
++-Brush
++-Reveal Time
++-1.5 s
++-Minion
++-HP
++-40
++-Minion
++-Damage
++-8
++-Minion
++-MoveSpeed
++-110 px/s
++-Minion
++-Attack Range
++-Tower 70 px / Nexus 60 px
++-Minion
++-Attack Interval
++-1.0 s
++-Minion
++-Wave Interval
++-12 s
++-Minion
++-Count/Wave
++-라인별 2기(진영별 총 6기)
++-Minion
++-Kill XP
++-20
++-Tower
++-HP
++-300
++-Tower
++-Damage
++-15
++-Tower
++-Range
++-260 px
++-Tower
++-Attack Interval
++-1.0 s
++-Base
++-HP
++-500
++-Base
++-Attack
++-없음
++-XP
++-Hero Kill
++-100
++-XP
++-1-->2
++-100
++-XP
++-2-->3
++-120
++-XP
++-3-->4
++-144
++-XP
++-4-->5
++-173
++-XP
++-5-->6
++-208
++-XP
++-6-->7
++-250
++-Upgrade
++-HP
++-MaxHP +20, CurrentHP +20
++-Upgrade
++-Attack
++-Basic +2, Ultimate +8
++-Upgrade
++-MoveSpeed
++-+15 px/s
++-Bot
++-Decision Tick
++-100 ms
++-Bot
++-Engage Distance
++-500 px
++-Bot
++-Retreat
++-HP <= 30%; Recover 안전 구역에서 HP >= 55% 시 재출전
++-Bot
++-Defend
++-Enemy Hero가 자기 Base 중심 450 px 이내
++-Bot
++-Basic use
++-Enemy distance <=650 px; AI interval 1.0 s
++-Bot
++-Ultimate use
++-Enemy distance <=850 px; cooldown 5.0 s
++-Security
++-Draw Threshold
++-10 ms
++-Security
++-RNG Seed
++-0xE4511E
++-Security
++-Iterations
++-조건별 최소 10회
++-HP regen
++-Delay / Rate
++-마지막 피해 후 5s / 2 HP/s (Bot Recover는 기존 4 HP/s만)
++-Map
++-Lanes
++-Base(70/1210,360) <--> 분기(170/1110,360) <--> y=180/360/540, 도로 폭 101 px
++-Tower
++-Count
++-각 라인 양 진영 1개씩 총 6개
++-Minion
++-Count/Wave/Lane
++-각 라인 진영별 2기, wave 12s
++-Aim
++-Default / Toggle
++-자동 / Tab으로 자동·마우스 전환 (K/J); LMB 클릭 좌표
++-Upgrade
++-Default preference
++-Attack; 1=HP, 2=Attack, 3=MoveSpeed
++-
++-11.1 세부 게임 규칙 보충
++-Basic projectile은 적 1개와 충돌하면 즉시 소멸하고, map boundary 또는 최대 이동 거리 700px에서 만료된다.
++-Ultimate projectile은 적과 충돌하면 즉시 소멸하고, 최대 이동 거리 1000px에서 만료된다.
++-Friendly Fire는 없으며 projectile은 적 Team만 타격한다.
++-Tower target priority는 사거리 안 가장 가까운 적 Minion --> 적 Hero 순서다. 같은 거리면 먼저 들어온 target을 유지한다.
++-Minion은 Enemy Hero/Enemy Minion을 공격하지 않는다. 자기 라인의 살아 있는 Enemy Tower를 먼저 공격하고, 파괴 후 Enemy Nexus를 공격한다. 타깃 앞 70/60 px에서 정지해 8 피해를 1초마다 준다.
++-Base는 공격 기능이 없고 PlayerHero/BotHero 투사체와 적 Minion의 공격으로 피해를 받을 수 있다. Minion은 자기 라인의 적 Tower가 파괴된 뒤에만 Base를 공격한다. Tower 생존 여부와 무관하게 Hero가 Base를 공격할 수 있다.
++-Hero/Minion/Projectile은 Circle collision, Tower/Base/Brush는 AABB를 권장한다.
++-11.2 문서 기준선
++-v0.11 수정 사항을 반영한 기준선 동결 이후 비교 실험 중에는 위 수치를 임의로 변경하지 않는다. 이후 튜닝은 가능하지만 반드시 새 baseline/tag와 실험 조건으로 분리한다. 상용 게임 수준의 밸런스보다 공격·방어에 따른 상태 변화가 명확하게 관찰되는 것을 우선한다.
++-12 Bot FSM 회복 및 재출전 규칙 (v0.6 변경)
++-변경 이력: Bot 저체력 후퇴 뒤 회복·재출전 흐름을 추가했다. Tower 중심 대신 Tower에서 자기 Base 방향으로 계산한 defensive point를 사용하며, Retreat 30%와 Re-engage 55% hysteresis, 안전 구역 4 HP/s 회복, Tower 파괴·사망·부활·Restart 예외 처리를 적용한다.
++-12.1 Bot FSM 상태와 전이
++-BotState는 기존 Patrol, Push, Engage, Defend, Dead를 유지하고 Recover를 추가한다. Advance 역할은 기존 Push/Patrol이 수행한다.
++-Advance/Push --> Engage: 유효 적이 전투 거리 안에 진입한다. Advance/Push/Engage/Defend --> Retreat: currentHP / maxHP <= 0.30이다. Retreat --> Recover: defensive point 도착 허용 거리 안이다. Recover --> Push(Advance): currentHP / maxHP >= 0.55이다. Retreat/Recover --> Dead: HP <= 0이다. Dead --> 정상 상태: 부활 후 FSM 임시 상태를 초기화하고 일반 의사결정을 다시 수행한다.
++-12.2 후퇴, 회복 및 안전 규칙
++-Retreat 목표는 Tower 중심이 아니다. Tower와 Base가 유효하면 towerToBase = Normalize(basePosition - towerPosition), retreatPoint = towerPosition + towerToBase * retreatOffset을 사용한다. 현재 retreatOffset은 70 px이고 Hero/Tower 충돌 영역 및 도착 허용 거리 10 px를 고려한다. 좌표는 맵 경계로 제한한다.
++-Tower가 파괴되면 Base 위치를 대체 안전 목표로 사용한다. Tower와 Base 모두 유효하지 않으면 Result 규칙이 update를 중지하므로 포인터를 보관하거나 역참조하지 않는다. Retreat/Recover 중 목표는 매 update에 다시 계산하여 Tower 파괴 뒤에도 안전하게 fallback한다.
++-Recover는 Tower 반경 95 px 또는 Base 반경 90 px의 안전 구역 안에서만 delta time 기준 초당 4 HP를 회복한다. Hero HP는 최대 HP를 넘지 않는다. 30%와 55%의 서로 다른 기준으로 경계값 진동을 막으며, Recover 중 안전 구역을 벗어나면 Retreat로 돌아간다.
++-Recover 중 Bot은 적을 추격하지 않는다. Player가 160 px 이내로 접근했을 때만 Basic의 1.0s AI 공격 주기에 따른 최소 반격을 허용하며, 기존 Hero minimum separation 40 px을 유지한다. Dead, Paused, Result에서는 이동·공격·회복을 수행하지 않는다.
++-12.3 구현 경계와 로그
++-GameWorld가 Bot FSM 전이, 목표 계산, 이동, 회복 및 공격을 갱신한다. BotController는 정상 상태의 거리·위협 기반 결정을 유지한다. Renderer는 GameWorldSnapshot을 읽기만 하며 gameplay state를 변경하지 않는다.
++-BOT_FSM 로그는 Advance/Combat 계열 --> Retreat의 HP와 목표, Retreat --> Recover, Recover --> Advance, Tower 파괴에 따른 Base fallback, 사망 및 부활 초기화의 상태 전이 때만 기록한다. 매 프레임 반복 로그는 남기지 않는다.
++-12.4 요구사항 및 시험 추적성
++-FR G06은 BotState Patrol/Push/Engage/Retreat/Recover/Defend/Dead를 사용하며, HP <= 30% Retreat, Base 방향 defensive point, 안전 구역 4 HP/s Recover, HP >= 55% Push 재출전을 제공하도록 갱신한다.
++-TC G03은 기존 Engage/Retreat/Defend/Dead 상태 선택을 회귀 검증한다. TC G13 Bot FSM recovery는 31% 비후퇴, 정확히 30% Retreat, Tower 중심이 아닌 defensive point, 도착 후 Recover, 안전 구역 안/밖 회복, 4 HP/s 및 상한, 정확히 55% 재출전, Tower 파괴 fallback, 사망·Restart 초기화를 GameWorld update 경로로 검증한다.
++-13 플레이 경험 보완 규칙 v0.8
++-이 변경은 기준선 동결 전에 적용한다. 기존 보안 실험 A1~A4의 비교 조건은 동일한 새 기준선으로 다시 기록한다. 기존 game-baseline-1.0 태그가 이미 있다면 이동하지 않고 새 태그를 사용한다.
++-13.1 체력 자연 회복
++-Player와 Bot의 생존 영웅은 마지막 피해 시점부터 게임 시간 5초가 지나면 초당 2 HP를 회복한다. 회복량은 delta time에 비례하고 MaxHP에서 멈춘다. 새 피해를 받으면 대기 시간이 다시 시작한다. Paused, Dead, Result 중에는 회복하지 않는다. Bot의 Retreat 이동 중에는 자연 회복 조건을 만족해도 회복하지 않으며, Recover에서는 안전 구역의 기존 4 HP/s만 적용한다. 부활 시 full HP로 시작하고 타이머를 재설정한다.
++-13.2 경험치와 레벨업
++-XP 지급은 처치자 귀속이며 기존 Minion 20XP, 적 Hero 100XP를 유지한다. 처치 확정 시 현재 XP에 한 번만 더하고, CurrentXP >= RequiredXP이면 같은 GameWorld 갱신에서 XP를 차감하고 레벨을 1 올린다. 한 번의 지급으로 여러 임계값을 넘으면 레벨 7까지 반복한다. 정확한 경계값도 포함하고 초과 XP는 보존한다. Player의 강화 선호는 기본 Attack이며 1/2/3 키로 각각 HP/Attack/MoveSpeed를 미리 선택한다. Bot은 같은 규칙으로 Attack을 기본 적용한다. 강화 선택 화면을 기다리느라 레벨업이 멈추지 않는다. HUD에는 Level, CurrentXP/RequiredXP, 선호 강화를 즉시 표시한다. Level 7 이후 XP 처리는 기존 구현을 유지하되 레벨은 7을 넘지 않는다.
++-13.3 세 개의 단순 라인
++-맵은 1280x720 한 화면이다. 양 Base(70,360)/(1210,360)에서 각각 (170,360)/(1110,360)으로 나와 세 경로로 분기한다. 각 경로는 y=180/360/540에서 분리되어 양 진영 Tower(260,y)/(1020,y)를 지나고 상대 Base 앞에서 합류한다. Minion은 자기 Base 밖 x=135 또는 1145, y=360+(lane-1)x40+-10에서 출발해 공통 웨이포인트를 따라 110 px/s로 이동한다. 자기 경로의 살아 있는 적 Tower에 70 px 이내로 접근하면 정지해 8 피해를 1초마다 주며, Tower 파괴 후 같은 경로로 적 Nexus까지 가서 60 px 이내에서 8 피해를 1초마다 준다. Hero는 맵 전체를 자유롭게 이동하고 고급 길찾기/정글은 범위 밖이다.
++-13.4 간편 조준
++-기본 조준 모드는 Auto이다. K/J를 누르면 공격 가능한 거리의 visibleToPlayer=true인 살아 있는 적 중 가장 가까운 대상을 고른다. 거리가 같으면 고정 EntityId 순서로 정한다. Brush에 은폐된 상대는 후보에서 제외한다. 사거리 안 후보가 없으면 마지막 유효 조준 방향을 사용하고, 아직 없으면 적 Base 방향을 사용한다. LMB는 모드와 무관하게 클릭한 월드 좌표를 조준한다. Tab은 K/J의 Auto와 Mouse 모드를 전환한다. Mouse 모드에서 K/J는 기존 Hero-->mouseWorldPosition 방향을 따른다. 마우스가 Hero 중심에 있으면 마지막 유효 방향을 사용한다. LMB와 K는 새 누름마다 동일한 Basic 공격 한 발을 즉시 발사하고 J는 독립된 5초 Ultimate 쿨다운을 유지한다. UI는 조준 모드와 자동 대상 표시를 제공하며, Renderer는 Snapshot을 읽기만 한다. 현재 커서 위치에는 작은 십자 조준점을 표시한다. 조준점은 클라이언트 좌표를 1280x720 월드 좌표로 변환한 위치에 그리며 창 크기와 DPI가 바뀌어도 LMB 및 Mouse 모드의 발사 방향과 일치한다.
++-13.5 수용 기준과 기준선
++-TC G01~G13과 TC G14~G17, Bot visibility 및 Basic damage path 회귀 테스트을 실행하고 Debug/Release x64 빌드, GUI 실행, 직접 플레이로 3개 라인의 시야·충돌·조준·레벨 상승을 확인한다. 게임성을 플레이한 결과에 따라 수치를 조정할 수 있으나, 동결 전 설계서·코드·테스트 값을 다시 맞춘다. 기준선 동결 뒤에는 A1~A4 실험 결과를 같은 빌드 hash와 seed로 비교한다.
++-14. v0.11 연결 경로·공성·중앙 회복 오브젝트
++-14.1 맵 좌표 도식
++-Blue Base (70,360) --> Spawn (135,360) --> Fork (170,360) --> Blue Tower (260,y) --> Red Tower (1020,y) --> Merge (1110,360) --> Red Base (1210,360). y는 상·중·하 순서로 180/360/540이며 Red 경로는 이를 역순으로 따른다. 도로 외곽 폭은 112 px, 안쪽 폭은 101 px이다.
++-14.2 미니언과 기지 공성
++-12초마다 진영별·라인별 2기, 총 12기가 새로 생성된다. Minion의 경로 타깃은 자기 라인의 살아 있는 적 Tower --> 적 Nexus이다. Tower 70 px, Nexus 60 px 안에서 멈춰 1초마다 8 피해를 주고, 죽은 타깃 이후에는 다음 웨이포인트로 진행한다. Enemy Hero·Enemy Minion·아군 구조물은 공격하지 않는다. Hero 투사체는 기존처럼 Tower 생존 여부와 무관하게 Base를 공격할 수 있다. Base HP 0은 기존 10ms 동시 파괴 Draw 판정을 따른다.
++-14.3 타워 공격과 Bot 경로
++-양 팀 Tower는 260 px 이내 같은 라인 Enemy Minion을 우선 선택하고, 없으면 Enemy Hero를 선택한다. 1초마다 15 피해를 즉시 적용하며 같은 갱신의 Snapshot에 진영색 탄도선과 점 효과를 0.18초 표시한다. 표적이 없으면 공격하지 않는다. Bot Push는 Red Base 합류점에서 선택 라인 Tower를 거쳐 Blue Base 방향으로 이동한다. Retreat는 선택한 자기 Tower의 Base쪽 70 px 방어점으로 이동하고 Tower 파괴 시 자기 Base로 후퇴하며, 안전 구역 Recover 4 HP/s 및 55% 재진입을 유지한다.
++-14.4 중앙 회복 오브젝트
++-센터 (640,360)에 한 개가 경기 시작 20초 후 생성된다. 획득 30초 후 재생성하며 양 팀에 항상 보인다. 살아 있는 HP 미만 Hero만 28 px 이내 접촉으로 HP 20을 최대치 이하로 회복한다. 같은 틱에 둘 다 닿으면 ID 0 Player가 ID 1 Bot보다 먼저 획득한다. Minion·Projectile·Tower와 풀 HP Hero는 소비하지 않는다. Bot은 HP 31~50%, 거리 300 px 이내, 오브젝트 활성 시 한 생성 주기에 한 번만 최대 2.5초 추격하며 Retreat/Recover를 방해하지 않는다.
++-14.5 회귀 검증
++-TC G01~G17과 Bot visibility/Basic damage를 유지한다. 추가 테스트는 양 진영x상·중·하 6경로의 Tower 정지·반복 피해·Nexus 승패, 양 진영 Tower의 15 피해와 Snapshot 효과/무표적, 중앙 회복 20/30초·동시 획득·풀 HP·Minion 비획득을 검사한다. Debug/Release x64 빌드와 실제 GUI에서 연결 도로·타워 발사·중앙 오브젝트를 확인한다. 최종 밸런스는 사람의 직접 플레이 후 판단한다.
++-그림 4. v0.11 실제 연결 맵: 양쪽 Base 분기·합류, 라인별 Tower와 중앙 지점을 표시한다.
++-
++-15. v0.13 연결 도로·라인 사이 벽·Bot 후방 교전 (이 장이 이전 버전의 상충 규칙보다 우선)
++-맵 1280x720. Base (70,360)/(1210,360), 분기·합류 (170,360)/(1110,360), 라인 y=180/360/540, Tower (260,y)/(1020,y)를 유지한다. 도로는 MapPaths.h의 공통 경로 선분 주위 반경 70 px인 캡슐의 합집합이다. 렌더러는 외곽 140 px 전체를 그린 뒤 내부 132 px 전체를 그리며 둥근 끝단을 24면으로 근사한다. 별도 삼각형 덧칠은 사용하지 않는다. Player/Bot 반경 26 px, Minion 12 px를 고려해 이동을 도로 안으로 제한하며 최대 8 px 단계와 축별 미끄러짐을 사용한다. Base 생성점, 중앙 회복 (640,360), 수풀 (500,180)/(780,540), 크기 180x80 px는 기존 위치를 유지한다.
++-내부 벽: MapPaths.h의 walls 배열을 렌더링·몸체 이동·공격 경로·Auto 조준에서 공유한다. 벽은 중심선 (300,270)-->(980,270), (300,450)-->(980,450), 두께 40 px다. 캐릭터 몸체가 벽을 침범할 수 없고 직선 구간에서 라인을 직접 건너갈 수 없다. x<300 또는 x>980의 분기·합류에서는 벽 끝을 돌아 라인 변경 및 전투가 가능하다. 벽 밖의 배경 역시 이동 가능한 도로가 아니다. Bot의 라인 변경·추격·회복 오브젝트 접근은 오른쪽 연결부를 경유하며 벽을 향해 계속 밀지 않는다.
++-조준·투사체: 수풀 은폐와 벽 차단은 별개다. 수풀에서 드러나거나 화면에 보이는 상대도 Hero-->표적 선분이 벽과 교차하면 K/J Auto 후보에서 제외하며 HUD에도 표시하지 않는다. 사거리·최근 조준 방향 fallback은 유지한다. LMB와 Mouse K/J는 벽 방향으로 발사할 수 있다. Basic/Ultimate는 이전-->새 위치 선분을 검사하여 벽과 유닛 중 첫 충돌에서 피해 또는 소멸을 처리한다. 한 틱에 벽을 넘는 고속 탄도 통과하지 못한다. 벽 앞 유닛은 정상적으로 피해를 받는다. 현재 두 공격은 단일 투사체이며 광역 피해나 벽 관통 피해가 없다. 투사체는 도로 자체에 구속되지 않지만 두 내부 벽에는 충돌한다.
++-그림 5. v0.13 공통 맵 데이터: 둥근 도로 외곽, 상·중/중·하 사이 두 벽, 분기·합류, Tower·Base·수풀·회복 지점 및 Bot 후방 방어점. 벽은 x=300~980, y=250~290 및 y=430~470의 두 직사각형이다. Bot 방어점은 선택 Red Tower+(30,0), 왕복 범위는 Tower.x+12~+40이며 y는 해당 라인의 중심이다.
++-
++-미니언·타워: 양 진영에 동일한 벽 선분 판정을 적용한다. Minion은 자기 라인의 살아 있는 적 Tower가 70 px 안이고 벽으로 차단되지 않으면 먼저 공격한다. 그 외에는 같은 라인의 적 Minion을 50 px 안에서 찾고, 벽으로 막힌 후보는 제외한다. 없으면 웨이포인트를 따라 110 px/s로 전진한다. Tower 파괴 후 적 Minion이 없고 Nexus가 60 px 안이며 벽에 막히지 않을 때 공성한다. 피해 8/1초는 표적 간 공유하고 동거리는 작은 ID가 우선이다. Hero는 공격하지 않는다. Tower는 260 px 안의 벽에 막히지 않은 같은 라인 적 Minion을 우선, 없으면 벽에 막히지 않은 적 Hero를 선택한다. 피해 15/1초와 즉시 피해·0.18초 시각 효과는 유지한다. 벽을 가로지르는 탄도선과 직접 피해는 발생하지 않는다.
++-Bot FSM: HP 30% 이하에서 Retreat에 진입한다. 자기 라인 생존 Red Tower+(30,0)의 후방 방어점으로 이동하고, Tower가 없으면 Red Base로 fallback한다. 다른 라인에 있으면 선택 라인 Tower와 오른쪽 합류 구간을 거쳐 이동한다. 도착 허용 거리는 10 px다. Recover에서는 같은 라인 y를 유지하며 Tower.x+12~+40의 28 px 구간을 왕복한다. 끝점 3 px 이내에서 약 0.30초 쉬고 방향을 바꾸며 목표까지 남은 거리로 이동량을 제한해 떨림과 초과 이동을 막는다. Base fallback은 Base.x-30~+20 구간을 사용한다. Tower 반경 95 px 또는 Base 반경 90 px의 안전 구역에서 기존 4 HP/s로 회복한다.
++-후방 사격: Retreat/Recover에서는 살아 있고 보이는 같은 라인의 Blue Minion 중 650 px 안의 유효 대상을 우선 선택해 Basic을 기존 1초 간격으로 발사한다. Minion은 기존 규칙대로 수풀에 은폐되지 않는다. 벽 또는 먼저 충돌하는 적 Tower/Base/다른 Minion에 막힌 목표는 제외하며, 실제 충돌 기하로 발사 가능 여부를 검사한다. 왕복 중에도 발사하고 유효 Minion이 없으면 기존의 보이는 Player에 대한 사격만 검토한다. 둘 다 없으면 발사하지 않는다. 아군 Tower의 탄환 통과 규칙은 기존대로이며 적 구조물·벽을 관통하게 변경하지 않는다. Retreat/Recover에서는 Ultimate를 발사하지 않고 정상 상태의 기존 Ultimate 조건과 피해·쿨다운을 유지한다.
++-복귀·예외: HP 55% 이상이면 즉시 Push로 돌아간다. Recover가 18초를 넘으면 임시 Push로 전환하고 3초간 재후퇴를 제한해 영구 후방 왕복과 경계 진동을 방지한다. 안전 구역을 잃으면 새 Tower/Base 목표로 Retreat하며, 사망·부활·Restart 시 회복 누적·왕복·시간 제한 상태를 초기화한다. 회복 오브젝트 추격은 기존 HP 31~50%, 300 px, 생성 주기당 한 번·최대 2.5초 조건을 유지하며 Retreat/Recover를 방해하지 않는다. 기존 Hero/Minion/Tower 피해량, Basic 주기, Ultimate 5초, 승패·동시 파괴 판정은 바꾸지 않는다.
++-검증: 기존 G01~G17, 도로 왕복, 양 진영 3라인 공성, 시야·피해·회복 테스트를 유지한다. 추가 검사는 양 진영 Basic/Ultimate의 상<-->중·중<-->하 고속 벽 충돌, 벽 앞 첫 유닛 충돌, 동일 라인·벽 끝 공격, Auto/HUD/LMB/Mouse, Tower/Minion의 벽 차단, 세 라인 저체력 Bot의 왕복·적 Minion 반복 명중·55% Push·18초 시간 제한을 다룬다. 자동 GUI는 실제 Win32/DX11 시작·전투 및 저체력 시나리오를 렌더하고 같은 라인 Blue Minion HP 40-->20, 다른 라인 HP 40 유지, Bot 회복 후 Push 복귀를 확인한다. Debug/Release x64와 실행 결과는 evidence/v013-validation.md에 기록한다. 사람의 장시간 조작감·밸런스 평가는 별도이며 새 baseline 태그는 만들지 않는다.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.14.docx" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.14.docx"
++deleted file mode 100644
++index ff433ad..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\353\260\217_\353\263\264\354\225\210\353\260\230\353\263\265\354\213\244\355\227\230_\354\204\244\352\263\204\354\204\234_v0.14.docx"
+++++ /dev/null
++@@ -1,1216 +0,0 @@
++-              EASILE 2D 게임 및 보안 반복 실험 설계서
++-v0.14
++-현재 게임 수치·맵·봇 구조의 기준은 15장과 EASILE_design_v0.14.md다. 이전 장의 상충하는 게임 규칙은 최신 장으로 대체한다. NEW BASELINE: NOT READY  --  사람의 직접 플레이 검증이 남아 있다.
++-
++-
++-                                    항목
++-                                    내용
++-문서 버전
++-0.14
++-작성일
++-2026년 9월 29일
++-프로젝트 기간
++-총 6~8주: 게임 제작 1~2주 + 보안 반복 실험 5~6주
++-개발 대상
++-Windows x64 자체 제작 교육용 2D 탑다운 게임 및 보안 실험 환경
++-핵심 원칙
++-제3자 게임/서비스가 아닌 본인이 소유한 GameClient.exe에서만 실험
++-공식 실험 빌드
++-MSVC v143 / C++17 / Release / x64 / /O2 / LTCG OFF / ASLR·DEP·GS ON
++-
++-이 문서는 1~2주 안에 시작부터 승패 판정까지 가능한 2D 탑다운 게임을 개발하고, 이후 자체 제작한 게임을 대상으로 보안 반복 실험을 수행하기 위한 설계서다. 게임 시스템의 외부 행위자는 Player 한 명이며, 사용자는 게임 밖에서 보안 실험을 수행하는 프로젝트 담당자다. 실험 수행자는 게임 Use Case Actor로 모델링하지 않는다.
++-
++-문서 구성
++-1. 프로젝트 개요와 성공 기준
++-2. 제품 범위와 게임 규칙
++-3. 게임 사용자와 Use Case
++-4. 기능 및 비기능 요구사항
++-5. 논리 구조와 상태 모델
++-6. 보안 실험 설계
++-7. 게임 제작과 보안 반복 실험 계획
++-8. 시험·정량 평가·추적성
++-9. 위험과 설계 결정
++-10. 게임 Use Case 상세 흐름과 클래스 설계
++-11. Game Parameter Table
++-12. Bot FSM 회복 및 재출전 규칙
++-13. 플레이 경험 보완 규칙
++-1 프로젝트 개요
++-1.1 목적
++-본 프로젝트의 목적은 작은 게임을 오래 개발하는 데 있지 않다. 먼저 1~2주 안에 시작부터 승패 판정까지 가능한 2D 탑다운 미니 MOBA 기준 빌드를 완성하고, 이를 고정된 보안 실험 대상으로 사용한다. 이후 남은 기간에는 같은 프로그램을 대상으로 공격 구현 --> 방어 설계/구현 --> 동일 공격 재시험 --> 다른 경로/시점 재공격 --> 방어 개선을 반복한다.
++-1.2 프로젝트 목표
++-Windows x64 단일 프로세스 GameClient.exe 기준 빌드를 2주 안에 완성한다.
++-3주차부터 게임 기능 추가를 금지하고 A1 Patch, A2 DLL Injection/Memory Modification, A3 Function Hooking, A4 DirectX 11 VTable Hooking의 4개 실험을 모두 수행한다.
++-각 실험에서 공격 성공 여부, 탐지 여부·지연, 오탐, 기능 손상, 성능 오버헤드, 재공격 성공 여부를 기록한다.
++-동일 Windows VM/Sandbox snapshot, 동일 빌드 조건, 동일 RNG Seed, 동일 입력 Replay 또는 절차로 비교 가능성을 확보한다.
++-실험 전후 Git commit, EXE SHA-256, 설정, 로그, 결과를 남긴다.
++-1.3 성공 기준
++-                                    구분
++-                                 완료 조건
++-                                 검증 방법
++-게임
++-2주 안에 한 판을 시작하고 Victory/Defeat/Draw까지 도달
++-10회 연속 경기, crash·진행 불가 없음
++-공격
++-A1~A4 네 공격 실험 수행
++-각 실험 10회 반복과 성공 횟수 기록
++-방어
++-각 공격에 탐지 또는 영향 제한 방어 적용
++-공격 ON/Defense ON 재시험
++-재공격
++-검사 시점·경로를 바꾼 재공격 수행
++-Reattack Success 및 원인 기록
++-재현성
++-동일 조건 재시험 가능
++-commit/hash/seed/replay/procedure ID 검토
++-추적성
++-모든 필수 FR이 Test Case와 연결
++-Traceability Matrix 검토
++-
++-2 제품 범위와 게임 규칙
++-2.1 기준 게임 개념
++-플레이어는 2D 탑다운 화면에서 PlayerHero를 조작하고, BotController가 BotHero를 제어한다. PlayerHero와 BotHero는 공통 Hero 기반 구조를 사용하며 서로를 상속하지 않는다. 각 진영에는 라인별 Tower 3개와 Base/Nexus 1개가 있고, 상단·중앙·하단 3개 라인에서 Minion wave가 전진한다. Minion은 자기 경로의 살아 있는 적 Tower를 먼저 공격하고 파괴 후 적 Nexus를 공격한다. 영웅은 투사체 기본 공격과 궁극기, 덤불 은폐, XP 기반 최대 7레벨 성장을 사용한다.
++-                                    항목
++-                                    기준
++-플레이 형태
++-1인 플레이어 대 봇
++-맵
++-상단·중앙·하단 3개 라인, 각 진영 라인별 Tower 1개(총 6개), 진영별 Base/Nexus 1개, Brush 2개 이상
++-영웅 구조
++-Hero 공통 기반 + PlayerHero/BotHero 분리, PlayerController/BotController로 제어
++-전투
++-LMB 또는 K = 동일 BasicAttackCommand, J = UltimateCommand
++-성장
++-CurrentXP 방식, 최대 Level 7, 임계 XP 도달 즉시 레벨업, 미리 선택한 HP/공격력/이동속도 강화 자동 적용
++-시야
++-VisibilitySystem이 visibleToPlayer 계산, Snapshot은 객체 존재를 숨기지 않음
++-그래픽
++-DirectX 11, 2D 도형 또는 단색 스프라이트
++-한 판 길이
++-약 5~10분(밸런스보다 보안 관찰 용이성 우선)
++-
++-2.2 포함 범위
++-메인 메뉴, 게임 시작, Pause/Resume, 재시작, 종료
++-WASD/방향키 이동, 대각선 Normalize, 기본 자동 조준과 선택 가능한 마우스 조준
++-Basic/Ultimate 투사체, 충돌, 피해, 사망, 부활
++-Bot, Minion, Tower, Base/Nexus, HUD, XP, Brush visibility
++-Victory/Defeat/Draw 판정
++-개발·실험 로그, hash/commit/seed/replay 기록
++-2.3 제외 범위
++-인터넷 멀티플레이, 계정, 매치메이킹, 채팅
++-정글/아이템/룬/고급 길찾기
++-상용 안티치트 커널 드라이버
++-제3자 프로그램/온라인 게임 대상 공격
++-초기 기준 빌드의 멀티프로세스/IPC. 단, 4개 필수 실험 후 시간이 남으면 선택 확장
++-2.4 핵심 게임 흐름
++-메인 메뉴에서 새 경기를 시작한다.
++-GameWorld가 Map/Brush, 양 Hero, Tower/Base, 최초 Minion wave를 생성하고 Playing으로 전환한다.
++-Player/Bot이 이동·기본 공격·궁극기를 사용한다. 쿨다운과 timer는 공통 GameTime 기준으로 갱신한다.
++-Minion 또는 Enemy Hero 처치로 XP를 얻는다. XP가 임계값에 도달하면 즉시 레벨업하고 미리 선택한 강화 유형을 자동 적용한다.
++-Hero 사망 시 레벨에 따른 대기 후 자기 Base/Nexus Spawn Point에서 full HP로 부활한다.
++-Base 파괴 simulation timestamp를 기록하고 10ms 이내 양쪽 파괴면 Draw, 아니면 먼저 파괴된 Base 진영이 패배한다.
++-2.5 입력·조준·시야 규칙
++-WASD와 방향키는 동일 move vector로 변환하며 대각선은 Normalize한다.
++-LMB와 K는 같은 Basic 공격이며 새 누름마다 즉시 한 발을 발사한다. LMB는 클릭 지점으로, K는 현재 Auto/Mouse 모드에 따라 조준한다.
++-J는 UltimateCommand이며 5.0s cooldown을 사용한다.
++-기본값은 자동 조준이다. K/J는 사거리 안에서 보이는 적을 우선 지정하고, LMB는 클릭 지점을 조준한다. Tab으로 마우스 조준 모드와 자동 조준 모드를 전환한다. 상세 우선순위는 13.4절을 따른다.
++-유효 표적이 없거나 마우스가 Hero 중심과 겹치면 마지막 유효 방향, 없으면 적 Base 방향을 사용한다.
++-한 화면 맵의 Brush 밖 생존 Hero는 거리와 관계없이 visible이다. Brush 안 Hero만 상대에게 invisible이며, 같은 Brush 상대 Hero가 있거나 공격 후 1.5s reveal 중이면 visible이다. 사망 Hero는 렌더링과 Auto 조준에서 제외하고 부활 시 시야를 다시 계산한다.
++-Minion/Tower에는 Brush 은폐 판정을 적용하지 않는다.
++-3 게임 사용자와 Use Case
++-3.1 게임 행위자
++-                                   행위자
++-                                    역할
++-Player
++-게임 시작, 이동/공격/궁극기, Pause/Resume, 능력치 강화, 결과 화면 조작
++-
++-게임 시스템과 상호작용하는 외부 행위자는 Player다. 보안 실험 수행자는 사용자 본인(프로젝트 담당자)이며, 게임 밖에서 빌드·패치·방어·재공격 실험을 수행하므로 게임 기능의 행위자가 아니다. 실험 절차는 3.4절 및 6장의 프로젝트 활동으로 기술하고 게임 Use Case 목록과 다이어그램에는 포함하지 않는다. UC G01-1 게임 초기화는 UC G01에 포함되는 내부 동작이다.
++-3.2 주요 Use Case
++-                                      ID
++-                                   Use Case
++-                                 주 행위자
++-                                 완료 결과
++-UC G01
++-게임 시작
++-Player
++-맵과 모든 경기 객체가 초기화되어 Playing 상태가 된다.
++-UC G01-1
++-게임 초기화
++-없음(내부 include)
++-GameWorld가 Map/Hero/Minion/Tower/Base/Brush를 생성한다.
++-UC G02-1
++-이동
++-Player
++-이동 벡터와 충돌 결과가 적용되고 Brush 진입/이탈 시 visibility가 재계산된다.
++-UC G02-2
++-기본 공격
++-Player
++-LMB/K 새 누름마다 동일 Basic projectile 한 발이 생성된다. 누른 상태에서는 반복 발사하지 않는다.
++-UC G02-3
++-궁극기
++-Player
++-J 입력으로 Ultimate projectile이 생성되고 5s cooldown이 시작된다.
++-UC G02-P
++-Pause/Resume Match
++-Player
++-GameTime 기반 simulation update가 정지/재개된다.
++-UC G03
++-능력치 강화
++-Player
++-CurrentXP가 임계값에 도달하면 즉시 Level과 사전 선택 강화가 갱신된다.
++-UC G04
++-경기 종료
++-Player
++-Victory/Defeat/Draw 결과 화면 후 재시작 또는 종료한다.
++-
++-3.3 Use Case Diagram
++-                                       
++-그림 1. 게임 Use Case Diagram. 시스템 경계 안에는 Player가 이용하는 게임 기능만 표시한다.
++-3.4 보안 실험 반복 절차 (프로젝트 수행 흐름)
++-그림 2. 보안 실험의 프로젝트 작업 흐름 (게임 Use Case 아님)
++-                                       
++-아래 흐름은 프로젝트 담당자가 게임 빌드를 대상으로 수행하는 시간 순서상의 실험 활동이다. 게임 안에서 제공하는 기능이나 게임 시스템의 Use Case가 아니며, 실험자는 별도 외부 역할로 표기하지 않는다.
++-4 요구사항
++-4.1 기능 요구사항
++-                                      ID
++-                                 요구사항
++-                                 우선순위
++-FR G01
++-새 경기 시작 시 3개 라인의 Map, Player/Bot Hero, 라인별 Minion과 Tower, Base, Brush를 초기화한다.
++-필수
++-FR G02
++-WASD/방향키 이동과 LMB/K 동일 BasicAttackCommand, 기본 자동 조준, LMB 클릭 지점 수동 조준 및 Tab 마우스 조준 모드을 제공한다.
++-필수
++-FR G03
++-J 직선 Ultimate와 5.0s cooldown을 제공한다. Player Basic은 새 누름마다 즉시 발사하고 Bot Basic은 1.0s AI 공격 주기를 사용한다.
++-필수
++-FR G04
++-12s마다 각 라인 wave 2기(총 6기, 최초 wave 즉시), Minion은 자기 경로의 살아 있는 적 Tower를 먼저 공격하고 파괴 후 적 Nexus를 공격한다.
++-필수
++-FR G05
++-Tower/Base 피격·파괴 및 Base 10ms 동시 파괴 Draw 판정을 제공한다.
++-필수
++-FR G06
++-BotState Patrol/Push/Engage/Retreat/Recover/Defend/Dead 규칙으로 BotHero를 제어한다.
++-필수
++-FR G07
++-VisibilitySystem이 모든 객체의 visibleToPlayer를 계산하고 Renderer는 flag를 준수한다.
++-필수
++-FR G08
++-CurrentXP 방식으로 Minion 20XP, Enemy Hero 100XP를 지급한다.
++-필수
++-FR G09
++-RequiredXP를 100-->120-->144-->173-->208-->250으로 적용하고 최대 Level 7로 제한하고 임계 XP 도달 즉시 순차 레벨업한다.
++-필수
++-FR G10
++-Level up 시 HP +20, Basic +2 & Ultimate +8, MoveSpeed +15 중 미리 선택한 유형을 자동 적용한다(기본 공격력).
++-필수
++-FR G11
++-Pause 중 cooldown/respawn/reveal 등 GameTime 기반 timer를 정지한다.
++-필수
++-FR G12
++-Hero 사망 시 level 기반 5~11s 후 자기 Base Spawn Point에서 full HP로 부활한다.
++-필수
++-FR S01
++-개발/실험 로그에 SimulationTime, category/event/entity/detail 및 experiment metadata를 기록한다.
++-필수
++-FR S02
++-A1~A4 각 방어는 공격을 탐지 또는 영향 제한하고 동일 조건 재시험을 지원한다.
++-필수
++-FR S03
++-공격-->방어-->동일 공격 재시험-->재공격-->방어 개선을 반복한다.
++-필수
++-FR G13
++-영웅은 마지막 피해 후 5s 동안 생존·Playing 상태일 때만 2 HP/s 자연 회복한다. Bot Recover의 안전 구역 4 HP/s와 중첩하지 않는다.
++-필수
++-FR G14
++-XP 조건 충족 시 선택 UI 대기 없이 즉시 레벨업하고 사전 지정 강화(기본 Attack)를 적용한다. 초과 XP와 연쇄 레벨업을 처리한다.
++-필수
++-FR G15
++-상단·중앙·하단 3개 라인에 양 진영 Tower와 Minion 경로를 배치하고 Hero가 전체 맵을 이동할 수 있게 한다.
++-필수
++-FR G16
++-K/J는 기본 자동 조준, LMB는 클릭 좌표 조준, Tab은 K/J의 자동·마우스 조준 모드를 전환한다. 유효 표적 없음/은폐/사망을 안전하게 처리한다.
++-필수
++-
++-4.2 비기능 요구사항
++-                                      ID
++-                                 품질 속성
++-                                 측정 기준
++-NFR 01
++-성능
++-일반 개발 PC 평균 60 FPS 목표. 1초 이상 연속 30 FPS 미만 구간 없음. 방어 ON의 평균 frame time 증가율 기록.
++-NFR 02
++-안정성
++-10회 연속 경기 crash 없음, 진행 불가 없음, Result 도달, 재시작 가능.
++-NFR 03
++-재현성
++-Git commit, EXE SHA-256, build config, RNG seed, Attack/Defense version, 실행 시각, replay/procedure ID, result log 보존.
++-NFR 04
++-변경 용이성
++-Renderer mutable API 금지, HUDRenderer ViewModel only, InputManager 직접 HP/Attack/XP 변경 금지, VisibilitySystem 전투 변경 금지, CombatSystem rendering API 호출 금지.
++-NFR 05
++-안전 경계
++-격리된 VM/Sandbox와 본인 소유 실행 파일에서만 공격 실험 수행.
++-
++-5 논리 구조와 상태 모델
++-5.1 권장 기술 기준 및 Official Experiment Build
++-                                    항목
++-                                      값
++-Platform
++-Windows x64
++-Compiler
++-MSVC v143 (Visual Studio 2022)
++-Language
++-C++17
++-Configuration
++-Release
++-Runtime
++-/MD
++-Optimization
++-/O2
++-LTCG
++-OFF
++-ASLR
++-ON (/DYNAMICBASE)
++-DEP/NX
++-ON (/NXCOMPAT)
++-Stack Security
++-ON (/GS)
++-Debug Symbols
++-PDB 생성, 실험자 로컬 보관 / 배포 금지
++-DirectX
++-DirectX 11
++-
++-Debug 빌드는 개발·오류 분석에만 사용한다. 공식 공격/방어 비교 결과는 위 Official Experiment Build에서만 측정한다.
++-5.2 주요 구성요소와 책임
++-                                 구성요소
++-                                    책임
++-                               주요 데이터
++-Application
++-초기화, 메인 루프, 종료
++-GameTime, GameState
++-InputManager
++-키보드/마우스 입력을 command로 변환
++-move, BasicAttackCommand, UltimateCommand, aim mode, upgrade preference, Pause
++-GameWorld
++-모든 객체 생성·소유·제거, update 순서, match result
++-Hero/Minion/라인별 Tower/Base/Brush/Projectile, lastDamageTime
++-Hero
++-공통 전투·성장 데이터
++-HP, Attack, MoveSpeed, Level, CurrentXP, HeroState, cooldown
++-PlayerHero
++-플레이어 Hero specialization
++-Hero 공통 규칙
++-BotHero
++-봇 Hero specialization
++-Hero 공통 규칙
++-PlayerController
++-Player input을 Hero command로 전달
++-move/attack/cast
++-BotController
++-거리·체력·위협 기반 의사결정
++-BotState, target, 100ms tick
++-Minion
++-독립 전투 객체
++-HP, position, waypoint/attackCd
++-GameWorld::UpdateMinions
++-웨이포인트 전진과 적 Tower 우선·이후 Nexus 대상 선택
++-Advance/Attack
++-Tower
++-고정 방어 객체
++-HP, damage, range, target
++-Base
++-고정 기지/Spawn Point
++-HP, team, spawn
++-Brush
++-AABB 영역만 제공
++-Rectangle
++-Projectile
++-투사체 상태
++-type, team, pos, dir, damage, range
++-CombatSystem
++-공격 가능 여부, spawn 요청 계산, collision 결과 해석, damage/death/kill
++-attack request/result
++-VisibilitySystem
++-visibility flag 및 reveal 계산
++-visibleToPlayer, revealUntil
++-Renderer
++-Snapshot read-only 월드 표시
++-Device/Context/Snapshot
++-HUDRenderer
++-HUD ViewModel read-only 표시
++-HP/XP/Ultimate cooldown/공격 피해량/조준 대상/result
++-ProgressionRules
++-XP, RequiredXP, 능력치 강화
++-level/currentXP/requiredXP/선호 강화, 즉시 다중 레벨업
++-GameWorldSnapshot/EntitySnapshot
++-렌더링 대상 모든 객체 정보 + visibility
++-id/type/pos/size/team/visible/alive
++-HUDViewModel
++-HUD용 읽기 전용 상태
++-HP/Level/CurrentXP/RequiredXP/선호 강화/aim mode/K·J 자동 표적/Ultimate cooldown/result
++-Enumerations
++-상태 enum 정의
++-GameState/HeroState/BotState/waypoint/attackCd
++-
++-5.3 Hero 계층 구조
++-BotHero가 PlayerHero를 상속하는 구조는 사용하지 않는다. 공통 Hero를 기반으로 PlayerHero와 BotHero를 분리하며, 입력·AI 제어는 Controller에서 담당한다.
++-  Hero ├─ HP / MaxHP / Attack / MoveSpeed ├─ Level / CurrentXP / HeroState └─ Ultimate cooldownPlayerController --> PlayerHero --> HeroBotController    --> BotHero    --> Hero
++-         
++-         
++-         
++-
++-
++-
++-5.4 Snapshot / Visibility 구조
++-  GameWorld
++-  ↓
++-GameWorldSnapshot
++-  ├─ 모든 렌더링 대상 객체의 위치/종류/팀 정보
++-  └─ visibleToPlayer
++-       ↓
++-Renderer
++-  └─ 정상 빌드에서는 visibleToPlayer == true만 Draw
++-       ↓
++-DirectX 11
++-VisibilitySystem은 객체를 Snapshot에서 제거하지 않고 visibleToPlayer flag만 계산한다. 따라서 기준 빌드는 은폐를 정상 반영하면서도, A4 VTable Hooking/렌더 경로 변조 실험에서 존재하는 비가시 객체를 별도 오버레이로 표시하는 관찰 실험이 가능하다.
++-  struct EntitySnapshot {
++-    EntityId id;
++-    EntityType type;
++-    Vec2 position;
++-    Vec2 size;
++-    Team team;
++-    bool visibleToPlayer;
++-    bool alive;
++-};
++-5.5 CombatSystem / GameWorld 소유권
++-  Player/Bot Attack Request
++-        ↓
++-CombatSystem
++- - 공격 가능 여부
++- - 피해량 / 방향
++- - Projectile 생성 파라미터 계산
++-        ↓
++-GameWorld::SpawnProjectile(...)
++-        ↓
++-GameWorld가 Projectile 생성·소유·제거
++-CombatSystem은 Projectile의 장기 소유자가 아니다. GameWorld가 생명주기를 소유하고, CombatSystem은 공격 가능 여부·spawn 요청·collision 결과 해석·damage·death/kill 판정을 담당한다.
++-5.6 핵심 상태
++-                                    대상
++-                                    상태
++-                                 주요 전이
++-경기
++-Menu, Initializing, Playing, Paused, Result
++-시작, 초기화, Pause/Resume, Base 파괴, 재시작
++-Hero
++-Idle, Moving, Attacking, Casting, Dead
++-입력/AI, 공격 요청, HP<=0, respawn
++-Bot
++-Patrol, Push, Engage, Retreat, Recover, Defend, Dead
++-거리/체력/Base threat/사망
++-Minion
++-Spawn, Advance, Attack, Dead
++-wave, Tower range, target loss, HP<=0
++-Projectile
++-Flying, Hit, Expired
++-생성, 충돌, max range/map boundary
++-
++-5.7 시간·업데이트 규칙
++-권장 simulation fixed timestep은 10ms 또는 accumulator 방식이다. variable timestep을 쓰더라도 모든 gameplay timer는 하나의 GameTime 기준을 사용한다.
++-Paused에서는 cooldown, respawn timer, reveal timer 등 GameTime 기반 timer가 모두 감소하지 않는다.
++-Result 상태에서는 전투/AI/Minion update를 중지한다.
++-로그에는 simulation timestamp와 wall-clock timestamp를 구분하여 기록한다.
++-Base 동시 파괴 판정은 monotonic simulation time을 사용한다.
++-5.8 클래스 다이어그램
++-                                       
++-그림 3. v0.11 클래스 구조  --  Hero 공통 기반, Controller 분리, GameWorld 소유권, Snapshot/ViewModel read-only 경계를 반영한다.
++-6 보안 실험 설계
++-6.1 실험 경계
++-모든 공격 실험은 프로젝트에서 직접 작성한 GameClient.exe와 실험용 DLL을 대상으로 하며, 격리된 Windows VM 또는 Sandbox에서 수행한다. 제3자 프로그램/게임/서비스는 대상이 아니다. 멀티프로세스/IPC 전환은 필수 4개 실험을 마친 뒤 선택 확장으로만 다룬다.
++-6.2 필수 공격·방어 실험 4회
++-                                      ID
++-                                 공격 유형
++-                                    대상
++-                                 예상 관찰
++-                                 방어 방향
++-A1
++-Patch
++-Ultimate cooldown 분기, HP/승패 조건, 상수/분기
++-Ultimate 5s cooldown 무시, 조건 변경, 게임 규칙 무시
++-중요 코드 구간 hash, 중요 판정 중복 검증, 기준값 검증
++-A2
++-DLL Injection / Memory Modification
++-Hero HP/Attack/MoveSpeed/CurrentXP/Cooldown/렌더 상태
++-능력치·XP·cooldown 변경, overlay
++-모듈/스레드 관찰, 값 범위 및 상태 일관성 검사
++-A3
++-Function Hooking
++-CombatSystem, Update, cooldown update, damage processing
++-damage/시간 흐름/입력 처리 변조
++-함수 시작부 무결성, 호출 대상 주소 확인, 결과 교차 검증
++-A4
++-DirectX 11 VTable Hooking
++-Renderer의 Draw/DrawIndexed 또는 실제 호출
++-비가시 적/Brush 안 적 강조, ESP 형태 overlay
++-VTable pointer 범위, 기대 원본 주소, module boundary, render path 검증
++-
++-6.3 동일 조건 실험 규칙
++-동일 Windows VM/Sandbox snapshot, CPU/GPU, 화면 해상도, 실행 권한, GameClient 설정 파일을 사용한다.
++-동일 소스 commit에서 파생된 비교 대상, 동일 compiler/toolset/build config를 사용하고 각 EXE SHA-256을 기록한다.
++-동일 Map/Hero 기본 능력치/Tower·Base HP/Minion 설정/Bot 정책/시작 위치/CurrentXP·Level/초기 cooldown=0을 사용한다.
++-RNG Seed는 0xE4511E로 고정한다.
++-가능하면 Input Replay를 사용하고, 늦어질 경우 동일 수동 절차를 procedure ID로 문서화한다.
++-각 핵심 공격/방어 조합은 조건별 최소 10회 반복한다.
++-  0.000 W Down
++-0.800 W Up
++-1.000 K
++-2.500 J
++-...
++-                                    조건
++-                                    목적
++-Attack OFF / Defense OFF
++-정상 기준
++-Attack ON / Defense OFF
++-취약성 확인
++-Attack ON / Defense ON
++-방어 효과 확인
++-Reattack ON / Defense ON
++-방어 가정 우회 확인
++-
++-6.4 정량 평가 지표
++-                                    지표
++-                                    정의
++-Attack Success
++-목표한 변조가 실제로 성공했는가
++-Detection
++-방어가 공격을 탐지했는가
++-Detection Latency
++-공격 발생 simulation timestamp부터 탐지 로그까지 시간
++-False Positive
++-정상 실행을 공격으로 잘못 탐지한 횟수
++-Crash / Functional Failure
++-방어 또는 공격으로 정상 기능이 깨졌는가
++-Performance Overhead
++-방어 OFF 대비 방어 ON 평균 FPS/frame time 변화
++-Reattack Success
++-다른 경로/시점의 재공격 성공 여부
++-
++-  Attack Success Rate = 공격 성공 횟수 / 10
++-Detection Rate      = 공격 탐지 횟수 / 공격 실행 횟수
++-False Positive Rate = 정상 실행 오탐 횟수 / 정상 실행 횟수
++-6.5 로그 규칙
++-  [SimulationTime][Category][Event][Entity][Detail][12.540][COMBAT][DAMAGE][PlayerHero][target=BotHero amount=5][15.000][SECURITY][INTEGRITY_FAIL][CombatSystem][expected=... actual=...][20.010][MATCH][BASE_DESTROYED][TeamB][hp=0]
++-
++-
++-
++-Experiment ID
++-Build hash
++-Git commit
++-Seed
++-Attack version
++-Defense version
++-Detection timestamp
++-Attack result
++-Final match result
++-6.6 형상 관리 태그 규칙
++-  game-baseline-1.0
++-exp-a1-vulnerable
++-exp-a1-defense-v1
++-exp-a1-bypass-v1
++-exp-a2-vulnerable
++-exp-a2-defense-v1
++-exp-a2-bypass-v1
++-...
++-main은 항상 실행 가능한 안정 상태를 유지한다. 각 실험은 vulnerable --> defense --> bypass 비교 지점을 태그로 고정한다.
++-7 게임 제작과 보안 반복 실험 계획
++-                                    주차
++-                                 게임 개발
++-                                 보안 실험
++-                               주요 산출물
++-1주
++-Game loop, Input, Hero 이동, Basic, Ultimate, 충돌
++-자산/공격 표면 정의
++-이동·전투가 되는 뼈대
++-2주
++-Bot, Minion, Tower, Base, HUD, XP, Brush, Win/Lose/Draw
++-Baseline 1.0 동결
++-game-baseline-1.0
++-3주
++-기능 추가 금지
++-A1 Patch --> Defense --> Reattack
++-A1 공격·방어 기록
++-4주
++-동일
++-A2 DLL Injection --> Defense --> Reattack
++-A2 공격·방어 기록
++-5주
++-동일
++-A3 Function Hook --> Defense --> Reattack
++-A3 공격·방어 기록
++-6주
++-동일
++-A4 VTable Hook --> Defense --> Reattack
++-A4 공격·방어 기록
++-7주
++-동일
++-네 방어의 우회 조건 분석·보완, 회귀 시험
++-비교표/보완 방어
++-8주 선택
++-동일
++-최종 재현 시험, 시연, 여유 시 IPC 확장
++-최종 보고서/시연
++-
++-이 문서의 v0.7 게임 규칙과 회귀 시험을 만족한 빌드를 기준선으로 동결하고 이후 보안 비교 실험 중에는 게임 기능을 추가하지 않는다.
++-진도가 늦으면 그래픽 품질/맵 장식을 먼저 축소한다.
++-체력, cooldown, 능력치, visibility, renderer 경로는 보안 실험 대상이므로 삭제하지 않는다.
++-6~7주에 끝내야 하는 경우 7~8주 활동을 압축하되 A1~A4 네 실험은 삭제하지 않는다.
++-8 시험·정량 평가·추적성
++-8.1 대표 시험
++-                                   시험 ID
++-                              연결 요구사항
++-                                 시험 내용
++-                                 통과 기준
++-TC G01
++-FR G01
++-게임 시작 후 생성 객체/초기 상태 확인
++-필수 객체 1회 생성, Playing 전환
++-TC G02
++-FR G02/G03
++-WASD/방향키, LMB/K, J 입력
++-동일 이동, LMB 클릭 방향과 K/J 자동 조준, projectile 생성
++-TC G03
++-FR G06
++-Engage/Retreat/Defend 상황 구성
++-거리/HP/Base threat 조건에 맞는 BotState
++-TC G04
++-FR G04
++-Minion wave와 target 선택
++-Tower 앞 정지·반복 공격, 파괴 후 Nexus 앞 정지·반복 공격
++-TC G05
++-FR G07
++-Brush 진입/동일 Brush/공격 reveal
++-visibleToPlayer와 화면 표시 일치
++-TC G06
++-FR G08~G10
++-XP/Level/Stat upgrade 반복
++-100/120/144/173/208/250 및 즉시 레벨업·사전 선택 강화·초과 XP 유지·Bot 자동 강화
++-TC G07
++-FR G05/G11
++-Pause/Resume, Base 파괴
++-Pause 중 timer 정지, Result 정상
++-TC G08
++-FR G02
++-Basic input edge and immediate repeat
++-새 누름 2회는 즉시 2발, 길게 누름은 1발, 동시 LMB/K는 1발
++-TC G09
++-FR G02/G03
++-자동 조준 대상/Tab 수동 모드/유효 표적 없음에서 K/J 발사
++-설정한 조준 방식의 방향과 projectile 방향 일치
++-TC G10
++-FR G12
++-Hero 사망 및 level별 respawn
++-5~11s 후 자기 Nexus Spawn에서 full HP
++-TC G11
++-FR G05
++-Base 파괴 시간 차이 <=10ms / >10ms
++-<=10ms Draw, >10ms 먼저 파괴된 Base 진영 패배
++-TC G12
++-FR G04
++-Enemy Minion/Hero/Tower 동시 배치
++-Minion은 Tower 우선, 이후 Nexus 공격
++-TC S01
++-FR S01~S03
++-공격-->방어-->재공격 동일 초기 조건
++-단계별 build/log/success 구분
++-TC S02
++-NFR03
++-같은 seed/build/replay 10회 실행
++-정상 기준 결과가 동일 범위로 반복
++-TC G14
++-FR G13
++-피격 직후/5s 경과/재피격/최대 HP/Bot Recover/일시정지·사망
++-5s 이후 2 HP/s; Recover 4 HP/s만; 상태별 차단
++-TC G15
++-FR G08~G10/G14
++-임계값 정확히 도달, 초과 XP, 한 번에 여러 단계, 레벨 7, Bot, 재시작
++-즉시 레벨 상승·강화, 잔여 XP 보존, UI/HUD 동기화
++-TC G16
++-FR G01/G04/G15
++-3개 라인 wave·Tower·경로·경계·Brush/투사체, 3라인 수동 플레이
++-3개 라인 각 2기/12s, 충돌·시야·승패 유지
++-TC G17
++-FR G02/G03/G16
++-가시 적·은폐 적·동거리·대상 사망·표적 없음·Tab·LMB·K/J
++-모드 및 우선순위대로 조준, LMB/K 새 누름마다 1발
++-
++-8.2 Traceability Matrix
++-                                   Use Case
++-                                    FR/NFR
++-                              구현 구성요소
++-                                   Test Case
++-보안 실험 연계
++-G01 Start
++-FR G01
++-Application, GameWorld
++-TC G01
++--
++-G02-1 Move
++-FR G02
++-InputManager, PlayerController, Hero, GameWorld
++-TC G02/G09
++-A2
++-G02-2 Basic
++-FR G02
++-CombatSystem, Projectile, GameWorld
++-TC G02/G08/G09
++-A1/A2/A3
++-G02-3 Ultimate
++-FR G03
++-CombatSystem, Projectile, HUD
++-TC G02/G09
++-A1/A2/A3
++-Pause/Resume
++-FR G11
++-Application, GameWorld
++-TC G07
++-A3
++-Stat Upgrade
++-FR G08~G10
++-ProgressionRules, Hero, HUD
++-TC G06
++-A2
++-Brush Visibility
++-FR G07
++-VisibilitySystem, Snapshot, Renderer
++-TC G05
++-A4
++-Respawn
++-FR G12
++-GameWorld, Hero
++-TC G10
++-A2/A3
++-Minion
++-FR G04
++-Minion, GameWorld::UpdateMinions, Tower
++-TC G04/G12
++-A2/A3
++-End Match
++-FR G05
++-CombatSystem, GameWorld
++-TC G07/G11
++-A1
++-HP regen
++-FR G13
++-Hero, GameWorld, HUD
++-TC G14
++-A2
++-Level up
++-FR G08~G10/G14
++-ProgressionRules, Hero, GameWorld, HUD
++-TC G06/G15
++-A2
++-Three lanes
++-FR G01/G04/G15
++-GameWorld, Map, Minion, Tower, BotController
++-TC G16
++-A2/A3
++-Auto aim
++-FR G02/G03/G16
++-InputManager, PlayerController, CombatSystem, HUD
++-TC G09/G17
++-A1/A3
++-
++-9 위험과 설계 결정
++-9.1 주요 위험
++-                                    위험
++-                                    영향
++-                                    대응
++-게임 기능 과다
++-2주 기준 빌드 지연
++-양 Base에서 분기·합류하는 3개 연결 라인, Hero 1종, Ultimate 1개로 범위 제한
++-렌더링 구현 지연
++-A4 실험 시간 감소
++-도형/단색 스프라이트 우선
++-무결성 검사 오탐
++-정상 실행 차단
++-개발/방어 빌드 분리, log-first, regression test
++-공격·방어 코드 결합
++-원인 분석 어려움
++-Game logic와 experiment boundary 분리
++-로컬 방어 한계
++-완전 차단 불가능
++-탐지/지연/영향 제한/재공격을 각각 평가
++-실험 조건 불일치
++-결과 비교 불가능
++-Official Build + seed + replay/procedure + hash 고정
++-
++-9.2 설계 결정
++-                                   결정 ID
++-                                    항목
++-                                 결정 내용
++-                                    상태
++-DEC 01
++-실행 구조
++-초기 단일 프로세스 GameClient.exe, 여유 시 IPC 확장
++-확정
++-DEC 02
++-그래픽
++-2D 탑다운 도형 또는 단색 스프라이트
++-확정
++-DEC 03
++-입력
++-WASD/방향키, LMB/K Basic alias, J Ultimate
++-확정
++-DEC 04
++-전투
++-Basic 새 누름마다 즉시 1발, Ultimate 5s cooldown
++-확정
++-DEC 05
++-성장
++-CurrentXP 방식, max 7, 세 능력치 강화
++-확정
++-DEC 06
++-Hero 구조
++-Hero 공통 기반 + PlayerHero/BotHero 형제 구조, Controller 분리
++-확정
++-DEC 07
++-Minion
++-적 Tower 우선·이후 Nexus 공격
++-확정
++-DEC 08
++-시야
++-VisibilitySystem flag 계산, Snapshot은 모든 객체 보유
++-확정
++-DEC 09
++-전투 소유권
++-CombatSystem 판정, GameWorld projectile 생명주기 소유
++-확정
++-DEC 10
++-렌더링
++-Renderer/HUDRenderer read-only Snapshot/ViewModel
++-확정
++-DEC 11
++-보안 구조
++-고정 SecurityMonitor 없이 주기별 검사 코드 추가
++-확정
++-DEC 12
++-부활
++-5+(level-1)s, 자기 Base/Nexus Spawn에서 full HP
++-확정
++-DEC 13
++-동시 파괴
++-simulation time 차이 <=10ms이면 Draw
++-확정
++-DEC 14
++-필수 실험
++-A1 Patch, A2 DLL, A3 Function Hook, A4 VTable Hook
++-확정
++-
++-10 게임 Use Case 상세 흐름과 클래스 설계
++-10.1 모델링 원칙
++-게임 시스템의 외부 행위자는 Player 한 명이다. 프로젝트 담당자의 공격·방어·재공격 작업은 게임 Use Case가 아니다.
++-UC G01-1은 Actor가 없는 내부 <<include>> Use Case다.
++-능력치 강화는 UC G02를 extend하지 않고 Player와 직접 연결된 독립 Use Case다.
++-Brush 진입은 독립 Use Case가 아니라 이동의 대안/후속 흐름으로 처리한다.
++-Pause/Resume Match는 Hero 행동의 하위 타입이 아니라 별도 Use Case다.
++-공격·방어·재공격의 시간 순서는 게임 Use Case Diagram이 아니라 3.4절의 프로젝트 활동 흐름과 6장의 실험 절차로 표현한다.
++-UC G01 게임 시작
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-GameClient가 실행되어 Menu 상태다.
++-기본 흐름
++-1) Player가 새 게임을 선택한다. 2) 시스템이 UC G01-1 게임 초기화를 실행한다. 3) 성공 시 Playing으로 전환하고 HUD를 표시한다.
++-대안 및 예외
++-초기화 실패 시 부분 생성 객체를 정리하고 Menu로 복귀하며 오류 로그를 남긴다.
++-종료 조건
++-플레이 가능한 경기가 생성되어 입력을 받을 수 있다.
++-관계
++-UC G01-1을 <<include>>한다.
++-
++-UC G01-1 게임 초기화
++-                                    항목
++-                                    내용
++-주 행위자
++-없음(내부 동작)
++-시작 조건
++-UC G01에서 초기화를 요청했고 Initializing 상태다.
++-기본 흐름
++-1) Map/Brush 생성. 2) PlayerHero/BotHero 생성. 3) 세 라인 양측 Tower와 Base 및 Spawn Point 생성. 4) 최초 라인별 Minion wave 각 2기 생성. 5) Combat/Visibility/Snapshot/HUD 초기 데이터 연결.
++-대안 및 예외
++-필수 객체 생성 실패 시 전체 초기화를 취소하고 부분 생성 객체를 제거한다.
++-종료 조건
++-필수 객체가 GameWorld에 등록되고 초기 cooldown=0, seed가 설정된다.
++-관계
++-UC G01에 의해 항상 포함된다.
++-
++-UC G02-1 이동
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-Playing이고 PlayerHero가 Dead가 아니다.
++-기본 흐름
++-1) WASD/방향키를 읽는다. 2) 같은 move vector로 변환하고 대각선은 Normalize한다. 3) GameWorld가 충돌과 MoveSpeed를 적용한다. 4) Brush 진입/이탈 시 VisibilitySystem이 은폐 여부를 재계산한다.
++-대안 및 예외
++-Paused/Dead/Result면 무시한다. Map boundary/collision에서는 이동량을 제한한다.
++-종료 조건
++-유효 범위에서 Hero 위치 및 visibility가 갱신된다.
++-관계
++-Player와 직접 연결된 이동 Use Case.
++-
++-UC G02-2 기본 공격
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-Playing이고 생존 상태다.
++-기본 흐름
++-1) LMB 또는 K 입력을 BasicAttackCommand로 변환한다. 2) LMB는 클릭 좌표 방향, K는 Auto/Mouse 모드의 aimDirection을 읽는다. 3) CombatSystem이 spawn parameter를 계산하고 GameWorld에 Projectile 생성을 요청한다. 4) 새 누름당 한 발을 생성하며 누른 상태에서 반복하지 않는다. 5) 적 1개 충돌 시 damage 5 적용 후 소멸한다.
++-대안 및 예외
++-Paused/Dead/Result면 요청을 무시한다. Brush에서 사용하면 1.5s reveal을 등록한다.
++-종료 조건
++-Basic projectile 또는 명확한 거부 결과가 기록된다.
++-관계
++-LMB/K는 같은 Basic 공격을 새 누름당 한 번 생성하며 조준 방향은 입력 방식에 따른다.
++-
++-UC G02-3 궁극기
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-Playing, 생존, Ultimate cooldown==0.
++-기본 흐름
++-1) J 입력을 받는다. 2) Auto/Mouse 모드의 aimDirection으로 Ultimate projectile을 생성 요청한다. 3) 5.0s cooldown을 시작한다. 4) 충돌 시 damage 30을 적용하고 projectile을 소멸한다.
++-대안 및 예외
++-cooldown>0 또는 Paused/Dead/Result면 거부한다. Brush에서 사용하면 1.5s reveal을 등록한다.
++-종료 조건
++-Ultimate projectile 및 다음 사용 가능 시각이 기록된다.
++-관계
++-Player Basic의 새 누름 규칙과 독립이다.
++-
++-UC G02-P Pause/Resume Match
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-Playing 또는 Paused다.
++-기본 흐름
++-1) Pause 명령을 입력한다. 2) Playing-->Paused면 simulation GameTime update를 멈춘다. 3) 다시 입력하면 Playing으로 복귀한다.
++-대안 및 예외
++-Initializing/Result에서는 명령을 무시한다.
++-종료 조건
++-cooldown, respawn, reveal, AI/Minion update가 정지 또는 재개된다.
++-관계
++-독립 Use Case.
++-
++-UC G03 능력치 강화
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-Playing, level<7, CurrentXP>=RequiredXP.
++-기본 흐름
++-1) RequiredXP를 CurrentXP에서 차감하고 level+1. 2) 초과 XP 유지. 3) 저장된 강화 선호(기본 Attack)를 즉시 적용. 4) 1/2/3 키는 이후 레벨업 선호를 변경. 5) HP는 MaxHP+20, CurrentHP+20(상한 MaxHP); Attack은 Basic+2, Ultimate+8; MoveSpeed는 +15. 6) nextRequiredXP=ceil(currentRequiredXP*1.2). 7) 여러 레벨 조건이면 Level 7까지 순차 처리.
++-대안 및 예외
++-능력치 선택 대기로 레벨업을 막지 않는다. Level 7에서는 추가 레벨업 없음. Bot은 동일 ProgressionRules를 쓰되 BotController 정책으로 자동 선택한다.
++-종료 조건
++-Level/CurrentXP/RequiredXP/능력치/HUD가 갱신된다.
++-관계
++-독립 Use Case, UC G02 extend 관계 없음.
++-
++-UC G04 경기 종료
++-                                    항목
++-                                    내용
++-주 행위자
++-Player
++-시작 조건
++-한쪽 또는 양쪽 Base HP<=0 이벤트가 발생했다.
++-기본 흐름
++-1) 각 Base 최초 파괴 simulation timestamp를 기록한다. 2) 양쪽 파괴 시 |tA-tB|<=0.010s면 Draw. 3) 차이가 크면 먼저 파괴된 Base 진영 패배. 4) GameWorld를 Result로 전환하고 update를 중지한다. 5) 결과 화면에서 재시작/종료를 선택한다.
++-대안 및 예외
++-한쪽만 파괴되면 즉시 Victory/Defeat를 결정한다. wall-clock이 아니라 simulation time을 사용한다.
++-종료 조건
++-Victory/Defeat/Draw 결과가 고정되고 재시작 또는 종료한다.
++-관계
++-Base 파괴부터 Result 처리까지 하나의 Use Case.
++-
++-
++-
++-
++-11 Game Parameter Table
++-                                   Category
++-                                   Parameter
++-                                   Baseline
++-Hero
++-Max HP
++-100
++-Hero
++-Start HP
++-100
++-Hero
++-MoveSpeed
++-220 px/s
++-Hero
++-Collision Radius
++-18 px
++-Hero
++-Vision Radius
++-Brush 밖: 화면 전체 / Brush 안: 같은 Brush 또는 reveal 1.5 s
++-Hero
++-Respawn Base
++-5 s + (level-1)x1 s
++-Basic
++-Damage
++-5
++-Basic
++-Cooldown
++-Player: 새 누름마다 즉시 발사; Bot: AI 주기 1.0 s
++-Basic
++-Projectile Speed
++-1000 px/s
++-Basic
++-Range
++-700 px
++-Ultimate
++-Damage
++-30
++-Ultimate
++-Cooldown
++-5.0 s
++-Ultimate
++-Speed
++-1250 px/s
++-Ultimate
++-Range
++-1000 px
++-Brush
++-Count
++-2
++-Brush
++-Size
++-약 240x90 px
++-Brush
++-Reveal Time
++-1.5 s
++-Minion
++-HP
++-40
++-Minion
++-Damage
++-8
++-Minion
++-MoveSpeed
++-110 px/s
++-Minion
++-Attack Range
++-Tower 70 px / Nexus 60 px
++-Minion
++-Attack Interval
++-1.0 s
++-Minion
++-Wave Interval
++-12 s
++-Minion
++-Count/Wave
++-라인별 2기(진영별 총 6기)
++-Minion
++-Kill XP
++-20
++-Tower
++-HP
++-300
++-Tower
++-Damage
++-15
++-Tower
++-Range
++-260 px
++-Tower
++-Attack Interval
++-1.0 s
++-Base
++-HP
++-500
++-Base
++-Attack
++-없음
++-XP
++-Hero Kill
++-100
++-XP
++-1-->2
++-100
++-XP
++-2-->3
++-120
++-XP
++-3-->4
++-144
++-XP
++-4-->5
++-173
++-XP
++-5-->6
++-208
++-XP
++-6-->7
++-250
++-Upgrade
++-HP
++-MaxHP +20, CurrentHP +20
++-Upgrade
++-Attack
++-Basic +2, Ultimate +8
++-Upgrade
++-MoveSpeed
++-+15 px/s
++-Bot
++-Decision Tick
++-100 ms
++-Bot
++-Engage Distance
++-500 px
++-Bot
++-Retreat
++-HP <= 30%; Recover 안전 구역에서 HP >= 55% 시 재출전
++-Bot
++-Defend
++-Enemy Hero가 자기 Base 중심 450 px 이내
++-Bot
++-Basic use
++-Enemy distance <=650 px; AI interval 1.0 s
++-Bot
++-Ultimate use
++-Enemy distance <=850 px; cooldown 5.0 s
++-Security
++-Draw Threshold
++-10 ms
++-Security
++-RNG Seed
++-0xE4511E
++-Security
++-Iterations
++-조건별 최소 10회
++-HP regen
++-Delay / Rate
++-마지막 피해 후 5s / 2 HP/s (Bot Recover는 기존 4 HP/s만)
++-Map
++-Lanes
++-Base(70/1210,360) <--> 분기(170/1110,360) <--> y=180/360/540, 도로 폭 101 px
++-Tower
++-Count
++-각 라인 양 진영 1개씩 총 6개
++-Minion
++-Count/Wave/Lane
++-각 라인 진영별 2기, wave 12s
++-Aim
++-Default / Toggle
++-자동 / Tab으로 자동·마우스 전환 (K/J); LMB 클릭 좌표
++-Upgrade
++-Default preference
++-Attack; 1=HP, 2=Attack, 3=MoveSpeed
++-
++-11.1 세부 게임 규칙 보충
++-Basic projectile은 적 1개와 충돌하면 즉시 소멸하고, map boundary 또는 최대 이동 거리 700px에서 만료된다.
++-Ultimate projectile은 적과 충돌하면 즉시 소멸하고, 최대 이동 거리 1000px에서 만료된다.
++-Friendly Fire는 없으며 projectile은 적 Team만 타격한다.
++-Tower target priority는 사거리 안 가장 가까운 적 Minion --> 적 Hero 순서다. 같은 거리면 먼저 들어온 target을 유지한다.
++-Minion은 Enemy Hero/Enemy Minion을 공격하지 않는다. 자기 라인의 살아 있는 Enemy Tower를 먼저 공격하고, 파괴 후 Enemy Nexus를 공격한다. 타깃 앞 70/60 px에서 정지해 8 피해를 1초마다 준다.
++-Base는 공격 기능이 없고 PlayerHero/BotHero 투사체와 적 Minion의 공격으로 피해를 받을 수 있다. Minion은 자기 라인의 적 Tower가 파괴된 뒤에만 Base를 공격한다. Tower 생존 여부와 무관하게 Hero가 Base를 공격할 수 있다.
++-Hero/Minion/Projectile은 Circle collision, Tower/Base/Brush는 AABB를 권장한다.
++-11.2 문서 기준선
++-v0.11 수정 사항을 반영한 기준선 동결 이후 비교 실험 중에는 위 수치를 임의로 변경하지 않는다. 이후 튜닝은 가능하지만 반드시 새 baseline/tag와 실험 조건으로 분리한다. 상용 게임 수준의 밸런스보다 공격·방어에 따른 상태 변화가 명확하게 관찰되는 것을 우선한다.
++-12 Bot FSM 회복 및 재출전 규칙 (v0.6 변경)
++-변경 이력: Bot 저체력 후퇴 뒤 회복·재출전 흐름을 추가했다. Tower 중심 대신 Tower에서 자기 Base 방향으로 계산한 defensive point를 사용하며, Retreat 30%와 Re-engage 55% hysteresis, 안전 구역 4 HP/s 회복, Tower 파괴·사망·부활·Restart 예외 처리를 적용한다.
++-12.1 Bot FSM 상태와 전이
++-BotState는 기존 Patrol, Push, Engage, Defend, Dead를 유지하고 Recover를 추가한다. Advance 역할은 기존 Push/Patrol이 수행한다.
++-Advance/Push --> Engage: 유효 적이 전투 거리 안에 진입한다. Advance/Push/Engage/Defend --> Retreat: currentHP / maxHP <= 0.30이다. Retreat --> Recover: defensive point 도착 허용 거리 안이다. Recover --> Push(Advance): currentHP / maxHP >= 0.55이다. Retreat/Recover --> Dead: HP <= 0이다. Dead --> 정상 상태: 부활 후 FSM 임시 상태를 초기화하고 일반 의사결정을 다시 수행한다.
++-12.2 후퇴, 회복 및 안전 규칙
++-Retreat 목표는 Tower 중심이 아니다. Tower와 Base가 유효하면 towerToBase = Normalize(basePosition - towerPosition), retreatPoint = towerPosition + towerToBase * retreatOffset을 사용한다. 현재 retreatOffset은 70 px이고 Hero/Tower 충돌 영역 및 도착 허용 거리 10 px를 고려한다. 좌표는 맵 경계로 제한한다.
++-Tower가 파괴되면 Base 위치를 대체 안전 목표로 사용한다. Tower와 Base 모두 유효하지 않으면 Result 규칙이 update를 중지하므로 포인터를 보관하거나 역참조하지 않는다. Retreat/Recover 중 목표는 매 update에 다시 계산하여 Tower 파괴 뒤에도 안전하게 fallback한다.
++-Recover는 Tower 반경 95 px 또는 Base 반경 90 px의 안전 구역 안에서만 delta time 기준 초당 4 HP를 회복한다. Hero HP는 최대 HP를 넘지 않는다. 30%와 55%의 서로 다른 기준으로 경계값 진동을 막으며, Recover 중 안전 구역을 벗어나면 Retreat로 돌아간다.
++-Recover 중 Bot은 적을 추격하지 않는다. Player가 160 px 이내로 접근했을 때만 Basic의 1.0s AI 공격 주기에 따른 최소 반격을 허용하며, 기존 Hero minimum separation 40 px을 유지한다. Dead, Paused, Result에서는 이동·공격·회복을 수행하지 않는다.
++-12.3 구현 경계와 로그
++-GameWorld가 Bot FSM 전이, 목표 계산, 이동, 회복 및 공격을 갱신한다. BotController는 정상 상태의 거리·위협 기반 결정을 유지한다. Renderer는 GameWorldSnapshot을 읽기만 하며 gameplay state를 변경하지 않는다.
++-BOT_FSM 로그는 Advance/Combat 계열 --> Retreat의 HP와 목표, Retreat --> Recover, Recover --> Advance, Tower 파괴에 따른 Base fallback, 사망 및 부활 초기화의 상태 전이 때만 기록한다. 매 프레임 반복 로그는 남기지 않는다.
++-12.4 요구사항 및 시험 추적성
++-FR G06은 BotState Patrol/Push/Engage/Retreat/Recover/Defend/Dead를 사용하며, HP <= 30% Retreat, Base 방향 defensive point, 안전 구역 4 HP/s Recover, HP >= 55% Push 재출전을 제공하도록 갱신한다.
++-TC G03은 기존 Engage/Retreat/Defend/Dead 상태 선택을 회귀 검증한다. TC G13 Bot FSM recovery는 31% 비후퇴, 정확히 30% Retreat, Tower 중심이 아닌 defensive point, 도착 후 Recover, 안전 구역 안/밖 회복, 4 HP/s 및 상한, 정확히 55% 재출전, Tower 파괴 fallback, 사망·Restart 초기화를 GameWorld update 경로로 검증한다.
++-13 플레이 경험 보완 규칙 v0.8
++-이 변경은 기준선 동결 전에 적용한다. 기존 보안 실험 A1~A4의 비교 조건은 동일한 새 기준선으로 다시 기록한다. 기존 game-baseline-1.0 태그가 이미 있다면 이동하지 않고 새 태그를 사용한다.
++-13.1 체력 자연 회복
++-Player와 Bot의 생존 영웅은 마지막 피해 시점부터 게임 시간 5초가 지나면 초당 2 HP를 회복한다. 회복량은 delta time에 비례하고 MaxHP에서 멈춘다. 새 피해를 받으면 대기 시간이 다시 시작한다. Paused, Dead, Result 중에는 회복하지 않는다. Bot의 Retreat 이동 중에는 자연 회복 조건을 만족해도 회복하지 않으며, Recover에서는 안전 구역의 기존 4 HP/s만 적용한다. 부활 시 full HP로 시작하고 타이머를 재설정한다.
++-13.2 경험치와 레벨업
++-XP 지급은 처치자 귀속이며 기존 Minion 20XP, 적 Hero 100XP를 유지한다. 처치 확정 시 현재 XP에 한 번만 더하고, CurrentXP >= RequiredXP이면 같은 GameWorld 갱신에서 XP를 차감하고 레벨을 1 올린다. 한 번의 지급으로 여러 임계값을 넘으면 레벨 7까지 반복한다. 정확한 경계값도 포함하고 초과 XP는 보존한다. Player의 강화 선호는 기본 Attack이며 1/2/3 키로 각각 HP/Attack/MoveSpeed를 미리 선택한다. Bot은 같은 규칙으로 Attack을 기본 적용한다. 강화 선택 화면을 기다리느라 레벨업이 멈추지 않는다. HUD에는 Level, CurrentXP/RequiredXP, 선호 강화를 즉시 표시한다. Level 7 이후 XP 처리는 기존 구현을 유지하되 레벨은 7을 넘지 않는다.
++-13.3 세 개의 단순 라인
++-맵은 1280x720 한 화면이다. 양 Base(70,360)/(1210,360)에서 각각 (170,360)/(1110,360)으로 나와 세 경로로 분기한다. 각 경로는 y=180/360/540에서 분리되어 양 진영 Tower(260,y)/(1020,y)를 지나고 상대 Base 앞에서 합류한다. Minion은 자기 Base 밖 x=135 또는 1145, y=360+(lane-1)x40+-10에서 출발해 공통 웨이포인트를 따라 110 px/s로 이동한다. 자기 경로의 살아 있는 적 Tower에 70 px 이내로 접근하면 정지해 8 피해를 1초마다 주며, Tower 파괴 후 같은 경로로 적 Nexus까지 가서 60 px 이내에서 8 피해를 1초마다 준다. Hero는 맵 전체를 자유롭게 이동하고 고급 길찾기/정글은 범위 밖이다.
++-13.4 간편 조준
++-기본 조준 모드는 Auto이다. K/J를 누르면 공격 가능한 거리의 visibleToPlayer=true인 살아 있는 적 중 가장 가까운 대상을 고른다. 거리가 같으면 고정 EntityId 순서로 정한다. Brush에 은폐된 상대는 후보에서 제외한다. 사거리 안 후보가 없으면 마지막 유효 조준 방향을 사용하고, 아직 없으면 적 Base 방향을 사용한다. LMB는 모드와 무관하게 클릭한 월드 좌표를 조준한다. Tab은 K/J의 Auto와 Mouse 모드를 전환한다. Mouse 모드에서 K/J는 기존 Hero-->mouseWorldPosition 방향을 따른다. 마우스가 Hero 중심에 있으면 마지막 유효 방향을 사용한다. LMB와 K는 새 누름마다 동일한 Basic 공격 한 발을 즉시 발사하고 J는 독립된 5초 Ultimate 쿨다운을 유지한다. UI는 조준 모드와 자동 대상 표시를 제공하며, Renderer는 Snapshot을 읽기만 한다. 현재 커서 위치에는 작은 십자 조준점을 표시한다. 조준점은 클라이언트 좌표를 1280x720 월드 좌표로 변환한 위치에 그리며 창 크기와 DPI가 바뀌어도 LMB 및 Mouse 모드의 발사 방향과 일치한다.
++-13.5 수용 기준과 기준선
++-TC G01~G13과 TC G14~G17, Bot visibility 및 Basic damage path 회귀 테스트을 실행하고 Debug/Release x64 빌드, GUI 실행, 직접 플레이로 3개 라인의 시야·충돌·조준·레벨 상승을 확인한다. 게임성을 플레이한 결과에 따라 수치를 조정할 수 있으나, 동결 전 설계서·코드·테스트 값을 다시 맞춘다. 기준선 동결 뒤에는 A1~A4 실험 결과를 같은 빌드 hash와 seed로 비교한다.
++-14. v0.11 연결 경로·공성·중앙 회복 오브젝트
++-14.1 맵 좌표 도식
++-Blue Base (70,360) --> Spawn (135,360) --> Fork (170,360) --> Blue Tower (260,y) --> Red Tower (1020,y) --> Merge (1110,360) --> Red Base (1210,360). y는 상·중·하 순서로 180/360/540이며 Red 경로는 이를 역순으로 따른다. 도로 외곽 폭은 112 px, 안쪽 폭은 101 px이다.
++-14.2 미니언과 기지 공성
++-12초마다 진영별·라인별 2기, 총 12기가 새로 생성된다. Minion의 경로 타깃은 자기 라인의 살아 있는 적 Tower --> 적 Nexus이다. Tower 70 px, Nexus 60 px 안에서 멈춰 1초마다 8 피해를 주고, 죽은 타깃 이후에는 다음 웨이포인트로 진행한다. Enemy Hero·Enemy Minion·아군 구조물은 공격하지 않는다. Hero 투사체는 기존처럼 Tower 생존 여부와 무관하게 Base를 공격할 수 있다. Base HP 0은 기존 10ms 동시 파괴 Draw 판정을 따른다.
++-14.3 타워 공격과 Bot 경로
++-양 팀 Tower는 260 px 이내 같은 라인 Enemy Minion을 우선 선택하고, 없으면 Enemy Hero를 선택한다. 1초마다 15 피해를 즉시 적용하며 같은 갱신의 Snapshot에 진영색 탄도선과 점 효과를 0.18초 표시한다. 표적이 없으면 공격하지 않는다. Bot Push는 Red Base 합류점에서 선택 라인 Tower를 거쳐 Blue Base 방향으로 이동한다. Retreat는 선택한 자기 Tower의 Base쪽 70 px 방어점으로 이동하고 Tower 파괴 시 자기 Base로 후퇴하며, 안전 구역 Recover 4 HP/s 및 55% 재진입을 유지한다.
++-14.4 중앙 회복 오브젝트
++-센터 (640,360)에 한 개가 경기 시작 20초 후 생성된다. 획득 30초 후 재생성하며 양 팀에 항상 보인다. 살아 있는 HP 미만 Hero만 28 px 이내 접촉으로 HP 20을 최대치 이하로 회복한다. 같은 틱에 둘 다 닿으면 ID 0 Player가 ID 1 Bot보다 먼저 획득한다. Minion·Projectile·Tower와 풀 HP Hero는 소비하지 않는다. Bot은 HP 31~50%, 거리 300 px 이내, 오브젝트 활성 시 한 생성 주기에 한 번만 최대 2.5초 추격하며 Retreat/Recover를 방해하지 않는다.
++-14.5 회귀 검증
++-TC G01~G17과 Bot visibility/Basic damage를 유지한다. 추가 테스트는 양 진영x상·중·하 6경로의 Tower 정지·반복 피해·Nexus 승패, 양 진영 Tower의 15 피해와 Snapshot 효과/무표적, 중앙 회복 20/30초·동시 획득·풀 HP·Minion 비획득을 검사한다. Debug/Release x64 빌드와 실제 GUI에서 연결 도로·타워 발사·중앙 오브젝트를 확인한다. 최종 밸런스는 사람의 직접 플레이 후 판단한다.
++-그림 4. v0.11 실제 연결 맵: 양쪽 Base 분기·합류, 라인별 Tower와 중앙 지점을 표시한다.
++-
++-15. v0.14 확장 맵·정글·2:2 Hero 현재 구현 (이 장이 이전 게임 규칙보다 우선)
++-2026-09-29. 기준: EASILE_baseline_candidate_map_jungle_bots_update.md와 최신 v0.13 설계서. Hero/Controller 분리, GameWorld 소유권, 읽기 전용 Snapshot/HUD, 10ms simulation 및 A1~A4 보안 실험 계획을 유지한다. 이 문서와 v0.14 Word 설계서의 최신 구현 장은 이전 버전의 상충하는 게임 규칙보다 우선한다.
++-범위와 baseline 상태
++-Player 1명 + Ally Bot 1명 대 Enemy Bot 2명, Top/Mid/Bottom 3 Lane, 진영별 Tower 3개와 Nexus 1개, 중앙 Jungle·벽·수풀·중립 회복 오브젝트를 포함한다. 인터넷 멀티플레이, 아이템, 룬, 복잡한 중립 몬스터는 제외한다.
++-NEW BASELINE: NOT READY. 사람의 Debug/Release 직접 플레이와 조준감·밸런스 확인이 남아 있다. 자동 GUI를 사람의 플레이 PASS로 기록하지 않으며 새 baseline 태그를 만들지 않는다. 기존 game-baseline-1.0 태그와 이전 설계서는 보존한다.
++-Map·Lane·Base·Tower·Nexus
++-그림 5. v0.14: 3 Lane, 정글 통로·전투 공간, 벽 4개, Bush 6개, 회복 오브젝트, Hero 생성점.
++-
++-월드 1920x1440은 이전 1280x720 좌표 면적의 정확히 3배다. 이동 가능한 영역은 연결 도로 캡슐·정글 통로·전투 공간의 합집합에서 벽을 뺀 영역이다. MapPaths.h가 이동·길찾기·공격 판정·렌더링에서 geometry를 공유한다. Hero 반경 26, Minion 반경 12와 맵 경계를 검사한다.
++-도로 외곽 280, 내부 표시 272로 이전 전투 폭 140의 2배다. Lane 중심 y=360/720/1080, 간격 360은 이전의 2배다. Blue/Red Base는 (105,720)/(1815,720), 분기·합류 (255,720)/(1665,720), 라인 Tower (390,y)/(1530,y)다. 가까운 Tower와 Nexus 사이에는 최소 285의 가로 공간과 넓어진 도로가 있다.
++-Player (205,720), Ally (205,800), Enemy 1 (1715,720), Enemy 2 (1715,640)에서 생성하며 몸체가 겹치지 않는다. 자기 Nexus 주변의 해당 생성점에서 full HP로 부활한다. Minion 생성은 x=205/1715, y=720+(lane-1)x40+-10으로 기존 간격을 유지한다.
++-Jungle·Wall·Bush·회복 오브젝트
++-중앙 x=960의 폭 140 통로가 y=360~1080의 세 Lane을 연결한다. (960,540)/(960,900)의 220x160 전투 공간은 좁은 연결부와 각 Lane 출구로 이어진다. Hero와 Bot 모두 이동할 수 있다.
++-벽 4개는 x=450~850 및 1070~1470, y=540 및 900의 중심선, 두께 60이다. 이동은 몸체 반경과 최대 8 단계를 검사해 벽과 도로 밖을 통과하지 못한다. 투사체는 이전-->다음 위치 선분의 벽·유닛 중 첫 충돌에서 소멸 또는 피해 처리하며 동시 충돌에서는 벽이 우선한다.
++-Bush 6개: Lane (750,360)/(1170,1080), 크기 180x80; Jungle (960,540)/(960,900), 크기 140x80; Mid 접근 (600,720)/(1320,720), 크기 140x80. 같은 Bush 또는 공격 후 1.5초 reveal이면 적 Hero가 보인다. 아군은 항상 표시하며 은폐된 적 Hero는 Auto 대상에서 제외한다. reveal은 벽 차단을 해제하지 않는다.
++-기존 회복 오브젝트를 위 Jungle (960,540)으로 옮겼다. 시작 20초 후 생성, 살아 있고 HP가 부족한 Hero가 28 이내 접촉하면 HP 20 회복, 획득 30초 후 재생성한다. 동시 접촉은 작은 Hero ID 우선이다. Bot의 HP 31~50%, 거리 300, 생성 주기당 한 번·최대 2.5초 추격을 유지한다.
++-Character·EntityId·XP
++-Hero ID는 Player=0, 기존 Enemy=1, Ally=2, 추가 Enemy=3이다. Minion ID는 100부터 생성해 Hero와 겹치지 않는다. HP·위치·레벨·XP·쿨다운·reveal·부활은 각 Hero가 소유한다. 봇별 BotRuntime은 FSM, 공격 주기, 회복 누적, 왕복, 추격 제한과 표적 ID를 독립적으로 관리한다. 사망·부활·Restart 시 해당 상태를 초기화한다.
++-투사체는 발사한 Hero ID와 원점을 보관한다. Hero 처치 100 XP, Minion 처치 20 XP는 실제 발사한 Hero에게 한 번 지급한다. 미니언끼리의 처치는 Hero에게 XP를 주지 않는다. 최대 7레벨, 즉시 레벨업, 강화 HP +20 / Basic +2·Ultimate +8 / MoveSpeed +15를 유지한다.
++-AI·Target Selection·위험도
++-Push/Engage/Defend와 Retreat-->Recover-->Push를 유지한다. Bot은 자기 HP, 보이는 적 Hero 거리·HP·ID, 아군 Hero, 같은 Lane의 아군/적 Minion, 자기/적 Tower·Nexus, Lane과 Jungle 진입 경로를 고려한다. 시작 진출 Lane은 Enemy 1=Mid, Ally=Bottom, Enemy 2=Top이고 가까운 위협에 따라 바꾼다. 확대 맵에서 위협 추적이 끊기지 않도록 Engage 감지 거리를 500-->850으로 조정했다.
++-기본 Retreat는 HP 30% 이하다. 유효 적 Hero 500 및 Lane Minion 200 안의 위협 수가 지원보다 2 이상 많으면 HP 40% 이하에서 후퇴한다. 아군 Hero 지원 반경은 450이다. 공격 표적은 거리 우선, 동거리 낮은 HP, 그 다음 작은 Hero ID이며 사거리·Bush·벽·Lane 차단을 검증한다.
++-자기 Lane의 Tower에서 Base 방향 30 떨어진 방어점으로 Retreat하고 Tower 파괴 시 자기 Nexus로 fallback한다. Recover는 Tower 뒤 12~40 구간을 왕복하고 끝점에서 약 0.30초 쉬며 같은 Lane 적 Minion을 우선 공격한다. 없으면 보이는 유효 적 Hero를 견제한다. 안전 구역 4 HP/s, 55% Push, Recover 18초 제한 및 3초 재후퇴 제한을 유지한다. Retreat/Recover에서는 Ultimate를 사용하지 않는다.
++-직선 이동이 막히면 도로 분기·Tower·중앙 Jungle 노드의 공통 그래프에서 최단 경로를 구한다. 간선은 실제 geometry와 몸체 반경으로 검사한다. 다른 Lane 이동과 회복 오브젝트 추격에도 같은 경로를 사용한다.
++-Combat·입력·Lane 차단
++-Basic 5, Ultimate 30을 유지한다. LMB/K는 새 누름마다 즉시 한 발이고 별도 쿨다운이 없다. Bot Basic은 봇별 1초 주기다. J는 이번 기준 Markdown의 요구대로 10초 쿨다운이다. 이전 v0.13의 5초와 충돌하므로 코드·테스트·README를 10초로 통일했다.
++-K Auto 사거리 700, J Auto 1000에서 가장 가까운 살아 있고 보이는 유효 적을 고르며 동거리는 EntityId 우선이다. Tab은 K/J Auto·Mouse 전환이고 LMB는 항상 마우스 방향이다. 유효 Auto 대상 또는 마우스 방향이 없으면 마지막 방향을 유지한다.
++-중앙 x=450~1470에서 실제 Lane 폭 안의 서로 다른 Lane 사이에는 직접 조준·피해를 금지한다. 열린 Jungle 입구로도 Top-->Mid, Mid-->Bottom 등에 직접 공격할 수 없다. Jungle 공간 안 대상과 벽 끝 밖 Base 연결부는 벽·거리·시야로 판단한다. MapPaths::AttackBlocked를 Auto, Bot, Tower/Minion 직접 공격 및 발사 원점 기준 투사체 피해에서 공유한다. LMB/K/J는 같은 규칙을 따른다.
++-Minion·Tower·경기 규칙
++-12초마다 팀·Lane별 2기, 총 12기를 생성한다. Route는 Spawn-->Fork-->자기 Tower-->적 Tower-->합류-->적 Nexus의 6점, Red는 역방향이다. Minion은 Jungle 그래프를 사용하지 않고 자기 Lane에 남는다.
++-살아 있는 적 Lane Tower 70 이내 우선, 그 외 같은 Lane 적 Minion 50 이내, Tower 파괴 후 적 Minion이 없으면 Nexus 60 이내를 공격한다. 8 피해/1초, 동거리 작은 ID, Hero 비공격을 유지한다. 템포를 위해 Minion 속도만 110-->130으로 약 18% 올렸고 Hero 속도 220은 유지했다.
++-Tower HP 300, Nexus HP 500, Tower 사거리 260·15 피해/1초·0.18초 효과를 유지한다. Tower는 같은 Lane 적 Minion 우선, 없으면 가까운 유효 적 Hero, 동거리 작은 Hero ID다. Hero의 Nexus 공격은 기존처럼 Tower 생존 여부와 무관하게 허용한다.
++-10ms simulation, Pause/Result 시간 정지, 마지막 피해 후 5초부터 자연 회복 2 HP/s, 안전 Recover 4 HP/s, 레벨 1 부활 5초·레벨당 1초 추가, full HP, 양 Nexus 10ms 이내 파괴 Draw를 유지한다.
++-Camera·Renderer·Mouse
++-Player 중심 카메라의 논리 viewport는 1280x720이다. offset=(Player.x-640,Player.y-360)을 월드 경계로 제한한다. Camera.h의 Screen=World-offset / World=Screen+offset을 공유한다. 벽·유닛·HP bar·투사체는 같은 offset으로 그리며 HUD는 화면에 고정한다.
++-InputManager의 resize 마우스 논리 화면 좌표에 Application이 입력 순간의 offset을 더해 월드 조준 좌표를 만든다. 대기 클릭은 이 월드 좌표를 유지한다. Crosshair는 렌더 시점 offset으로 실제 화면 커서에 맞춘다. 포커스 상실, 길게 누름 비반복, 동시 LMB+K 한 발 규칙을 유지한다.
++-Build·Test·실행 검증
++-Visual Studio 2022 / MSVC v143 / C++17 / Windows SDK / DirectX 11의 EASILE.sln Debug|x64 및 Release|x64를 빌드한다. 각 구성 GameTests.exe, 실제 GameClient.exe를 실행한다. --smoke-gui는 실제 창·DX11·HUD와 5프레임을, GameTests.exe --visual-expanded는 시작·중앙 전투·Jungle·카메라 경계·후퇴 장면을 검사한다.
++-기존 G01~G17과 모든 추가 회귀를 보존하고 옛 좌표 fixture를 새 geometry로 옮겼다. 이전 두 Hero를 검사하는 경우 추가 Hero를 격리한다. 신규 G18/G19는 Spawn·ID·상태, G20은 다수 Hero 충돌·XP·표적, G21 확장 Lane, G22 양 팀 고속 Basic/Ultimate Lane 차단, G23 Jungle 입구, G24 벽 및 열린 출구의 다른 Lane 피해 차단, G25 Jungle Bush, G26 양 팀x3 Lane 공성, G27 카메라·resize Mouse, G28 실제 규칙의 전체 경기 3회와 템포다.
++-G28은 HP 강제 감소나 Tower/Nexus 즉시 파괴 없이 10ms 이동 입력, Basic 0.1초 간격, J 요청 1초 간격을 재생한다. 동일 seed/입력 3회는 재현성 검사이며 사람의 평균 Match Duration은 아니다. 실제 측정과 Debug/Release·GUI 결과는 evidence/v014-validation.md에 기록한다.
++-Manual Play와 보안 반복 실험
++-사람이 Debug/Release에서 WASD/방향키/LMB/K/J/Tab, Lane·Jungle 이동, 벽, Bot·Minion·Tower·Nexus, 부활·Game End를 직접 플레이하고 조준감·밸런스를 확인하는 과정은 아직 남아 있다. 자동 입력 실행을 Manual Play PASS로 바꾸지 않는다.
++-기존 A1 Patch, A2 DLL Injection/Memory Modification, A3 Function Hooking, A4 DirectX 11 VTable Hooking 공격-->방어-->재공격 계획을 유지하며 이번에는 공격/방어 기능을 추가하지 않는다. A1의 현재 쿨다운 대상은 Ultimate 10초 검사다. 확정 후 동일 VM/Sandbox snapshot, 공식 Release x64, seed 0xE4511E, 입력/procedure, commit·EXE SHA-256·로그를 기록하고 조건별 최소 10회 비교한다.
++-모든 완료 조건 충족 시에만 선언한다: This version is the new EASILE 2D Game Baseline for subsequent anti-cheat attack/defense experiments. 이후 게임 대규모 확장은 동결하고 필요한 버그 수정과 보안 실험 최소 수정만 수행한다.
++-
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\354\240\204\354\262\264\354\204\244\352\263\204\354\204\234_v0.15.docx" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\354\240\204\354\262\264\354\204\244\352\263\204\354\204\234_v0.15.docx"
++deleted file mode 100644
++index 1d56f5a..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_2D\352\262\214\354\236\204_\354\240\204\354\262\264\354\204\244\352\263\204\354\204\234_v0.15.docx"
+++++ /dev/null
++@@ -1,50 +0,0 @@
++-EASILE 2D 게임 프로그램 설계서
++-v0.15 · Baseline 1.0 및 PATCH-01 방어 코드 반영 · 2026-10-03
++-대상: Windows x64 단일 프로세스 GameClient.exe. 이 문서는 게임 전체의 현행 구조와 추가된 방어 경로를 설명한다. Baseline 승인 사실과 변경된 작업 트리의 검증 상태는 구분한다.
++-1. 문서 목적과 기준
++-EASILE은 자체 제작 2D 탑다운 미니 MOBA를 보안 실험 대상으로 사용하는 프로젝트다. 본 문서는 v0.14 설계서의 게임 기능을 유지하면서 이후 소스에 추가된 IntegrityGuard와 런타임 쿨다운 검사를 전체 프로그램 아키텍처에 통합한 개정본이다. 코드에서 확인되지 않은 방어 효과를 완료 결과로 쓰지 않는다.
++-Baseline 1.0은 2026-09-30 사용자가 직접 플레이하고 승인한 게임 상태다. 당시 Debug/Release 빌드와 각 49개 자동 테스트가 통과했다. 현재 작업 트리에는 그 이후의 변경이 있으므로 이 문서의 `현재 구현'은 Baseline 바이너리와 동일하다는 뜻이 아니다. 공격 전·후·방어 빌드는 해시로 따로 식별한다.
++-2. 실행 환경과 배포 단위
++-솔루션 EASILE.sln은 GameClient와 GameTests 프로젝트로 구성된다. 플랫폼은 Windows x64, Visual Studio 2022/MSVC v143, C++17, Windows SDK, DirectX 11이다. GameClient는 Win32 창과 DX11 월드 화면, GDI 자식 HUD를 사용하는 단일 프로세스 실행 파일이다. GameTests는 월드 규칙과 회귀를 검사하는 별도 실행 파일이다.
++-Application은 창 생성, Renderer/HUDRenderer 초기화, 메시지 처리, 입력 읽기, 고정 10 ms 시뮬레이션 및 프레임 출력을 담당한다. GameTime은 steady_clock으로 프레임 델타를 만든다. 실행 옵션 --smoke-gui는 창과 렌더 경로를 몇 프레임 실행하는 검증 경로다. Release 최적화는 MaxSpeed이고 프로젝트 파일에서 WholeProgramOptimization은 false다. 빌드 보안 옵션은 실제 생성된 바이너리와 프로젝트 설정을 함께 확인해야 한다.
++-3. 프로그램 전체 구성
++-3.1 계층과 데이터 흐름
++-입력 경로: Win32 메시지·키보드·마우스 --> InputManager::Read --> PlayerCommand --> Application의 10 ms 입력 보존 --> PlayerController::BuildCommand --> GameWorld::Update. 화면 경로: GameWorld::CreateSnapshot 및 CreateHud --> Renderer(DX11)와 HUDRenderer(GDI). 기록 경로: GameWorld::Log --> Logger --> GameClient.log.
++-게임 규칙은 GameWorld가 조정한다. Hero는 체력·성장·쿨다운·사망·부활을 보유하고 PlayerHero/BotHero가 공통 Hero를 상속한다. 세 Bot은 BotController의 판단과 각각 독립 BotRuntime을 사용한다. CombatSystem은 피해와 사망을 판정한다. GameWorld는 Minion·Tower·Base·Projectile·Brush·회복 픽업과 경기 결과를 소유하고 갱신한다. MapPaths는 도로·정글·벽·경로·이동 및 공격 차단의 공통 기하 규칙을 제공한다.
++-보안 경로: GameWorld::Update의 Player 궁극기 분기 --> IntegrityGuard::VerifyUpdateIntegrity --> simulationTime_ 기반 10초 검사 --> Hero::UltimateReady --> Projectile 생성 및 Hero::StartUltimate --> lastUltimateUseTime_ 갱신. 검사가 실패하면 SECURITY 로그를 남기고 해당 Update 호출을 반환한다. 보안 검사는 월드 갱신 경로에 있으므로 정상 입력·시간·전투 규칙과 함께 설계·시험해야 한다.
++-3.2 모듈 책임과 경계
++-InputManager는 입력 상태와 새 누름 edge를 PlayerCommand로 변환하며 HP·XP를 수정하지 않는다. PlayerController는 사망 중 이동·공격을 막고 이동 벡터를 정규화한다. GameWorld는 update 순서와 객체 소유권, Bot 동작, 표적 선택, 발사, 충돌, 경험치 귀속, 승패를 결정한다. CombatSystem은 Hero/Minion/Tower/Base에 대한 피해 계산과 사망 여부를 반환한다. VisibilitySystem은 수풀·revealed 상태를 판정한다.
++-Snapshot의 EntitySnapshot은 종류·위치·크기·팀·visible·alive·HP 비율·ID 등의 읽기 전용 값을 담는다. Renderer는 visible && alive 객체만 그리며 카메라 오프셋을 적용한다. HUDViewModel은 HP, 레벨, XP, 공격 피해, 궁극기 남은 시간, 조준 방식, 표적, 결과를 담고 HUDRenderer가 읽기만 한다. 숨은 객체가 Snapshot에는 남는 구조는 렌더 변조 실험의 관찰 지점이기도 하다.
++-IntegrityGuard는 EXE 메모리의 지정 바이트를 CRC32로 비교하는 독립 네임스페이스다. Logger는 벽시각과 시뮬레이션 시간, category/event/entity/detail을 텍스트로 기록한다. 현재 Logger가 실험 ID·빌드 해시를 자동 기입하는 구조는 확인되지 않으므로 실험 메타데이터는 별도 결과표에서 연결해야 한다.
++-4. 게임 상태와 수명주기
++-GameState는 Menu, Initializing, Playing, Paused, Result다. Enter 입력으로 Restart/Initialize를 수행하고 Playing으로 전환한다. P는 Playing과 Paused를 전환한다. Result에서는 R로 새 월드를 만든다. Playing이 아니거나 deltaSeconds가 0 이하일 때 전투·타이머 update는 진행하지 않는다. Result는 Nexus 파괴 시 Victory/Defeat/Draw를 표시한다.
++-Initialize는 Player 1명, Blue Ally Bot 1명, Red Bot 2명과 BotRuntime 3개를 초기화하고 양 팀의 Tower·Nexus·수풀·최초 Minion wave를 설정한다. simulationTime_, waveTimer_, pickupTimer_, lastUltimateUseTime_, 조준 방향, 투사체와 결과를 재설정한다. 마지막 궁극기 시각은 -10초로 시작해 첫 발사를 허용한다.
++-HeroState는 Alive/Dead다. 사망 후 대기 시간은 레벨에 따라 5~11초이며 자기 진영의 Spawn 위치에서 최대 HP로 부활한다. BotState는 Patrol/Push/Engage/Retreat/Recover/Defend/Dead다. BotRuntime은 상태 타이머, 공격 주기, 표적 ID, Lane, 후퇴 지점, 회복 및 픽업 추적값을 Bot마다 별도로 보유한다.
++-5. 맵, 이동과 시야
++-월드 크기는 1920x1440, 플레이어 추적 화면은 1280x720이다. 상·중·하 Lane 중심 y는 360/720/1080이고 도로 폭은 280이다. 각 팀의 Base는 x=105/1815, Tower는 x=390/1530에 Lane별로 배치된다. 중앙 정글은 세 Lane을 잇는 통로와 두 공간, 벽 4개 및 회복 픽업을 가진다. Brush는 6개다.
++-MapPaths::Contains/MoveInside가 Hero와 Minion의 이동 가능한 지형을 제한한다. 벽은 몸체 이동과 투사체 경로를 막는다. AttackBlocked는 벽뿐 아니라 서로 다른 Lane 사이의 직접 공격을 제한한다. 카메라 오프셋은 화면 좌표와 마우스 월드 좌표 변환에 적용한다. HUD는 월드 카메라와 독립적으로 화면에 고정된다.
++-수풀 안 Hero는 같은 수풀에 있는 관찰자에게 보이거나 공격 후 1.5초 reveal 상태일 때 표시된다. 사망 Hero는 렌더와 자동 표적에서 제외한다. VisibilitySystem의 판정은 Player 시야와 Bot 표적 선택에 사용되며, Minion·Tower에는 Hero 수풀 은폐를 적용하지 않는다.
++-6. 입력, 전투와 성장
++-Enter는 시작, WASD/방향키는 정규화된 이동, P는 일시정지·재개, R은 결과 화면 재시작이다. LMB는 클릭한 월드 좌표로 Basic을 쏘고 K는 Auto/Mouse 모드에 따른 Basic을 쏜다. J는 Ultimate를 요청한다. Tab은 K/J의 조준 모드를 전환한다. 1/2/3은 이후 레벨업의 HP/Attack/MoveSpeed 선호를 정한다. 기본 선호는 Attack이다. LMB·K·J는 새 누름 edge만 처리하며 키를 계속 누른다고 반복 발사하지 않는다.
++-Basic 피해는 기본 5, Ultimate 피해는 기본 30이다. K 자동 조준 사거리는 700, J는 1000이며 보이고 공격 가능한 적을 대상으로 한다. 플레이어 Basic에는 별도 재사용 대기 시간이 없고 Ultimate 기본 쿨다운은 10초다. Bot Basic은 별도의 AI 공격 주기를 사용한다. GameWorld가 Projectile을 소유하고 거리·충돌·벽 판정을 거쳐 피해를 적용한다. 발사자 ID는 XP 귀속에 사용된다.
++-12초마다 팀·Lane별 Minion 2기씩 생성된다. Minion은 자기 Lane의 살아 있는 적 Tower, 적 Minion, 적 Nexus 순으로 공격 대상을 판단한다. Tower는 사거리 내 적 Minion 또는 Hero를 공격한다. Nexus가 파괴되면 승패를 결정하고 두 진영의 파괴 시뮬레이션 시각 차이가 10 ms 이내면 Draw다.
++-Hero는 Minion/적 Hero 처치 경험치로 최대 7레벨까지 즉시 성장한다. 필요 XP는 100-->120-->144-->173-->208-->250이고 초과 XP를 보존한다. 강화는 HP +20, Basic +2 및 Ultimate +8, 이동속도 +15 중 사전 선호를 적용한다. 마지막 피해 후 5초가 지난 생존 Hero는 초당 2 HP를 회복한다. Bot의 후퇴·회복 상태에는 별도 중첩 제한이 있다. 정글 픽업은 시작 20초 뒤 등장하고 20 HP를 회복하며 획득 후 30초 뒤 재생성된다.
++-7. 프레임 업데이트 순서와 시간 기준
++-Application은 프레임 시간을 최대 0.25초까지 누적하고 0.01초 단위로 GameWorld::Update를 호출한다. edge 입력은 첫 스텝에서만 사용되도록 보존·소비한다. 포커스를 잃으면 gameplay 입력을 버린다. Pause/Result에서는 누적 시간을 지우고 0초 update로 상태 명령만 처리한다.
++-Playing 스텝에서 GameWorld는 입력 명령을 정리하고 simulationTime_을 증가시킨 뒤 Hero 타이머·부활·자연 회복·이동·조준을 갱신한다. Player Basic과 Ultimate 요청을 처리한 다음 Minion wave, Bot, Projectile, Minion, Tower, 회복 픽업, 결과 판정 순으로 진행한다. 시간 기반 기능은 시뮬레이션 스텝에서만 갱신된다. 따라서 Pause 중 궁극기 쿨다운과 방어용 경과 시간도 멈춘다.
++-8. 추가된 방어 설계
++-8.1 코드 무결성 검사
++-IntegrityGuard::VerifyUpdateIntegrity는 GetModuleHandleW(nullptr)로 현재 EXE base를 구하고, 고정 UPDATE_RVA 0x14480부터 UPDATE_SIZE 0x13B4바이트를 읽어 CRC32를 계산한다. 계산값은 EXPECTED_UPDATE_CRC 0x37857DAE와 비교한다. 계산값은 OutputDebugStringA로 출력된다. GameWorld::Update의 J 분기에서 false이면 SECURITY/INTEGRITY_FAIL을 기록하고 반환한다.
++-이 구현은 특정 빌드·메모리 구간에 종속된다. RVA, 검사 길이, 기대 CRC가 생성된 EXE의 실제 GameWorld::Update 코드와 일치하는지 빌드마다 확인해야 한다. 현재 소스에는 PE 섹션 경계 검사나 기대값 자동 생성 절차가 없다. CRC32는 암호학적 인증이 아니며 검사 코드·기대값이 같은 프로세스에 있으므로 우회 가능성을 전제로 평가한다.
++-8.2 궁극기 경과 시간 검사
++-GameWorld는 lastUltimateUseTime_을 별도로 유지한다. J 입력 때 simulationTime_−lastUltimateUseTime_가 10초 미만이면 SECURITY/RUNTIME_COOLDOWN_FAIL을 기록하고 해당 Update를 반환한다. 경과 시간이 충분하고 Hero::UltimateReady()도 true일 때만 투사체 생성·StartUltimate·마지막 성공 시각 갱신이 이루어진다. 즉 Hero의 ultimateCd_ 상태와 마지막 성공 시각을 모두 검사한다.
++-이 검사는 Player 궁극기 입력 경로에 있다. Bot 궁극기, 일반 공격, 프로세스 시작, 주기 검사에 자동 적용되지 않는다. 실패 시 게임 프로세스를 종료하거나 ultimateCd_를 복구하지 않는다. 방어 시각은 같은 GameWorld의 simulationTime_이며 외부 독립 시계가 아니다. 이 범위를 넘어선 탐지·차단 효과는 시험 후에만 주장한다.
++-8.3 공격 기록과 설계의 관계
++-PATCH-01 보고서는 Ultimate 10초-->1초를 제목으로 사용하지만 변경 바이트와 결과 표는 10초-->0초를 기록한다. 기록된 공격 결과는 0초 패치 관찰로 분류하고, 1초 패치는 별도 변형 시험으로 둔다. 보고서의 `종료·쿨다운 값 복구'는 방어 의도이나 현재 코드와 다르다. 방어 구현·정상 빌드·동일 공격 재시험 결과 칸은 완결된 증거로 볼 수 없다.
++-9. 요구사항과 검증 연결
++-게임 요구사항 G01~G04: 시작·재시작, 이동·조준·Basic/Ultimate, Bot/Minion/Tower/Nexus 전투, Victory/Defeat/Draw. G05~G08: XP·레벨업·부활·회복, Brush 시야, Pause 시간 정지, DX11/HUD/카메라. 해당 기능은 GameWorld·Hero·MapPaths·Renderer 및 GameTests의 G01~G28 회귀와 v0.14 검증 기록에 연결된다.
++-보안 요구사항 S01: 식별된 Release 빌드의 무결성 검사 구간과 기대 CRC를 확인한다. S02: 정상 J 입력에서 오탐 없이 10초 규칙을 유지한다. S03: 10초 미만 재요청 및 0초/1초 패치 변형에서 SECURITY 로그와 실제 Projectile 미생성을 함께 관찰한다. S04: Pause·Restart·사망·부활과 함께 동작한다. S05: 방어 전후 성능·회귀·재공격 결과를 같은 절차와 해시로 비교한다. 현재 테스트 소스에는 IntegrityGuard와 SECURITY 이벤트를 직접 검증하는 시험이 확인되지 않아 S01~S05의 실행 판정은 미확정이다.
++-빌드 검증은 Debug/Release x64, GameTests, --smoke-gui, 수동 조작을 구분해 기록한다. Baseline 시점의 49 PASS와 사용자 직접 플레이 승인은 현재 방어 후보 빌드의 통과 증거가 아니다. 재검증에서 실패한 경우 구현 또는 검사 상수의 문제를 분석하고 결과표를 갱신한다.
++-10. 실험 운영과 변경 관리
++-원본 Baseline EXE, 공격 패치 EXE, 방어 후보 EXE를 각기 별도 보존한다. 각 파일의 SHA-256, Git commit 또는 미커밋 변경 목록, 빌드 구성, 컴파일러 옵션, OS/VM, 입력 절차와 시뮬레이션 시각을 기록한다. Baseline 확정 문서의 Release 해시 4AC67F48BE58140159375027C69BCF65A22696E1C62CDD04CDEE38BD5AEC5DC9는 당시 실행 파일을 식별하며 현재 재빌드 산출물의 값으로 전용하지 않는다.
++-A1 Patch 다음 A2 런타임 값 변조, A3 함수 호출 경로 Hooking, A4 DX11 렌더 경로 Hooking은 후속 실험 계획이다. 각 단계의 방어는 구현·정상 검증·동일 공격 재시험·우회 변형을 끝낸 뒤 완료로 표시한다. 공격 실험은 본인 소유 프로그램과 격리 환경에서만 수행한다.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_Baseline_1.0_Confirm_Request.md" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_Baseline_1.0_Confirm_Request.md"
++deleted file mode 100644
++index 862ee17..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_Baseline_1.0_Confirm_Request.md"
+++++ /dev/null
++@@ -1,144 +0,0 @@
++-# EASILE 2D Anti-Cheat Game — Baseline 1.0 공식 확정 지시
++-
++-## 1. 목적
++-
++-현재 게임은 구현과 자동 검증뿐 아니라,
++-**사용자가 직접 실제 플레이를 수행하여 게임 동작과 플레이 감각을 확인한 상태**이다.
++-
++-사용자는 현재 게임 상태에 만족하며,
++-이 버전을 이후 보안 실험의 기준이 되는 **Baseline 1.0**으로 공식 확정하려고 한다.
++-
++-따라서 기존 문서에서 사용한 다음과 같은 표현은 더 이상 사용하지 마라.
++-
++-- Baseline 1.0 후보
++-- NEW BASELINE: NOT READY
++-- 공식 baseline 미확정
++-- 사용자 직접 플레이 검증 필요
++-
++-이번 작업의 목적은 현재 상태를
++-**정식 Baseline 1.0으로 선언하고 기록하는 것**이다.
++-
++----
++-
++-## 2. 사용자 직접 플레이 검증 반영
++-
++-Baseline 판정에는 다음 사실을 반드시 반영해라.
++-
++-- 사용자가 직접 게임을 실행했다.
++-- 사용자가 직접 캐릭터 이동, 전투, 스킬 사용 및 전체적인 플레이 흐름을 확인했다.
++-- 사용자가 현재 구현 상태를 이후 Patch / DLL Injection / Hooking 실험의 기준으로 사용하기에 충분하다고 판단했다.
++-- 따라서 사람 직접 플레이 검증을 더 이상 Baseline 확정의 미완 항목으로 기록하지 않는다.
++-
++-자동 테스트와 별도로,
++-**사용자 직접 플레이 확인 자체를 Baseline 승인 조건으로 포함**한다.
++-
++-단,
++-사용자가 구체적으로 말하지 않은 플레이 결과를 임의로 추가하지 마라.
++-
++----
++-
++-## 3. Baseline 1.0 공식 확정
++-
++-현재 작업 트리를 이후 모든 보안 실험의 기준인
++-
++-```text
++-EASILE Baseline 1.0
++-```
++-
++-으로 공식 지정해라.
++-
++-이후 문서에서는 다음 표현을 사용한다.
++-
++-```text
++-Baseline Status: CONFIRMED
++-Baseline Version: 1.0
++-```
++-
++-또는 이에 준하는 명확한 표현을 사용한다.
++-
++----
++-
++-## 4. 기존 문서 수정
++-
++-현재 프로젝트의 관련 문서를 확인하고,
++-Baseline이 아직 후보 상태라고 적힌 부분을 수정해라.
++-
++-특히 다음 종류의 표현을 찾아 정리한다.
++-
++-```text
++-Baseline 1.0 후보
++-NEW BASELINE: NOT READY
++-공식 baseline 미확정
++-사람 직접 플레이 검증 필요
++-```
++-
++-이를 현재 상태에 맞게 변경한다.
++-
++-예:
++-
++-```text
++-Baseline 1.0 — CONFIRMED
++-```
++-
++----
++-
++-## 5. Baseline 기록
++-
++-가능하면 다음 정보를 함께 기록한다.
++-
++-- Baseline 버전: 1.0
++-- 확정일
++-- Debug 빌드 상태
++-- Release 빌드 상태
++-- 자동 테스트 상태
++-- 사용자 직접 플레이 확인 여부
++-- 이후 첫 보안 실험
++-
++-첫 보안 실험은 다음으로 예정한다.
++-
++-```text
++-Ultimate Cooldown Patch
++-10 seconds -> 1 second
++-```
++-
++----
++-
++-## 6. 중요한 원칙
++-
++-이번 작업에서는 게임 기능을 새로 추가하거나
++-게임 밸런스를 임의로 수정하지 마라.
++-
++-또한 아래 작업도 수행하지 마라.
++-
++-- 실제 EXE 패치
++-- Ultimate cooldown 변경
++-- DLL Injection
++-- Hooking
++-- Anti-Cheat 방어 코드 작성
++-
++-이번 작업은 오직
++-
++-```text
++-현재 게임을 Baseline 1.0으로 공식 확정하고
++-관련 문서의 상태를 일관되게 수정하는 작업
++-```
++-
++-이다.
++-
++----
++-
++-## 7. 완료 보고
++-
++-작업 완료 후 다음을 보고해라.
++-
++-```text
++-1. Baseline 1.0 공식 확정 여부
++-2. 수정한 문서 목록
++-3. 기존 후보/미확정 표현을 수정한 위치
++-4. Debug/Release 및 기존 테스트 상태
++-5. 사용자 직접 플레이 확인을 어떻게 기록했는지
++-6. 다음 실험이 Ultimate Cooldown 10s -> 1s Patch임을 기록했는지
++-```
++-
++-현재 게임 상태를 더 이상 후보 상태로 취급하지 말고,
++-**사용자의 직접 플레이 승인까지 반영된 공식 Baseline 1.0**으로 취급해라.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_DLL_Injection.md" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_DLL_Injection.md"
++deleted file mode 100644
++index 871b45a..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_DLL_Injection.md"
+++++ /dev/null
++@@ -1,102 +0,0 @@
++-# EASILE DLL Injection 실험 후보 분석 지시서 (Codex용)
++-
++-## 1. 목적
++-
++-현재 EASILE 2D 게임 프로젝트에서 **DLL Injection을 활용해 동작 변화를 관찰할 수 있는 실험 후보**를 찾아 비교하고, 첫 번째 실험 대상으로 가장 적합한 후보를 추천한다.
++-
++-이번 작업은 **분석 및 후보 선정만** 수행한다. DLL, 인젝터, 후킹 코드, 우회 코드 등을 **작성하거나 게임 소스코드를 수정하지 않는다**.
++-
++-## 2. 프로젝트 배경
++-
++-- Windows x64 / Visual Studio 2022 / C++ / DirectX 11 기반의 로컬 2D 게임이다.
++-- 게임은 현재 단일 프로세스 구조이며, 외부 네트워크 서버를 사용하지 않는다.
++-- 플레이어 이동, 기본 공격, 궁극기(J), 체력·회복, 봇 AI, 투사체, 렌더링 등의 기능이 있다.
++-- 이전 실험(PATCH01)은 **궁극기 쿨타임 변경**과 **CRC32 기반 코드 무결성 검사 및 런타임 검증**을 다루었다.
++-- DLL Injection 실험은 PATCH01과 구별되는 공격면을 중심으로 설계하되, 기존 방어와의 연관성도 함께 평가한다.
++-- 작업 범위는 **본인이 소유·개발한 EASILE 게임 실행 파일과 소스코드**로 한정한다. 외부 게임, 타사 프로세스, 안티치트 제품은 대상이 아니다.
++-
++-> 위 배경은 안내용이다. 실제 구현·파일명·함수명·방어 적용 범위는 **현재 저장소의 소스코드를 직접 확인해 검증**하라. 일치하지 않으면 현재 코드를 우선한다.
++-
++-## 3. 분석 범위
++-
++-저장소를 읽고 다음 항목을 파악하라.
++-
++-1. 진입점, 게임 루프, 프레임 업데이트 흐름 (`main`, `Application`, `GameWorld` 등 실제 구현 기준)
++-2. 입력 처리와 플레이어 액션 호출 경로 (`InputManager`, 기본 공격, 궁극기)
++-3. 플레이어·봇의 HP, 이동 속도, 투사체, 피해량, 회복 및 쿨타임을 관리하는 자료구조와 함수
++-4. 렌더링·HUD 갱신 흐름과 게임 내부 값이 화면에 반영되는 위치
++-5. 현재 존재하는 무결성 검사 및 런타임 방어의 호출 위치, 검사 대상, 적용 범위
++-6. Debug/Release 빌드의 차이 및 실험 시 재현성에 영향을 미치는 요소
++-
++-후보를 선정할 때는 **실제 코드의 파일 경로, 함수·클래스명, 코드 위치(가능하면 행 번호)**를 근거로 제시하라. 저장소에 없는 함수나 변수를 임의로 가정하지 말라.
++-
++-## 4. 후보 발굴 기준
++-
++-다음 유형을 참고하되 코드에 근거한 후보를 **최소 5개** 제시한다.
++-
++-- 플레이어 또는 봇의 HP·회복량 관련 런타임 데이터 변화
++-- 이동 속도 또는 이동 가능 여부의 런타임 변화
++-- 기본 공격의 피해량·발사 관련 동작 변화
++-- 투사체 속도·방향·수명 관련 변화
++-- 게임 내 정보 표시(HUD) 또는 상태 시각화 변화
++-- 궁극기 동작·쿨타임 변화 (이전 PATCH01과 중복된다는 단점도 평가)
++-- 소스코드 분석 중 발견한 더 적합한 후보
++-
++-**단순 데이터 변경, DLL에 의한 함수 호출 개입, 코드 패치가 서로 다른 실험 방식임을 구분**하라. 특히 DLL을 로드하는 행위만으로 기능 변화가 일어나는 것은 아니므로, 각 후보가 어떤 종류의 관찰·개입을 요구하는지 개념 수준에서 명시하라.
++-
++-## 5. 후보 평가표
++-
++-다음 기준으로 각 후보를 1~5점(5점이 더 적합함)으로 평가한다.
++-
++-| 평가 기준 | 뜻 |
++-|---|---|
++-| 구현 난이도 | 첫 실험에서 구현하기 쉬운 정도 (쉬울수록 고득점) |
++-| 동작 관찰성 | 게임 화면·로그·테스트로 결과가 명확히 드러나는 정도 |
++-| 재현성 | 여러 번 동일 조건으로 반복할 수 있는 정도 |
++-| 안전성·복구성 | 크래시·세이브 손상·광범위한 수정 위험이 적고 원상 복구하기 쉬운 정도 |
++-| 학습 효과 | DLL 로드, 프로세스 내 실행, 메모리 상태 변화 등을 이해하는 데 도움이 되는 정도 |
++-| 기존 PATCH01과 차별성 | 기존 궁극기 코드 패치 실험과 구별되는 정도 |
++-| 방어 실험 확장성 | 후속 탐지·검증 실험으로 발전시키기 쉬운 정도 |
++-
++-모든 기준을 동일 가중치로 합산하여 총점(35점 만점)을 계산한다. 점수의 이유를 짧게 제시하고, 점수가 높은 후보만이 아니라 **실험 목적과 맞는 후보**를 우선 추천하라.
++-
++-## 6. Codex 출력 형식
++-
++-### A. 현재 코드 구조 요약
++-
++-- 핵심 파일과 역할: 5~10줄
++-- 기존 무결성 검사 범위 및 DLL 실험과의 관계: 3~5줄
++-
++-### B. 후보 비교표
++-
++-| 순위 | 후보 기능 | 실제 파일/함수(행 번호) | 관찰할 변화 | 예상 개입 유형 | 난이도 | 관찰성 | 재현성 | 안전성 | 학습 효과 | 차별성 | 방어 확장성 | 합계 |
++-|---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
++-| 1 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
++-
++-### C. 최종 추천 TOP 3
++-
++-각 후보에 대해 다음을 간단히 작성한다.
++-
++-- 추천 이유와 기존 PATCH01 대비 새롭게 배우는 점
++-- 실제 소스 근거(파일/함수/행 번호)
++-- 기대되는 정상 동작과 변경 후 관찰 결과
++-- 실험 성공 판정 기준(가능하면 정량적인 지표)
++-- 예상 실패 원인·제약·복구 방법
++-- 추후 방어 코드 실험 아이디어(개념 수준)
++-
++-### D. 최종 1순위 결론
++-
++-**초심자가 첫 DLL Injection 실험을 수행한다는 전제**에서 가장 적합한 후보를 하나 고르고, 다른 후보보다 적합한 이유를 5~8문장으로 설명한다.
++-
++-## 7. 작업 제한
++-
++-- **이번 요청에서는 분석 보고만 작성한다.** 인젝션/후킹 구현, DLL 프로젝트 생성, 바이너리 패치, 메모리 수정, 빌드/실행은 하지 않는다.
++-- 확인되지 않은 주소, RVA, 오프셋, 호출 규약, 함수 위치를 추측으로 단정하지 않는다.
++-- 타사 프로그램의 보안 기능 우회·은닉·권한 상승·지속성 확보는 범위에서 제외한다.
++-- 게임 코드 수정 없이 가능한 후보와 사전 계측용 코드 변경이 필요한 후보를 구별한다.
++-- 필요하면 추가 확인이 필요한 코드 위치를 적되, 현재 파악된 내용만으로 후보 순위를 매긴다.
++-- 답변은 **한국어**, 간결하지만 근거가 드러나는 형태로 작성한다.
++-
++-## 8. 결과물
++-
++-분석 결과를 `docs/DLL_INJECTION_후보_분석.md`에 저장하고, 마지막에 **1순위 후보 / 근거 / 다음 실험에서 확인할 사항**을 3줄 이내로 요약하라. 이 문서 이외의 파일을 수정하지 않는다.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_PATCH01_\352\263\265\352\262\251_\353\260\251\354\226\264_\354\213\244\355\227\230\353\263\264\352\263\240\354\204\234_\354\226\221\354\213\235.docx" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_PATCH01_\352\263\265\352\262\251_\353\260\251\354\226\264_\354\213\244\355\227\230\353\263\264\352\263\240\354\204\234_\354\226\221\354\213\235.docx"
++deleted file mode 100644
++index 59d2ca8..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/EASILE_PATCH01_\352\263\265\352\262\251_\353\260\251\354\226\264_\354\213\244\355\227\230\353\263\264\352\263\240\354\204\234_\354\226\221\354\213\235.docx"
+++++ /dev/null
++@@ -1,300 +0,0 @@
++-EASILE 2D Anti-Cheat Game
++-PATCH-01 공격·방어 통합 실험 보고서
++-Ultimate Cooldown 10초 --> 1초 Binary Patch
++-
++-BaselineEASILE Baseline 1.0실험 번호PATCH-01실험일9.30 ~ 10.작성자정명훈공격 대상Ultimate Cooldown공격 목표10초 --> 0초방어 단계Anti-Patch Defense최종 판정☐ 공격 성공  ☐ 방어 성공  ☐ 부분 성공  ☐ 실패
++-작성 가이드: 이 문서는 한 번의 보안 반복 실험 전체를 기록한다. 패치 공격 성공만 기록하지 말고, 방어 코드 구현과 동일 공격 재시도까지 완료한 뒤 최종 결론을 작성한다.
++-
++-1. 실험 개요
++-프로젝트명EASILE 2D Anti-Cheat GameBaseline 상태Baseline 1.0  --  CONFIRMED실험 목적궁극기 쿨타임을 10초에서 1초로 변경하는 패치 공격과 그에 대한 방어를 반복 검증한다.공격 유형Binary Patch / Value 또는 Logic Patch대상 빌드☐ Debug   ☐ Release   ☐ Both분석 도구ida, xdbg64패치 도구xdbg64개발/방어 도구Visual Studio 2022 / 기타: ____________________
++-1.1 실험 목표
++-Baseline 1.0 실행 파일에서 Ultimate Cooldown 관련 위치를 식별한다.
++-정상 10초 쿨타임을 0초로 변경하여 실제 게임 동작을 변조한다.
++-패치 전후 결과를 동일 조건에서 비교하여 공격 성공을 검증한다.
++-패치가 가능했던 원인을 분석하고 적절한 방어 전략을 선정한다.
++-방어 코드를 구현하고 정상 동작 및 오탐 여부를 확인한다.
++-동일 패치 공격을 다시 수행해 탐지 또는 차단 여부를 검증한다.
++-1.2 Baseline 확인
++-☐ 사용자 직접 플레이 검증 완료
++-☐ Debug 빌드 정상
++-☐ Release 빌드 정상
++-☐ 기존 자동 테스트 PASS
++-☐ Baseline 원본 EXE 별도 보존
++-☐ Baseline EXE SHA-256 기록
++-Baseline 관련 비고
++-
++-2. 실험 환경 및 재현 정보
++-OSWindows 64-bitCPU / 환경본인 PC 사양
++-프로젝트 Commit / TagBaseline 1.0
++-Debug EXE 경로배포된 exe파일을 참조하면 됨Release EXE 경로배포된 exe파일을 참조하면 됨Baseline SHA-2564AC67F48BE58140159375027C69BCF65A22696E1C62CDD04CDEE38BD5AEC5DC9Patched SHA-25618CA7DEFC6324C7409A62F248B15A109C2D8FC4ED9A05E7C5282518E13D35F73Defense Build SHA-256
++-작성 가이드: 가능하면 공격 전·후·방어 적용 후의 실행 파일을 각각 보존하고 SHA-256을 기록한다. 이렇게 해야 실험 결과를 나중에 재현할 수 있다.
++-3. 공격 전 정상 동작 측정
++-3.1 정상 조건
++-정상 Ultimate Cooldown: 10 seconds
++-측정 항목
++-1회
++-2회
++-3회
++-평균
++-스킬 쿨타임10초10초10초10초
++-측정 방법 / 입력 조건 / 위치 / 상대 상태
++-게임에서 스킬을 누른 뒤에 좌측 상단에 나오는 대기 시간을 통해 측정함/스킬 키 누름/위치는 상관 없음/상대 상태 역시 상관이 없다
++-Baseline 관찰 결과
++-늘 스킬 키를 누른 다음에 10초 뒤에 다시 스킬을 재사용 가능하게 됬다.
++-
++-4. 패치 공격 분석 과정
++-4.1 소스 기준 후보 위치
++-관련 클래스/함수Hero::UltimateReady(), Hero::StartUltimate(), GameWorld의 Ultimate 발사 조건관련 변수ultimateCd_정상 값10초추가 확인 사항컴파일 최적화로 인해 Release 바이너리에서는 소스 구조와 동일하게 보이지 않을 수 있음
++-4.2 바이너리 탐색 과정
++-작성 가이드: 단순히 정답 주소만 적지 말고, 어떤 단서로 후보를 좁혔는지 순서대로 기록한다. 예: 문자열/상수/함수 흐름/XREF/동적 관찰.
++-단계
++-수행 내용
++-관찰 결과
++-다음 판단
++-1단계함수 이름 중 공격과 관련된 함수 이름을 찾으려 function name중 attack이 들어간 함수를 찾아봄실제로 그 중에서 Input Manager::ReadAttackEdges.함수에서ultimate라는 시간과 관련된 값을 찾았다. 
++-하지만 함수의 내부 로직을 분석해 본 결과 이건 궁극기 부분에 대해 keyJ && !previousUltimate_만 검사해서 J가 이번 프레임에 새로 눌렸는지만 판단하고
++-코드 안에 10.0, 10000, deltaTime, 현재 시간 비교 같은 시간 계산이 전혀 없는 걸 봐서 공격 주기와 관련된 함수가 아니라는 걸 알 수 있었다.
++-2단계
++-   ida의 subview중 local types에 들어가서 Hero구조체를 들여다 봄
++-   Hero구조체에 스킬의 쿨타임 정보와 관련되어 보이는ultimateCd_변수를 발견함(위치 0x40도 파악함)
++-   이 ultimatecd_변수를 alt + t로 검색해보기
++-   3단계
++-이 ultimatecd_변수를 alt + t로 검색해봤다.
++-   아무것도 찾지 못했다.
++-   Hero관련된 함수에서 한 번 찾아보기로 결정을 했다.
++-4 단계
++-Hero관련된 함수에서 한 번 찾아보기로 결정을 했다.
++-update라는 함수에서 뭔가 계속 상태를 업데이트하는 것을 확인했다.
++-
++-update함수에서 HeroultimateCd_변수를 찾아보기로 결정함
++-5단계
++-update함수에서 HeroultimateCd_변수를 찾아봤다.
++-찾아본 결과 실제로 Hero.ultimateCd_변수를 찾았다.
++-이제 그 부분에서 다시 쿨타임 시간을 설정하는 부분을 10초에서 0초로 패치하기로 결정을 내렸다.
++-
++-4.3 최종 패치 지점
++-ModuleGameClient.exe
++-Function / 추정 함수GameWorld::Update(PlayerCommand const&, float)
++-RVA0x1553EVA0x140015534
++-관련 Instructionmov rax, 4024000000000000h
++-원본 Bytes48 B8 00 00 00 00 00 00 24 40
++-변경 Bytes48 B8 00 00 00 00 00 00 00 00
++-관련 디스어셈블리 / 의사코드
++- if ( resolveAim[1] && *((double *)v4._Ptr + 8) <= 0.000001 )
++-      {
++-        v95 = *((_DWORD *)v4._Ptr + 14);
++-        if ( v4._Ptr[1056] )
++-        {
++-          v96 = GameWorld::AutoAim((GameWorld *)v4._Ptr, v112, 1000.0, nullptr);
++-        }
++-  *((_QWORD *)v4._Ptr + 8) = 0x4024000000000000LL;
++-5. 패치 수행 내용
++-항목
++-Before
++-After
++- 쿨타임 시간 10초 -> 0초로 변경  *((_QWORD *)v4._Ptr + 8) = 0x4024000000000000LL;    *((_QWORD *)v4._Ptr + 8) = 0x0LL;
++-실제 패치 절차
++-1.우선 x64dbg에서 해당 부분을 찾기 위해서 ida와 주소를 일치시킨다음에 ida에서 해당 부분의 주소 정보를 얻어서 x64dbg에서 그 위치로 갔다.
++-2. 그 다음에 그 부분을 위에서 언급한 바이트로 교체함 -> 잔존 바이트는 nop operation으로 매꿈3.이렇게 패치를 한 다음에 파일의 이름을 gameclient_patched.exe로 바꿈4.이렇게 저장된 파일에서 다시 패치된 바이트를 재확인함
++-5.파일을 실제로 실행시켜 쿨타임이 변경되었는지를 확인함
++-6.그 다음에 sha-256을 재계산해서 입력함
++-☐ 원본 EXE 백업 완료
++-☐ 패치 후 별도 파일명으로 저장
++-☐ 패치된 바이트 재확인
++-☐ 파일 실행 가능 여부 확인
++-☐ SHA-256 재계산
++-6. 패치 공격 결과 검증
++-측정 항목
++-Baseline
++-Patched
++-판정
++-스킬 쿨타임10초0초패치 내용이 잘 반영됨게임 정상 실행 여부정상 실행됨정상 실행됨정상
++-Ultimate 공격 기능 데미지와 기능이 그대로 유지됨baseline과 동일함정상
++-
++-6.1 성공 판정 기준
++-☐ Baseline에서는 약 10초마다 Ultimate 사용 가능
++-☐ Patched에서는 약 0초마다 Ultimate 사용 가능
++-☐ 게임이 정상 실행됨
++-☐ Ultimate 공격 기능 자체가 정상 유지됨
++-☐ 변경된 동작이 패치한 쿨타임 로직 때문임을 확인
++-공격 최종 판정SUCCESS  
++-패치 후 플레이 영향 / 예상치 못한 부작용
++-게임을 굉장히 빠르게 끝낼 수 있게 되었다. / 부작용은 딱히 없다 애초에 쿨타임만 변경해서 나머진 동일하다.
++-7. 공격 원인 및 취약 지점 분석
++-발견 난이도 보통 패치 난이도매우 쉬움  검증 난이도 쉬움 
++-왜 이 패치가 가능했는가?
++-이 패치가 가능했던 이유는 이 파일에 이름을 숨기는 난독화나 optimize가 심하게 들어가지 않았고 sha검증 코드와 같은 무결성 검증 안티디버깅 기법이 들어가지 않았기 때문에 발견에는 생각보다 시간이 많이 들어갔지만 실제 패치와 검증은 쉽게 할 수 있었다.
++-공격자가 알아야 했던 정보 / 가장 중요한 단서
++-가장 중요한 단서는 local type중에서 Hero class에서 이런 쿨타임 관련된 변수를 가지고 있다는 점과 이 점을 통해서 hero관련 메소드에서 이런 쿨타임 정보를 이용해 스킬 발사 여부를 결정하는 함수 update함수를 찾는 것이었다.
++-현재 구조에서 공격자가 우회할 수 있는 다른 경로
++-현재 구조는 애초에 굉장히 보안에 취약한 구조라서 그냥 local types에서 그 변수를 찾고 그 변수를 조작하는 데에 가서 값을 패치하면 쉽게 우회할 수 있다. 그걸로 체력,경험치, 공격력 등 다양한 변수들을 내가 원하는 값으로 변경할 수 있다.
++-
++-8. 방어 전략 설계
++-8.1 후보 방어 기법 비교
++-방어 후보
++-원리
++-장점
++-한계
++-선택 여부
++-   EXE/코드 무결성 검사
++-
++- 실행 중 특정 코드 영역이나  함수 바이트의 hash/CRC를 계산해서 원본과 비교
++-   지금 수행한 바이너리 패치 자체를 직접 탐지가능
++-   검사 코드까지 패치하면 우회 가능
++-               o    Critical Value Validation
++-   ultimateCd_가 정상 범위인지 검사. 예: 10초 설정 직후 값이 비정상적으로 작으면 복구/차단
++-   구현 매우 쉬움, 현재 공격에 정확히 대응
++-   검사 코드나 기준값도 함께 패치 가능
++-x
++-Runtime Cooldown Validation
++-ultimateCd_변수만 믿지 않고, 마지막 궁극기 사용 시각과 현재 시각의 차이가 10초 이상인지 별도로 확인
++-   0초/1초/5초 등 값 패치를 모두 막을 수 있음
++-   시간 검증 로직까지 패치하면 우회 가능
++-   o
++-   중복 상태 검증
++- ultimateCd_+ lastUltimateTime같이 서로 다른 상태 2개를 동시에 검사
++-   한 변수만 패치하는 공격에 강함
++-   두 로직 모두 분석되면 패치 가능
++-   x
++-   상수/로직 분산
++-   10.0을 한 곳에 직접 넣지 않고 여러 값이나 계산식으로 생성
++-   IDA에서 10.0 상수 찾기가 어려워짐
++-   본질적인 방어라기보다 난독화에 가까움
++-   x
++-
++-작성 가이드: 예: 코드/함수 무결성 검사, Critical Value Validation, 실제 발사 시각 기반 Runtime Cooldown Validation, 중복 상태 검증 등을 비교한다.
++-8.2 최종 선택 방어
++-선택한 방어 기법EXE/코드 무결성 검사 + Runtime Cooldown Validation보호 대상Ultimate Cooldown탐지 대상궁극기를 10초 안에 사용하는 것 + 파일의 바이트값이 보존되었는지 확인탐지 시 행동기능 차단 및 종료, 궁극기 쿨타임 값 복구선택 이유하나는 정적인 방어 방법이고 하나는 동적으로 방어하기 때문에 시너지가 좋을 거 같아서 위 두 개를 선택했다.
++-방어 로직 설계 설명
++-우선은 GameWorld::Update함수에 대해서만 코드 무결성 검사를 하기로 마음을 먹고 이를 위해서 가장 먼저
++-gameworld.cpp에 검증 함수가 담긴 해더를 넣고 별도 cpp와 header파일 내에 원본 파일의(release기준)의 update함수의 rva, 함수의 바이트 수를 ida에서 alt + p로 알아내 그 길이만큼 crc32로 각 바이트마다 xor + 비트마다 추가 연산을 해서 단일 crc32값을 만들고 게임 실행시 스킬을 눌렀을 때 crc32를 축정해서 둘이 같지 않으면 버그 유저에게 패널티로 아예 스킬을 사용하지 못하게 막았다. 이는 정적인 보호방법이다, 그 다음에는 Runtime cooldown validation을 위해서 crc32검증을 통과한 이후에  런타임에서 단순히 현재 쿨타임 시간 변수를 보고 궁극기 발사 여부를 판정하는 것이 아니라 마지막 궁극기를 사용한 시간에서 현재 시간을 뺀 값을 이용해서 10초가 지나지 않았으면 궁극기가 발사가 되지 않도록 코드를 수정할 계획이다.
++-
++-정상 상태와 변조 상태를 구분하는 기준
++-update함수의 바이트 값의 변조 여부로 구분이 가능하고 마지막으로 궁극기를 사용한 시간과 현재 시간의 차이로 정상 상태와 변조 상태를 구분하려고 한다.
++-예상 가능한 우회 방법과 한계
++-예상 가능한 우회 방법은 crc32는 현재 crc32와 예상  crc32가 같은지 비교하는 부분을 무조건 true를 반환하게 하고 또한 runtime도 조건을 not을 넣거나 무조건 true가 되게 하거나 기준 값을 10초에서 0초로 바꾸는 등의 방식으로 우회가 가능하다는 한계가 존재한다. 하지만 이전의 코드보다는 시간이 더 소요될 것이다.
++-9. 방어 코드 구현 과정
++-9.1 수정 파일 및 함수
++-파일
++-클래스/함수
++-변경 내용
++-목적
++-src/IntegrityGuard.h
++-IntegrityGuard
++-CalculateCRC32(), VerifyUpdateIntegrity()등 무결성 검사 함수 선언 추가
++-실행 코드 변조 여부를 검사하기 위한 무결성 검사 인터페이스 정의
++-src/IntegrityGuard.cpp
++-CalculateCRC32(), VerifyUpdateIntegrity()
++-GameWorld::Update()코드 영역에 대해 CRC32를 계산하고 정상 Release 빌드의 기준 CRC와 비교하도록 구현 (UPDATE_RVA=0x14480,UPDATE_SIZE=0x13B4)
++-EXE 패치를 통한 GameWorld::Update()변조 탐지
++-src/GameWorld.h
++-GameWorld
++-lastUltimateUseTime_멤버 변수 추가 및 초기값 -10.0설정
++-기존 ultimateCd_와 독립적인 궁극기 사용 시각을 저장하여 우회 패치에 대비
++-src/GameWorld.cpp
++-GameWorld::Initialize()
++-simulationTime_및 lastUltimateUseTime_초기화 추가
++-게임 시작/재시작 시 런타임 쿨다운 검증 상태를 정상화
++-src/GameWorld.cpp
++-GameWorld::Update()
++-무결성 검사 수행 후, 궁극기 입력 시 simulationTime_ - lastUltimateUseTime_ < 10.0여부를 추가 검사하고 발사 성공 시 마지막 사용 시각 갱신
++-기존 UltimateReady()가 패치되어도 별도의 10초 런타임 검증으로 연속 궁극기 사용 차단
++-GameClient.vcxproj/ GameTests.vcxproj
++-빌드 설정
++-IntegrityGuard.cpp/.h를 src\IntegrityGuard.cpp, src\IntegrityGuard.h경로로 프로젝트에 등록하고 테스트 프로젝트에도 구현 파일이 링크되도록 수정
++-IntegrityGuard소스 이동 후 정상 컴파일·링크 및 테스트 빌드 지원
++-
++-
++-9.3 핵심 코드 설명
++-핵심 방어 코드 또는 의사코드
++-위의 로직 설명을 그대로 코드로 구현함  -> 생략
++-왜 이 위치에 방어 로직을 배치했는가?
++-왜냐하면 그 위치가 너무 자주 호출되지 않고  딱 j키를 눌러서 스킬이 나갈 때만 실행되게 하고 싶었기 때문이다.
++-10. 방어 코드 빌드 및 정상 동작 검증
++-검증 항목
++-Release
++-비고
++-   방어 적용 후 정상 Ultimate 10초 쿨타임 유지
++-   o
++-      일반 공격 정상
++-   o
++-      이동 정상
++-   o
++-      Bot 정상
++-   o
++-      Tower/Minion/Nexus 진행 정상
++-   o
++-      기존 테스트 PASS
++-   o
++-      정상 플레이에서 오탐 없음
++-   o
++-   주의해야 하는 게 이게 코드를 수정하면 rva에 있는 게 update함수가 아닌 다른 함수값이 들어갈 수 있어서 그 때마다. rva값을 바꿔줘야 합니다.
++-☐ 방어 적용 후 정상 Ultimate 10초 쿨타임 유지
++-☐ 일반 공격 정상
++-☐ 이동 정상
++-☐ Bot 정상
++-☐ Tower/Minion/Nexus 진행 정상
++-☐ 기존 테스트 PASS
++-☐ 정상 플레이에서 오탐 없음
++-정상 플레이 테스트 결과 / 오탐 여부
++-정상 플레이를 하는 경우에는 정상적으로 돌아갔습니다. 다만 파일의 내용을 바꿀 때마다 intergrity의 rva정보를 수정해야 하고 update함수를 수정시 update의 바이트 크기 정보도 수정해야 한다는 점이 좀 번거롭습니다.
++-
++-11. 동일 공격 재시도
++-작성 가이드: 방어 적용 후 공격 조건을 가능한 한 PATCH-01 최초 공격과 동일하게 유지한다. 그래야 방어 전후를 비교할 수 있다.
++-재공격 대상 EXErelease의 GameClient.exe공격 방법Ultimate Cooldown 10초 --> 0초 동일 패치패치 위치이전과 동일변경 값/바이트이전과 동일방어 탐지 여부탐지공격 성공 여부차단
++-항목
++-방어 전 공격
++-방어 후 재공격
++-차이
++-   궁극기 쿨타임 10 -> 0초
++-   실제로 궁극기 쿨타임 값을 10 -> 0초로 패치
++-
++-   동일
++-이번에는 crc32의 검증에 걸려 아예 궁극기를 한번도 사용을 못하게 됬다.   
++-
++-재공격 수행 과정
++-공격과정과 동일하다.
++-탐지/차단 로그 또는 화면 관찰 내용
++-j키를 눌러도 crc32검증값이 예상과 달라서 공격 자체가 나가지 않는다.
++-12. 방어 효과 평가
++-평가 항목
++-결과
++-근거
++-   정상 게임 실행을 방해하지 않았는가?
++-   전혀 방해하지 않는다.   실제 플레이해본 결과 문제 없었다.   기존 테스트에서 회귀가 발생하지 않았는가?
++-   발생하지 않는다.   실제 테스트 결과 문제가 없었다.   0초 패치를 실제로 탐지 또는 차단했는가?   실제로 탐지하고 차단했다.   아예 궁극기를 한 번도 사용하지 못했다.   패치 위치가 달라져도 동일 변조를 탐지할 가능성이 있는가?
++-   위치가 달라져도 runtime cooldown이 있어 10초 이전에 궁극기를 사용 시 여전히 탐지할 수 있다.  결과와 동일함   단순 NOP/분기 변경 등 다른 우회에 취약하지 않은가?
++-   솔직히 좀 취약하긴 하다.   crc32는 무조건 true반환 , 그리고 runtime cooldown은 조금 어렵긴 하겠지만 관련된 변수값을 바꾸거나 분기를 뒤집으면 생각보다 쉽게 우회가 가능하다.   성능 저하가 허용 가능한 수준인가?   허용 가능한 수준이다.   궁극기가 사용될 때에만 이 방어로직들이 동작하기 때문이다.         
++-12.1 평가 질문
++-☐ 정상 게임 실행을 방해하지 않았는가?
++-☐ 기존 테스트에서 회귀가 발생하지 않았는가?
++-☐ 0초 패치를 실제로 탐지 또는 차단했는가?
++-☐ 패치 위치가 달라져도 동일 변조를 탐지할 가능성이 있는가?
++-☐ 단순 NOP/분기 변경 등 다른 우회에 취약하지 않은가?
++-☐ 성능 저하가 허용 가능한 수준인가?
++-방어의 장점
++-정적 + 동적 방어가 들어가서 시너지가 날 수 있고 조금 더 이러한 방어방법을 우회하는데 시간이 더 소요됨
++-방어의 한계 및 우회 가능성
++-한계는 여전히 프로그래머가 시간만 어느정도 쓰면 손쉽게 무력화가 가능하다는 거다.
++-추가 개선 아이디어
++-이를 막기 위해서 crc32 -> sha256검증으로 바꾸고 그 외에도 여러 변수의 값을 여러군데 backup하고 난독화하며 안티디버깅 기법도 여러군데 넣을 필요가 있다.(하지만 너무 리버싱 난이도가 높아진다는 한계가 있다.) 
++-
++-13. 최종 결론
++-공격 결과성공방어 결과성공오탐없음정상 기능 회귀없음다음 단계dll injection을 통한 공격과 이에 따른 방어
++-13.1 공격 실험 요약
++-Release 실행 파일을 정적 분석하여 궁극기 쿨타임을 설정하는 코드를 식별하고, 기존 10초(10.0)값을 0초(0.0)로 변경하는 바이너리 패치를 수행하였다. 패치 후 게임을 실행하여 궁극기를 쿨타임 없이 연속 사용할 수 있음을 확인하였으며, 이를 통해 단순 클라이언트 측 쿨다운 로직이 실행 파일 변조에 의해 우회될 수 있음을 검증하였다.
++-
++-13.2 방어 구현 요약
++-패치 공격에 대응하기 위해 코드 무결성 검사와 독립적인 런타임 쿨다운 검증을 함께 적용하였다. IntegrityGuard에서 GameWorld::Update()코드 영역의 CRC32를 검사하여 실행 파일 변조를 탐지하도록 하였으며, 별도로 lastUltimateUseTime_을 이용해 마지막 궁극기 사용 시점부터 10초가 지나지 않으면 발사를 차단하도록 구현하였다. 따라서 기존 쿨다운 값이 패치되더라도 추가 검증을 통해 연속 사용을 방지할 수 있도록 방어 구조를 강화하였다
++-
++-13.3 공격 --> 방어 --> 재공격에서 얻은 결론
++-스터디에서는 공격 기법 위주로 배웠는데 이번 기회에 다양한 방어 기법에 대해서 알게 되었고 이를 실제 내가 만든 게임에 적용하면서 생각보다 이러한 기법들을 적절히 적용하는 게 난이도가 높고 그럼에도 불구하고 우회가 생각보다 쉽게 되서 허무하게 뚫릴 수 있다는 걸 알게 되었다. 앞으로는 방어 기법에 대해서도 더 알아보고 적용하는 연습을 더 해야겠다고 느꼈다.
++-13.4 다음 실험에서 개선할 점
++-
++-15. 다음 보안 반복 실험 계획
++-우선순위
++-다음 실험
++-목적
++-선행 조건
++-                        
++-작성 가이드: 이번 PATCH-01을 완료한 뒤에는 다른 Value/Logic Patch 또는 DLL Injection 단계로 이동하되, 이번 방어의 우회 가능성을 한 번 더 검토한 후 진행한다.
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/\353\246\254\353\262\204\354\213\261 \353\260\251\354\226\264\352\270\260\353\262\225.docx" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/\353\246\254\353\262\204\354\213\261 \353\260\251\354\226\264\352\270\260\353\262\225.docx"
++deleted file mode 100644
++index f1c9cf1..0000000
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/docs/\353\246\254\353\262\204\354\213\261 \353\260\251\354\226\264\352\270\260\353\262\225.docx"	
+++++ /dev/null
++@@ -1,5 +0,0 @@
++-리버싱 방어기법
++-
++-CRC32함수
++-CalculateCRC32()는 메모리의 바이트들을 읽어서 하나의 32비트 요약값(CRC32) 으로 만드는 함수다.
++-예를 들어 GameWorld::Update()의 기계어 바이트가 48 89 5C 24 ...처럼 메모리에 들어있다면 
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Application.cpp" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Application.cpp"
++index f354f57..13a840b 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Application.cpp"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Application.cpp"
++@@ -2,6 +2,7 @@
++ #include "Logger.h"
++ #include "Camera.h"
++ #include "IntegrityGuard.h" // PATCH-02 추가
+++#include "CodeIntegrity.h"
++ #include <algorithm>
++ 
++ bool Application::CreateMainWindow(HINSTANCE instance)
++@@ -21,6 +22,7 @@ bool Application::CreateMainWindow(HINSTANCE instance)
++ 
++ int Application::Run(HINSTANCE instance, bool smokeGui)
++ {
+++    CodeIntegrity::DllScanWatchdog dllScanWatchdog;
++     if (!CreateMainWindow(instance)) { Logger{}.Write(0.0, "APP", "WINDOW_FAILED", "Application", ""); return 1; }
++     Logger{}.Write(0.0, "APP", "WINDOW_CREATED", "Application", "");
++     if (!renderer_.Initialize(window_)) { Logger{}.Write(0.0, "APP", "DX11_FAILED", "Renderer", ""); return 1; }
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.cpp" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.cpp"
++index c3f939c..f3d4d18 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.cpp"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.cpp"
++@@ -1,4 +1,4 @@
++-﻿#include"IntegrityGuard.h"
+++#include"IntegrityGuard.h"
++ #include "GameWorld.h"
++ #include "BotController.h"
++ #include "CombatSystem.h"
++@@ -30,7 +30,37 @@ float SegmentCircleHit(Vec2 start, Vec2 end, Vec2 center, float radius)
++ }
++ 
++ GameWorld::GameWorld() : player_({205,720}), bot_({1715,720}),
++-    allyBot_({205,800},Team::Blue), enemyBot_({1715,640}) {}
+++    allyBot_({205,800},Team::Blue), enemyBot_({1715,640})
+++{
+++    if (!ProjectileCode().Verify()) CodeIntegrity::Fail("HK01_B", "baseline_or_initial_code_invalid", 2);
+++    if (!VerifyUpdateCode()) CodeIntegrity::Fail("CRC_Update", "baseline_or_initial_code_invalid", 4);
+++}
+++
+++const CodeIntegrity::Region& GameWorld::ProjectileCode()
+++{
+++    static const CodeIntegrity::Region region(CodeIntegrity::Address(&GameWorld::SpawnProjectile), "HK01_B_SpawnProjectile");
+++    return region;
+++}
+++
+++bool GameWorld::VerifyUpdateCode()
+++{
+++    static const CodeIntegrity::Region region(CodeIntegrity::Address(&GameWorld::Update), "CRC_Update");
+++    return region.Verify();
+++}
+++
+++bool GameWorld::VerifyInitializeCode()
+++{
+++    static const CodeIntegrity::Region region(CodeIntegrity::Address(&GameWorld::Initialize), "CRC_Initialize");
+++    return region.Verify();
+++}
+++
+++__declspec(noinline) void GameWorld::CheckedSpawnProjectile(Team team, Vec2 position, Vec2 direction,
+++    ProjectileKind kind, int damage, std::uint64_t sourceId)
+++{
+++    // Outside the target: an entry detour cannot skip this pre-dispatch check.
+++    if (!ProjectileCode().Verify()) CodeIntegrity::Fail("HK01_B", "SpawnProjectile_modified_or_unreadable", 2);
+++    SpawnProjectile(team, position, direction, kind, damage, sourceId);
+++}
++ std::array<Hero*,4> GameWorld::Heroes() { return {{&player_,&bot_,&allyBot_,&enemyBot_}}; }
++ std::array<const Hero*,4> GameWorld::Heroes() const { return {{&player_,&bot_,&allyBot_,&enemyBot_}}; }
++ std::uint64_t GameWorld::HeroId(const Hero& hero) const
++@@ -133,6 +163,7 @@ int GameWorld::NearestLane(float y) const
++ void GameWorld::SpawnProjectile(Team team, Vec2 position, Vec2 direction,
++                                 ProjectileKind kind, int damage, std::uint64_t sourceId)
++ {
+++    if (!ProjectileCode().Verify()) CodeIntegrity::Fail("HK01_B", "SpawnProjectile_modified_or_unreadable", 2);
++     if (Length(direction) == 0.0F) { return; }
++     projectiles_.push_back(std::make_unique<Projectile>(
++         CombatSystem::CreateProjectile(team, position, direction, kind, damage)));
++@@ -724,7 +755,7 @@ void GameWorld::UpdateBot(float deltaSeconds, BotHero& bot, BotRuntime& ai)
++             (defendTarget || (playerVisible && BotHasClearShot(bot,attackOpponent.Position()))))
++         {
++             ai.targetId=defendTarget?1+defendTarget->id:HeroId(attackOpponent);
++-            SpawnProjectile(ownTeam, bot.Position(), Normalize(basicTarget - bot.Position()),
+++            CheckedSpawnProjectile(ownTeam, bot.Position(), Normalize(basicTarget - bot.Position()),
++                             ProjectileKind::Basic, bot.BasicDamage(),HeroId(bot));
++             bot.StartBasic();
++             ai.botAttackTimer_ = 1.0F;
++@@ -734,7 +765,7 @@ void GameWorld::UpdateBot(float deltaSeconds, BotHero& bot, BotRuntime& ai)
++         if (!defending && playerVisible && Distance(bot.Position(), attackOpponent.Position()) <= 850.0F &&
++             !MapPaths::AttackBlocked(bot.Position(), attackOpponent.Position()) && bot.UltimateReady())
++         {
++-            SpawnProjectile(ownTeam, bot.Position(), Normalize(attackOpponent.Position() - bot.Position()),
+++            CheckedSpawnProjectile(ownTeam, bot.Position(), Normalize(attackOpponent.Position() - bot.Position()),
++                             ProjectileKind::Ultimate, bot.UltimateDamage(),HeroId(bot));
++             bot.StartUltimate();
++         }
++@@ -742,7 +773,7 @@ void GameWorld::UpdateBot(float deltaSeconds, BotHero& bot, BotRuntime& ai)
++     if (ai.botState_ == BotState::Push && Distance(bot.Position(), enemyBase.position) <= 700.0F &&
++         !MapPaths::AttackBlocked(bot.Position(), enemyBase.position) && ai.botAttackTimer_ <= 0.0F)
++     {
++-        SpawnProjectile(ownTeam, bot.Position(), Normalize(enemyBase.position - bot.Position()),
+++        CheckedSpawnProjectile(ownTeam, bot.Position(), Normalize(enemyBase.position - bot.Position()),
++                         ProjectileKind::Basic, bot.BasicDamage(),HeroId(bot));
++         bot.StartBasic();
++         ai.botAttackTimer_ = 1.0F;
++@@ -908,7 +939,7 @@ void GameWorld::Update(const PlayerCommand& input, float deltaSeconds)
++                 ";mode=" + (autoAim_ ? "Auto" : "Mouse") +
++                 ";mouse=" + std::to_string(command.mouseWorldPosition.x) + "," +
++                 std::to_string(command.mouseWorldPosition.y));
++-            SpawnProjectile(Team::Blue, player_.Position(), direction, ProjectileKind::Basic, player_.BasicDamage());
+++            CheckedSpawnProjectile(Team::Blue, player_.Position(), direction, ProjectileKind::Basic, player_.BasicDamage());
++             player_.StartBasic();
++         }
++         //checkpoint for intergrity
++@@ -939,7 +970,7 @@ void GameWorld::Update(const PlayerCommand& input, float deltaSeconds)
++             // 3. 기존 쿨다운도 정상인지 확인
++             if (player_.UltimateReady())
++             {
++-                SpawnProjectile(
+++                CheckedSpawnProjectile(
++                     Team::Blue,
++                     player_.Position(),
++                     resolveAim(false, 1000.0F),
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.h" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.h"
++index f4ac05a..797120c 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.h"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/GameWorld.h"
++@@ -4,6 +4,7 @@
++ #include "InputManager.h"
++ #include "PlayerHero.h"
++ #include "Projectile.h"
+++#include "CodeIntegrity.h"
++ #include "Snapshot.h"
++ #include <memory>
++ #include <array>
++@@ -51,19 +52,23 @@ class GameWorld
++ {
++ public:
++     GameWorld();
++-    void Update(const PlayerCommand& input, float deltaSeconds);
+++    __declspec(noinline) void Update(const PlayerCommand& input, float deltaSeconds);
++     void Restart();
++     GameState State() const { return state_; }
++     BotState CurrentBotState() const { return botAi_.botState_; }
++     GameWorldSnapshot CreateSnapshot() const;
++     HUDViewModel CreateHud() const;
++     int ProjectileCount() const { return static_cast<int>(projectiles_.size()); }
+++    static bool VerifyUpdateCode();
+++    static bool VerifyInitializeCode();
++ 
++ private:
++     friend struct GameWorldTests;
++-    void Initialize();
+++    __declspec(noinline) void Initialize();
++     void SpawnWave();
++-    void SpawnProjectile(Team team, Vec2 position, Vec2 direction, ProjectileKind kind, int damage, std::uint64_t sourceId = UINT64_MAX);
+++    __declspec(noinline) void SpawnProjectile(Team team, Vec2 position, Vec2 direction, ProjectileKind kind, int damage, std::uint64_t sourceId = UINT64_MAX);
+++    void CheckedSpawnProjectile(Team team, Vec2 position, Vec2 direction, ProjectileKind kind, int damage, std::uint64_t sourceId = UINT64_MAX);
+++    static const CodeIntegrity::Region& ProjectileCode();
++     void UpdateProjectiles(float deltaSeconds);
++     void UpdateMinions(float deltaSeconds);
++     void UpdateTowers(float deltaSeconds);
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/IntegrityGuard.cpp" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/IntegrityGuard.cpp"
++index cc6e7a1..fc47d24 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/IntegrityGuard.cpp"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/IntegrityGuard.cpp"
++@@ -1,5 +1,7 @@
++ ﻿#include "IntegrityGuard.h"
++ 
+++#include "GameWorld.h"
+++#include "Logger.h"
++ #include <cstdio>
++ #include <cstdint>
++ #include <cstddef>
++@@ -19,15 +21,7 @@
++ namespace IntegrityGuard
++ {
++ 
++-    // PATCH-01: GameWorld::Update()
++-    constexpr uintptr_t UPDATE_RVA = 0x14820;
++-    constexpr size_t UPDATE_SIZE = 0x1444;
++-    constexpr uint32_t EXPECTED_UPDATE_CRC = 0x29148A8C;
++-
++-    // PATCH-02: GameWorld::Initialize()
++-    constexpr uintptr_t HERO_RVA = 0x110D0;
++-    constexpr size_t HERO_SIZE = 0x685;
++-    constexpr uint32_t EXPECTED_HERO_CRC = 0xA8E8248A;
+++    // Expected code and CRC are read from this exact build's disk image.
++ 
++ 
++     uint32_t CalculateCRC32(const uint8_t* data, size_t length)
++@@ -82,24 +76,14 @@ namespace IntegrityGuard
++     __declspec(noinline)
++         bool VerifyUpdateIntegrity()
++     {
++-        return VerifyRegionIntegrity(
++-            UPDATE_RVA,
++-            UPDATE_SIZE,
++-            EXPECTED_UPDATE_CRC,
++-            "Update"
++-        );
+++        return GameWorld::VerifyUpdateCode();
++     }
++ 
++ 
++     __declspec(noinline)
++         bool VerifyHeroIntegrity()
++     {
++-        return VerifyRegionIntegrity(
++-            HERO_RVA,
++-            HERO_SIZE,
++-            EXPECTED_HERO_CRC,
++-            "Hero"
++-        );
+++        return GameWorld::VerifyInitializeCode();
++     }
++ 
++ 
++@@ -228,11 +212,12 @@ namespace IntegrityGuard
++             baselineDlls.size()
++         );
++         OutputDebugStringW(message);
+++        Logger{}.Write(0, "SECURITY", "BASELINE", "HK01_A", "dll_count=" + std::to_string(baselineDlls.size()));
++         return true;
++     }
++ 
++     // Baseline에 없던 DLL을 발견하면 해당 경로를 한 번만 출력
++-    void DetectNewModules()
+++    __declspec(noinline) void DetectNewModules()
++     {
++         if (!baselineInitialized)
++             return;
++@@ -243,6 +228,7 @@ namespace IntegrityGuard
++             OutputDebugStringW(L"[DLLGuard] Module scan failed\n");
++             return;
++         }
+++        Logger{}.Write(0, "SECURITY", "SCAN_COMPLETE", "HK01_A", "dll_count=" + std::to_string(currentDlls.size()));
++ 
++         for (const auto& dllPath : currentDlls)
++         {
++@@ -265,6 +251,10 @@ namespace IntegrityGuard
++             const std::wstring message =
++                 L"[DLLGuard] New DLL detected: " + dllPath + L"\n";
++             OutputDebugStringW(message.c_str());
+++            const int length = WideCharToMultiByte(CP_UTF8, 0, dllPath.data(), static_cast<int>(dllPath.size()), nullptr, 0, nullptr, nullptr);
+++            std::string utf8Path(length, '\0');
+++            WideCharToMultiByte(CP_UTF8, 0, dllPath.data(), static_cast<int>(dllPath.size()), utf8Path.data(), length, nullptr, nullptr);
+++            Logger{}.Write(0, "SECURITY", "DETECTED", "HK01_A", "new_dll=" + utf8Path);
++ 
++             MessageBoxW(
++                 nullptr,
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Logger.h" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Logger.h"
++index 7d091e0..860f376 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Logger.h"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/src/Logger.h"
++@@ -3,6 +3,7 @@
++ #include <fstream>
++ #include <iomanip>
++ #include <string>
+++#include <mutex>
++ 
++ class Logger final
++ {
++@@ -10,6 +11,8 @@ public:
++     void Write(double simulationTime, const char* category, const char* event,
++                const char* entity, const std::string& detail) const
++     {
+++        static std::mutex logMutex;
+++        const std::lock_guard<std::mutex> lock(logMutex);
++         const auto wallTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
++         std::ofstream output("GameClient.log", std::ios::app);
++         output << "[wall=" << wallTime << "][simulation=" << std::fixed << std::setprecision(3)
++diff --git "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/tests/GameTests.cpp" "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/tests/GameTests.cpp"
++index d84e69d..b193f20 100644
++--- "a/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/tests/GameTests.cpp"
+++++ "b/projects/Game_project_easile(\353\246\254\353\262\204\354\213\261)/tests/GameTests.cpp"
++@@ -950,7 +950,7 @@ struct GameWorldTests
++     static void BotRecoveryThreeCycles()
++     {
++         GameWorld world; Start(world);
++-        world.player_.SetPosition({18, 700});
+++        world.player_.SetPosition(MapPaths::Project({18, 700}, MapPaths::heroRadius));
++         for (int cycle = 0; cycle < 3; ++cycle)
++         {
++             world.DamageHero(world.bot_, Team::Blue, world.bot_.Health() - 30, false);
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Application.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/GameWorld.h', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/IntegrityGuard.cpp', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/src/Logger.h', LF will be replaced by CRLF the next time Git touches it
++warning: in the working copy of 'projects/Game_project_easile(리버싱)/tests/GameTests.cpp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/evidence/hk01_crc_review_20261114_1146/run_20261114_115113_007585/after-diff.txt', LF will be replaced by CRLF the next time Git touches it

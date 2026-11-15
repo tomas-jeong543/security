@@ -1,0 +1,8 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/main_scanner/guard_observer.log b/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/main_scanner/guard_observer.log
+new file mode 100644
+index 0000000..aca8355
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/main_scanner/guard_observer.log
+@@ -0,0 +1 @@
++[GUARD-OBS] Hook installed at GameClient + 0x1B050; original scanner bypass installed (retest).
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/runs/20261114_121201_637835/main_scanner/guard_observer.log', LF will be replaced by CRLF the next time Git touches it

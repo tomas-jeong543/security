@@ -34,13 +34,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\obj\Tests\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\build\hk01\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>GameTests</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)build\obj\Tests\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\build\hk01\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\build\hk01\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>GameTests</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -50,8 +50,11 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -70,6 +73,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\IntegrityGuard.cpp" />
+    <ClCompile Include="..\src\CodeIntegrity.cpp" />
     <ClCompile Include="..\tests\GameTests.cpp" />
     <ClCompile Include="..\src\CombatSystem.cpp" />
     <ClCompile Include="..\src\GameWorld.cpp" />
@@ -81,5 +85,6 @@
   <ItemGroup>
     <ClInclude Include="..\src\IntegrityGuard.h" />
   </ItemGroup>
+  <PropertyGroup><LinkIncremental>false</LinkIncremental></PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

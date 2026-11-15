@@ -1,0 +1,57 @@
+﻿[
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\debug.ps1.addition.diff",
+        "file":  "debug.ps1",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\EASILE_HK01_공격방어_최종보고서.docx.addition.diff",
+        "file":  "EASILE_HK01_공격방어_최종보고서.docx",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\evidence-hashes.json.addition.diff",
+        "file":  "evidence-hashes.json",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\layout.ps1.addition.diff",
+        "file":  "layout.ps1",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\original-hash.json.addition.diff",
+        "file":  "original-hash.json",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\original.docx.addition.diff",
+        "file":  "original.docx",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\polish.ps1.addition.diff",
+        "file":  "polish.ps1",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\render.ps1.addition.diff",
+        "file":  "render.ps1",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\update.ps1.addition.diff",
+        "file":  "update.ps1",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\verification.json.addition.diff",
+        "file":  "verification.json",
+        "diff_exit":  1
+    },
+    {
+        "diff":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\.report_work\\manual_b_update_20261114\\verify.ps1.addition.diff",
+        "file":  "verify.ps1",
+        "diff_exit":  1
+    }
+]

@@ -1,0 +1,12 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/build/fixture_120854_025461/obj/BoundaryFixture.tlog/Cl.items.tlog b/api_hooking_project/hk01_retest/followup_20261114/build/fixture_120854_025461/obj/BoundaryFixture.tlog/Cl.items.tlog
+new file mode 100644
+index 0000000..3c2a0b9
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/build/fixture_120854_025461/obj/BoundaryFixture.tlog/Cl.items.tlog
+@@ -0,0 +1,6 @@
++D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\BoundaryFixture.cpp;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\obj\BoundaryFixture.obj
++D:\GitHub\security\projects\Game_project_easile(리버싱)\src\GameWorld.cpp;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\obj\GameWorld.obj
++D:\GitHub\security\projects\Game_project_easile(리버싱)\src\CombatSystem.cpp;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\obj\CombatSystem.obj
++D:\GitHub\security\projects\Game_project_easile(리버싱)\src\Hero.cpp;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\obj\Hero.obj
++D:\GitHub\security\projects\Game_project_easile(리버싱)\src\IntegrityGuard.cpp;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\obj\IntegrityGuard.obj
++D:\GitHub\security\projects\Game_project_easile(리버싱)\src\CodeIntegrity.cpp;D:\GitHub\security\projects\Game_project_easile(리버싱)\api_hooking_project\hk01_retest\followup_20261114\build\fixture_120854_025461\obj\CodeIntegrity.obj

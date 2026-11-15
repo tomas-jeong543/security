@@ -1,0 +1,23 @@
+{
+  "mode": "fixture",
+  "cwd": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture",
+  "command": [
+    "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\build\\runner_121058_684651\\RetestReplay.exe",
+    "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture",
+    "hook_payload.dll",
+    "fixture"
+  ],
+  "runner_exit": 2,
+  "copies": [
+    {
+      "source": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_120854_025461\\BoundaryFixture.exe",
+      "copy": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\GameClient.exe",
+      "sha256": "A22851AE725B5D304208E2F34269299199BA0CAED45CA4DDD129BCD87CF28D13"
+    },
+    {
+      "source": "api_hooking_project\\hk01_retest\\followup_20261114\\build\\fixture_spawn_dll_120918_016275\\fixture_spawn.dll",
+      "copy": "api_hooking_project\\hk01_retest\\followup_20261114\\runs\\20261114_121201_637835\\fixture\\hook_payload.dll",
+      "sha256": "6EDE5BB7FDB6EDFE361C4BB7B01FE2CAB9AE6A89C8B0876F5A11A26555A02055"
+    }
+  ]
+}

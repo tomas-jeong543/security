@@ -1,0 +1,141 @@
+diff --git a/tools/Validate-Hk01.ps1 b/tools/Validate-Hk01.ps1
+new file mode 100644
+index 0000000..4a3e744
+--- /dev/null
++++ b/tools/Validate-Hk01.ps1
+@@ -0,0 +1,134 @@
++param([switch]$SkipBuild, [switch]$AuditOnly, [switch]$Replay, [switch]$Review, [switch]$Finalize)
++$ErrorActionPreference = 'Stop'
++$projectRoot = Split-Path $PSScriptRoot -Parent
++Set-Location -LiteralPath $projectRoot
++$run = Join-Path $projectRoot 'evidence/hk01_triple_20261114'
++$iteration = Join-Path $run ('validation_' + (Get-Date -Format 'yyyyMMdd_HHmmss'))
++New-Item -ItemType Directory -Path $iteration | Out-Null
++$results = [System.Collections.Generic.List[object]]::new()
++$msbuild = 'C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe'
++$props = Join-Path $projectRoot 'tools/Hk01.Isolated.props'
++if ($Finalize) {
++    $final = Join-Path $run ('final_' + (Get-Date -Format 'yyyyMMdd_HHmmss'))
++    New-Item -ItemType Directory -Path $final | Out-Null
++    Copy-Item -LiteralPath (Join-Path $run 'bin') -Destination (Join-Path $final 'bin') -Recurse
++    $sourceFiles = @(Get-ChildItem src -File)+@(Get-ChildItem tests -File -Filter '*.cpp')+@(Get-ChildItem GameClient -File -Filter '*.vcxproj')+@(Get-Item EASILE.sln,tools/Hk01.Isolated.props,tools/Validate-Hk01.ps1,tools/audit_hk01.py)
++    foreach ($file in $sourceFiles) {
++        $relative = $file.FullName.Substring($projectRoot.Length + 1)
++        $destination = Join-Path (Join-Path $final 'sources') $relative
++        New-Item -ItemType Directory -Path (Split-Path $destination -Parent) -Force | Out-Null
++        Copy-Item -LiteralPath $file.FullName -Destination $destination
++    }
++    Get-ChildItem -LiteralPath $final -Recurse -File | ForEach-Object { [pscustomobject]@{file=$_.FullName.Substring($final.Length+1);sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $final 'manifest.json') -Encoding UTF8
++    Write-Output "FinalSnapshot: $final"
++    return
++}
++if ($Review) {
++    $auditDir = Get-ChildItem -LiteralPath $run -Directory -Filter 'audit_*' | Where-Object {Test-Path -LiteralPath (Join-Path $_.FullName 'audit.json')} | Sort-Object Name | Select-Object -Last 1
++    Get-Content -LiteralPath (Join-Path $auditDir.FullName 'after-status.txt')
++    Get-Content -LiteralPath (Join-Path $auditDir.FullName 'after-ignored.txt')
++    $audit = Get-Content -Raw -LiteralPath (Join-Path $auditDir.FullName 'audit.json') -Encoding UTF8 | ConvertFrom-Json
++    foreach ($build in $audit.builds) { if ($build.exe -like '*GameClient.exe') { $build | ConvertTo-Json -Depth 8 } }
++    $validation = Join-Path $projectRoot $audit.validation_dir
++    Get-ChildItem -LiteralPath $validation -Filter 'GameClient.log' -Recurse | Where-Object {$_.Directory.Name -match 'A-C-blocked'} | ForEach-Object { Get-Content -LiteralPath $_.FullName -Tail 9 -Encoding UTF8 }
++    return
++}
++if ($AuditOnly) {
++    & python (Join-Path $PSScriptRoot 'audit_hk01.py')
++    if ($LASTEXITCODE -ne 0) { throw 'Audit failed' }
++    return
++}
++if ($Replay) {
++    # Replays only launch fresh copies. The original EXE, DLLs and injector are read-only inputs.
++    $previousRunner = Join-Path $run 'bin/Release'
++    Get-ChildItem -LiteralPath $previousRunner -File -Filter 'Hk01Replay.*' -ErrorAction SilentlyContinue | ForEach-Object {
++        $saved = Join-Path $iteration 'prebuild-replay'
++        New-Item -ItemType Directory -Path $saved -Force | Out-Null
++        Copy-Item -LiteralPath $_.FullName -Destination $saved
++    }
++    & $msbuild GameClient/Hk01Replay.vcxproj /p:Configuration=Release /p:Platform=x64 "/p:ForceImportBeforeCppTargets=$props" /v:minimal *> (Join-Path $iteration 'build-replay.log')
++    if ($LASTEXITCODE -ne 0) { Get-Content (Join-Path $iteration 'build-replay.log'); throw 'Replay runner build failed' }
++    $runner = Join-Path $run 'bin/Release/Hk01Replay.exe'
++    $legacy = Join-Path $projectRoot 'api_hooking_project/GameClient.exe'
++    $defended = Join-Path $run 'bin/Release/GameClient.exe'
++    $injector = Join-Path $projectRoot 'api_hooking_project/injector.exe'
++    $payload = Join-Path $projectRoot 'api_hooking_project/hook_payload.dll'
++    $dll2 = Join-Path $projectRoot 'api_hooking_project/Dll2/x64/Release/Dll2.dll'
++    if (!(Test-Path -LiteralPath $dll2)) {
++        $dll2 = (Get-ChildItem -LiteralPath (Join-Path $projectRoot 'api_hooking_project/Dll2') -Recurse -File -Filter Dll2.dll | Select-Object -First 1).FullName
++    }
++    $manifest = @()
++    foreach ($build in @('legacy','defended')) {
++        foreach ($attack in @('spawn','scanner')) {
++            $cwd = Join-Path $iteration "replay-$build-$attack"
++            New-Item -ItemType Directory -Path $cwd | Out-Null
++            $target = if ($build -eq 'legacy') {$legacy} else {$defended}
++            $dll = if ($attack -eq 'spawn') {$payload} else {$dll2}
++            foreach ($copy in @(@{source=$target;name='GameClient.exe'},@{source=$injector;name='injector.exe'},@{source=$dll;name='attack.dll'})) {
++                $destination = Join-Path $cwd $copy.name
++                Copy-Item -LiteralPath $copy.source -Destination $destination
++                $sourceHash = (Get-FileHash -LiteralPath $copy.source -Algorithm SHA256).Hash
++                if ((Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash -ne $sourceHash) { throw 'Replay copy mismatch' }
++                $manifest += [pscustomobject]@{source=$copy.source;copy=$destination;sha256=$sourceHash}
++            }
++            & $runner $cwd attack.dll *> (Join-Path $cwd 'debug-events.txt')
++            Write-Output "Replay $build/$attack exit=$LASTEXITCODE"
++            Get-Content -LiteralPath (Join-Path $cwd 'debug-events.txt') -Tail 24
++        }
++    }
++    $manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $iteration 'replay-manifest.json') -Encoding UTF8
++    Write-Output "ReplayEvidence: $iteration"
++    return
++}
++foreach ($configuration in @('Debug','Release')) {
++    if (!$SkipBuild) {
++        $buildFailed = $false
++        $previousBin = Join-Path $run "bin/$configuration"
++        if (Test-Path -LiteralPath $previousBin) {
++            $saved = Join-Path $iteration "prebuild-$configuration"
++            Copy-Item -LiteralPath $previousBin -Destination $saved -Recurse
++            Get-ChildItem -LiteralPath $saved -File -Recurse | ForEach-Object { [pscustomobject]@{file=$_.FullName;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $iteration "prebuild-$configuration-hashes.json") -Encoding UTF8
++        }
++        foreach ($project in @('EASILE.sln','GameClient/Hk01SecurityTests.vcxproj','GameClient/Hk01Probe.vcxproj')) {
++            $name = [IO.Path]::GetFileNameWithoutExtension($project)
++            $log = Join-Path $iteration "build-$name-$configuration.log"
++            & $msbuild $project "/p:Configuration=$configuration" /p:Platform=x64 "/p:ForceImportBeforeCppTargets=$props" /m /v:minimal *> $log
++            $results.Add([pscustomobject]@{kind='build';configuration=$configuration;project=$project;exitCode=$LASTEXITCODE;log=$log;command="$msbuild $project /p:Configuration=$configuration /p:Platform=x64 /p:ForceImportBeforeCppTargets=$props /m /v:minimal"})
++            Write-Output "$configuration $name build exit=$LASTEXITCODE"
++            Get-Content -LiteralPath $log -Tail 6
++            if ($LASTEXITCODE -ne 0) { $buildFailed = $true }
++        }
++        if ($buildFailed) {
++            $results | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $iteration 'results.json') -Encoding UTF8
++            continue
++        }
++    }
++    $bin = Join-Path $run "bin/$configuration"
++    foreach ($test in @(@{exe='Hk01SecurityTests.exe';args='normal';expected=0},@{exe='Hk01SecurityTests.exe';args='B';expected=2},@{exe='Hk01SecurityTests.exe';args='B-preinit';expected=2},@{exe='Hk01SecurityTests.exe';args='C';expected=3},@{exe='Hk01SecurityTests.exe';args='C-preinit';expected=3},@{exe='Hk01SecurityTests.exe';args='CRC';expected=0},@{exe='Hk01SecurityTests.exe';args='A-C-blocked';expected=3},@{exe='GameTests.exe';args='';expected=0},@{exe='GameClient.exe';args='--smoke-gui';expected=0})) {
++        $label = [IO.Path]::GetFileNameWithoutExtension($test.exe) + '-' + $test.args.TrimStart('-')
++        $cwd = Join-Path $iteration "$configuration-$label"
++        New-Item -ItemType Directory -Path $cwd | Out-Null
++        $exe = Join-Path $bin $test.exe
++        if (!(Test-Path -LiteralPath $exe)) { $results.Add([pscustomobject]@{kind='run';configuration=$configuration;name=$label;error='EXE missing'}); continue }
++        $parameters = @{FilePath=$exe;WorkingDirectory=$cwd;WindowStyle='Hidden';PassThru=$true;RedirectStandardOutput=(Join-Path $cwd 'stdout.txt');RedirectStandardError=(Join-Path $cwd 'stderr.txt')}
++        if ($test.args) { $parameters.ArgumentList=$test.args }
++        $process = Start-Process @parameters
++        $null = $process.Handle
++        $completed = $process.WaitForExit(45000)
++        $timedOut = !$completed
++        if ($timedOut) {
++            # Only clean up the exact process started by this validation run.
++            if ($process.Path -ine $exe) { throw 'Cleanup process identity mismatch' }
++            Stop-Process -InputObject $process
++            $process.WaitForExit()
++        }
++        $process.Refresh()
++        $results.Add([pscustomobject]@{kind='run';configuration=$configuration;name=$label;exe=$exe;sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash;args=$test.args;cwd=$cwd;pid=$process.Id;exitCode=$process.ExitCode;expectedExit=$test.expected;timedOut=$timedOut;pass=(!$timedOut -and $process.ExitCode -eq $test.expected)})
++        Write-Output "$configuration $label exit=$($process.ExitCode) timeout=$timedOut"
++        $results | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $iteration 'results.json') -Encoding UTF8
++    }
++}
++$results | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $iteration 'results.json') -Encoding UTF8
++Write-Output "Evidence: $iteration"
++& python (Join-Path $PSScriptRoot 'audit_hk01.py')
++if ($LASTEXITCODE -ne 0) { throw "Independent PE/preservation audit failed: $LASTEXITCODE" }
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/tools/Validate-Hk01.ps1', LF will be replaced by CRLF the next time Git touches it

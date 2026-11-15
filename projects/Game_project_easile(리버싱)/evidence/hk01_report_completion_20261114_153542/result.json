@@ -1,0 +1,21 @@
+﻿{
+    "run":  "evidence/hk01_report_completion_20261114_153542",
+    "report":  "D:\\GitHub\\security\\projects\\Game_project_easile(리버싱)\\api_hooking_project\\EASILE_HK01_Bot_Aim_Hooking_완성_보고서_간결본.docx",
+    "original_sha256":  "149B1923CCA8B4054034552C00A580462C7A9DA4AA1EBDEAF23572EB122E5778",
+    "backup_sha256":  "149B1923CCA8B4054034552C00A580462C7A9DA4AA1EBDEAF23572EB122E5778",
+    "final_sha256":  "42F31D4C9C0EB640DAA0C2EBBB2F1C288A3808C00AB2EA44C767999E3222AA33",
+    "preserved_files":  1819,
+    "preservation_mismatches":  [
+
+                                ],
+    "before_diff_check_exit":  0,
+    "game_executed":  false,
+    "real_game_B":  "UNVERIFIED",
+    "game_exit_code":  null,
+    "ui_errors":  [
+                      "trusted Node process exited unexpectedly; kernel reset, rerun your request",
+                      "windows sandbox failed: helper_unknown_error: setup refresh had errors"
+                  ],
+    "reason":  "Both provided UI runtimes failed during initialization; no gameplay or attack replay performed",
+    "renderer":  "Managed Node/Python workspace loader unavailable; native Word fallback requested"
+}

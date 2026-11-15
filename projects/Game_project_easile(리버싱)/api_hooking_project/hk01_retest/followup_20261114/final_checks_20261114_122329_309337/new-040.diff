@@ -1,0 +1,257 @@
+diff --git a/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/new-source-11.diff b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/new-source-11.diff
+new file mode 100644
+index 0000000..c7b778f
+--- /dev/null
++++ b/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/new-source-11.diff
+@@ -0,0 +1,250 @@
++diff --git a/api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/hook_payload.c b/api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/hook_payload.c
++new file mode 100644
++index 0000000..939639a
++--- /dev/null
+++++ b/api_hooking_project/hk01_retest/followup_20261114/adapted/fixture_spawn_v2/hook_payload.c
++@@ -0,0 +1,244 @@
+++#define WIN32_LEAN_AND_MEAN
+++#include <windows.h>
+++#include <MinHook.h>
+++#include <stdint.h>
+++#include <string.h>
+++#include "target_pin.h"
+++
+++#define SPAWN_PROJECTILE_RVA 0x11AD0u
+++
+++typedef struct Vec2 {
+++    float x;
+++    float y;
+++} Vec2;
+++typedef char Vec2_size_must_be_8[(sizeof(Vec2) == 8) ? 1 : -1];
+++
+++typedef void (*SpawnProjectileFn)(
+++    void* world, int team, Vec2 position, Vec2 direction,
+++    int kind, int damage, uint64_t sourceId
+++    );
+++
+++static SpawnProjectileFn g_original_spawn = NULL;
+++static LPVOID g_hook_target = NULL;
+++static BOOL g_minhook_owned = FALSE;
+++static BOOL g_hook_created = FALSE;
+++static BOOL g_hook_enabled = FALSE;
+++static HANDLE g_stop_event = NULL;
+++static volatile LONG g_stop_requested = 0;
+++static volatile LONG g_active_detours = 0;
+++
+++static void log_msg(const char* msg)
+++{
+++    OutputDebugStringA(msg);
+++}
+++
+++static void log_status(const char* operation, MH_STATUS status)
+++{
+++    log_msg("[HK-01] ");
+++    log_msg(operation);
+++    log_msg(": ");
+++    log_msg(MH_StatusToString(status));
+++    log_msg("\n");
+++}
+++
+++/* 적 Bot의 기본 공격만 +30도 회전 */
+++static void detour_spawn(
+++    void* world, int team, Vec2 position, Vec2 direction,
+++    int kind, int damage, uint64_t sourceId)
+++{
+++    InterlockedIncrement(&g_active_detours);
+++    if (sourceId == 3 || sourceId == 2 && kind == 0) {
+++        const float x = direction.x;
+++        const float y = direction.y;
+++        direction.x = 0.8660254f * x - 0.5f * y;
+++        direction.y = 0.5f * x + 0.8660254f * y;
+++    }
+++
+++    g_original_spawn(world, team, position, direction, kind, damage, sourceId);
+++    InterlockedDecrement(&g_active_detours);
+++}
+++
+++/* 분석한 빌드의 PE 형식, RVA 및 함수 진입 바이트 검사 */
+++static BOOL verify_target_build(HMODULE game_exe)
+++{
+++    if (!verify_pinned_executable()) return FALSE;
+++    static const BYTE expected[] = { 0x48, 0x8B, 0xC4, 0x55, 0x53, 0x56, 0x57, 0x41, 0x54, 0x41, 0x56, 0x41, 0x57, 0x48 };
+++    if (!game_exe) return FALSE;
+++
+++    BYTE* base = (BYTE*)game_exe;
+++    MEMORY_BASIC_INFORMATION mbi;
+++    if (!VirtualQuery(base, &mbi, sizeof(mbi)) || mbi.State != MEM_COMMIT)
+++        return FALSE;
+++
+++    SIZE_T offset = (SIZE_T)((uintptr_t)base - (uintptr_t)mbi.BaseAddress);
+++    if (offset > mbi.RegionSize) return FALSE;
+++    SIZE_T available = mbi.RegionSize - offset;
+++    if (available < sizeof(IMAGE_DOS_HEADER)) return FALSE;
+++
+++    const IMAGE_DOS_HEADER* dos = (const IMAGE_DOS_HEADER*)base;
+++    if (dos->e_magic != IMAGE_DOS_SIGNATURE || dos->e_lfanew <= 0)
+++        return FALSE;
+++
+++    SIZE_T nt_offset = (SIZE_T)dos->e_lfanew;
+++    if (nt_offset > available ||
+++        sizeof(IMAGE_NT_HEADERS64) > available - nt_offset)
+++        return FALSE;
+++
+++    const IMAGE_NT_HEADERS64* nt =
+++        (const IMAGE_NT_HEADERS64*)(base + nt_offset);
+++    if (nt->Signature != IMAGE_NT_SIGNATURE ||
+++        nt->FileHeader.Machine != IMAGE_FILE_MACHINE_AMD64 ||
+++        nt->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+++        return FALSE;
+++
+++    SIZE_T image_size = nt->OptionalHeader.SizeOfImage;
+++    if (SPAWN_PROJECTILE_RVA >= image_size ||
+++        sizeof(expected) > image_size - SPAWN_PROJECTILE_RVA)
+++        return FALSE;
+++
+++    const BYTE* target = base + SPAWN_PROJECTILE_RVA;
+++    MEMORY_BASIC_INFORMATION target_mbi;
+++    if (!VirtualQuery(target, &target_mbi, sizeof(target_mbi)) ||
+++        target_mbi.State != MEM_COMMIT ||
+++        (target_mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS)))
+++        return FALSE;
+++
+++    SIZE_T target_offset = (SIZE_T)((uintptr_t)target - (uintptr_t)target_mbi.BaseAddress);
+++    if (target_offset > target_mbi.RegionSize ||
+++        sizeof(expected) > target_mbi.RegionSize - target_offset)
+++        return FALSE;
+++
+++    return memcmp(target, expected, sizeof(expected)) == 0;
+++}
+++
+++static BOOL install_hook(void)
+++{
+++    HMODULE game_exe = GetModuleHandleW(NULL);
+++    if (!verify_target_build(game_exe)) {
+++        log_msg("[HK-01] Target verification failed.\n");
+++        return FALSE;
+++    }
+++
+++    g_hook_target = (LPVOID)((BYTE*)game_exe + SPAWN_PROJECTILE_RVA);
+++
+++    MH_STATUS status = MH_CreateHook(
+++        g_hook_target, (LPVOID)detour_spawn, (LPVOID*)&g_original_spawn);
+++    if (status != MH_OK) {
+++        log_status("MH_CreateHook", status);
+++        return FALSE;
+++    }
+++    g_hook_created = TRUE;
+++
+++    status = MH_EnableHook(g_hook_target);
+++    if (status != MH_OK) {
+++        log_status("MH_EnableHook", status);
+++        return FALSE;
+++    }
+++    g_hook_enabled = TRUE;
+++    return TRUE;
+++}
+++
+++/* Hook 제거 후 MinHook이 소유한 Trampoline/메모리 정리 */
+++static void shutdown_hook(void)
+++{
+++    MH_STATUS status;
+++    if (g_hook_enabled) {
+++        status = MH_DisableHook(g_hook_target);
+++        if (status != MH_OK && status != MH_ERROR_DISABLED) {
+++            log_status("MH_DisableHook", status);
+++            return;
+++        }
+++        g_hook_enabled = FALSE;
+++    }
+++
+++    /* 실행 중인 Detour가 Trampoline을 사용한 뒤 제거한다. */
+++    for (int i = 0; i < 5000 &&
+++        InterlockedCompareExchange(&g_active_detours, 0, 0) != 0; ++i)
+++        Sleep(1);
+++    if (InterlockedCompareExchange(&g_active_detours, 0, 0) != 0) {
+++        log_msg("[HK-01] Active detour: trampoline kept allocated.\n");
+++        return;
+++    }
+++
+++    if (g_hook_created) {
+++        status = MH_RemoveHook(g_hook_target);
+++        if (status != MH_OK) {
+++            log_status("MH_RemoveHook", status);
+++            return;
+++        }
+++        g_hook_created = FALSE;
+++    }
+++    g_original_spawn = NULL;  /* 직접 free하지 않음 */
+++    g_hook_target = NULL;     /* 게임 모듈 주소: 직접 free하지 않음 */
+++
+++    if (g_minhook_owned) {
+++        status = MH_Uninitialize();
+++        if (status != MH_OK) {
+++            log_status("MH_Uninitialize", status);
+++            return;
+++        }
+++        g_minhook_owned = FALSE;
+++    }
+++}
+++
+++/* 프로세스 내부에서 호출하는 종료 요청 API */
+++__declspec(dllexport) void WINAPI HK01_RequestShutdown(void)
+++{
+++    if (InterlockedCompareExchange(&g_stop_requested, 1, 0) != 0)
+++        return;  /* 중복 종료 요청 방지 */
+++    HANDLE ev = g_stop_event;
+++    if (ev) SetEvent(ev);
+++}
+++
+++static DWORD WINAPI hook_worker(LPVOID param)
+++{
+++    (void)param;
+++    HANDLE ev = CreateEventW(NULL, TRUE, FALSE, NULL);
+++    if (!ev) {
+++        log_msg("[HK-01] CreateEvent failed.\n");
+++        return 1;
+++    }
+++    g_stop_event = ev;
+++    if (InterlockedCompareExchange(&g_stop_requested, 0, 0) != 0)
+++        SetEvent(ev);
+++
+++    MH_STATUS status = MH_Initialize();
+++    if (status != MH_OK && status != MH_ERROR_ALREADY_INITIALIZED) {
+++        log_status("MH_Initialize", status);
+++        g_stop_event = NULL;
+++        CloseHandle(ev);
+++        return 2;
+++    }
+++    g_minhook_owned = (status == MH_OK);
+++
+++    if (!install_hook()) {
+++        shutdown_hook();
+++        g_stop_event = NULL;
+++        CloseHandle(ev);
+++        return 3;
+++    }
+++    log_msg("[HK-01] Hook installed.\n");
+++
+++    WaitForSingleObject(ev, INFINITE);
+++    shutdown_hook();
+++    g_stop_event = NULL;
+++    CloseHandle(ev);
+++    log_msg("[HK-01] Shutdown requested.\n");
+++    return 0;
+++}
+++
+++BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
+++{
+++    (void)reserved;
+++    if (reason == DLL_PROCESS_ATTACH) {
+++        DisableThreadLibraryCalls(module);
+++        HANDLE worker = CreateThread(NULL, 0, hook_worker, NULL, 0, NULL);
+++        if (!worker) return FALSE;
+++        CloseHandle(worker);  /* 스레드 자체는 계속 실행 */
+++    }
+++    /* DLL_PROCESS_DETACH에서는 MinHook 해제 작업을 하지 않음. */
+++    return TRUE;
+++}
+++
+++/* Observation only: no attack/filter/guard behavior is changed. */
+++__declspec(dllexport) BOOL WINAPI HK01_Retest_Installed(void) { return g_hook_enabled; }
+warning: in the working copy of 'projects/Game_project_easile(리버싱)/api_hooking_project/hk01_retest/followup_20261114/verification_20261114_121700_408985/new-source-11.diff', LF will be replaced by CRLF the next time Git touches it
